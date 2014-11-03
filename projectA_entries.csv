@@ -1,0 +1,5 @@
+employee_id| firstname|lastname|project_id|project_title|project_budget|project_due_date|project_goal_text|project_goal_priority
+1|Joe|Jones|1|New Web App|1000.00|2014-11-11|A new web app to use online banking|1
+2|Jane|Doe|2|New Mobile App|2000.00|2014-12-25|A new mobile app for Christmas shopping|2
+3|John|Doe|2|New Mobile App|2000.00|2014-12-25|A new mobile app for Christmas shopping|2
+4|Sandy|Miller|3|New Paper App|50.00|2014-12-12| A new dumb app|5
