@@ -1,0 +1,9 @@
+
+ title        | url                                | rating
+--------------+------------------------------------+--------
+   'Predator' |   'http://imdb.com/movie/predator' |      2
+ 'Annie Hall' | 'http://imdb.com/movie/annie_hall' |      4
+      'Alien' |      'http://imdb.com/movie/alien' |      5
+
+(3 rows)
+
