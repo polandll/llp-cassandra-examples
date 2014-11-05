@@ -4,4 +4,4 @@
 
 //UPDATE courses SET location='Firm Hall' WHERE name = 'Biology';
 
-// UPDATE courses SET location='Firm Hall' WHERE name IN (''Biology', 'Chemistry') AND instructor = 'JAmerican';
+// UPDATE courses SET location='Firm Hall' WHERE name IN ('Biology', 'Chemistry') AND instructor = 'JAmerican';
