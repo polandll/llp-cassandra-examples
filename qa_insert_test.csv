@@ -1,0 +1,1 @@
+qid,qtype,qtext,course,role,answers,correct_answer10,MC,The gossip protocol sends a request every ____________ and is _________________ to ensure invalid data is discarded.',"{'CASCOR','CASDAT'}","{'DEV','ADMIN'}","{'A':'1 second, timestamped','B':'3 seconds, tombstoned','C':'5 seconds,cached'}",A'
