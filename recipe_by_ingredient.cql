@@ -4,7 +4,7 @@ CREATE TABLE recipe_by_ingredient (
 	recipe_name text,
 	ingredient_name text,
 	amount text,
-	instructions text STATIC,
+	instructions text,
 	PRIMARY KEY (ingredient_name, recipe_name, amount)
 );
 
