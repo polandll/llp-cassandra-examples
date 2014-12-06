@@ -5,7 +5,7 @@ CREATE TABLE recipe_by_ingredient (
 	ingredient_name text,
 	amount text,
 	instructions text STATIC,
-	PRIMARY KEY (ingredient_name, amount, recipe_name)
+	PRIMARY KEY (ingredient_name, recipe_name, amount)
 );
 
 COPY recipe_by_ingredient (recipe_name, ingredient_name, amount) FROM 'recipe_entries.csv' WITH HEADER=True AND DELIMITER='|';
