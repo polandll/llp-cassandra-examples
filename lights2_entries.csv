@@ -1,0 +1,5 @@
+lightbulb_id|temperature|date_time|on_off_status
+1|98.6|2014-11-01 10:00:00|True
+1|100.6|2014-11-01 10:01:00|True
+1|97.3|2014-11-02 10:00:00|True
+1|101.5|2014-11-02 10:01:00|True
