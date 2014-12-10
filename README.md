@@ -24,7 +24,7 @@ film_clips: This example uses film_clips with time and location and actor. Index
 lights: This example uses lightbulb sensor information
 
 meal: This example uses meals, recipes, and ingredients
-  Files: meal.cql, meal_entries.csv, meal_type.cql, recipe.cql, recipe_by_ingredient.cql, recipe_entries.csv
+  Files: meal.cql, meal_entries.csv, meal_by_cuisine.cql, meal_by_type.cql, recipe.cql, recipe_by_ingredient.cql, recipe_entries.csv
 
 projectA, projectB: This example uses budget project information, and shows the different between PRIMARY KEYS
 
