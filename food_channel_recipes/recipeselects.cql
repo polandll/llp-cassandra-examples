@@ -1,3 +1,5 @@
+USE test;
+
 SELECT * FROM recipe;
 SELECT recipe_name FROM recipes_by_ingredient WHERE ingredient_name='beef';
 SELECT recipe_name FROM recipes_by_ingredient WHERE ingredient_name='onion';
