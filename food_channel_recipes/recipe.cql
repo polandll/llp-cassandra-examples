@@ -11,17 +11,6 @@ CREATE TABLE recipe (
 	PRIMARY KEY (recipe_name)
 );
 
-CREATE TABLE recipes_by_rating_and_category (
-	recipe_name text,
-	avg_rating float,
-	prep_time int,
-	cook_time int,
-	directions text,
-	category text,
-	amount_ingredient map<text,text>,
-	PRIMARY KEY (category, avg_rating)
-);
-
 CREATE TABLE recipes_by_ingredient (
 	ingredient_name text,
 	recipe_name text,
@@ -56,6 +45,17 @@ CREATE TABLE recipes_by_rating (
 	PRIMARY KEY (avg_rating, recipe_name)
 );
 
+CREATE TABLE recipes_by_category_and_rating (
+	recipe_name text,
+	avg_rating float,
+	prep_time int,
+	cook_time int,
+	directions text,
+	category text,
+	amount_ingredient map<text,text>,
+	PRIMARY KEY (category, avg_rating)
+);
+
 CREATE TABLE reviews_by_recipe (
 	recipe_name text,
 	reviewid timestamp,
@@ -67,7 +67,7 @@ CREATE TABLE reviews_by_recipe (
 	PRIMARY KEY(recipe_name, reviewid)
 );
 
-CREATE TABLE reviews_by_author (
+CREATE TABLE reviews_by_user (
 	username text,
 	reviewid timestamp,
 	recipe_name text,
