@@ -16,7 +16,7 @@ FROM 'recipes_by_category_entries.csv'
 WITH HEADER = 'true' AND DELIMITER = '|';
 
 COPY recipes_by_rating
-	(avg_rating, recipe_name, prep_time, cook_time, directions,amount_ingredients, category)
+	(avg_rating, recipe_name, prep_time, cook_time, directions, amount_ingredient, category)
 FROM 'recipes_by_rating_entries.csv'
 WITH HEADER = 'true' AND DELIMITER = '|';
 
