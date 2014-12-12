@@ -21,6 +21,9 @@ employee: This example uses employee names and other data
 film_clips: This example uses film_clips with time and location and actor. Indexes are created.
   Files: film_clips.cql
   
+food_channel_recipes: This example mimics some of the features of Food.com
+  Files:
+  
 lights: This example uses lightbulb sensor information
 
 meal: This example uses meals, recipes, and ingredients
