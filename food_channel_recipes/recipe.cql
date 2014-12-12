@@ -2,7 +2,7 @@ USE test;
 
 CREATE TABLE recipe (
 	recipe_name text,
-	avg_rating int,
+	avg_rating float,
 	prep_time int,
 	cook_time int,
 	directions text,
@@ -15,7 +15,7 @@ CREATE TABLE recipes_by_ingredient (
 	ingredient_name text,
 	recipe_name text,
 	amount text,
-	avg_rating int,
+	avg_rating float,
 	prep_time int,
 	cook_time int,
 	directions text,
@@ -27,7 +27,7 @@ CREATE TABLE recipes_by_category (
 	category text,
 	recipe_name text,
 	amount_ingredient map<text,text>,
-	avg_rating int,
+	avg_rating float,
 	prep_time int,
 	cook_time int,
 	directions text,
@@ -52,10 +52,7 @@ CREATE TABLE reviews_by_author (
 	rating int,
 	title text,
 	body text,
-	username text,
+
 	email text,
-	PRIMARY KEY(author, reviewid)
+	PRIMARY KEY(username, reviewid)
 );	
-
-
-COPY recipe (recipe_name, avg_rating, prep_time, cook_time, directions, category) FROM 'recipe_food_entries.csv' WITH HEADER=True AND DELIMITER='|';
