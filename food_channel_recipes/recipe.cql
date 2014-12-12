@@ -8,7 +8,7 @@ CREATE TABLE recipe (
 	directions text,
 	category list<text>,
 	amount_ingredient map<text,text>,
-	PRIMARY KEY (recipe_name, avg_rating)
+	PRIMARY KEY (recipe_name)
 );
 
 CREATE TABLE recipes_by_ingredient (
@@ -32,6 +32,16 @@ CREATE TABLE recipes_by_category (
 	cook_time int,
 	directions text,
 	PRIMARY KEY (category, recipe_name)
+);
+
+CREATE TABLE recipes_by_rating (
+	avg_rating float,
+	recipe_name text,
+	prep_time int,
+	cook_time int,
+	amount_ingredient map<text,text>,
+	directions text,
+	PRIMARY KEY (avg_rating, recipe_name)
 );
 
 CREATE TABLE reviews_by_recipe (
