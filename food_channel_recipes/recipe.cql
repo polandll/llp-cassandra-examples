@@ -19,7 +19,7 @@ CREATE TABLE recipes_by_rating_and_category (
 	directions text,
 	category text,
 	amount_ingredient map<text,text>,
-	PRIMARY KEY (recipe_name, category, avg_rating)
+	PRIMARY KEY (category, avg_rating)
 );
 
 CREATE TABLE recipes_by_ingredient (
