@@ -41,6 +41,7 @@ CREATE TABLE recipes_by_rating (
 	cook_time int,
 	amount_ingredient map<text,text>,
 	directions text,
+	category list<text>,
 	PRIMARY KEY (avg_rating, recipe_name)
 );
 
