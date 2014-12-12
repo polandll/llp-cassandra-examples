@@ -1,0 +1,3 @@
+recipe_name|avg_rating|prep_time|cook_time|directions|category|amount_ingredient
+Easy Beef Enchiladas|4.8|25|20|1. Cook the beef and shred. 2. Add onion, garlic, tomato sauce, and spices. 3. Fill each tortilla with meat and cheese.|['Easy', 'Beef', 'Mexican']|{'1 lb' : 'beef', '1/4 cup' : 'onion', '2 cloves' : 'garlic', '1/2 tsp' : 'paprika, cumin, chili powder', '1 dozen' : 'tortillas', '3 cups' : 'shredded cheese' }
+Crockpot Beef Stroganoff|4.0|15|480|1. Mix and cook on Low for 8-10 hours. 2. If desired, stir in sour cream before serving over egg noodles.'|['Easy', 'Beef', 'German']|{'1 lb' : 'beef', '1 package' : 'Lipton Onion Soup Mix', '1 can' : 'Cream of Mushroom soup'}
