@@ -6,7 +6,8 @@ CREATE TABLE recipe (
 	prep_time int,
 	cook_time int,
 	directions text,
-	category list<text,text>,
+	category list<text>,
+	amount_ingredient map<text,text>,
 	PRIMARY KEY (recipe_name)
 );
 
@@ -18,7 +19,7 @@ CREATE TABLE recipes_by_ingredient (
 	prep_time int,
 	cook_time int,
 	directions text,
-	category list<text,text>,
+	category list<text>,
 	PRIMARY KEY (ingredient_name, recipe_name)
 );
 
@@ -35,7 +36,7 @@ CREATE TABLE recipes_by_category (
 
 CREATE TABLE reviews_by_recipe (
 	recipe_name text,
-	reviewid timeuuid,
+	reviewid timestamp,
 	rating int,
 	title text,
 	body text,
@@ -46,7 +47,7 @@ CREATE TABLE reviews_by_recipe (
 
 CREATE TABLE reviews_by_author (
 	username text,
-	reviewid timeuuid,
+	reviewid timestamp,
 	recipe_name text,
 	rating int,
 	title text,
