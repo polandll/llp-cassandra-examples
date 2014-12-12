@@ -11,7 +11,7 @@ CREATE TABLE recipe (
 	PRIMARY KEY (recipe_name)
 );
 
-CREATE TABLE recipe_by_rating_and_category (
+CREATE TABLE recipes_by_rating_and_category (
 	recipe_name text,
 	avg_rating float,
 	prep_time int,

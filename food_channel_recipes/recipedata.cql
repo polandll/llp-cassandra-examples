@@ -5,7 +5,7 @@ COPY recipe
 FROM 'recipes_entries.csv'
 WITH HEADER = 'true' AND DELIMITER = '|';
 
-COPY recipe_by_rating_and_category
+COPY recipes_by_rating_and_category
 (recipe_name, avg_rating, prep_time, cook_time, directions, category, amount_ingredient)
 FROM 'recipes_by_rating_and_category_entries.csv'
 WITH HEADER = 'true' AND DELIMITER = '|';
