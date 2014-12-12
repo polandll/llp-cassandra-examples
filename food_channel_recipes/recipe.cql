@@ -17,7 +17,7 @@ CREATE TABLE recipe_by_rating_and_category (
 	prep_time int,
 	cook_time int,
 	directions text,
-	category list<text>,
+	category text,
 	amount_ingredient map<text,text>,
 	PRIMARY KEY (recipe_name, category, avg_rating)
 );
