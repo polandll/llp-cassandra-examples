@@ -1,0 +1,9 @@
+ingredient_name|recipe_name|amount|avg_rating|prep_time|cook_time|directions|category
+beef|Easy Beef Enchiladas|1 lb|4.8|25|20|1. Cook the beef and shred. 2. Add onion, garlic, tomato sauce, and spices. 3. Fill each tortilla with meat and cheese.|['Easy', 'Beef', 'Mexican']
+onion|Easy Beef Enchiladas|1/4 cup|4.8|25|20|1. Cook the beef and shred. 2. Add onion, garlic, tomato sauce, and spices. 3. Fill each tortilla with meat and cheese.|['Easy', 'Beef', 'Mexican']
+garlic|Easy Beef Enchiladas|2 cloves|4.8|25|20|1. Cook the beef and shred. 2. Add onion, garlic, tomato sauce, and spices. 3. Fill each tortilla with meat and cheese.|['Easy', 'Beef', 'Mexican']
+tortilla|Easy Beef Enchiladas|1 dozen|4.8|25|20|1. Cook the beef and shred. 2. Add onion, garlic, tomato sauce, and spices. 3. Fill each tortilla with meat and cheese.|['Easy', 'Beef', 'Mexican']
+cheese|Easy Beef Enchiladas|3 cups|4.8|25|20|1. Cook the beef and shred. 2. Add onion, garlic, tomato sauce, and spices. 3. Fill each tortilla with meat and cheese.|['Easy', 'Beef', 'Mexican']
+beef|Crockpot Beef Stroganoff|1 lb|4.0|15|480|1. Mix and cook on Low for 8-10 hours. 2. If desired, stir in sour cream before serving over egg noodles.'|['Easy', 'Beef', 'German']
+Lipton Onion Soup Mix|Crockpot Beef Stroganoff|1 package|4.0|15|480|1. Mix and cook on Low for 8-10 hours. 2. If desired, stir in sour cream before serving over egg noodles.'|['Easy', 'Beef', 'German']
+Cream of Mushroom Soup|Crockpot Beef Stroganoff|1 can|4.0|15|480|1. Mix and cook on Low for 8-10 hours. 2. If desired, stir in sour cream before serving over egg noodles.'|['Easy', 'Beef', 'German']
