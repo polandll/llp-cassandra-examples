@@ -1,7 +1,7 @@
-UPDATE ks.tablename SET counter_value = counter_value + 1 WHERE artist = 'Led Zeppelin' and title = 'Misty Mountain Hop';
+UPDATE song_counter SET song_count = song_count + 1 WHERE artist = 'Led Zeppelin' and title = 'Misty Mountain Hop';
 
-INSERT INTO ks.tablename (counter_value, artist, title) VALUES (1, 'Led Zeppelin', 'Misty Mountain Hop');
+INSERT INTO song_counter (song_count, artist, title) VALUES (1, 'Led Zeppelin', 'Misty Mountain Hop');
 
-UPSERT ks.tablename SET counter_value = counter_value + 1 WHERE artist = 'Led Zeppelin' and title = 'Misty Mountain Hop';
+UPSERT song_counter SET song_count = song_count + 1 WHERE artist = 'Led Zeppelin' and title = 'Misty Mountain Hop';
 
-LOAD INTO ks.tablename (counter_value, artist, title) VALUES (1, 'Led Zeppelin', 'Misty Mountain Hop');
+LOAD INTO song_counter (song_count, artist, title) VALUES (1, 'Led Zeppelin', 'Misty Mountain Hop');
