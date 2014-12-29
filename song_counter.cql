@@ -7,7 +7,6 @@ CREATE TABLE song_counter (
 	PRIMARY KEY(artist,album)
 );
 
-COPY song_counter
-	(artist, album)
-FROM 'song_counter_entries.csv'
-WITH HEADER = 'true' AND DELIMITER = '|';
+UPDATE song_counter SET song_counter=song_counter+1 WHERE artist='Led Zeppelin' AND album='Misty Mountain Hop';
+UPDATE song_counter SET song_counter=song_counter+1 WHERE artist='Cat Stevens' AND album='Tea for the Tillerman';
+UPDATE song_counter SET song_counter=song_counter+1 WHERE artist='Dar Williams' AND album='The Honesty Room';
