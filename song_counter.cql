@@ -4,7 +4,7 @@ CREATE TABLE song_counter (
 	artist text,
 	album text,
 	song_counter counter,
-	PRIMARY KEY(artist)
+	PRIMARY KEY(artist,album)
 );
 
 COPY song_counter
