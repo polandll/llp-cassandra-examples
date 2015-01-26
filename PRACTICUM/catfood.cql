@@ -2,7 +2,7 @@ CREATE KEYSPACE test WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replicati
 
 USE test;
 
-CREATE TABLE catfood (
+CREATE TABLE p_catfood (
    item_id int,
    brand text,
    type text,
@@ -12,4 +12,4 @@ CREATE TABLE catfood (
    PRIMARY KEY (flavor, can_price, brand)
 ) WITH CLUSTERING ORDER BY (can_price ASC, brand ASC);
 
-COPY catfood (item_id, brand, type,flavor, can_price, volume) FROM 'catfood_entries.csv' WITH HEADER=True AND DELIMITER='|';
+COPY p_catfood (item_id, brand, type,flavor, can_price, volume) FROM 'p_catfood_entries.csv' WITH HEADER=True AND DELIMITER='|';
