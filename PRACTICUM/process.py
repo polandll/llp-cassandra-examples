@@ -1,7 +1,7 @@
 import csv
 
 with open('output.txt', 'rb') as source:
-  reader = csv.reader(source, delimiter=',', skipinitialspace = True)
+  reader = csv.reader(source, delimiter='|', skipinitialspace = True)
   new_rows_list = []
   count = 0
   for row in reader:
@@ -20,6 +20,11 @@ with open('output.txt', 'rb') as source:
     new_row.append(answer1)
     new_row.append(answer2)
     new_rows_list.append(new_row)
+ print new_rows_list
+ if new_rows_list[1][1] == 'B2-yes' and new_rows_list[2][2] == 'B4-yes':
+   print "Final answer is right"
+ else:
+   print "Final answer is wrong"
 
 with open('pyout.csv', 'wb') as finalout:
   writer = csv.writer(finalout, delimiter='|', quotechar='"', quoting = csv.QUOTE_ALL)
