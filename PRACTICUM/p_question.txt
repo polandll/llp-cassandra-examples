@@ -5,4 +5,4 @@ Have it list the answer in order of can_price from least to most.
 
 Design the table that will allow you to make this query. Your table will be checked with a different 
 set of data to see if the query will work. Use the following column names: brand, type, flavor, can_price, 
-item_id, can_volume. Call the table "catfood".
+item_id, can_volume. Call the table "p_catfood".
