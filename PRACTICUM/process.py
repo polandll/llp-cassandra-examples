@@ -11,17 +11,22 @@ with open('output.txt', 'rb') as source:
       answer1 = "B2-yes" 
     else:
       answer1 = "B2-no" 
-    if row[0] == 'BRAND4':
-      answer2 = "B4-yes" 
+    if row[0] == 'BRAND5':
+      answer2 = "B5-yes"
     else:
-      answer2 = "B4-no" 
+      answer2 = "B5-no"
+    if row[0] == 'BRAND4':
+      answer3 = "B4-yes" 
+    else:
+      answer3 = "B4-no" 
       
     new_row.append(count)
     new_row.append(answer1)
     new_row.append(answer2)
+    new_row.append(answer3)
     new_rows_list.append(new_row)
  print new_rows_list
- if new_rows_list[1][1] == 'B2-yes' and new_rows_list[2][2] == 'B4-yes':
+ if new_rows_list[1][1] == 'B2-yes' and new_rows_list[2][2] == 'B5-yes' and new_rows_list[3][3] == 'B4-yes':
    print "Final answer is right"
  else:
    print "Final answer is wrong"
