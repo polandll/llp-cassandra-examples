@@ -1,6 +1,6 @@
 import csv
 
-with open('output.txt', 'rb') as source:
+with open('output.clean', 'rb') as source:
   reader = csv.reader(source, delimiter='|', skipinitialspace = True)
   new_rows_list = []
   count = 0
