@@ -18,6 +18,9 @@ OUTPUT_CLEAN="output.clean"
 $CQLSH $CQLSH_FLAGS $P_CATFOOD_CHECK
 # $RS_CQLSH $CQLSH_FLAGS $RS_P_CATFOOD_CHECK
 
+# clean up the query output file, so that the python program can process it as csv
 sed -e 's/ //g'  -e '1d' -e '/^$/d' -e '$d' -e '/(/,/)/d' -e '/^-/d' $OUTPUT_TEXT > $OUTPUT_CLEAN
+
+# python program checks to see if the right lines exist in the query output
 python process.py
 exit 0 
