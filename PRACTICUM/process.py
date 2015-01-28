@@ -25,11 +25,11 @@ with open('output.txt', 'rb') as source:
     new_row.append(answer2)
     new_row.append(answer3)
     new_rows_list.append(new_row)
- print new_rows_list
- if new_rows_list[1][1] == 'B2-yes' and new_rows_list[2][2] == 'B5-yes' and new_rows_list[3][3] == 'B4-yes':
-   print "Final answer is right"
- else:
-   print "Final answer is wrong"
+  print new_rows_list
+  if new_rows_list[1][1] == 'B2-yes' and new_rows_list[2][2] == 'B5-yes' and new_rows_list[3][3] == 'B4-yes':
+    print "Final answer is right"
+  else:
+    print "Final answer is wrong"
 
 with open('pyout.csv', 'wb') as finalout:
   writer = csv.writer(finalout, delimiter='|', quotechar='"', quoting = csv.QUOTE_ALL)
