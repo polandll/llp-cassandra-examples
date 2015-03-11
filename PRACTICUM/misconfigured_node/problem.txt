@@ -1,0 +1,4 @@
+You are presented with a node in a Cassandra cluster that is misbehaving. Your task will be to "fix" the node
+so that it is operating optimally. 
+
+Once you have made configuration changes, run the check program to receive a validation code.
