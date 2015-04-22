@@ -7,3 +7,7 @@ INSERT INTO blah5 (key, val) VALUES (2, 4.0);
 INSERT INTO blah5 (key, val) VALUES (3, 8.0);
 SELECT avg(val) FROM blah5;
 SELECT avg(val), sum(val) FROM blah5;
+SELECT avg(val), sum(val) FROM blah5 WHERE key=1;
+
+// ALL FUNCTIONS
+SELECT avg(val), sum(val), max(val), min(val), count(val) FROM blah5;
