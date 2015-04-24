@@ -9,3 +9,5 @@ CREATE AGGREGATE inttotext (int) SFUNC fstate STYPE int FINALFUNC ffinal;
 
 SELECT intotext(b) FROM blah4;
 SELECT intotext(b) FROM blah4 WHERE a=2;
+
+INITCOND = 'foo'; //NEED TO CREATE AN EXAMPLE WITH THIS

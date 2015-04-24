@@ -10,6 +10,7 @@ INSERT INTO blah3 (key, val) VALUES (2, 2.0);
 INSERT INTO blah3 (key, val) VALUES (3, 3.0);
 
 CREATE FUNCTION fSin ( input double) RETURNS double LANGUAGE java AS 'return Double.valueOf(Math, sin(input, doubleValue()));';
+CREATE FUNCTION fSin ( input double) RETURNS double LANGUAGE java AS fSin.java;
 
 SELECT key,val fSin(val) FROM blah3;
 SELECT key,val fSin(val) FROM test.blah3;
