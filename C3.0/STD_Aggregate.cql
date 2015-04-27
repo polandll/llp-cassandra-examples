@@ -11,3 +11,10 @@ SELECT avg(val), sum(val) FROM blah5 WHERE key=1;
 
 // ALL FUNCTIONS
 SELECT avg(val), sum(val), max(val), min(val), count(val) FROM blah5;
+
+// Example I used in cql/cql_using/useQueryStdAggregate.dita
+CREATE TABLE scores (user text, game_number int, game_score int, PRIMARY KEY (user, game_number));
+INSERT INTO scores (user, game_number, game_score) VALUES ('rahul', 1, 100);
+INSERT INTO scores (user, game_number, game_score) VALUES ('rahul', 2, 150);
+INSERT INTO scores (user, game_number, game_score) VALUES ('rahul', 3, 00);
+SELECT avg(game_score) FROM scores WHERE user='rahul';

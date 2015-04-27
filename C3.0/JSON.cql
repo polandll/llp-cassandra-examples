@@ -8,7 +8,7 @@ CREATE TABLE foo2 (c1 int, c2 float, c3 map<int,timestamp>, PRIMARY KEY (a));
 INSERT INTO foo JSON '{"a" : 0, "b" : 0, "c" : 0, "d" : 0}';
 // inserts NULL for d?
 INSERT INTO foo JSON '{"a" : 1, "b" : 1, "c" : 1}';
-// next doesn't work?
+// next doesn't work- the insertion of the INSERT KEYWORD VALUES cannot be present
 INSERT INTO foo JSON (a, b, c) VALUES '{"a" : 2, "b" : 2, "c" : 2}';
 
 INSERT INTO foo2 JSON '{"c1" : 3, "c2" : 4.5, "c3" : {"6" : "2015-04-13", "7" : "2015-04-15"}}';
