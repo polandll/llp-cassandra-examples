@@ -1,5 +1,5 @@
-race_date,race_name,cyclist_rank,cyclist_name,cyclist_team_name,cyclist_race_time,cyclist_country,entry,photo_blob
-2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,1,"{firstname:'Aaron', lastname:'Gate'}",An Post-Chain Reaction,03:29:26,New Zealand,2015-05-18 15:09:00,null
-2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,2,"{firstname:'Alex', lastname:'Frame'}",null,03:29:26,New Zealand,2015-05-18 15:09:00,null
-2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,3,"{firstname:'Davide', lastname:'Vigano'}",Team Idea 2010 ASD,03:29:26,Italy,2015-05-18 15:09:00,null
-2015-05-17,Giro d''Italia,1,"{firstname:'Paolo', lastname:'Tiralongo'}",Astana Pro Team,05:50:31,Italy,2015-05-18 15:09:00,null
+cyclist_rank,race_date,race_name,cyclist_name,cyclist_team_name,cyclist_race_time,cyclist_country,entry,photo_blob
+1,2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,"{firstname:'Aaron', lastname:'Gate'}",An Post-Chain Reaction,03:29:26,New Zealand,2015-05-18 15:09:00,null
+2,2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,"{firstname:'Alex', lastname:'Frame'}",null,03:29:26,New Zealand,2015-05-18 15:09:00,null
+3,2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,"{firstname:'Davide', lastname:'Vigano'}",Team Idea 2010 ASD,03:29:26,Italy,2015-05-18 15:09:00,null
+1,2015-05-17,Giro d''Italia,"{firstname:'Paolo', lastname:'Tiralongo'}",Astana Pro Team,05:50:31,Italy,2015-05-18 15:09:00,null
