@@ -27,3 +27,8 @@ ALTER TABLE foo ADD e int;
 ALTER TABLE foo RENAME "c" TO "d";
 
 DELETE "c" FROM foo WHERE "a" = 1 AND "d" = 2;
+
+// music service examples for documents
+INSERT INTO playlists JSON '{"id" : "8da9da40-f360-11e4-b9b2-1697f925ec7b", "song_order" : 1, "title" : "Drive My Car", "artist" : "The Beatles", "album" : "Rubber Soul"}';
+SELECT JSON * FROM playlists;
+SELECT JSON album, title, artist FROM playlists;
