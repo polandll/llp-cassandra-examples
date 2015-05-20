@@ -1,11 +1,12 @@
 USE cycling;
-CREATE KEYSPACE cycling WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+CREATE KEYSPACE IF NOT EXISTS cycling WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
 CREATE TABLE cycling.cyclist_name ( id int PRIMARY KEY, lastname text, firstname text );
 
 // Q1: 
 // Find all teams for a particular cyclist
 // teams map<int, text> is map<year, team_name>
+// CREATE TABLE WITH MAP, SIMPLE PRIMARY KEY
 CREATE TABLE cycling.cyclist_teams ( id int PRIMARY KEY, lastname text, firstname text, teams map<int,text> );
 INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1001,'VOS', 'Marianne', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Rabobank-Liv Giant', 2012 : 'Rabobank Women Team', 2011 : 'Nederland bloeit' });
 INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1002,'VAN DER BREGGEN', 'Anna', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Sengers Ladies Cycling Team', 2012 : 'Sengers Ladies Cycling Team', 2009 : 'Team Flexpoint' });
@@ -15,7 +16,8 @@ SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=1001;
 
 // Q2:
 // Find all races for a particular cyclist
-// Uses a User-Defined Type, race
+// CREATE TYPE - User-Defined Type, race
+// CREATE TABLE WITH LIST, SIMPLE PRIMARY KEY
 CREATE TYPE cycling.race (race_title text, race_date timestamp, race_time text);
 CREATE TABLE cycling.cyclist_races ( id int PRIMARY KEY, lastname text, firstname text, races list<frozen <race>> ); 
 INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (1001, 'VOS', 'Marianne', { ['Rabobank 7-Dorpenomloop Aalburg','2015-05-09','02:58:33'],['Ronde van Gelderland', '2015-04-19', '03:22:23'] };
@@ -25,7 +27,8 @@ SELECT lastname, races FROM cycling.cyclist_races WHERE id = 1002;
 
 // Q3:
 // Find all stats for a particular cyclist
-// Uses a UDT, basic_info
+// CREATE TYPE -  UDT, basic_info
+// CREATE TABLE with UDT, SIMPLE PRIMARY KEY
 CREATE TYPE cycling.basic_info ( birthday timestamp, nationality text, weight text, height text );
 CREATE TABLE cycling.cyclist_stats ( id int, lastname text, basics frozen <basic_info>, PRIMARY KEY (id) );
 INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2001, 'FRAME', { 'birthday':'1993-06-18', 'nationality':'New Zealand',null, null });
@@ -36,6 +39,7 @@ SELECT * FROM cycling.cyclist_stats WHERE id = 2003;
 
 // Q4:
 // Find cyclists that fit a particular category
+// CREATE TABLE CLUSTERING ORDER, PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN, SIMPLE WHERE QUERY
 CREATE TABLE cycling.cyclist_category ( category text, points int, id int, lastname text, PRIMARY KEY (category, points)) WITH CLUSTERING ORDER BY (points DESC);
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('GC',1269,2003,'TIRALONGO');
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('One-day-races',367,2003,'TIRALONGO');
@@ -48,6 +52,17 @@ INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('T
 SELECT * FROM cycling.cyclist_category;
 SELECT lastname, points FROM cycling.cyclist_category WHERE category = 'One-day-races';
 
+// Q9:
+// Find a cyclist's name given an ID number
+// CREATE TABLE SIMPLE PRIMARY KEY
+CREATE TABLE cycling.cyclist_name ( id int PRIMARY KEY, lastname text, firstname text );
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1001, 'VOS','Marianne');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1002, 'VAN DER BREGGEN','Anna');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2001, 'FRAME','Alex');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2003, 'TIRALONGO','Paolo');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2004, 'KRUIKSWIJK','Steven');
+SELECT * FROM cycling.cyclist_name;
+SELECT lastname, firstname FROM cycling.cyclist_name WHERE id = 2004;
 
 CREATE TYPE cycling.fullname ( firstname text, lastname text );
 CREATE TABLE cycling.rank_by_category ( rank int, category text, cyclist frozen <fullname>, PRIMARY KEY (rank, category) );
