@@ -7,11 +7,11 @@ CREATE TABLE cycling.cyclist_name ( id int PRIMARY KEY, lastname text, firstname
 // Find all teams for a particular cyclist
 // teams map<int, text> is map<year, team_name>
 CREATE TABLE cycling.cyclist_teams ( id int PRIMARY KEY, lastname text, firstname text, teams map<int,text> );
-INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1001,'VOS', 'Marianne', {'2015' : 'Rabobank-Liv Woman Cycling Team', '2014' : 'Rabobank-Liv Woman Cycling Team', '2013' : 'Rabobank-Liv Giant', '2012' : 'Rabobank Women Team', '2011' : 'Nederland bloeit' });
-INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1002,'VAN DER BREGGEN', 'Anna', {'2015' : 'Rabobank-Liv Woman Cycling Team', '2014' : 'Rabobank-Liv Woman Cycling Team', '2013' : 'Sengers Ladies Cycling Team', '2012' : 'Sengers Ladies Cycling Team', '2009' : 'Team Flexpoint' });
-INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1003,'ARMITSTEAD', 'Elizabeth', {'2015' : 'Boels-Dolmans Cycling Team', '2014' : 'Boels-Dolmans Cycling Team', '2013' : 'Boels-Dolmans Cycling Team', '2012' : 'AA Drink - Leontien.nl', '2011' : 'Team Garmin - Cervelo' });
-SELECT * FROM cycling.cyclist_teams;
-SELECT * FROM cycling.cyclist_teams WHERE id=1001;
+INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1001,'VOS', 'Marianne', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Rabobank-Liv Giant', 2012 : 'Rabobank Women Team', 2011 : 'Nederland bloeit' });
+INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1002,'VAN DER BREGGEN', 'Anna', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Sengers Ladies Cycling Team', 2012 : 'Sengers Ladies Cycling Team', 2009 : 'Team Flexpoint' });
+INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1003,'ARMITSTEAD', 'Elizabeth', {2015 : 'Boels-Dolmans Cycling Team', 2014 : 'Boels-Dolmans Cycling Team', 2013 : 'Boels-Dolmans Cycling Team', 2012 : 'AA Drink - Leontien.nl', 2011 : 'Team Garmin - Cervelo' });
+SELECT lastname, firstname, teams FROM cycling.cyclist_teams;
+SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=1001;
 
 // Q2:
 // Find all races for a particular cyclist
@@ -19,7 +19,7 @@ SELECT * FROM cycling.cyclist_teams WHERE id=1001;
 CREATE TYPE cycling.race (race_title text, race_date timestamp, race_time text);
 CREATE TABLE cycling.cyclist_races ( id int PRIMARY KEY, lastname text, firstname text, races list<frozen <race>> ); 
 INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (1001, 'VOS', 'Marianne', { ['Rabobank 7-Dorpenomloop Aalburg','2015-05-09','02:58:33'],['Ronde van Gelderland', '2015-04-19', '03:22:23'] };
-INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (1002, 'VAN DER BREGGEN', 'Anna', { ['Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Prologue - Garnich > Garnich','2015-05-01','08:13:00'],['Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 2 - Garnich > Garnich','2015-05-02','02:41:52'],[''Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 3 - Mamer > Mamer','2015-05-03','02:31:24'] };
+INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (1002, 'VAN DER BREGGEN', 'Anna', { ['Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Prologue - Garnich > Garnich','2015-05-01','08:13:00'],['Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 2 - Garnich > Garnich','2015-05-02','02:41:52'],['Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 3 - Mamer > Mamer','2015-05-03','02:31:24'] };
 SELECT * FROM cycling.cyclist_races;
 SELECT lastname, races FROM cycling.cyclist_races WHERE id = 1002;
 
@@ -36,7 +36,7 @@ SELECT * FROM cycling.cyclist_stats WHERE id = 2003;
 
 // Q4:
 // Find cyclists that fit a particular category
-CREATE TABLE cycling.cyclist_category ( category text, points int, id int, lastname text, PRIMARY KEY (category, points) );
+CREATE TABLE cycling.cyclist_category ( category text, points int, id int, lastname text, PRIMARY KEY (category, points)) WITH CLUSTERING ORDER BY (points DESC);
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('GC',1269,2003,'TIRALONGO');
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('One-day-races',367,2003,'TIRALONGO');
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',182,2003,'TIRALONGO');
@@ -46,7 +46,7 @@ INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('O
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Sprint',39,2004,'KRUIJSWIJK');
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',3,2004,'KRUIJSWIJK');
 SELECT * FROM cycling.cyclist_category;
-SELECT * FROM cycling.cyclist_category WHERE category = 'One-day-races';
+SELECT lastname, points FROM cycling.cyclist_category WHERE category = 'One-day-races';
 
 
 CREATE TYPE cycling.fullname ( firstname text, lastname text );
