@@ -40,7 +40,6 @@ INSERT INTO cycling.rank_by_year_and_name (race_year, race_name, cyclist_name, r
 INSERT INTO cycling.rank_by_year_and_name (race_year, race_name, cyclist_name, rank) VALUES (2014, '4th Tour of Beijing', 'Daniel MARTIN', 2);
 INSERT INTO cycling.rank_by_year_and_name (race_year, race_name, cyclist_name, rank) VALUES (2014, '4th Tour of Beijing', 'Johan Esteban CHAVES', 3);
 SELECT * FROM cycling.rank_by_year_and_name;
-SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015;
 SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015 AND race_name='Tour of Japan - Stage 4 - Minami > Shinshu';
 
 // Q4:
@@ -58,10 +57,11 @@ SELECT * FROM cycling.country_flag;
 // Find all teams that a cyclist has been a member of
 //CREATE TABLE WITH SET
 CREATE TABLE cycling.cyclist_career_teams ( id int PRIMARY KEY, lastname text, teams set<text> );
-INSERT INTO cycling.cylist_career_teams (id,lastname,teams) VALUES (1001, 'VOS', { 'Rabobank-Liv Woman Cycling Team','Rabobank-Liv Giant','Rabobank Women Team','Nederland bloeit' } );
-INSERT INTO cycling.cylist_career_teams (id,lastname,teams) VALUES (1002, 'VAN DER BREGGEN', { 'Rabobank-Liv Woman Cycling Team','Sengers Ladies Cycling Team','Team Flexpoint' } );
-INSERT INTO cycling.cylist_career_teams (id,lastname,teams) VALUES (1003, 'ARMITSTEAD', { 'Boels-Dolmans Cycling Team','AA Drink - Leontien.nl','Team Garmin - Cervelo' } );
-SELECT lastname,teams FROM cycling._career_teams;
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1001, 'VOS', { 'Rabobank-Liv Woman Cycling Team','Rabobank-Liv Giant','Rabobank Women Team','Nederland bloeit' } );
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1002, 'VAN DER BREGGEN', { 'Rabobank-Liv Woman Cycling Team','Sengers Ladies Cycling Team','Team Flexpoint' } );
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1003, 'ARMITSTEAD', { 'Boels-Dolmans Cycling Team','AA Drink - Leontien.nl','Team Garmin - Cervelo' } );
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1005, 'BRAND', { 'Rabobank-Liv Woman Cycling Team','Rabobank-Liv Giant','AA Drink - Leontien.nl','Leontien.nl' } );
+SELECT lastname,teams FROM cycling.cyclist_career_teams;
 SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=1001;
 
 // Q6:
@@ -100,7 +100,7 @@ INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2003, 'TIRALONG
 SELECT * FROM cycling.cyclist_stats;
 SELECT * FROM cycling.cyclist_stats WHERE id = 2003;
 
-//Q9:
+// Q9:
 // Find total number of PCS points for a particular cyclist
 // CREATE TABLE WITH PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN
 // USE STANDARD AGGREGATE IN QUERY
@@ -110,14 +110,14 @@ INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_po
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (1004, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
 SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=1004;
 
-//Q10:
-// USES Q9 TABLE
+// Q10:
+// USES TABLE cycling.cyclist_points
 // Find total number of PCS points for a particular cyclist using a user-defined function (UDF) created using java function log
 // CREATE UDF
 CREATE OR REPLACE FUNCTION fLog (input double) RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
 SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_points;
 
-//Q11:
+// Q11:
 //Find the average race_time in seconds for a particular race for a particular team.
 // CREATE UDA that computes the average value
 //CREATE TABLE WITH SIMPLE PRIMARY KEY: PARTITION KEY + 2 CLUSTERING COLUMNS
@@ -132,6 +132,31 @@ INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, rac
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('Velocio-SRAM','Trixi WORRACK',11453,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('TWENTY16 presented by Sho-Air','Lauren KOMANSKI',11451,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 SELECT average(cyclist_time_sec) FROM cycling.team_average WHERE team_name='UnitedHealthCare Pro Cycling Womens Team' AND race_title='Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe';
+
+// Q12:
+// CREATE INDEX - PARTITION KEY
+// Uses cycling.rank_by_year_and_name
+// Find rank for all races for a particular race year
+CREATE INDEX ryear ON cycling.rank_by_year_and_name (race_year);
+// This will not work without the index, because the table has a composite partition key
+SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015;
+
+// Q13:
+// CREATE INDEX - COLLECTION - SET
+// Find all the cyclists that have been on a particular team
+CREATE INDEX team ON cycling.cyclist_career_teams (teams);
+SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Nederland bloeit';
+SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Rabobank-Liv Giant';
+
+// Q14: 
+// CREATE INDEX - COLLECTION ON MAP KEYS
+// Find all cyclist/team combinations for a particular year
+CREATE INDEX team_year ON cycling.cyclist_teams (KEY(teams));
+SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
+
+// Q15: 
+// INSERT DATA IN JSON FORMAT
+INSERT INTO cycling.cyclist_stats JSON '{ "id" : 2001, "lastname" : 'FRAME', "basics" : '{ birthday:'1993-06-18',nationality:'New Zealand',weight:null,height:null }'}';
 
 ============================
 
