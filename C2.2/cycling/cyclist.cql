@@ -156,7 +156,7 @@ SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 
 // Q15: 
 // INSERT DATA IN JSON FORMAT
-INSERT INTO cycling.cyclist_stats JSON '{ "id" : 2001, "lastname" : 'FRAME', "basics" : '{ birthday:'1993-06-18',nationality:'New Zealand',weight:null,height:null }'}';
+INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : 2005, "lastname" : "SUTHERLAND" }';
 
 ============================
 
