@@ -3,6 +3,12 @@ cassandra-example-code-LLP
 
 This repo is a place to store the CQL and CSV files that are associated with examples and questions that I create.
 
+C2.2: All examples for Tech Docs rewrite of Cassandra 2.2
+   cycling: Pro Cycling Statistics
+   music: Additional music service 
+   employee: Employee database
+   New features: JSON, UDT, UDF, UDA, Standard Aggregate
+
 books: This example uses book inventory
   Files: books.cql, books2.cql, book_entries.csv
   
