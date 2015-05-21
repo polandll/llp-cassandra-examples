@@ -13,17 +13,6 @@ INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2004, 'KRUIKS
 SELECT * FROM cycling.cyclist_name;
 SELECT lastname, firstname FROM cycling.cyclist_name WHERE id = 2004;
 
-// Q??:
-// Find a cyclist's id given lastname and firstname
-CREATE TABLE cycling.cyclist_id ( lastname text, firstname text, age int, id int, PRIMARY KEY ((lastname, firstname), age) );
-INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('EENKHOORN','Pascal',18, 3001);
-INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('WELTEN','Bram',18, 3002);
-INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('COSTA','Adrien',17, 3003);
-CREATE INDEX c_age ON cycling.cyclist_id (age);
-SELECT * FROM cycling.cyclist_id WHERE lastname = 'COSTA' AND firstname = 'Adrien';
-SELECT * FROM cycling.cyclist_id WHERE age = 18;
-
-
 // Q2:
 // Find cyclists that fit a particular category
 // CREATE TABLE CLUSTERING ORDER, PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN, SIMPLE WHERE QUERY
@@ -54,6 +43,19 @@ SELECT * FROM cycling.rank_by_year_and_name;
 SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015 AND race_name='Tour of Japan - Stage 4 - Minami > Shinshu';
 
 // Q4:
+// Find a cyclist's id given lastname and firstname
+// Another CREATE TABLE using COMPOSITE PARTITION KEY
+// 2i INDEX ALSO GOOD FOR THIS TABLE
+CREATE TABLE cycling.cyclist_id ( lastname text, firstname text, age int, id int, PRIMARY KEY ((lastname, firstname), age) );
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('EENKHOORN','Pascal',18, 3001);
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('WELTEN','Bram',18, 3002);
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('COSTA','Adrien',17, 3003);
+SELECT * FROM cycling.cyclist_id WHERE lastname = 'COSTA' AND firstname = 'Adrien';
+// If you want to search by age, an index can be added
+CREATE INDEX c_age ON cycling.cyclist_id (age);
+SELECT * FROM cycling.cyclist_id WHERE age = 18;
+
+// Q5:
 // Display flag for riders
 // CREATE TABLE WITH STATIC COLUMN, example uses an integer to identify flag, but it could be a blob
 CREATE TABLE cyclist.country_flag (country text, cyclist_name text, flag int STATIC, PRIMARY KEY (country, cyclist_name));
@@ -64,7 +66,7 @@ INSERT INTO cycling.country_flag (country, cyclist_name, flag) VALUES ('France',
 // USE SELECT REPEATEDLY TO SHOW CHANGING (OR UNCHANGING) NATURE OF the column 'flag'
 SELECT * FROM cycling.country_flag;
 
-// Q5:
+// Q6:
 // Find all teams that a cyclist has been a member of
 //CREATE TABLE WITH SET
 CREATE TABLE cycling.cyclist_career_teams ( id int PRIMARY KEY, lastname text, teams set<text> );
@@ -75,7 +77,15 @@ INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1005, 'BRAN
 SELECT lastname,teams FROM cycling.cyclist_career_teams;
 SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=1001;
 
-// Q6:
+// Q??:
+// SIMPLE USER-DEFINED TYPE
+CREATE TYPE cycling.fullname ( firstname text, lastname text );
+CREATE TABLE cycling.cyclists_on_team (team_name text PRIMARY KEY, cyclist_name frozen<fullname>);
+INSERT INTO cycling.cyclists_on_team (team_name, cyclist_name) VALUES ('Rabobank-Liv Woman Cycling Team', {firstname:'Marianne',lastname:'VOS'});
+INSERT INTO cycling.cyclists_on_team (team_name, cyclist_name) VALUES ('Rabobank-Liv Woman Cycling Team', {firstname:'Anna',lastname:'VAN DER BREGGEN'});
+SELECT * FROM cycling.cyclists_on_team WHERE team_name = 'Rabobank-Liv Woman Cycling Team';
+
+// Q7:
 // Find all races for a particular cyclist
 // CREATE TYPE - User-Defined Type, race
 // CREATE TABLE WITH LIST, SIMPLE PRIMARY KEY
@@ -88,7 +98,7 @@ ival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 2 - Garnich > Garnic
 SELECT * FROM cycling.cyclist_races;
 SELECT lastname, races FROM cycling.cyclist_races WHERE id = 1002;
 
-// Q7: 
+// Q8: 
 // Find all teams for a particular cyclist associated with the year of membership
 // teams map<int, text> is map<year, team_name>
 // CREATE TABLE WITH MAP, SIMPLE PRIMARY KEY
@@ -99,7 +109,7 @@ INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1003,
 SELECT lastname, firstname, teams FROM cycling.cyclist_teams;
 SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=1001;
 
-// Q8:
+// Q9:
 // Find all stats for a particular cyclist
 // CREATE TYPE -  UDT, basic_info
 // CREATE TABLE with UDT, SIMPLE PRIMARY KEY
@@ -111,7 +121,7 @@ INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2003, 'TIRALONG
 SELECT * FROM cycling.cyclist_stats;
 SELECT * FROM cycling.cyclist_stats WHERE id = 2003;
 
-// Q9:
+// Q10:
 // Find total number of PCS points for a particular cyclist
 // CREATE TABLE WITH PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN
 // USE STANDARD AGGREGATE IN QUERY
@@ -121,14 +131,14 @@ INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_po
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (1004, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
 SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=1004;
 
-// Q10:
+// Q11:
 // USES TABLE cycling.cyclist_points
 // Find total number of PCS points for a particular cyclist using a user-defined function (UDF) created using java function log
 // CREATE UDF
 CREATE OR REPLACE FUNCTION fLog (input double) RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
 SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_points;
 
-// Q11:
+// Q12:
 //Find the average race_time in seconds for a particular race for a particular team.
 // CREATE UDA that computes the average value
 //CREATE TABLE WITH SIMPLE PRIMARY KEY: PARTITION KEY + 2 CLUSTERING COLUMNS
@@ -144,7 +154,7 @@ INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, rac
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('TWENTY16 presented by Sho-Air','Lauren KOMANSKI',11451,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 SELECT average(cyclist_time_sec) FROM cycling.team_average WHERE team_name='UnitedHealthCare Pro Cycling Womens Team' AND race_title='Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe';
 
-// Q12:
+// Q13:
 // CREATE INDEX - PARTITION KEY
 // Uses cycling.rank_by_year_and_name
 // Find rank for all races for a particular race year
@@ -152,30 +162,29 @@ CREATE INDEX ryear ON cycling.rank_by_year_and_name (race_year);
 // This will not work without the index, because the table has a composite partition key
 SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015;
 
-// Q13:
+// Q14:
 // CREATE INDEX - COLLECTION - SET
 // Find all the cyclists that have been on a particular team
 CREATE INDEX team ON cycling.cyclist_career_teams (teams);
 SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Nederland bloeit';
 SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Rabobank-Liv Giant';
 
-// Q14: 
+// Q15: 
 // CREATE INDEX - COLLECTION ON MAP KEYS
 // Find all cyclist/team combinations for a particular year
 CREATE INDEX team_year ON cycling.cyclist_teams (KEY(teams));
 SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 
-// Q15: 
+// Q16: 
 // INSERT DATA IN JSON FORMAT
 INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : 2005, "lastname" : "SUTHERLAND" }';
 
-// Q16:
+// Q17:
 // UPDATE SET
 UPDATE cycling.cyclist_career_teams SET teams = teams + {'Team DSB - Ballast Nedam'} WHERE id=1001;
 
 ============================
 
-CREATE TYPE cycling.fullname ( firstname text, lastname text );
 CREATE TABLE cycling.rank_by_category ( rank int, category text, cyclist frozen <fullname>, PRIMARY KEY (rank, category) );
 
 
