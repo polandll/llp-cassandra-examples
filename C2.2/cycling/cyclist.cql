@@ -13,6 +13,17 @@ INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2004, 'KRUIKS
 SELECT * FROM cycling.cyclist_name;
 SELECT lastname, firstname FROM cycling.cyclist_name WHERE id = 2004;
 
+// Q??:
+// Find a cyclist's id given lastname and firstname
+CREATE TABLE cycling.cyclist_id ( lastname text, firstname text, age int, id int, PRIMARY KEY ((lastname, firstname), age) );
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('EENKHOORN','Pascal',18, 3001);
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('WELTEN','Bram',18, 3002);
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('COSTA','Adrien',17, 3003);
+CREATE INDEX c_age ON cycling.cyclist_id (age);
+SELECT * FROM cycling.cyclist_id WHERE lastname = 'COSTA' AND firstname = 'Adrien';
+SELECT * FROM cycling.cyclist_id WHERE age = 18;
+
+
 // Q2:
 // Find cyclists that fit a particular category
 // CREATE TABLE CLUSTERING ORDER, PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN, SIMPLE WHERE QUERY
@@ -158,12 +169,15 @@ SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 // INSERT DATA IN JSON FORMAT
 INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : 2005, "lastname" : "SUTHERLAND" }';
 
+// Q16:
+// UPDATE SET
+UPDATE cycling.cyclist_career_teams SET teams = teams + {'Team DSB - Ballast Nedam'} WHERE id=1001;
+
 ============================
 
 CREATE TYPE cycling.fullname ( firstname text, lastname text );
 CREATE TABLE cycling.rank_by_category ( rank int, category text, cyclist frozen <fullname>, PRIMARY KEY (rank, category) );
 
-CREATE TABLE cycling.cyclist_id ( lastname text, firstname text, age int, id int, PRIMARY KEY ((lastname, firstname), age) );
 
 CREATE TABLE cycling.cyclist_rank ( id int, lastname text, rank int, overall_points float, PRIMARY KEY (id));
 
@@ -176,12 +190,6 @@ UPDATE cycling.cyclist SET teams = { 'Team Cannondate - Garmin', 'Garmin Sharp',
 
 INSERT INTO cycling.top_five (race, year, top5) VALUES ('Tour de Romandie', '2015-05-03', [{firstname: 'Ilnur', lastname: 'Zakarin'}, {firstname: 'Simon', lastname: 'Spilak'}]);
 UPDATE top_five SET top5 = top5 + [{firstname:'Christopher', lastname:'Froome'}] WHERE race = 'Tour de Romandie' AND year = '2015-05-03';
-
-INSERT INTO cycling.cyclist_races (id, races) VALUES (1, {'2015-04-26' : 'Liege - Bastognes - Liege', '2015-04-28' : 'Tour de Romandie' });
-SELECT * FROM cycling.cyclist;
-SELECT teams FROM cycling.cyclist WHERE id = 1;
-SELECT * FROM cycling.cyclist_races;
-SELECT races FROM cycling.cyclist_races WHERE id = 1;
 
 SELECT * FROM top_five;
 
