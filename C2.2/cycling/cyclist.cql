@@ -77,6 +77,21 @@ INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1005, 'BRAN
 SELECT lastname,teams FROM cycling.cyclist_career_teams;
 SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=1001;
 
+// Q??:
+// CREATE TABLE WITH LIST FOR UPDATE
+CREATE TABLE cycling.calendar (race_id int, race_name text, race_start_date timestamp, race_end_date timestamp, PRIMARY KEY (race_id, race_start_date, race_end_date);
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (100, 'Giro d''Italia','2015-05-09','2015-05-31');
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (101, 'Criterium du Dauphine','2015-06-07','2015-06-14');
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (102, 'Tour de Suisse','2015-06-13','2015-06-21');
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (103, 'Tour de France','2015-07-04','2015-07-26');
+
+// Q??:
+//
+CREATE TABLE cycling.upcoming_calendar ( year int, month int, events list<text>, PRIMARY KEY (year, month );
+INSERT INTO cycling.upcoming_calendar (year, month, events) VALUES (2015, 06, ['Criterium du Dauphine','Tour de Suisse']);
+INSERT INTO cycling.upcoming_calendar (year, month, events) VALUES (2015, 07, ['Tour de France']);
+SELECT * FROM cycling.upcoming_calendar WHERE year=2015 AND month=06;
+
 // Q7:
 // SIMPLE USER-DEFINED TYPE
 CREATE TYPE cycling.fullname ( firstname text, lastname text );
@@ -185,6 +200,10 @@ INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, 
 // Q18:
 // UPDATE SET
 UPDATE cycling.cyclist_career_teams SET teams = teams + {'Team DSB - Ballast Nedam'} WHERE id=1001;
+
+// Q19:
+UPDATE LIST
+UPDATE cycling.upcoming_calendar SET events = ['The Parx Casino Philly Cycling Classic'] + events WHERE year = 2015 AND month = 06;
 
 ============================
 
