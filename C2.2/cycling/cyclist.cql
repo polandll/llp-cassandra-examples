@@ -44,6 +44,17 @@ SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015;
 SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015 AND race_name='Tour of Japan - Stage 4 - Minami > Shinshu';
 
 // Q4:
+// Display flag for riders
+// CREATE TABLE WITH STATIC COLUMN, example uses an integer to identify flag, but it could be a blob
+CREATE TABLE cyclist.country_flag (country text, cyclist_name text, flag int STATIC, PRIMARY KEY (country, cyclist_name));
+INSERT INTO cycling.country_flag (country, cyclist_name, flag) VALUES ('Belgium', 'Jacques', 1);
+INSERT INTO cycling.country_flag (country, cyclist_name) VALUES ('Belgium', 'Andre');
+INSERT INTO cycling.country_flag (country, cyclist_name, flag) VALUES ('France', 'Andre', 2);
+INSERT INTO cycling.country_flag (country, cyclist_name, flag) VALUES ('France', 'George', 3);
+// USE SELECT REPEATEDLY TO SHOW CHANGING (OR UNCHANGING) NATURE OF the column 'flag'
+SELECT * FROM cycling.country_flag;
+
+// Q5:
 // Find all teams that a cyclist has been a member of
 //CREATE TABLE WITH SET
 CREATE TABLE cycling.cyclist_career_teams ( id int PRIMARY KEY, lastname text, teams set<text> );
@@ -53,7 +64,7 @@ INSERT INTO cycling.cylist_career_teams (id,lastname,teams) VALUES (1003, 'ARMIT
 SELECT lastname,teams FROM cycling._career_teams;
 SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=1001;
 
-// Q5:
+// Q6:
 // Find all races for a particular cyclist
 // CREATE TYPE - User-Defined Type, race
 // CREATE TABLE WITH LIST, SIMPLE PRIMARY KEY
@@ -66,7 +77,7 @@ ival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 2 - Garnich > Garnic
 SELECT * FROM cycling.cyclist_races;
 SELECT lastname, races FROM cycling.cyclist_races WHERE id = 1002;
 
-// Q6: 
+// Q7: 
 // Find all teams for a particular cyclist associated with the year of membership
 // teams map<int, text> is map<year, team_name>
 // CREATE TABLE WITH MAP, SIMPLE PRIMARY KEY
@@ -77,7 +88,7 @@ INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1003,
 SELECT lastname, firstname, teams FROM cycling.cyclist_teams;
 SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=1001;
 
-// Q7:
+// Q8:
 // Find all stats for a particular cyclist
 // CREATE TYPE -  UDT, basic_info
 // CREATE TABLE with UDT, SIMPLE PRIMARY KEY
@@ -89,7 +100,7 @@ INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2003, 'TIRALONG
 SELECT * FROM cycling.cyclist_stats;
 SELECT * FROM cycling.cyclist_stats WHERE id = 2003;
 
-//Q8:
+//Q9:
 // Find total number of PCS points for a particular cyclist
 // CREATE TABLE WITH PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN
 // USE STANDARD AGGREGATE IN QUERY
@@ -99,14 +110,14 @@ INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_po
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (1004, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
 SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=1004;
 
-//Q9:
-// USES Q8 TABLE
+//Q10:
+// USES Q9 TABLE
 // Find total number of PCS points for a particular cyclist using a user-defined function (UDF) created using java function log
 // CREATE UDF
 CREATE OR REPLACE FUNCTION fLog (input double) RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
 SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_points;
 
-//Q10:
+//Q11:
 //Find the average race_time in seconds for a particular race for a particular team.
 // CREATE UDA that computes the average value
 //CREATE TABLE WITH SIMPLE PRIMARY KEY: PARTITION KEY + 2 CLUSTERING COLUMNS
