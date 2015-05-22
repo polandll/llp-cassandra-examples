@@ -79,7 +79,7 @@ SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=1001;
 
 // Q??:
 // CREATE TABLE WITH LIST FOR UPDATE
-CREATE TABLE cycling.calendar (race_id int, race_name text, race_start_date timestamp, race_end_date timestamp, PRIMARY KEY (race_id, race_start_date, race_end_date);
+CREATE TABLE cycling.calendar (race_id int, race_name text, race_start_date timestamp, race_end_date timestamp, PRIMARY KEY (race_id, race_start_date, race_end_date));
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (100, 'Giro d''Italia','2015-05-09','2015-05-31');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (101, 'Criterium du Dauphine','2015-06-07','2015-06-14');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (102, 'Tour de Suisse','2015-06-13','2015-06-21');
@@ -87,7 +87,7 @@ INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date
 
 // Q??:
 //
-CREATE TABLE cycling.upcoming_calendar ( year int, month int, events list<text>, PRIMARY KEY (year, month );
+CREATE TABLE cycling.upcoming_calendar ( year int, month int, events list<text>, PRIMARY KEY ( year, month ));
 INSERT INTO cycling.upcoming_calendar (year, month, events) VALUES (2015, 06, ['Criterium du Dauphine','Tour de Suisse']);
 INSERT INTO cycling.upcoming_calendar (year, month, events) VALUES (2015, 07, ['Tour de France']);
 SELECT * FROM cycling.upcoming_calendar WHERE year=2015 AND month=06;
@@ -199,11 +199,42 @@ INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, 
 
 // Q18:
 // UPDATE SET
+// Add team to a cyclist's list of teams, order doesn't matter; this example adds it to the end
 UPDATE cycling.cyclist_career_teams SET teams = teams + {'Team DSB - Ballast Nedam'} WHERE id=1001;
 
 // Q19:
-UPDATE LIST
+// UPDATE LIST
+// Add events to the events list with either +/- or a specific place in the list like events[2]
 UPDATE cycling.upcoming_calendar SET events = ['The Parx Casino Philly Cycling Classic'] + events WHERE year = 2015 AND month = 06;
+UPDATE cycling.upcoming_calendar SET events[2] = 'Vuelta Ciclista a Venezuela' WHERE year = 2015 AND month = 06;
+
+// Q20:
+// QUERY WITH ORDER BY
+SELECT * FROM cycling.upcoming_calendar WHERE year= 2015 ORDER BY month DESC;
+
+// Q21:
+// QUERY WITH INEQUALITIES
+SELECT * FROM cycling.upcoming_calendar WHERE year = 2015 AND month <= 06 AND month >= 07;
+
+// Q22:
+// SELECT and GET RESULTS in JSON FORMAT
+SELECT JSON month, year, events FROM cycling.upcoming_calendar;
+
+// Q23:
+// QUERY - WHERE ... IN SIMPLE
+// Notice the difference between using 'ORDER BY points DESC' and not using it - changes the order of reporting
+PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY points DESC;
+PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY points ASC;
+
+// Q24:
+// QUERY - WHERE ... IN COMPLEX
+PAGING OFF; SELECT * FROM cycling.calendar WHERE race_id IN (100, 101, 102) AND (race_start_date, race_end_date) IN (('2015-05-09','2015-05-31'),('2015-05-06', '2015-05-31'));
+PAGING OFF; SELECT * FROM cycling.calendar WHERE race_id IN (100, 101, 102) AND (race_start_date, race_end_date) >= ('2015-05-09','2015-05-24');
+
+// Q25:
+// Standard Aggregates
+SELECT sum(race_points) FROM cycling.cyclist_points WHERE id = 1004;
+SELECT count(cyclist_name) FROM cycling.country_flag WHERE country='Belgium';
 
 ============================
 
