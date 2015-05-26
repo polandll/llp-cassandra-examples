@@ -1,4 +1,4 @@
-USE cycling;
+aSE cycling;
 CREATE KEYSPACE IF NOT EXISTS cycling WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
 // Q1:
@@ -77,22 +77,23 @@ INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1005, 'BRAN
 SELECT lastname,teams FROM cycling.cyclist_career_teams;
 SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=1001;
 
-// Q??:
+// NOT A QUERY, JUST A TABLE FOR QUERIES
 // CREATE TABLE WITH LIST FOR UPDATE
+// The SELECT statements that use this table can be found below
 CREATE TABLE cycling.calendar (race_id int, race_name text, race_start_date timestamp, race_end_date timestamp, PRIMARY KEY (race_id, race_start_date, race_end_date));
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (100, 'Giro d''Italia','2015-05-09','2015-05-31');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (101, 'Criterium du Dauphine','2015-06-07','2015-06-14');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (102, 'Tour de Suisse','2015-06-13','2015-06-21');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (103, 'Tour de France','2015-07-04','2015-07-26');
 
-// Q??:
-//
+// Q7:
+// Find all calendar events for a particular year and month
 CREATE TABLE cycling.upcoming_calendar ( year int, month int, events list<text>, PRIMARY KEY ( year, month ));
 INSERT INTO cycling.upcoming_calendar (year, month, events) VALUES (2015, 06, ['Criterium du Dauphine','Tour de Suisse']);
 INSERT INTO cycling.upcoming_calendar (year, month, events) VALUES (2015, 07, ['Tour de France']);
 SELECT * FROM cycling.upcoming_calendar WHERE year=2015 AND month=06;
 
-// Q7:
+// Q8:
 // SIMPLE USER-DEFINED TYPE
 CREATE TYPE cycling.fullname ( firstname text, lastname text );
 CREATE TABLE cycling.race_winners (race_name text, race_position int, cyclist_name frozen<fullname>, PRIMARY KEY (race_name, race_position));
@@ -103,7 +104,7 @@ INSERT INTO cycling.race_winners (race_name, race_position, cyclist_name) VALUES
 INSERT INTO cycling.race_winners (race_name, race_position, cyclist_name) VALUES ('National Championships South Africa WJ-ITT (CN)', 5, {firstname:'Danielle',lastname:'VAN NIEKERK'});
 SELECT * FROM cycling.race_winners WHERE race_name = 'National Championships South Africa WJ-ITT (CN)';
 
-// Q8:
+// Q9:
 // Find all races for a particular cyclist
 // CREATE TYPE - User-Defined Type, race
 // CREATE TABLE WITH LIST, SIMPLE PRIMARY KEY
@@ -116,7 +117,7 @@ ival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 2 - Garnich > Garnic
 SELECT * FROM cycling.cyclist_races;
 SELECT lastname, races FROM cycling.cyclist_races WHERE id = 1002;
 
-// Q9: 
+// Q10: 
 // Find all teams for a particular cyclist associated with the year of membership
 // teams map<int, text> is map<year, team_name>
 // CREATE TABLE WITH MAP, SIMPLE PRIMARY KEY
@@ -127,7 +128,7 @@ INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1003,
 SELECT lastname, firstname, teams FROM cycling.cyclist_teams;
 SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=1001;
 
-// Q10:
+// Q11:
 // Find all stats for a particular cyclist
 // CREATE TYPE -  UDT, basic_info
 // CREATE TABLE with UDT, SIMPLE PRIMARY KEY
@@ -139,7 +140,7 @@ INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2003, 'TIRALONG
 SELECT * FROM cycling.cyclist_stats;
 SELECT * FROM cycling.cyclist_stats WHERE id = 2003;
 
-// Q11:
+// Q12:
 // Find total number of PCS points for a particular cyclist
 // CREATE TABLE WITH PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN
 // USE STANDARD AGGREGATE IN QUERY
@@ -149,14 +150,14 @@ INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_po
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (1004, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
 SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=1004;
 
-// Q12:
+// Q13:
 // USES TABLE cycling.cyclist_points
 // Find total number of PCS points for a particular cyclist using a user-defined function (UDF) created using java function log
 // CREATE UDF
 CREATE OR REPLACE FUNCTION fLog (input double) RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
 SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_points;
 
-// Q13:
+// Q14:
 //Find the average race_time in seconds for a particular race for a particular team.
 // CREATE UDA that computes the average value
 //CREATE TABLE WITH SIMPLE PRIMARY KEY: PARTITION KEY + 2 CLUSTERING COLUMNS
@@ -172,7 +173,7 @@ INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, rac
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('TWENTY16 presented by Sho-Air','Lauren KOMANSKI',11451,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 SELECT average(cyclist_time_sec) FROM cycling.team_average WHERE team_name='UnitedHealthCare Pro Cycling Womens Team' AND race_title='Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe';
 
-// Q14:
+// Q15:
 // CREATE INDEX - PARTITION KEY
 // Uses cycling.rank_by_year_and_name
 // Find rank for all races for a particular race year
@@ -180,75 +181,127 @@ CREATE INDEX ryear ON cycling.rank_by_year_and_name (race_year);
 // This will not work without the index, because the table has a composite partition key
 SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015;
 
-// Q15:
+// Q16:
 // CREATE INDEX - COLLECTION - SET
 // Find all the cyclists that have been on a particular team
 CREATE INDEX team ON cycling.cyclist_career_teams (teams);
 SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Nederland bloeit';
 SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Rabobank-Liv Giant';
 
-// Q16: 
+// Q17: 
 // CREATE INDEX - COLLECTION ON MAP KEYS
 // Find all cyclist/team combinations for a particular year
 CREATE INDEX team_year ON cycling.cyclist_teams (KEY(teams));
 SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 
-// Q17: 
+// NOT A QUERY, JUST AN EXAMPLE 
 // INSERT DATA IN JSON FORMAT
 INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : 2005, "lastname" : "SUTHERLAND" }';
 
-// Q18:
+// NOT A QUERY, JUST AN EXAMPLE
 // UPDATE SET
+// Can only be +
 // Add team to a cyclist's list of teams, order doesn't matter; this example adds it to the end
 UPDATE cycling.cyclist_career_teams SET teams = teams + {'Team DSB - Ballast Nedam'} WHERE id=1001;
 
-// Q19:
+// NOT A QUERY, JUST AN EXAMPLE
 // UPDATE LIST
 // Add events to the events list with either +/- or a specific place in the list like events[2]
 UPDATE cycling.upcoming_calendar SET events = ['The Parx Casino Philly Cycling Classic'] + events WHERE year = 2015 AND month = 06;
 UPDATE cycling.upcoming_calendar SET events[2] = 'Vuelta Ciclista a Venezuela' WHERE year = 2015 AND month = 06;
 
-// Q20:
-// QUERY WITH ORDER BY
-SELECT * FROM cycling.upcoming_calendar WHERE year= 2015 ORDER BY month DESC;
-
-// Q21:
-// QUERY WITH INEQUALITIES
-SELECT * FROM cycling.upcoming_calendar WHERE year = 2015 AND month <= 06 AND month >= 07;
+// NOT A QUERY, JUST AN EXAMPLE
+// UPDATE MAP
+// Can only be +
+UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'DSB Bank - Nederland bloeit'} WHERE id = 1001;
+SELECT teams FROM cycling.cyclist_teams WHERE id = 1001;
 
 // Q22:
+// UPDATE AND SELECT USING TTL
+// QUERY TO FIND TIME-TO-LIVE
+// Insert is to put in dummy record, UPDATE gives it a TTL
+// Repeated use of the SELECT will show the TTL as it counts down
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (200, 'placeholder', '2015-05-27', '2015-05-27');
+UPDATE cycling.calendar USING TTL 300 SET race_name = 'dummy' WHERE race_id = 200 AND race_start_date = '2015-05-27' AND race_end_date = '2015-05=27';
+SELECT TTL(race_name) FROM cycling.calendar WHERE race_id=200;
+
+// Q18:
+// QUERY WITH ORDER BY
+// Find all calendar events for a particular year and order by month
+SELECT * FROM cycling.upcoming_calendar WHERE year= 2015 ORDER BY month DESC;
+
+// Q19:
+// QUERY WITH INEQUALITIES
+// Find all calendar events for a particular year between two set months
+SELECT * FROM cycling.upcoming_calendar WHERE year = 2015 AND month <= 06 AND month >= 07;
+
+// NOT A QUERY, REALLY, JUST AN EXAMPLE
 // SELECT and GET RESULTS in JSON FORMAT
 SELECT JSON month, year, events FROM cycling.upcoming_calendar;
 
-// Q23:
+// Q20:
 // QUERY - WHERE ... IN SIMPLE
 // Notice the difference between using 'ORDER BY points DESC' and not using it - changes the order of reporting
+// Find all cyclists for a particular category and order by points
 PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY points DESC;
 PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY points ASC;
 
-// Q24:
+// Q21:
 // QUERY - WHERE ... IN COMPLEX
+// Find particular races in a range of start and end dates
 PAGING OFF; SELECT * FROM cycling.calendar WHERE race_id IN (100, 101, 102) AND (race_start_date, race_end_date) IN (('2015-05-09','2015-05-31'),('2015-05-06', '2015-05-31'));
 PAGING OFF; SELECT * FROM cycling.calendar WHERE race_id IN (100, 101, 102) AND (race_start_date, race_end_date) >= ('2015-05-09','2015-05-24');
 
-// Q25:
+// Q23 and 24:
 // Standard Aggregates
+// Find sum of cyclist points for a particular cyclist
+// Find the number of cyclists from a particular country
 SELECT sum(race_points) FROM cycling.cyclist_points WHERE id = 1004;
 SELECT count(cyclist_name) FROM cycling.country_flag WHERE country='Belgium';
 
+// Q25
+// QUERY - SCAN A PARTITION
+// Find all cyclists that finished a race in a particular window of time
+CREATE TABLE cycling.race_times (race_name text, cyclist_name text, race_time timestamp, PRIMARY KEY (race_name, race_time));
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Rohan DENNIS', 19:15:18  );
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Richie PORTE', 19:15:20  );
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Cadel EVANS', 19:15:38  );
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Tom DUMOULIN', 19:15:40 );
+SELECT * FROM cycling.race_times WHERE race_name = '17th Santos Tour Down Under' AND race_time >= 19:15:19 AND race_time <= 19:15:39 );
+
+// NOT A QUERY, JUST AN EXAMPLE:
+// BATCH statement
+// Insert data into multiple tables using a BATCH statement
+// Note that what is inserted is data for the SAME cyclist, to two tables
+SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
+BEGIN BATCH
+  INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1006, 'PIETERS', 'Amy');
+  INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('PIETERS', 'Amy', 23, 1006);
+APPLY BATCH;
+SELECT * FROM cycling.cyclist_name;
+SELECT * FRM cycling.cyclist_id;
+
+// NOT A QUERY, JUST AN EXAMPLE:
+// BATCH statement MISUSE
+// Insert data into same table, but involves multiple nodes due to partition key = id
+BEGIN BATCH;
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1008,'HOSKINS', 'Melissa);
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1009,'FERNANDES', 'Marcia');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1010,'NIEWIADOMA', 'Katarzyna');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1011,'ADRIAN', 'Vera');
+APPLY BATCH;
+
+// NOT A QUERY, JUST AN EXAMPLE
+// LIGHTWEIGHT TRANSACTION
+// Insert or update information using a conditional statement
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1007, 'RATTO', 'Rissella') IF NOT EXISTS;
+
+// UPDATE USING LIGHTWEIGHT TRANSACTION
+UPDATE cycling.cyclist_name SET firstname = 'Rossella' WHERE id=1007 IF lastname = 'RATTO';
+
 ============================
 
-CREATE TABLE cycling.rank_by_category ( rank int, category text, cyclist frozen <fullname>, PRIMARY KEY (rank, category) );
-
-
-CREATE TABLE cycling.cyclist_rank ( id int, lastname text, rank int, overall_points float, PRIMARY KEY (id));
-
 CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<frozen <fullname>>, PRIMARY KEY (race, year) );
-CREATE TABLE cycling.cyclist_races ( id int PRIMARY KEY, races map<timestamp,text> );
-
-INSERT INTO cycling.rank_by_category ( rank, category, cyclist) VALUES (1, 'All-Time', {firstname: 'Eddy', lastname: 'Merckx'} );
-UPDATE cycling.cyclist SET teams = { 'Team Cannondate - Garmin', 'Garmin Sharp', 'Team Slipstream' } WHERE id=1;
-UPDATE cycling.cyclist SET teams = { 'Team Cannondate - Garmin', 'Garmin Sharp', 'Discovery Channel', 'Phonak Hearing Systems' } WHERE id=2;
 
 INSERT INTO cycling.top_five (race, year, top5) VALUES ('Tour de Romandie', '2015-05-03', [{firstname: 'Ilnur', lastname: 'Zakarin'}, {firstname: 'Simon', lastname: 'Spilak'}]);
 UPDATE top_five SET top5 = top5 + [{firstname:'Christopher', lastname:'Froome'}] WHERE race = 'Tour de Romandie' AND year = '2015-05-03';
