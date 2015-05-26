@@ -299,22 +299,38 @@ INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1007, 'RATTO'
 // UPDATE USING LIGHTWEIGHT TRANSACTION
 UPDATE cycling.cyclist_name SET firstname = 'Rossella' WHERE id=1007 IF lastname = 'RATTO';
 
+// Q26
 // QUERY USING MULTIPLE INDEXES
+// DISCUSSION OF THE NEED FOR ALLOW FILTERING
+// IS THIS BETTER THAN cyclist_stats??
 CREATE TABLE cycling.cyclist_alt_stats ( id int PRIMARY KEY, lastname text, birthday timestamp, nationality text, weight text, height text );
 INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1020,'TSATEVICH', '1989-07-05', 'Russia', '64 kg', '1.69 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1021,'ISAYCHEV', '1986-04-21','Russia', '80 kg', '1.88 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1022,'BELKOV', '1985-01-09','Russia', '71 kg', '1.84 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1021,'ISAYCHEV', '1986-04-21', 'Russia', '80 kg', '1.88 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1022,'BELKOV', '1985-01-09', 'Russia', '71 kg', '1.84 m');
 INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1023,'BRUTT', '1982-01-29', 'Russia', '68 kg', '1.78 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1024,'1981-01-14','LAGUTIN', 'Russia', '63 kg', '1.82 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1025,'1991-08-25','GRMAY', 'Ethiopia', '63 kg', '1.75 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1026,'1981-03-29','VEIKKANEN', 'Finland', '66 kg', '1.78 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1027,'1987-03-07','TLEUBAYEV', 'Kazakhstan', null, null);
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1028,'1990-05-27','PAULINHO', 'Portugal', null, null);
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1029,'1990-05-27','DUVAL', 'France', null, null);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1024,'LAGUTIN', '1981-01-14', 'Russia', '63 kg', '1.82 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1025,'GRMAY', '1991-08-25', 'Ethiopia', '63 kg', '1.75 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1026,'VEIKKANEN', '1981-03-29', 'Finland', '66 kg', '1.78 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1027,'TLEUBAYEV', '1987-03-07', 'Kazakhstan', null, null);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1028,'PAULINHO', '1990-05-27', 'Portugal', null, null);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1029,'DUVAL', '1990-05-27','France', null, null);
 CREATE INDEX birthday_idx ON cycling.cyclist_alt_stats (birthday);
 CREATE INDEX nationality_idx ON cycling.cyclist_alt_stats (nationality);
-SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1982-01-29' AND nationality = 'Russia';
-SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1990-05-27' AND nationality = 'Portugal';
+SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1982-01-29' AND nationality = 'Russia' ALLOW FILTERING;
+SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1990-05-27' AND nationality = 'Portugal' ALLOW FILTERING;
+
+// Q27
+// USING EXPIRING DATA AND TTL
+// 3 days in seconds is 259,200
+CREATE TABLE cycling.last_3_days (race_name text, year timestamp, rank int, cyclist_name text, PRIMARY KEY (year, rank, cyclist_name)):
+INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',1,'Mikel Landa') USING TTL 259200
+INSERT INTO cycling.last_3_days (race_name text , year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',2,'Steven Kruijswijk') USING TTL 259200
+INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',3,'Alberto Contador') USING TTL 259200
+INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',1,'Matthew Busche') USING TTL 172800
+INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',2,'Joe Dombrowski') USING TTL 172800
+INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',3,'Kiel Reijnen') USING TTL 172800
+SELECT TTL(race_name) FROM cycling.last_3_days WHERE race_name = 'Giro d''Italia';
+SELECT TTL(race_name) FROM cycling.last_3_days WHERE race_name = 'National Championships United States - Road Race (NC)';
 ============================
 
 CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<frozen <fullname>>, PRIMARY KEY (race, year) );
