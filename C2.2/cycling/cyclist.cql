@@ -222,7 +222,7 @@ SELECT teams FROM cycling.cyclist_teams WHERE id = 1001;
 // Insert is to put in dummy record, UPDATE gives it a TTL
 // Repeated use of the SELECT will show the TTL as it counts down
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (200, 'placeholder', '2015-05-27', '2015-05-27');
-UPDATE cycling.calendar USING TTL 300 SET race_name = 'dummy' WHERE race_id = 200 AND race_start_date = '2015-05-27' AND race_end_date = '2015-05=27';
+UPDATE cycling.calendar USING TTL 300 SET race_name = 'dummy' WHERE race_id = 200 AND race_start_date = '2015-05-27' AND race_end_date = '2015-05-27';
 SELECT TTL(race_name) FROM cycling.calendar WHERE race_id=200;
 
 // Q18:
@@ -262,12 +262,12 @@ SELECT count(cyclist_name) FROM cycling.country_flag WHERE country='Belgium';
 // Q25
 // QUERY - SCAN A PARTITION
 // Find all cyclists that finished a race in a particular window of time
-CREATE TABLE cycling.race_times (race_name text, cyclist_name text, race_time timestamp, PRIMARY KEY (race_name, race_time));
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Rohan DENNIS', 19:15:18  );
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Richie PORTE', 19:15:20  );
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Cadel EVANS', 19:15:38  );
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Tom DUMOULIN', 19:15:40 );
-SELECT * FROM cycling.race_times WHERE race_name = '17th Santos Tour Down Under' AND race_time >= 19:15:19 AND race_time <= 19:15:39 );
+CREATE TABLE cycling.race_times (race_name text, cyclist_name text, race_time text, PRIMARY KEY (race_name, race_time));
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Rohan DENNIS', '19:15:18'  );
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Richie PORTE', '19:15:20'  );
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Cadel EVANS', '19:15:38'  );
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Tom DUMOULIN', '19:15:40' );
+SELECT * FROM cycling.race_times WHERE race_name = '17th Santos Tour Down Under' AND race_time >= '19:15:19' AND race_time <= '19:15:39' );
 
 // NOT A QUERY, JUST AN EXAMPLE:
 // BATCH statement
@@ -299,6 +299,22 @@ INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1007, 'RATTO'
 // UPDATE USING LIGHTWEIGHT TRANSACTION
 UPDATE cycling.cyclist_name SET firstname = 'Rossella' WHERE id=1007 IF lastname = 'RATTO';
 
+// QUERY USING MULTIPLE INDEXES
+CREATE TABLE cycling.cyclist_alt_stats ( id int PRIMARY KEY, lastname text, birthday timestamp, nationality text, weight text, height text );
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1020,'TSATEVICH', '1989-07-05', 'Russia', '64 kg', '1.69 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1021,'ISAYCHEV', '1986-04-21','Russia', '80 kg', '1.88 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1022,'BELKOV', '1985-01-09','Russia', '71 kg', '1.84 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1023,'BRUTT', '1982-01-29', 'Russia', '68 kg', '1.78 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1024,'1981-01-14','LAGUTIN', 'Russia', '63 kg', '1.82 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1025,'1991-08-25','GRMAY', 'Ethiopia', '63 kg', '1.75 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1026,'1981-03-29','VEIKKANEN', 'Finland', '66 kg', '1.78 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1027,'1987-03-07','TLEUBAYEV', 'Kazakhstan', null, null);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1028,'1990-05-27','PAULINHO', 'Portugal', null, null);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1029,'1990-05-27','DUVAL', 'France', null, null);
+CREATE INDEX birthday_idx ON cycling.cyclist_alt_stats (birthday);
+CREATE INDEX nationality_idx ON cycling.cyclist_alt_stats (nationality);
+SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1982-01-29' AND nationality = 'Russia';
+SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1990-05-27' AND nationality = 'Portugal';
 ============================
 
 CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<frozen <fullname>>, PRIMARY KEY (race, year) );
