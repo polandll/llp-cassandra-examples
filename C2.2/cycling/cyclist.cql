@@ -1,4 +1,4 @@
-aSE cycling;
+USE cycling;
 CREATE KEYSPACE IF NOT EXISTS cycling WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
 // Q1:
@@ -320,17 +320,81 @@ SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1982-01-29' AND nation
 SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1990-05-27' AND nationality = 'Portugal' ALLOW FILTERING;
 
 // Q27
-// USING EXPIRING DATA AND TTL
+// USING EXPIRING DATA AND TTL TO DISPLAY THE LAST 3 DAYS race data
 // 3 days in seconds is 259,200
-CREATE TABLE cycling.last_3_days (race_name text, year timestamp, rank int, cyclist_name text, PRIMARY KEY (year, rank, cyclist_name)):
-INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',1,'Mikel Landa') USING TTL 259200
-INSERT INTO cycling.last_3_days (race_name text , year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',2,'Steven Kruijswijk') USING TTL 259200
-INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',3,'Alberto Contador') USING TTL 259200
-INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',1,'Matthew Busche') USING TTL 172800
-INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',2,'Joe Dombrowski') USING TTL 172800
-INSERT INTO cycling.last_3_days (race_name text, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',3,'Kiel Reijnen') USING TTL 172800
-SELECT TTL(race_name) FROM cycling.last_3_days WHERE race_name = 'Giro d''Italia';
-SELECT TTL(race_name) FROM cycling.last_3_days WHERE race_name = 'National Championships United States - Road Race (NC)';
+// 2 days in seconds is 172800
+// Data will vanish when its TTL runs out
+CREATE TABLE cycling.last_3_days (race_name text, year timestamp, rank int, cyclist_name text, PRIMARY KEY (year, rank, cyclist_name));
+INSERT INTO cycling.last_3_days (race_name, year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',1,'Mikel Landa') USING TTL 259200;
+INSERT INTO cycling.last_3_days (race_name, year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',2,'Steven Kruijswijk') USING TTL 259200;
+INSERT INTO cycling.last_3_days (race_name, year, rank, cyclist_name) VALUES ('Giro d''Italia Stage 16','2015-05-26',3,'Alberto Contador') USING TTL 259200;
+INSERT INTO cycling.last_3_days (race_name, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',1,'Matthew Busche') USING TTL 172800;
+INSERT INTO cycling.last_3_days (race_name, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',2,'Joe Dombrowski') USING TTL 172800;
+INSERT INTO cycling.last_3_days (race_name, year, rank, cyclist_name) VALUES ('National Championships United States - Road Race (NC)','2015-05-25',3,'Kiel Reijnen') USING TTL 172800;
+SELECT TTL(race_name) FROM cycling.last_3_days;
+SELECT TTL(race_name) FROM cycling.last_3_days;
+SELECT * FROM cycling.last_3_days; // WILL ONLY SHOW NON-EXPIRED ROWS
+
+// Q28:
+// QUERY USING FUNCTION TOKEN()
+// Note how results are not consistent with dates alone; partitioner order is how they are returned
+// All 6 entries show
+SELECT * FROM cycling.last_3_days WHERE token(year) > token ('2015-05-24');
+// No entries show
+SELECT * FROM cycling.last_3_days WHERE token(year) > token ('2015-05-25');
+// 3 entries for 2015-05-25 show
+SELECT * FROM cycling.last_3_days WHERE token(year) > token ('2015-05-26');
+// No entries show
+SELECT * FROM cycling.last_3_days WHERE token(year) > token ('2015-05-27');
+SELECT token(year) FROM cycling.last_3_days; //PRINTS partition hash
+
+// DELETE WHOLE ROW
+// Leave column(s) blank
+DELETE FROM cycling.calendar WHERE race_id = 200;
+
+// DELETE COLUMN VALUE
+DELETE lastname FROM cycling.cyclist_name WHERE id = 1006;
+UPDATE cycling.cyclist_name SET lastname = 'PIETERS' WHERE id = 1006; // TO RESTORE THE COLUMN VALUE
+
+// DELETE ITEM FROM LIST
+DELETE events[2] FROM cycling.upcoming_calendar WHERE year = 2015 AND month = 06;
+
+// DELETE ITEM FROM MAP
+DELETE teams[2009] FROM cycling.cyclist_teams WHERE id=1002;
+UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'Team Flexpoint' } WHERE id = 1002; // TO RESTORE THE MAP VALUE
+
+// ALTER TABLE
+// ADD COLUMN
+ALTER TABLE cycling.cyclist_alt_stats ADD age int;
+
+// ALTER TABLE AND ALTER COLUMN TYPE
+// ADDS COLUMN as varchar and then changes it to text
+ALTER TABLE cycling.cyclist_alt_stats ADD favorite_color varchar; 
+ALTER TABLE cycling.cyclist_alt_stats ALTER favorite_color text;
+
+// ALTER TYPE
+ALTER TYPE cycling.fullname ADD middlename text;
+ALTER TYPE cycling.fullname RENAME middlename middleinitial;
+
+// TUPLE
+// Rank nations by points, including top cyclist
+CREATE TABLE nation_rank ( nation text PRIMARY KEY, info <tuple<int,text,int>> );
+INSERT INTO nation_rank (nation, info) VALUES ('Spain', (1,'Alejandro VALVERDE' , 9054));
+INSERT INTO nation_rank (nation, info) VALUES ('France', (2,'Sylvain CHAVANEL' , 6339));
+INSERT INTO nation_rank (nation, info) VALUES ('Belgium', (3,'Phillippe GILBERT' , 6222));
+INSERT INTO nation_rank (nation, info) VALUES ('Italy', (4,'Davide REBELLINI' , 6090));
+SELECT * FROM nation_rank;
+
+// TUPLE
+// Popular Riders
+CREATE TABLE popular (rank int PRIMARY KEY, cinfo <tuple<text,text,int>> );
+INSERT INTO popular (rank, cinfo) VALUES (1, ('Spain', 'Mikel LANDA', 1137));
+INSERT INTO popular (rank, cinfo) VALUES (2, ('Netherlands', 'Steven KRUIJSWIJK', 621));
+INSERT INTO popular (rank, cinfo) VALUES (3, ('USA', 'Matthew BUSCHE', 230));
+INSERT INTO popular (rank, cinfo) VALUES (4, ('Italy', 'Fabio ARU', 163));
+INSERT INTO popular (rank, cinfo) VALUES (5, ('Canada', 'Ryder HESJEDAL', 148));
+SELECT * FROM popular;
+
 ============================
 
 CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<frozen <fullname>>, PRIMARY KEY (race, year) );
