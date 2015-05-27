@@ -376,9 +376,23 @@ ALTER TABLE cycling.cyclist_alt_stats ALTER favorite_color text;
 ALTER TYPE cycling.fullname ADD middlename text;
 ALTER TYPE cycling.fullname RENAME middlename middleinitial;
 
+// TUPLE WAS USED IN THE UDA TO HOLD 2 values - see example in UDA section
+
+// TUPLE
+// Store the latitude/longitude waypoints for the route of a race
+CREATE TABLE route (race_id int, race_name text, point_id int, lat_long FROZEN <tuple<text, tuple<float,float>>>);
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 1, (Onnens, (46.8444,6.6667)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 2, (Champagne, (46.833, 6.65)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 3, (Novalle, (46.833, 6.6)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 4, (Vuiteboeuf, (46.8, 6.55)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 5, (Baulmes, (46.7833, 6.5333)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 6, (Les Clées, (46.7222, 6.5222)));
+SELECT * FROM route;
+
+
 // TUPLE
 // Rank nations by points, including top cyclist
-CREATE TABLE nation_rank ( nation text PRIMARY KEY, info <tuple<int,text,int>> );
+CREATE TABLE nation_rank ( nation text PRIMARY KEY, info FROZEN <tuple<int,text,int>> );
 INSERT INTO nation_rank (nation, info) VALUES ('Spain', (1,'Alejandro VALVERDE' , 9054));
 INSERT INTO nation_rank (nation, info) VALUES ('France', (2,'Sylvain CHAVANEL' , 6339));
 INSERT INTO nation_rank (nation, info) VALUES ('Belgium', (3,'Phillippe GILBERT' , 6222));
@@ -387,7 +401,7 @@ SELECT * FROM nation_rank;
 
 // TUPLE
 // Popular Riders
-CREATE TABLE popular (rank int PRIMARY KEY, cinfo <tuple<text,text,int>> );
+CREATE TABLE popular (rank int PRIMARY KEY, cinfo FROZEN <tuple<text,text,int>> );
 INSERT INTO popular (rank, cinfo) VALUES (1, ('Spain', 'Mikel LANDA', 1137));
 INSERT INTO popular (rank, cinfo) VALUES (2, ('Netherlands', 'Steven KRUIJSWIJK', 621));
 INSERT INTO popular (rank, cinfo) VALUES (3, ('USA', 'Matthew BUSCHE', 230));
