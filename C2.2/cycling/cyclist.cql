@@ -380,15 +380,14 @@ ALTER TYPE cycling.fullname RENAME middlename middleinitial;
 
 // TUPLE
 // Store the latitude/longitude waypoints for the route of a race
-CREATE TABLE route (race_id int, race_name text, point_id int, lat_long FROZEN <tuple<text, tuple<float,float>>>);
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 1, (Onnens, (46.8444,6.6667)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 2, (Champagne, (46.833, 6.65)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 3, (Novalle, (46.833, 6.6)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 4, (Vuiteboeuf, (46.8, 6.55)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 5, (Baulmes, (46.7833, 6.5333)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 6, (Les Clées, (46.7222, 6.5222)));
-SELECT * FROM route;
-
+CREATE TABLE route (race_id int, race_name text, point_id int, lat_long FROZEN <tuple<text, tuple<float,float>>>, PRIMARY KEY (race_id, point_id));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 1, ('Onnens', (46.8444,6.6667)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 2, ('Champagne', (46.833, 6.65)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 3, ('Novalle', (46.833, 6.6)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 4, ('Vuiteboeuf', (46.8, 6.55)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 5, ('Baulmes', (46.7833, 6.5333)));
+INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 6, ('Les Clées', (46.7222, 6.5222)));
+SELECT race_name, point_id, lat_long AS City_Latitude_Longitude FROM route; // Showcases 'AS' to rename column header
 
 // TUPLE
 // Rank nations by points, including top cyclist
