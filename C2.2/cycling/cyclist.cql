@@ -378,17 +378,24 @@ ALTER TYPE cycling.fullname RENAME middlename middleinitial;
 
 // TUPLE WAS USED IN THE UDA TO HOLD 2 values - see example in UDA section
 
+// Q29:
 // TUPLE
 // Store the latitude/longitude waypoints for the route of a race
-CREATE TABLE route (race_id int, race_name text, point_id int, lat_long FROZEN <tuple<text, tuple<float,float>>>, PRIMARY KEY (race_id, point_id));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 1, ('Onnens', (46.8444,6.6667)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 2, ('Champagne', (46.833, 6.65)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 3, ('Novalle', (46.833, 6.6)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 4, ('Vuiteboeuf', (46.8, 6.55)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 5, ('Baulmes', (46.7833, 6.5333)));
-INSERT INTO route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 6, ('Les Clées', (46.7222, 6.5222)));
-SELECT race_name, point_id, lat_long AS City_Latitude_Longitude FROM route; // Showcases 'AS' to rename column header
+CREATE TABLE cycling.route (race_id int, race_name text, point_id int, lat_long FROZEN <tuple<text, tuple<float,float>>>, PRIMARY KEY (race_id, point_id));
+INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 1, ('Onnens', (46.8444,6.6667)));
+INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 2, ('Champagne', (46.833, 6.65)));
+INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 3, ('Novalle', (46.833, 6.6)));
+INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 4, ('Vuiteboeuf', (46.8, 6.55)));
+INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 5, ('Baulmes', (46.7833, 6.5333)));
+INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 6, ('Les Clées', (46.7222, 6.5222)));
+SELECT race_name, point_id, lat_long AS City_Latitude_Longitude FROM cycling.route; // Showcases 'AS' to rename column header
 
+// Q30:
+// QUERY USING DISTINCT
+// Find all the distinct race_id values from cycling.route
+SELECT DISTINCT race_id from cycling.route;
+
+// Q31:
 // TUPLE
 // Rank nations by points, including top cyclist
 CREATE TABLE nation_rank ( nation text PRIMARY KEY, info FROZEN <tuple<int,text,int>> );
@@ -398,6 +405,7 @@ INSERT INTO nation_rank (nation, info) VALUES ('Belgium', (3,'Phillippe GILBERT'
 INSERT INTO nation_rank (nation, info) VALUES ('Italy', (4,'Davide REBELLINI' , 6090));
 SELECT * FROM nation_rank;
 
+// Q32:
 // TUPLE
 // Popular Riders
 CREATE TABLE popular (rank int PRIMARY KEY, cinfo FROZEN <tuple<text,text,int>> );
