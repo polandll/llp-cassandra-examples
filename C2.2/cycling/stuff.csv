@@ -1,5 +1,0 @@
-cyclist_rank,race_date,race_name,cyclist_country,cyclist_name,cyclist_race_time,cyclist_team_name,entry
-1,2015-05-17 00:00:00-0700,Giro d'Italia,Italy,"{firstname: 'Paolo', lastname: 'Tiralongo'}",05:50:31,Astana Pro Team,2015-05-18 15:09:00-0700
-3,2015-05-18 00:00:00-0700,An Post Ras - Stage 2 - Carlow > Tipperary,Italy,"{firstname: 'Davide', lastname: 'Vigano'}",03:29:26,Team Idea 2010 ASD,2015-05-18 15:09:00-0700
-1,2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,New Zealand,"{firstname:'Aaron', lastname:'Gate'}",03:29:26,An Post-Chain Reaction,2015-05-18 15:09:00
-2,2015-05-18,An Post Ras - Stage 2 - Carlow > Tipperary,New Zealand,"{firstname:'Alex', lastname:'Frame'}", null,03:29:26,2015-05-18 15:09:00
