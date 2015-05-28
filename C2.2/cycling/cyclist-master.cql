@@ -284,11 +284,27 @@ SELECT * FRM cycling.cyclist_id;
 // NOT A QUERY, JUST AN EXAMPLE:
 // BATCH statement MISUSE
 // Insert data into same table, but involves multiple nodes due to partition key = id
-BEGIN BATCH;
+BEGIN BATCH
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1008,'HOSKINS', 'Melissa);
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1009,'FERNANDES', 'Marcia');
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1010,'NIEWIADOMA', 'Katarzyna');
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1011,'ADRIAN', 'Vera');
+APPLY BATCH;
+
+// NOT A QUERY, JUST AN EXAMPLE:
+// BATCH statement WITH CONDITIONAL
+// EXAMPLE USES CYCLIST'S EXPENSES
+CREATE TABLE cycling.cyclist_expenses ( cyclist_name text, balance float STATIC, expense_id int, amount float, description text, paid boolean, PRIMARY KEY (cyclist_name, expense_id) );
+BEGIN BATCH
+INSERT INTO cycling.cyclist_expenses (cyclist_name, balance) VALUES ('Vera ADRIAN', 0) IF NOT EXISTS;
+INSERT INTO cycling.cyclist_expenses (cyclist_name, expense_id, amount, description, paid) VALUES ('Vera ADRIAN', 1, 7.95, 'Breakfast', false);
+APPLY BATCH;
+
+// NOT A QUERY, JUST AN EXAMPLE:
+// BATCH statement WITH CONDITIONAL
+BEGIN BATCH
+UPDATE cycling.cyclist_expenses SET balance = -7.95 WHERE cyclist_name = 'Vera ADRIAN' IF balance = 0;
+INSERT INTO cycling.cyclist_expenses (cyclist_name, expense_id, amount, description, paid) VALUES ('Vera ADRIAN', 2, 13.44, 'Lunch', true);
 APPLY BATCH;
 
 // NOT A QUERY, JUST AN EXAMPLE
