@@ -49,6 +49,30 @@ INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1010,'NIEWIA
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1011,'ADRIAN', 'Vera');
 APPLY BATCH;
 
+// NOT A QUERY, JUST AN EXAMPLE:
+// BATCH statement WITH CONDITIONAL "IF NOT EXISTS"
+// EXAMPLE USES CYCLIST'S EXPENSES
+CREATE TABLE cycling.cyclist_expenses ( cyclist_name text, balance float STATIC, expense_id int, amount float, description text, paid boolean, PRIMARY KEY (cyclist_name, expense_id) );
+BEGIN BATCH
+INSERT INTO cycling.cyclist_expenses (cyclist_name, balance) VALUES ('Vera ADRIAN', 0) IF NOT EXISTS;
+INSERT INTO cycling.cyclist_expenses (cyclist_name, expense_id, amount, description, paid) VALUES ('Vera ADRIAN', 1, 7.95, 'Breakfast', false);
+APPLY BATCH;
+
+// NOT A QUERY, JUST AN EXAMPLE:
+// BATCH statement WITH CONDITIONAL "IF"
+BEGIN BATCH
+UPDATE cycling.cyclist_expenses SET balance = -7.95 WHERE cyclist_name = 'Vera ADRIAN' IF balance = 0;
+INSERT INTO cycling.cyclist_expenses (cyclist_name, expense_id, amount, description, paid) VALUES ('Vera ADRIAN', 2, 13.44, 'Lunch', true);
+APPLY BATCH;
+
+// NOT A QUERY, JUST AN EXAMPLE:
+// BATCH statement WITH CONDITIONAL "IF"
+BEGIN BATCH
+UPDATE cycling.cyclist_expenses SET balance = 0 WHERE cyclist_name = 'Vera ADRIAN' IF balance = -32.95;
+UPDATE cycling.cyclist_expenses SET paid = true WHERE cyclist_name = 'Vera ADRIAN' AND expense_id = 1 IF paid = false;
+UPDATE cycling.cyclist_expenses SET paid = true WHERE cyclist_name = 'Vera ADRIAN' AND expense_id = 3 IF paid = false;
+APPLY BATCH;
+
 // UPDATE USING LIGHTWEIGHT TRANSACTION
 UPDATE cycling.cyclist_name SET firstname = 'Rossella' WHERE id=1007 IF lastname = 'RATTO';
 
