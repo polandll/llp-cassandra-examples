@@ -4,27 +4,27 @@ CREATE KEYSPACE IF NOT EXISTS cycling WITH REPLICATION = { 'class' : 'SimpleStra
 // Q1:
 // Find a cyclist's name given an ID number
 // CREATE TABLE SIMPLE PRIMARY KEY
-CREATE TABLE cycling.cyclist_name ( id int PRIMARY KEY, lastname text, firstname text );
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1001, 'VOS','Marianne');
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1002, 'VAN DER BREGGEN','Anna');
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2001, 'FRAME','Alex');
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2003, 'TIRALONGO','Paolo');
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (2004, 'KRUIKSWIJK','Steven');
+CREATE TABLE cycling.cyclist_name ( id UUID PRIMARY KEY, lastname text, firstname text );
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (5b6962dd-3f90-4c93-8f61-eabfa4a803e2, 'VOS','Marianne');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (e7cd5752-bc0d-4157-a80f-7523add8dbcd, 'VAN DER BREGGEN','Anna');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (e7ae5cf3-d358-4d99-b900-85902fda9bb0, 'FRAME','Alex');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'TIRALONGO','Paolo');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47, 'KRUIKSWIJK','Steven');
 SELECT * FROM cycling.cyclist_name;
-SELECT lastname, firstname FROM cycling.cyclist_name WHERE id = 2004;
+SELECT lastname, firstname FROM cycling.cyclist_name WHERE id = 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47;
 
 // Q2:
 // Find cyclists that fit a particular category
 // CREATE TABLE CLUSTERING ORDER, PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN, SIMPLE WHERE QUERY
-CREATE TABLE cycling.cyclist_category ( category text, points int, id int, lastname text, PRIMARY KEY (category, points)) WITH CLUSTERING ORDER BY (points DESC);
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('GC',1269,2003,'TIRALONGO');
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('One-day-races',367,2003,'TIRALONGO');
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',182,2003,'TIRALONGO');
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Sprint',0,2003,'TIRALONGO');
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('GC',1324,2004,'KRUIJSWIJK');
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('One-day-races',198,2004,'KRUIJSWIJK');
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Sprint',39,2004,'KRUIJSWIJK');
-INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',3,2004,'KRUIJSWIJK');
+CREATE TABLE cycling.cyclist_category ( category text, points int, id UUID, lastname text, PRIMARY KEY (category, points)) WITH CLUSTERING ORDER BY (points DESC);
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('GC',1269,220844bf-4860-49d6-9a4b-6b5d3a79cbfb,'TIRALONGO');
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('One-day-races',367,220844bf-4860-49d6-9a4b-6b5d3a79cbfb,'TIRALONGO');
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',182,220844bf-4860-49d6-9a4b-6b5d3a79cbfb,'TIRALONGO');
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Sprint',0,220844bf-4860-49d6-9a4b-6b5d3a79cbfb,'TIRALONGO');
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('GC',1324,6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47,'KRUIJSWIJK');
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('One-day-races',198,6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47,'KRUIJSWIJK');
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Sprint',39,6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47,'KRUIJSWIJK');
+INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',3,6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47,'KRUIJSWIJK');
 SELECT * FROM cycling.cyclist_category;
 SELECT lastname, points FROM cycling.cyclist_category WHERE category = 'One-day-races';
 
@@ -46,10 +46,10 @@ SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015 AND race_name='
 // Find a cyclist's id given lastname and firstname
 // Another CREATE TABLE using COMPOSITE PARTITION KEY
 // 2i INDEX ALSO GOOD FOR THIS TABLE
-CREATE TABLE cycling.cyclist_id ( lastname text, firstname text, age int, id int, PRIMARY KEY ((lastname, firstname), age) );
-INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('EENKHOORN','Pascal',18, 3001);
-INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('WELTEN','Bram',18, 3002);
-INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('COSTA','Adrien',17, 3003);
+CREATE TABLE cycling.cyclist_id ( lastname text, firstname text, age int, id UUID, PRIMARY KEY ((lastname, firstname), age) );
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('EENKHOORN','Pascal',18, ffdfa2a7-5fc6-49a7-bfdc-3fcdcfdd7156);
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('WELTEN','Bram',18, 18f471bf-f631-4bc4-a9a2-d6f6cf5ea503);
+INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('COSTA','Adrien',17, 15a116fc-b833-4da6-ab9a-4a7775752836);
 SELECT * FROM cycling.cyclist_id WHERE lastname = 'COSTA' AND firstname = 'Adrien';
 // If you want to search by age, an index can be added
 CREATE INDEX c_age ON cycling.cyclist_id (age);
@@ -69,13 +69,13 @@ SELECT * FROM cycling.country_flag;
 // Q6:
 // Find all teams that a cyclist has been a member of
 //CREATE TABLE WITH SET
-CREATE TABLE cycling.cyclist_career_teams ( id int PRIMARY KEY, lastname text, teams set<text> );
-INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1001, 'VOS', { 'Rabobank-Liv Woman Cycling Team','Rabobank-Liv Giant','Rabobank Women Team','Nederland bloeit' } );
-INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1002, 'VAN DER BREGGEN', { 'Rabobank-Liv Woman Cycling Team','Sengers Ladies Cycling Team','Team Flexpoint' } );
-INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1003, 'ARMITSTEAD', { 'Boels-Dolmans Cycling Team','AA Drink - Leontien.nl','Team Garmin - Cervelo' } );
-INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1005, 'BRAND', { 'Rabobank-Liv Woman Cycling Team','Rabobank-Liv Giant','AA Drink - Leontien.nl','Leontien.nl' } );
+CREATE TABLE cycling.cyclist_career_teams ( id UUID PRIMARY KEY, lastname text, teams set<text> );
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (5b6962dd-3f90-4c93-8f61-eabfa4a803e2, 'VOS', { 'Rabobank-Liv Woman Cycling Team','Rabobank-Liv Giant','Rabobank Women Team','Nederland bloeit' } );
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (e7cd5752-bc0d-4157-a80f-7523add8dbcd, 'VAN DER BREGGEN', { 'Rabobank-Liv Woman Cycling Team','Sengers Ladies Cycling Team','Team Flexpoint' } );
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (cb07baad-eac8-4f65-b28a-bddc06a0de23, 'ARMITSTEAD', { 'Boels-Dolmans Cycling Team','AA Drink - Leontien.nl','Team Garmin - Cervelo' } );
+INSERT INTO cycling.cyclist_career_teams (id,lastname,teams) VALUES (1c9ebc13-1eab-4ad5-be87-dce433216d40, 'BRAND', { 'Rabobank-Liv Woman Cycling Team','Rabobank-Liv Giant','AA Drink - Leontien.nl','Leontien.nl' } );
 SELECT lastname,teams FROM cycling.cyclist_career_teams;
-SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=1001;
+SELECT lastname, teams FROM cycling.cyclist_career_teams WHERE id=5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
 
 // NOT A QUERY, JUST A TABLE FOR QUERIES
 // CREATE TABLE WITH LIST FOR UPDATE
@@ -109,46 +109,46 @@ SELECT * FROM cycling.race_winners WHERE race_name = 'National Championships Sou
 // CREATE TYPE - User-Defined Type, race
 // CREATE TABLE WITH LIST, SIMPLE PRIMARY KEY
 CREATE TYPE cycling.race (race_title text, race_date timestamp, race_time text);
-CREATE TABLE cycling.cyclist_races ( id int PRIMARY KEY, lastname text, firstname text, races list<frozen <race>> );
-INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (1001, 'VOS', 'Marianne', [ {race_title:'Rabobank 7-Dorpenomloop Aalburg',race_date:'2015-05-09',race_time:'02:58:33'},{race_title:'Ronde van Gelderland',race_date:'2015-04-19',race_time:'03:22:23'} 
+CREATE TABLE cycling.cyclist_races ( id UUID PRIMARY KEY, lastname text, firstname text, races list<frozen <race>> );
+INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (5b6962dd-3f90-4c93-8f61-eabfa4a803e2, 'VOS', 'Marianne', [ {race_title:'Rabobank 7-Dorpenomloop Aalburg',race_date:'2015-05-09',race_time:'02:58:33'},{race_title:'Ronde van Gelderland',race_date:'2015-04-19',race_time:'03:22:23'} 
 ]);
-INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (1002, 'VAN DER BREGGEN', 'Anna', [ {race_title:'Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Prologue - Garnich > Garnich',race_date:'2015-05-01',race_time:'08:13:00'},{race_title:'Fest
+INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (e7cd5752-bc0d-4157-a80f-7523add8dbcd, 'VAN DER BREGGEN', 'Anna', [ {race_title:'Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Prologue - Garnich > Garnich',race_date:'2015-05-01',race_time:'08:13:00'},{race_title:'Fest
 ival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 2 - Garnich > Garnich',race_date:'2015-05-02',race_time:'02:41:52'},{race_title:'Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Stage 3 - Mamer > Mamer',race_date:'2015-05-03',race_time:'02:31:24'} ]);
 SELECT * FROM cycling.cyclist_races;
-SELECT lastname, races FROM cycling.cyclist_races WHERE id = 1002;
+SELECT lastname, races FROM cycling.cyclist_races WHERE id = e7cd5752-bc0d-4157-a80f-7523add8dbcd;
 
 // Q10: 
 // Find all teams for a particular cyclist associated with the year of membership
 // teams map<int, text> is map<year, team_name>
 // CREATE TABLE WITH MAP, SIMPLE PRIMARY KEY
-CREATE TABLE cycling.cyclist_teams ( id int PRIMARY KEY, lastname text, firstname text, teams map<int,text> );
-INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1001,'VOS', 'Marianne', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Rabobank-Liv Giant', 2012 : 'Rabobank Women Team', 2011 : 'Nederland bloeit' });
-INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1002,'VAN DER BREGGEN', 'Anna', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Sengers Ladies Cycling Team', 2012 : 'Sengers Ladies Cycling Team', 2009 : 'Team Flexpoint' });
-INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (1003,'ARMITSTEAD', 'Elizabeth', {2015 : 'Boels-Dolmans Cycling Team', 2014 : 'Boels-Dolmans Cycling Team', 2013 : 'Boels-Dolmans Cycling Team', 2012 : 'AA Drink - Leontien.nl', 2011 : 'Team Garmin - Cervelo' });
+CREATE TABLE cycling.cyclist_teams ( id UUID PRIMARY KEY, lastname text, firstname text, teams map<int,text> );
+INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (5b6962dd-3f90-4c93-8f61-eabfa4a803e2,'VOS', 'Marianne', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Rabobank-Liv Giant', 2012 : 'Rabobank Women Team', 2011 : 'Nederland bloeit' });
+INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (e7cd5752-bc0d-4157-a80f-7523add8dbcd,'VAN DER BREGGEN', 'Anna', {2015 : 'Rabobank-Liv Woman Cycling Team', 2014 : 'Rabobank-Liv Woman Cycling Team', 2013 : 'Sengers Ladies Cycling Team', 2012 : 'Sengers Ladies Cycling Team', 2009 : 'Team Flexpoint' });
+INSERT INTO cycling.cyclist_teams (id, lastname, firstname, teams) VALUES (cb07baad-eac8-4f65-b28a-bddc06a0de23,'ARMITSTEAD', 'Elizabeth', {2015 : 'Boels-Dolmans Cycling Team', 2014 : 'Boels-Dolmans Cycling Team', 2013 : 'Boels-Dolmans Cycling Team', 2012 : 'AA Drink - Leontien.nl', 2011 : 'Team Garmin - Cervelo' });
 SELECT lastname, firstname, teams FROM cycling.cyclist_teams;
-SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=1001;
+SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
 
 // Q11:
 // Find all stats for a particular cyclist
 // CREATE TYPE -  UDT, basic_info
 // CREATE TABLE with UDT, SIMPLE PRIMARY KEY
 CREATE TYPE cycling.basic_info ( birthday timestamp, nationality text, weight text, height text );
-CREATE TABLE cycling.cyclist_stats ( id int, lastname text, basics frozen <basic_info>, PRIMARY KEY (id) );
-INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2001, 'FRAME', { birthday:'1993-06-18',nationality:'New Zealand',weight:null,height:null });
-INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2002, 'VIGANO', { birthday:'1984-06-12',nationality:'Italy',weight:'67 kg',height:'1.82 m' });
-INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (2003, 'TIRALONGO', { birthday:'1977-07-08',nationality:'Italy',weight:'63 kg',height:'1.78 m' });
+CREATE TABLE cycling.cyclist_stats ( id UUID, lastname text, basics frozen <basic_info>, PRIMARY KEY (id) );
+INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (e7ae5cf3-d358-4d99-b900-85902fda9bb0, 'FRAME', { birthday:'1993-06-18',nationality:'New Zealand',weight:null,height:null });
+INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (6cbc55e9-1943-47dc-91f2-f8f9e95992eb, 'VIGANO', { birthday:'1984-06-12',nationality:'Italy',weight:'67 kg',height:'1.82 m' });
+INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'TIRALONGO', { birthday:'1977-07-08',nationality:'Italy',weight:'63 kg',height:'1.78 m' });
 SELECT * FROM cycling.cyclist_stats;
-SELECT * FROM cycling.cyclist_stats WHERE id = 2003;
+SELECT * FROM cycling.cyclist_stats WHERE id = 220844bf-4860-49d6-9a4b-6b5d3a79cbfb;
 
 // Q12:
 // Find total number of PCS points for a particular cyclist
 // CREATE TABLE WITH PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN
 // USE STANDARD AGGREGATE IN QUERY
-CREATE TABLE cycling.cyclist_points (id int, firstname text, lastname text, race_title text, race_points int, PRIMARY KEY (id, race_points );
-INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (1004, 'Giorgia','BRONZINI', 'Tour of Chongming Island World Cup', 120);
-INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (1004, 'Giorgia','BRONZINI', 'Trofeo Alfredo Binda - Comune di Cittiglio', 6);
-INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (1004, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
-SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=1004;
+CREATE TABLE cycling.cyclist_points (id UUID, firstname text, lastname text, race_title text, race_points int, PRIMARY KEY (id, race_points );
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Tour of Chongming Island World Cup', 120);
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Trofeo Alfredo Binda - Comune di Cittiglio', 6);
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
+SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=e3b19ec4-774a-4d1c-9e5a-decec1e30aac;
 
 // Q13:
 // USES TABLE cycling.cyclist_points
@@ -196,13 +196,13 @@ SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 
 // NOT A QUERY, JUST AN EXAMPLE 
 // INSERT DATA IN JSON FORMAT
-INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : 2005, "lastname" : "SUTHERLAND" }';
+INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : 829aa84a-4bba-411f-a4fb-38167a987cda, "lastname" : "SUTHERLAND" }';
 
 // NOT A QUERY, JUST AN EXAMPLE
 // UPDATE SET
 // Can only be +
 // Add team to a cyclist's list of teams, order doesn't matter; this example adds it to the end
-UPDATE cycling.cyclist_career_teams SET teams = teams + {'Team DSB - Ballast Nedam'} WHERE id=1001;
+UPDATE cycling.cyclist_career_teams SET teams = teams + {'Team DSB - Ballast Nedam'} WHERE id=5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
 
 // NOT A QUERY, JUST AN EXAMPLE
 // UPDATE LIST
@@ -213,8 +213,8 @@ UPDATE cycling.upcoming_calendar SET events[2] = 'Vuelta Ciclista a Venezuela' W
 // NOT A QUERY, JUST AN EXAMPLE
 // UPDATE MAP
 // Can only be +
-UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'DSB Bank - Nederland bloeit'} WHERE id = 1001;
-SELECT teams FROM cycling.cyclist_teams WHERE id = 1001;
+UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'DSB Bank - Nederland bloeit'} WHERE id = 5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
+SELECT teams FROM cycling.cyclist_teams WHERE id = 5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
 
 // Q22:
 // UPDATE AND SELECT USING TTL
@@ -256,7 +256,7 @@ PAGING OFF; SELECT * FROM cycling.calendar WHERE race_id IN (100, 101, 102) AND 
 // Standard Aggregates
 // Find sum of cyclist points for a particular cyclist
 // Find the number of cyclists from a particular country
-SELECT sum(race_points) FROM cycling.cyclist_points WHERE id = 1004;
+SELECT sum(race_points) FROM cycling.cyclist_points WHERE id = e3b19ec4-774a-4d1c-9e5a-decec1e30aac;
 SELECT count(cyclist_name) FROM cycling.country_flag WHERE country='Belgium';
 
 // Q25
@@ -275,8 +275,8 @@ SELECT * FROM cycling.race_times WHERE race_name = '17th Santos Tour Down Under'
 // Note that what is inserted is data for the SAME cyclist, to two tables
 SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 BEGIN BATCH
-  INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1006, 'PIETERS', 'Amy');
-  INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('PIETERS', 'Amy', 23, 1006);
+  INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (c7fceba0-c141-4207-9494-a29f9809de6f, 'PIETERS', 'Amy');
+  INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('PIETERS', 'Amy', 23, c7fceba0-c141-4207-9494-a29f9809de6f);
 APPLY BATCH;
 SELECT * FROM cycling.cyclist_name;
 SELECT * FRM cycling.cyclist_id;
@@ -285,10 +285,10 @@ SELECT * FRM cycling.cyclist_id;
 // BATCH statement MISUSE
 // Insert data into same table, but involves multiple nodes due to partition key = id
 BEGIN BATCH
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1008,'HOSKINS', 'Melissa);
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1009,'FERNANDES', 'Marcia');
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1010,'NIEWIADOMA', 'Katarzyna');
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (1011,'ADRIAN', 'Vera');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (6d5f1663-89c0-45fc-8cfd-60a373b01622,'HOSKINS', 'Melissa);
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (38ab64b6-26cc-4de9-ab28-c257cf011659,'FERNANDES', 'Marcia');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (9011d3be-d35c-4a8d-83f7-a3c543789ee7,'NIEWIADOMA', 'Katarzyna');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (95addc4c-459e-4ed7-b4b5-472f19a67995,'ADRIAN', 'Vera');
 APPLY BATCH;
 
 // NOT A QUERY, JUST AN EXAMPLE:
@@ -318,26 +318,26 @@ APPLY BATCH;
 // NOT A QUERY, JUST AN EXAMPLE
 // LIGHTWEIGHT TRANSACTION
 // Insert or update information using a conditional statement
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (1007, 'RATTO', 'Rissella') IF NOT EXISTS;
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (c4b65263-fe58-4846-83e8-f0e1c13d518f, 'RATTO', 'Rissella') IF NOT EXISTS;
 
 // UPDATE USING LIGHTWEIGHT TRANSACTION
-UPDATE cycling.cyclist_name SET firstname = 'Rossella' WHERE id=1007 IF lastname = 'RATTO';
+UPDATE cycling.cyclist_name SET firstname = 'Rossella' WHERE id=c4b65263-fe58-4846-83e8-f0e1c13d518f IF lastname = 'RATTO';
 
 // Q26
 // QUERY USING MULTIPLE INDEXES
 // DISCUSSION OF THE NEED FOR ALLOW FILTERING
 // IS THIS BETTER THAN cyclist_stats??
-CREATE TABLE cycling.cyclist_alt_stats ( id int PRIMARY KEY, lastname text, birthday timestamp, nationality text, weight text, height text );
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1020,'TSATEVICH', '1989-07-05', 'Russia', '64 kg', '1.69 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1021,'ISAYCHEV', '1986-04-21', 'Russia', '80 kg', '1.88 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1022,'BELKOV', '1985-01-09', 'Russia', '71 kg', '1.84 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1023,'BRUTT', '1982-01-29', 'Russia', '68 kg', '1.78 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1024,'LAGUTIN', '1981-01-14', 'Russia', '63 kg', '1.82 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1025,'GRMAY', '1991-08-25', 'Ethiopia', '63 kg', '1.75 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1026,'VEIKKANEN', '1981-03-29', 'Finland', '66 kg', '1.78 m');
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1027,'TLEUBAYEV', '1987-03-07', 'Kazakhstan', null, null);
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1028,'PAULINHO', '1990-05-27', 'Portugal', null, null);
-INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1029,'DUVAL', '1990-05-27','France', null, null);
+CREATE TABLE cycling.cyclist_alt_stats ( id UUID PRIMARY KEY, lastname text, birthday timestamp, nationality text, weight text, height text );
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (ed584e99-80f7-4b13-9a90-9dc5571e6821,'TSATEVICH', '1989-07-05', 'Russia', '64 kg', '1.69 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (a9e96714-2dd0-41f9-8bd0-557196a44ecf,'ISAYCHEV', '1986-04-21', 'Russia', '80 kg', '1.88 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (823ec386-2a46-45c9-be41-2425a4b7658e,'BELKOV', '1985-01-09', 'Russia', '71 kg', '1.84 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (e0953617-07eb-4c82-8f91-3b2757981625,'BRUTT', '1982-01-29', 'Russia', '68 kg', '1.78 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (078654a6-42fa-4142-ae43-cebdc67bd902,'LAGUTIN', '1981-01-14', 'Russia', '63 kg', '1.82 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (d74d6e70-7484-4df5-8551-f5090c37f617,'GRMAY', '1991-08-25', 'Ethiopia', '63 kg', '1.75 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (c09e9451-50da-483d-8108-e6bea2e827b3,'VEIKKANEN', '1981-03-29', 'Finland', '66 kg', '1.78 m');
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (f1deff54-7d96-4981-b14a-b70be4da82d2,'TLEUBAYEV', '1987-03-07', 'Kazakhstan', null, null);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (1ba0417d-62da-4103-b710-de6fb227db6f,'PAULINHO', '1990-05-27', 'Portugal', null, null);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname, birthday, nationality, weight, height) VALUES (4ceb495c-55ab-4f71-83b9-81117252bb13,'DUVAL', '1990-05-27','France', null, null);
 CREATE INDEX birthday_idx ON cycling.cyclist_alt_stats (birthday);
 CREATE INDEX nationality_idx ON cycling.cyclist_alt_stats (nationality);
 SELECT * FROM cycling.cyclist_alt_stats WHERE birthday = '1982-01-29' AND nationality = 'Russia' ALLOW FILTERING;
@@ -377,15 +377,15 @@ SELECT token(year) FROM cycling.last_3_days; //PRINTS partition hash
 DELETE FROM cycling.calendar WHERE race_id = 200;
 
 // DELETE COLUMN VALUE
-DELETE lastname FROM cycling.cyclist_name WHERE id = 1006;
-UPDATE cycling.cyclist_name SET lastname = 'PIETERS' WHERE id = 1006; // TO RESTORE THE COLUMN VALUE
+DELETE lastname FROM cycling.cyclist_name WHERE id = c7fceba0-c141-4207-9494-a29f9809de6f;
+UPDATE cycling.cyclist_name SET lastname = 'PIETERS' WHERE id = c7fceba0-c141-4207-9494-a29f9809de6f; // TO RESTORE THE COLUMN VALUE
 
 // DELETE ITEM FROM LIST
 DELETE events[2] FROM cycling.upcoming_calendar WHERE year = 2015 AND month = 06;
 
 // DELETE ITEM FROM MAP
-DELETE teams[2009] FROM cycling.cyclist_teams WHERE id=1002;
-UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'Team Flexpoint' } WHERE id = 1002; // TO RESTORE THE MAP VALUE
+DELETE teams[2009] FROM cycling.cyclist_teams WHERE id=e7cd5752-bc0d-4157-a80f-7523add8dbcd;
+UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'Team Flexpoint' } WHERE id = e7cd5752-bc0d-4157-a80f-7523add8dbcd; // TO RESTORE THE MAP VALUE
 
 // ALTER TABLE
 // ADD COLUMN
