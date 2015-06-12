@@ -96,7 +96,7 @@ SELECT * FROM cycling.upcoming_calendar WHERE year=2015 AND month=06;
 // Q8:
 // SIMPLE USER-DEFINED TYPE
 CREATE TYPE cycling.fullname ( firstname text, lastname text );
-CREATE TABLE cycling.race_winners (race_name text, race_position int, cyclist_name frozen<fullname>, PRIMARY KEY (race_name, race_position));
+CREATE TABLE cycling.race_winners (race_name text, race_position int, cyclist_name FROZEN<fullname>, PRIMARY KEY (race_name, race_position));
 INSERT INTO cycling.race_winners (race_name, race_position, cyclist_name) VALUES ('National Championships South Africa WJ-ITT (CN)', 1, {firstname:'Frances',lastname:'DU TOUT'});
 INSERT INTO cycling.race_winners (race_name, race_position, cyclist_name) VALUES ('National Championships South Africa WJ-ITT (CN)', 2, {firstname:'Lynette',lastname:'BENSON'});
 INSERT INTO cycling.race_winners (race_name, race_position, cyclist_name) VALUES ('National Championships South Africa WJ-ITT (CN)', 3, {firstname:'Anja',lastname:'GERBER'});
@@ -109,7 +109,7 @@ SELECT * FROM cycling.race_winners WHERE race_name = 'National Championships Sou
 // CREATE TYPE - User-Defined Type, race
 // CREATE TABLE WITH LIST, SIMPLE PRIMARY KEY
 CREATE TYPE cycling.race (race_title text, race_date timestamp, race_time text);
-CREATE TABLE cycling.cyclist_races ( id UUID PRIMARY KEY, lastname text, firstname text, races list<frozen <race>> );
+CREATE TABLE cycling.cyclist_races ( id UUID PRIMARY KEY, lastname text, firstname text, races list<FROZEN <race>> );
 INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (5b6962dd-3f90-4c93-8f61-eabfa4a803e2, 'VOS', 'Marianne', [ {race_title:'Rabobank 7-Dorpenomloop Aalburg',race_date:'2015-05-09',race_time:'02:58:33'},{race_title:'Ronde van Gelderland',race_date:'2015-04-19',race_time:'03:22:23'} 
 ]);
 INSERT INTO cycling.cyclist_races (id, lastname, firstname, races) VALUES (e7cd5752-bc0d-4157-a80f-7523add8dbcd, 'VAN DER BREGGEN', 'Anna', [ {race_title:'Festival Luxembourgeois du cyclisme feminin Elsy Jacobs - Prologue - Garnich > Garnich',race_date:'2015-05-01',race_time:'08:13:00'},{race_title:'Fest
@@ -133,7 +133,7 @@ SELECT lastname, firstname, teams FROM cycling.cyclist_teams WHERE id=5b6962dd-3
 // CREATE TYPE -  UDT, basic_info
 // CREATE TABLE with UDT, SIMPLE PRIMARY KEY
 CREATE TYPE cycling.basic_info ( birthday timestamp, nationality text, weight text, height text );
-CREATE TABLE cycling.cyclist_stats ( id UUID, lastname text, basics frozen <basic_info>, PRIMARY KEY (id) );
+CREATE TABLE cycling.cyclist_stats ( id UUID, lastname text, basics FROZEN <basic_info>, PRIMARY KEY (id) );
 INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (e7ae5cf3-d358-4d99-b900-85902fda9bb0, 'FRAME', { birthday:'1993-06-18',nationality:'New Zealand',weight:null,height:null });
 INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (6cbc55e9-1943-47dc-91f2-f8f9e95992eb, 'VIGANO', { birthday:'1984-06-12',nationality:'Italy',weight:'67 kg',height:'1.82 m' });
 INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'TIRALONGO', { birthday:'1977-07-08',nationality:'Italy',weight:'63 kg',height:'1.78 m' });
@@ -405,7 +405,7 @@ ALTER TYPE cycling.fullname RENAME middlename middleinitial;
 // Q29:
 // TUPLE
 // Store the latitude/longitude waypoints for the route of a race
-CREATE TABLE cycling.route (race_id int, race_name text, point_id int, lat_long FROZEN <tuple<text, tuple<float,float>>>, PRIMARY KEY (race_id, point_id));
+CREATE TABLE cycling.route (race_id int, race_name text, point_id int, lat_long tuple<text, tuple<float,float>>, PRIMARY KEY (race_id, point_id));
 INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 1, ('Onnens', (46.8444,6.6667)));
 INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 2, ('Champagne', (46.833, 6.65)));
 INSERT INTO cycling.route (race_id, race_name, point_id, lat_long) VALUES (500, '47th Tour du Pays de Vaud', 3, ('Novalle', (46.833, 6.6)));
@@ -422,7 +422,7 @@ SELECT DISTINCT race_id from cycling.route;
 // Q31:
 // TUPLE
 // Rank nations by points, including top cyclist
-CREATE TABLE nation_rank ( nation text PRIMARY KEY, info FROZEN <tuple<int,text,int>> );
+CREATE TABLE nation_rank ( nation text PRIMARY KEY, info tuple<int,text,int> );
 INSERT INTO nation_rank (nation, info) VALUES ('Spain', (1,'Alejandro VALVERDE' , 9054));
 INSERT INTO nation_rank (nation, info) VALUES ('France', (2,'Sylvain CHAVANEL' , 6339));
 INSERT INTO nation_rank (nation, info) VALUES ('Belgium', (3,'Phillippe GILBERT' , 6222));
@@ -432,7 +432,7 @@ SELECT * FROM nation_rank;
 // Q32:
 // TUPLE
 // Popular Riders
-CREATE TABLE popular (rank int PRIMARY KEY, cinfo FROZEN <tuple<text,text,int>> );
+CREATE TABLE popular (rank int PRIMARY KEY, cinfo tuple<text,text,int> );
 INSERT INTO popular (rank, cinfo) VALUES (1, ('Spain', 'Mikel LANDA', 1137));
 INSERT INTO popular (rank, cinfo) VALUES (2, ('Netherlands', 'Steven KRUIJSWIJK', 621));
 INSERT INTO popular (rank, cinfo) VALUES (3, ('USA', 'Matthew BUSCHE', 230));
@@ -442,7 +442,7 @@ SELECT * FROM popular;
 
 ============================
 
-CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<frozen <fullname>>, PRIMARY KEY (race, year) );
+CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<FROZEN <fullname>>, PRIMARY KEY (race, year) );
 
 INSERT INTO cycling.top_five (race, year, top5) VALUES ('Tour de Romandie', '2015-05-03', [{firstname: 'Ilnur', lastname: 'Zakarin'}, {firstname: 'Simon', lastname: 'Spilak'}]);
 UPDATE top_five SET top5 = top5 + [{firstname:'Christopher', lastname:'Froome'}] WHERE race = 'Tour de Romandie' AND year = '2015-05-03';
@@ -452,7 +452,7 @@ SELECT * FROM top_five;
 // Procyclingstats.org - my DM for it
 
 // This will produce the data that could be used to do a 3-DAY listing with either (1) application logic to get last 3 days or (2) USING TTL and entering data promptly
-CREATE TABLE three_day ( race_date timestamp, race_name text, cyclist_rank int, cyclist_name frozen <fullname>, cyclist_team_name text, cyclist_race_time text, cyclist_country text, photo_blob blob, entry timestamp, PRIMARY KEY (race_date, cyclist_rank, race_name));
+CREATE TABLE three_day ( race_date timestamp, race_name text, cyclist_rank int, cyclist_name FROZEN <fullname>, cyclist_team_name text, cyclist_race_time text, cyclist_country text, photo_blob blob, entry timestamp, PRIMARY KEY (race_date, cyclist_rank, race_name));
 COPY three_day (race_date, race_name, cyclist_rank, cyclist_name,cyclist_team_name,cyclist_race_time,cyclist_country,entry) FROM '~/CLONES/cassandra-example-code-LLP/C3.0/cy.csv' WITH HEADER=true AND DELIMITER='|';
 SELECT * FROM three_day;
 
