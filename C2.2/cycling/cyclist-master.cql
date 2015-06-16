@@ -422,24 +422,34 @@ SELECT DISTINCT race_id from cycling.route;
 // Q31:
 // TUPLE
 // Rank nations by points, including top cyclist
-CREATE TABLE nation_rank ( nation text PRIMARY KEY, info tuple<int,text,int> );
-INSERT INTO nation_rank (nation, info) VALUES ('Spain', (1,'Alejandro VALVERDE' , 9054));
-INSERT INTO nation_rank (nation, info) VALUES ('France', (2,'Sylvain CHAVANEL' , 6339));
-INSERT INTO nation_rank (nation, info) VALUES ('Belgium', (3,'Phillippe GILBERT' , 6222));
-INSERT INTO nation_rank (nation, info) VALUES ('Italy', (4,'Davide REBELLINI' , 6090));
-SELECT * FROM nation_rank;
+CREATE TABLE cycling.nation_rank ( nation text PRIMARY KEY, info tuple<int,text,int> );
+INSERT INTO cycling.nation_rank (nation, info) VALUES ('Spain', (1,'Alejandro VALVERDE' , 9054));
+INSERT INTO cycling.nation_rank (nation, info) VALUES ('France', (2,'Sylvain CHAVANEL' , 6339));
+INSERT INTO cycling.nation_rank (nation, info) VALUES ('Belgium', (3,'Phillippe GILBERT' , 6222));
+INSERT INTO cycling.nation_rank (nation, info) VALUES ('Italy', (4,'Davide REBELLINI' , 6090));
+SELECT * FROM cycling.nation_rank;
 
 // Q32:
 // TUPLE
 // Popular Riders
-CREATE TABLE popular (rank int PRIMARY KEY, cinfo tuple<text,text,int> );
-INSERT INTO popular (rank, cinfo) VALUES (1, ('Spain', 'Mikel LANDA', 1137));
-INSERT INTO popular (rank, cinfo) VALUES (2, ('Netherlands', 'Steven KRUIJSWIJK', 621));
-INSERT INTO popular (rank, cinfo) VALUES (3, ('USA', 'Matthew BUSCHE', 230));
-INSERT INTO popular (rank, cinfo) VALUES (4, ('Italy', 'Fabio ARU', 163));
-INSERT INTO popular (rank, cinfo) VALUES (5, ('Canada', 'Ryder HESJEDAL', 148));
-SELECT * FROM popular;
+CREATE TABLE cycling.popular (rank int PRIMARY KEY, cinfo tuple<text,text,int> );
+INSERT INTO cycling.popular (rank, cinfo) VALUES (1, ('Spain', 'Mikel LANDA', 1137));
+INSERT INTO cycling.popular (rank, cinfo) VALUES (2, ('Netherlands', 'Steven KRUIJSWIJK', 621));
+INSERT INTO cycling.popular (rank, cinfo) VALUES (3, ('USA', 'Matthew BUSCHE', 230));
+INSERT INTO cycling.popular (rank, cinfo) VALUES (4, ('Italy', 'Fabio ARU', 163));
+INSERT INTO cycling.popular (rank, cinfo) VALUES (5, ('Canada', 'Ryder HESJEDAL', 148));
+SELECT * FROM cycling.popular;
 
+// Q33:
+// COUNTER TABLE
+// Keep the count for popularity, incrementing or decrementing
+CREATE TABLE cycling.popular_count ( id UUID PRIMARY KEY, popularity counter );
+UPDATE cycling.popular_count SET popularity = popularity + 1 WHERE id = 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47;
+SELECT * FROM cycling.popular_count;
+UPDATE cycling.popular_count SET popularity = popularity + 125 WHERE id = 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47;
+SELECT * FROM cycling.popular_count;
+UPDATE cycling.popular_count SET popularity = popularity - 64 WHERE id = 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47;
+SELECT * FROM cycling.popular_count;
 ============================
 
 CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<FROZEN <fullname>>, PRIMARY KEY (race, year) );
