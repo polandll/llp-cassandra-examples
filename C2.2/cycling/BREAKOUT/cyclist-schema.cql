@@ -127,14 +127,14 @@ CREATE TABLE cycling.last_3_days (race_name text, year timestamp, rank int, cycl
 // Q29:
 // TUPLE
 // Store the latitude/longitude waypoints for the route of a race
-CREATE TABLE cycling.route (race_id int, race_name text, point_id int, lat_long FROZEN <tuple<text, tuple<float,float>>>, PRIMARY KEY (race_id, point_id));
+CREATE TABLE cycling.route (race_id int, race_name text, point_id int, lat_long tuple<text, tuple<float,float>>, PRIMARY KEY (race_id, point_id));
 
 // Q31:
 // TUPLE
 // Rank nations by points, including top cyclist
-CREATE TABLE nation_rank ( nation text PRIMARY KEY, info FROZEN <tuple<int,text,int>> );
+CREATE TABLE nation_rank ( nation text PRIMARY KEY, info tuple<int,text,int> );
 
 // Q32:
 // TUPLE
 // Popular Riders
-CREATE TABLE popular (rank int PRIMARY KEY, cinfo FROZEN <tuple<text,text,int>> );
+CREATE TABLE popular (rank int PRIMARY KEY, cinfo tuple<text,text,int> );
