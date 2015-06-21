@@ -196,7 +196,7 @@ SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 
 // NOT A QUERY, JUST AN EXAMPLE 
 // INSERT DATA IN JSON FORMAT
-INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : 829aa84a-4bba-411f-a4fb-38167a987cda, "lastname" : "SUTHERLAND" }';
+INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : "829aa84a-4bba-411f-a4fb-38167a987cda", "lastname" : "SUTHERLAND" }';
 
 // NOT A QUERY, JUST AN EXAMPLE
 // UPDATE SET
@@ -215,6 +215,7 @@ UPDATE cycling.upcoming_calendar SET events[2] = 'Vuelta Ciclista a Venezuela' W
 // Can only be +
 UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'DSB Bank - Nederland bloeit'} WHERE id = 5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
 SELECT teams FROM cycling.cyclist_teams WHERE id = 5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
+UPDATE cycling.cyclist_teams SET teams[2006] = 'Team DSB - Ballast Nedam' WHERE id = 5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
 
 // Q22:
 // UPDATE AND SELECT USING TTL
