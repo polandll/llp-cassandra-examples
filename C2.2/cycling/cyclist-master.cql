@@ -1,4 +1,4 @@
-USE cycling;
+USy cycling;
 CREATE KEYSPACE IF NOT EXISTS cycling WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
 // Q1:
@@ -197,6 +197,11 @@ SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 // NOT A QUERY, JUST AN EXAMPLE 
 // INSERT DATA IN JSON FORMAT
 INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : "829aa84a-4bba-411f-a4fb-38167a987cda", "lastname" : "SUTHERLAND" }';
+<<<<<<< HEAD
+// null INSERTION EXAMPLE
+INSERT INTO cycling.cyclist_category JSON '{ "category" : "Sprint", "points" : 700, "id" : "829aa84a-4bba-411f-a4fb-38167a987cda" }';
+=======
+>>>>>>> 85b3772340b335f42c778f631f62f67ae5a5ee41
 
 // NOT A QUERY, JUST AN EXAMPLE
 // UPDATE SET
