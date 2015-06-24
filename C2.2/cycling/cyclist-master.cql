@@ -16,7 +16,7 @@ SELECT lastname, firstname FROM cycling.cyclist_name WHERE id = 6ab09bec-e68e-48
 // Q2:
 // Find cyclists that fit a particular category
 // CREATE TABLE CLUSTERING ORDER, PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN, SIMPLE WHERE QUERY
-CREATE TABLE cycling.cyclist_category ( category text, points int, id UUID, lastname text, PRIMARY KEY (category, points)) WITH CLUSTERING ORDER BY (points DESC);
+CREATE TABLE cycling.cyclist_category ( category text, points int, id UUID, lastname text, PRIMARY KEY (category, id, points)) WITH CLUSTERING ORDER BY (points DESC);
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('GC',1269,220844bf-4860-49d6-9a4b-6b5d3a79cbfb,'TIRALONGO');
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('One-day-races',367,220844bf-4860-49d6-9a4b-6b5d3a79cbfb,'TIRALONGO');
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',182,220844bf-4860-49d6-9a4b-6b5d3a79cbfb,'TIRALONGO');
@@ -27,6 +27,7 @@ INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('S
 INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('Time-trial',3,6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47,'KRUIJSWIJK');
 SELECT * FROM cycling.cyclist_category;
 SELECT lastname, points FROM cycling.cyclist_category WHERE category = 'One-day-races';
+
 
 // Q3:
 // Store race information by year and race name using a COMPOSITE PARTITION KEY
@@ -58,7 +59,7 @@ SELECT * FROM cycling.cyclist_id WHERE age = 18;
 // Q5:
 // Display flag for riders
 // CREATE TABLE WITH STATIC COLUMN, example uses an integer to identify flag, but it could be a blob
-CREATE TABLE cyclist.country_flag (country text, cyclist_name text, flag int STATIC, PRIMARY KEY (country, cyclist_name));
+CREATE TABLE cycling.country_flag (country text, cyclist_name text, flag int STATIC, PRIMARY KEY (country, cyclist_name));
 INSERT INTO cycling.country_flag (country, cyclist_name, flag) VALUES ('Belgium', 'Jacques', 1);
 INSERT INTO cycling.country_flag (country, cyclist_name) VALUES ('Belgium', 'Andre');
 INSERT INTO cycling.country_flag (country, cyclist_name, flag) VALUES ('France', 'Andre', 2);
@@ -148,14 +149,20 @@ CREATE TABLE cycling.cyclist_points (id UUID, firstname text, lastname text, rac
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Tour of Chongming Island World Cup', 120);
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Trofeo Alfredo Binda - Comune di Cittiglio', 6);
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'Paolo','TIRALONGO', '98th Giro d''Italia - Stage 15', 2);
 SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=e3b19ec4-774a-4d1c-9e5a-decec1e30aac;
 
 // Q13:
 // USES TABLE cycling.cyclist_points
 // Find total number of PCS points for a particular cyclist using a user-defined function (UDF) created using java function log
 // CREATE UDF
+CREATE TABLE cycling.cyclist_dpoints (id UUID, firstname text, lastname text, race_title text, race_points double, PRIMARY KEY (id, race_points );
+INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Tour of Chongming Island World Cup', 120);
+INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Trofeo Alfredo Binda - Comune di Cittiglio', 6);
+INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
+INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'Paolo','TIRALONGO', '98th Giro d''Italia - Stage 15', 2);
 CREATE OR REPLACE FUNCTION fLog (input double) RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
-SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_points;
+SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_dpoints;
 
 // Q14:
 //Find the average race_time in seconds for a particular race for a particular team.
@@ -197,11 +204,8 @@ SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 // NOT A QUERY, JUST AN EXAMPLE 
 // INSERT DATA IN JSON FORMAT
 INSERT INTO cycling.cyclist_category JSON '{ "category" : "GC", "points" : 780, "id" : "829aa84a-4bba-411f-a4fb-38167a987cda", "lastname" : "SUTHERLAND" }';
-<<<<<<< HEAD
 // null INSERTION EXAMPLE
 INSERT INTO cycling.cyclist_category JSON '{ "category" : "Sprint", "points" : 700, "id" : "829aa84a-4bba-411f-a4fb-38167a987cda" }';
-=======
->>>>>>> 85b3772340b335f42c778f631f62f67ae5a5ee41
 
 // NOT A QUERY, JUST AN EXAMPLE
 // UPDATE SET
@@ -249,8 +253,9 @@ SELECT JSON month, year, events FROM cycling.upcoming_calendar;
 // QUERY - WHERE ... IN SIMPLE
 // Notice the difference between using 'ORDER BY points DESC' and not using it - changes the order of reporting
 // Find all cyclists for a particular category and order by points
-PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY points DESC;
-PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY points ASC;
+>>>>>>> 85b3772340b335f42c778f631f62f67ae5a5ee41
+PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY id DESC;
+PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY id ASC;
 
 // Q21:
 // QUERY - WHERE ... IN COMPLEX
@@ -306,15 +311,15 @@ INSERT INTO cycling.cyclist_expenses (cyclist_name, balance) VALUES ('Vera ADRIA
 INSERT INTO cycling.cyclist_expenses (cyclist_name, expense_id, amount, description, paid) VALUES ('Vera ADRIAN', 1, 7.95, 'Breakfast', false);
 APPLY BATCH;
 
+UPDATE cycling.cyclist_expenses SET balance = -7.95 WHERE cyclist_name = 'Vera ADRIAN' IF balance = 0;
+
 // NOT A QUERY, JUST AN EXAMPLE:
 // BATCH statement WITH CONDITIONAL "IF"
 BEGIN BATCH
-UPDATE cycling.cyclist_expenses SET balance = -7.95 WHERE cyclist_name = 'Vera ADRIAN' IF balance = 0;
 INSERT INTO cycling.cyclist_expenses (cyclist_name, expense_id, amount, description, paid) VALUES ('Vera ADRIAN', 2, 13.44, 'Lunch', true);
 INSERT INTO cycling.cyclist_expenses (cyclist_name, expense_id, amount, description, paid) VALUES ('Vera ADRIAN', 3, 25.00, 'Dinner', false);
+UPDATE cycling.cyclist_expenses SET balance = -32.95 WHERE cyclist_name = 'Vera ADRIAN' IF balance = -7.95;
 APPLY BATCH;
-
-UPDATE cycling.cyclist_expenses SET balance = -7.95 WHERE cyclist_name = 'Vera ADRIAN' IF balance = 0;
 
 // NOT A QUERY, JUST AN EXAMPLE:
 // BATCH statement WITH CONDITIONAL "IF"
