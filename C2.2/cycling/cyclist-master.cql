@@ -156,21 +156,21 @@ SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=e3b19ec4-774a-4d1c-
 // USES TABLE cycling.cyclist_points
 // Find total number of PCS points for a particular cyclist using a user-defined function (UDF) created using java function log
 // CREATE UDF
-CREATE TABLE cycling.cyclist_dpoints (id UUID, firstname text, lastname text, race_title text, race_points double, PRIMARY KEY (id, race_points ));
-INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Tour of Chongming Island World Cup', 120);
-INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Trofeo Alfredo Binda - Comune di Cittiglio', 6);
-INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
-INSERT INTO cycling.cyclist_dpoints (id, firstname, lastname, race_title, race_points) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'Paolo','TIRALONGO', '98th Giro d''Italia - Stage 15', 2);
+CREATE TABLE cycling.cyclist_points (id UUID, firstname text, lastname text, race_title text, race_points double, PRIMARY KEY (id, race_points ));
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Tour of Chongming Island World Cup', 120);
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Trofeo Alfredo Binda - Comune di Cittiglio', 6);
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
+INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'Paolo','TIRALONGO', '98th Giro d''Italia - Stage 15', 2);
 CREATE OR REPLACE FUNCTION fLog (input double) CALLED ON NULL INPUT RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
-SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_dpoints;
+SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_points;
 
 // Q14:
 //Find the average race_time in seconds for a particular race for a particular team.
 // CREATE UDA that computes the average value
 //CREATE TABLE WITH SIMPLE PRIMARY KEY: PARTITION KEY + 2 CLUSTERING COLUMNS
-CREATE OR REPLACE FUNCTION avgState ( state tuple<int,bigint>, val int ) RETURNS tuple<int,bigint> LANGUAGE java AS 'if (val !=null) { state.setInt(0, state.getInt(0)+1; state.setLong(1, state.getLong(1)+val.intValue()); } return state;'; 
-CREATE OR REPLACE FUNCTION avgFinal ( state tuple<int,bigint> ) RETURNS double LANGUAGE java AS 'double r = 0; if (state.getInt(0) == 0) return null; r = state.getLong(1); r/= state.getInt(0); return Double.valueOf(r);';
-CREATE AGGREGATE average ( int ) SFUNC averageState STYPE tuple<int,bigint> FINALFUNC averageFinal INITCOND (0,0);
+CREATE OR REPLACE FUNCTION avgState ( state tuple<int,bigint>, val int ) CALLED ON NULL INPUT RETURNS tuple<int,bigint> LANGUAGE java AS 'if (val !=null) { state.setInt(0, state.getInt(0)+1); state.setLong(1, state.getLong(1)+val.intValue()); } return state;'; 
+CREATE OR REPLACE FUNCTION avgFinal ( state tuple<int,bigint> ) CALLED ON NULL INPUT RETURNS double LANGUAGE java AS 'double r = 0; if (state.getInt(0) == 0) return null; r = state.getLong(1); r/= state.getInt(0); return Double.valueOf(r);';
+CREATE AGGREGATE average ( int ) SFUNC avgState STYPE tuple<int,bigint> FINALFUNC avgFinal INITCOND (0,0);
 CREATE TABLE cycling.team_average (team_name text, cyclist_name text, cyclist_time_sec int, race_title text, PRIMARY KEY (team_name, race_title,cyclist_name));
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('UnitedHealthCare Pro Cycling Womens Team','Katie HALL',11449,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('UnitedHealthCare Pro Cycling Womens Team','Linda VILLUMSEN',11485,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
@@ -187,18 +187,21 @@ SELECT average(cyclist_time_sec) FROM cycling.team_average WHERE team_name='Unit
 CREATE INDEX ryear ON cycling.rank_by_year_and_name (race_year);
 // This will not work without the index, because the table has a composite partition key
 SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015;
+// INDEX on clustering column
+CREATE INDEX rrank ON cycling.rank_by_year_and_name (rank);
+SELECT * FROM cycling.rank_by_year_and_name WHERE rank = 1;
 
 // Q16:
 // CREATE INDEX - COLLECTION - SET
 // Find all the cyclists that have been on a particular team
 CREATE INDEX team ON cycling.cyclist_career_teams (teams);
-SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Nederland bloeit';
-SELECT * FROM cyclist.cyclist_career_teams WHERE teams CONTAINS 'Rabobank-Liv Giant';
+SELECT * FROM cycling.cyclist_career_teams WHERE teams CONTAINS 'Nederland bloeit';
+SELECT * FROM cycling.cyclist_career_teams WHERE teams CONTAINS 'Rabobank-Liv Giant';
 
 // Q17: 
 // CREATE INDEX - COLLECTION ON MAP KEYS
 // Find all cyclist/team combinations for a particular year
-CREATE INDEX team_year ON cycling.cyclist_teams (KEY(teams));
+CREATE INDEX team_year ON cycling.cyclist_teams (KEYS(teams));
 SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 
 // NOT A QUERY, JUST AN EXAMPLE 
@@ -231,7 +234,7 @@ UPDATE cycling.cyclist_teams SET teams[2006] = 'Team DSB - Ballast Nedam' WHERE 
 // QUERY TO FIND TIME-TO-LIVE
 // Insert is to put in dummy record, UPDATE gives it a TTL
 // Repeated use of the SELECT will show the TTL as it counts down
-INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (200, 'placeholder', '2015-05-27', '2015-05-27');
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (200, 'placeholder', '2015-05-27', '2015-05-27') USING TTL;
 UPDATE cycling.calendar USING TTL 300 SET race_name = 'dummy' WHERE race_id = 200 AND race_start_date = '2015-05-27' AND race_end_date = '2015-05-27';
 SELECT TTL(race_name) FROM cycling.calendar WHERE race_id=200;
 
@@ -274,11 +277,11 @@ SELECT count(cyclist_name) FROM cycling.country_flag WHERE country='Belgium';
 // QUERY - SCAN A PARTITION
 // Find all cyclists that finished a race in a particular window of time
 CREATE TABLE cycling.race_times (race_name text, cyclist_name text, race_time text, PRIMARY KEY (race_name, race_time));
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Rohan DENNIS', '19:15:18'  );
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Richie PORTE', '19:15:20'  );
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Cadel EVANS', '19:15:38'  );
-INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Tom DUMOULIN', '19:15:40' );
-SELECT * FROM cycling.race_times WHERE race_name = '17th Santos Tour Down Under' AND race_time >= '19:15:19' AND race_time <= '19:15:39' );
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Rohan DENNIS', '19:15:18');
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Richie PORTE', '19:15:20');
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Cadel EVANS', '19:15:38');
+INSERT INTO cycling.race_times (race_name, cyclist_name, race_time) VALUES ('17th Santos Tour Down Under', 'Tom DUMOULIN', '19:15:40');
+SELECT * FROM cycling.race_times WHERE race_name = '17th Santos Tour Down Under' AND race_time >= '19:15:19' AND race_time <= '19:15:39';
 
 // NOT A QUERY, JUST AN EXAMPLE:
 // BATCH statement
@@ -405,14 +408,19 @@ UPDATE cycling.cyclist_teams SET teams = teams + {2009 : 'Team Flexpoint' } WHER
 // ADD COLUMN
 ALTER TABLE cycling.cyclist_alt_stats ADD age int;
 
+// ALTER TABLE WITH COLLECTION
+ALTER TABLE cycling.upcoming_calendar ADD description map<text,text>;
+UPDATE cycling.upcoming_calendar SET description = description + {'Criterium du Dauphine' : "Easy race', 'Tour du Suisse' : 'Hard uphill race'} WHERE year = 2015 AND month = 6;
+
 // ALTER TABLE AND ALTER COLUMN TYPE
 // ADDS COLUMN as varchar and then changes it to text
 ALTER TABLE cycling.cyclist_alt_stats ADD favorite_color varchar; 
-ALTER TABLE cycling.cyclist_alt_stats ALTER favorite_color text;
+ALTER TABLE cycling.cyclist_alt_stats ALTER favorite_color TYPE text;
+
 
 // ALTER TYPE
 ALTER TYPE cycling.fullname ADD middlename text;
-ALTER TYPE cycling.fullname RENAME middlename middleinitial;
+ALTER TYPE cycling.fullname RENAME middlename TO middleinitial;
 
 // TUPLE WAS USED IN THE UDA TO HOLD 2 values - see example in UDA section
 
@@ -464,6 +472,10 @@ UPDATE cycling.popular_count SET popularity = popularity + 125 WHERE id = 6ab09b
 SELECT * FROM cycling.popular_count;
 UPDATE cycling.popular_count SET popularity = popularity - 64 WHERE id = 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47;
 SELECT * FROM cycling.popular_count;
+
+// Q34:
+// Find the writetime for a column in a table
+SELECT WRITETIME (firstname) FROM cycling.cyclist_points WHERE id=220844bf-4860-49d6-9a4b-6b5d3a79cbfb;
 ============================
 
 CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<FROZEN <fullname>>, PRIMARY KEY (race, year) );
