@@ -155,6 +155,8 @@ SELECT sum(race_points) FROM cycling.cyclist_points WHERE id=e3b19ec4-774a-4d1c-
 // Q13:
 // USES TABLE cycling.cyclist_points
 // Find total number of PCS points for a particular cyclist using a user-defined function (UDF) created using java function log
+// cassandra.yaml must be modified to allow UDFs to work
+// enable_user_defined_functions: true (false by default)
 // CREATE UDF
 CREATE TABLE cycling.cyclist_points (id UUID, firstname text, lastname text, race_title text, race_points double, PRIMARY KEY (id, race_points ));
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Tour of Chongming Island World Cup', 120);
@@ -388,6 +390,9 @@ SELECT * FROM cycling.last_3_days WHERE token(year) > token ('2015-05-26');
 // No entries show
 SELECT * FROM cycling.last_3_days WHERE token(year) > token ('2015-05-27');
 SELECT token(year) FROM cycling.last_3_days; //PRINTS partition hash
+// MIXED TOKEN AND PARTITION KEY
+SELECT * FROM cycling.last_3_days WHERE token(year) < token ('2015-05-26') AND year IN ('2015-05-24','2015-05-25');
+
 
 // DELETE WHOLE ROW
 // Leave column(s) blank
@@ -476,6 +481,37 @@ SELECT * FROM cycling.popular_count;
 // Q34:
 // Find the writetime for a column in a table
 SELECT WRITETIME (firstname) FROM cycling.cyclist_points WHERE id=220844bf-4860-49d6-9a4b-6b5d3a79cbfb;
+
+// NOT A QUERY
+// INSERTING STRING CONSTANT USING DOUBLE DOLLAR SIGNS
+INSERT INTO cycling.calendar (race_id, race_start_date, race_end_date, race_name) VALUES (201, '2015-02-18', '2015-02-22', $$Women's Tour of New Zealand$$);
+
+// ROLES, USERS, PERMISSIONS
+// cassandra.yaml must be changed to allow login with username and password
+// authenticator: PasswordAuthenticator (AllowAllAuthenticator by default)
+// authorizer: CassandraAuthorizer (AllowAllAuthorizer by default)
+CREATE USER IF NOT EXISTS sandy WITH PASSWORD 'Ride2Win@' NOSUPERUSER;
+CREATE USER chuck WITH PASSWORD 'Always1st$' SUPERUSER;
+ALTER USER sandy SUPERUSER;
+LIST USERS;
+DROP USER IF EXISTS chuck;
+CREATE ROLE IF NOT EXISTS team_manager WITH PASSWORD = 'RockIt4Us!';
+CREATE ROLE sys_admin WITH PASSWORD = 'IcanDoIt4ll' AND LOGIN = true AND SUPERUSER = true;
+ALTER ROLE sys_admin WITH PASSWORD = 'All4one1forAll' AND SUPERUSER = false;
+RANT sys_admin TO team_manager;
+GRANT team_manager TO sandy;
+LIST ROLES;
+LIST ROLES OF sandy;
+REVOKE sys_admin FROM team_manager;
+REVOKE team_manager FROM sandy;
+DROP ROLE IF EXISTS sys_admin;
+GRANT MODIFY ON KEYSPACE cycling TO team_manager;
+GRANT DESCRIBE ON ALL ROLES TO sys_admin;
+GRANT AUTHORIZE ALL KEYSPACES TO sys_admin;
+REVOKE SELECT ON ALL KEYSPACES FROM team_manager;
+REVOKE EXECUTE ON FUNCTION cycling.fLog(double) FROM team_manager;
+LIST ALL PERMISSIONS OF sandy;
+LIST ALL PERMISSIONS ON cycling.cyclist_name OF chuck;
 ============================
 
 CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<FROZEN <fullname>>, PRIMARY KEY (race, year) );
