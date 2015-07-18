@@ -28,7 +28,6 @@ INSERT INTO cycling.cyclist_category (category, points, id, lastname) VALUES ('T
 SELECT * FROM cycling.cyclist_category;
 SELECT lastname, points FROM cycling.cyclist_category WHERE category = 'One-day-races';
 
-
 // Q3:
 // Store race information by year and race name using a COMPOSITE PARTITION KEY
 CREATE TABLE cycling.rank_by_year_and_name ( race_year int, race_name text, cyclist_name text, rank int, PRIMARY KEY ((race_year, race_name), rank) );
@@ -86,6 +85,7 @@ INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (101, 'Criterium du Dauphine','2015-06-07','2015-06-14');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (102, 'Tour de Suisse','2015-06-13','2015-06-21');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (103, 'Tour de France','2015-07-04','2015-07-26');
+SELECT * FROM cycling.calendar;
 
 // Q7:
 // Find all calendar events for a particular year and month
@@ -163,16 +163,16 @@ INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_po
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Trofeo Alfredo Binda - Comune di Cittiglio', 6);
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (e3b19ec4-774a-4d1c-9e5a-decec1e30aac, 'Giorgia','BRONZINI', 'Acht van Westerveld', 75);
 INSERT INTO cycling.cyclist_points (id, firstname, lastname, race_title, race_points) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'Paolo','TIRALONGO', '98th Giro d''Italia - Stage 15', 2);
-CREATE OR REPLACE FUNCTION fLog (input double) CALLED ON NULL INPUT RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
+CREATE OR REPLACE FUNCTION cycling.fLog (input double) CALLED ON NULL INPUT RETURNS double LANGUAGE java AS 'return Double.valueOf(Math.log(input.doubleValue()));';
 SELECT id, lastname, fLog(race_points) FROM cycling.cyclist_points;
 
 // Q14:
 //Find the average race_time in seconds for a particular race for a particular team.
 // CREATE UDA that computes the average value
 //CREATE TABLE WITH SIMPLE PRIMARY KEY: PARTITION KEY + 2 CLUSTERING COLUMNS
-CREATE OR REPLACE FUNCTION avgState ( state tuple<int,bigint>, val int ) CALLED ON NULL INPUT RETURNS tuple<int,bigint> LANGUAGE java AS 'if (val !=null) { state.setInt(0, state.getInt(0)+1); state.setLong(1, state.getLong(1)+val.intValue()); } return state;'; 
-CREATE OR REPLACE FUNCTION avgFinal ( state tuple<int,bigint> ) CALLED ON NULL INPUT RETURNS double LANGUAGE java AS 'double r = 0; if (state.getInt(0) == 0) return null; r = state.getLong(1); r/= state.getInt(0); return Double.valueOf(r);';
-CREATE AGGREGATE average ( int ) SFUNC avgState STYPE tuple<int,bigint> FINALFUNC avgFinal INITCOND (0,0);
+CREATE OR REPLACE FUNCTION cycling.avgState ( state tuple<int,bigint>, val int ) CALLED ON NULL INPUT RETURNS tuple<int,bigint> LANGUAGE java AS 'if (val !=null) { state.setInt(0, state.getInt(0)+1); state.setLong(1, state.getLong(1)+val.intValue()); } return state;'; 
+CREATE OR REPLACE FUNCTION cycling.avgFinal ( state tuple<int,bigint> ) CALLED ON NULL INPUT RETURNS double LANGUAGE java AS 'double r = 0; if (state.getInt(0) == 0) return null; r = state.getLong(1); r/= state.getInt(0); return Double.valueOf(r);';
+CREATE AGGREGATE cycling.average ( int ) SFUNC avgState STYPE tuple<int,bigint> FINALFUNC avgFinal INITCOND (0,0);
 CREATE TABLE cycling.team_average (team_name text, cyclist_name text, cyclist_time_sec int, race_title text, PRIMARY KEY (team_name, race_title,cyclist_name));
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('UnitedHealthCare Pro Cycling Womens Team','Katie HALL',11449,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('UnitedHealthCare Pro Cycling Womens Team','Linda VILLUMSEN',11485,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
@@ -180,7 +180,7 @@ INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, rac
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('Velocio-SRAM','Alena AMIALIUSIK',11451,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('Velocio-SRAM','Trixi WORRACK',11453,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
 INSERT INTO cycling.team_average (team_name, cyclist_name, cyclist_time_sec, race_title) VALUES ('TWENTY16 presented by Sho-Air','Lauren KOMANSKI',11451,'Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe');
-SELECT average(cyclist_time_sec) FROM cycling.team_average WHERE team_name='UnitedHealthCare Pro Cycling Womens Team' AND race_title='Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe';
+SELECT cycling.average(cyclist_time_sec) FROM cycling.team_average WHERE team_name='UnitedHealthCare Pro Cycling Womens Team' AND race_title='Amgen Tour of California Women''s Race presented by SRAM - Stage 1 - Lake Tahoe > Lake Tahoe';
 
 // Q15:
 // CREATE INDEX - PARTITION KEY
@@ -258,7 +258,6 @@ SELECT JSON month, year, events FROM cycling.upcoming_calendar;
 // QUERY - WHERE ... IN SIMPLE
 // Notice the difference between using 'ORDER BY points DESC' and not using it - changes the order of reporting
 // Find all cyclists for a particular category and order by points
->>>>>>> 85b3772340b335f42c778f631f62f67ae5a5ee41
 PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY id DESC;
 PAGING OFF; SELECT * FROM cycling.cyclist_category WHERE category IN ('Time-trial', 'Sprint') ORDER BY id ASC;
 
@@ -295,13 +294,13 @@ BEGIN BATCH
   INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('PIETERS', 'Amy', 23, c7fceba0-c141-4207-9494-a29f9809de6f);
 APPLY BATCH;
 SELECT * FROM cycling.cyclist_name;
-SELECT * FRM cycling.cyclist_id;
+SELECT * FROM cycling.cyclist_id;
 
 // NOT A QUERY, JUST AN EXAMPLE:
 // BATCH statement MISUSE
 // Insert data into same table, but involves multiple nodes due to partition key = id
 BEGIN BATCH
-INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (6d5f1663-89c0-45fc-8cfd-60a373b01622,'HOSKINS', 'Melissa);
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (6d5f1663-89c0-45fc-8cfd-60a373b01622,'HOSKINS', 'Melissa');
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (38ab64b6-26cc-4de9-ab28-c257cf011659,'FERNANDES', 'Marcia');
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (9011d3be-d35c-4a8d-83f7-a3c543789ee7,'NIEWIADOMA', 'Katarzyna');
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES  (95addc4c-459e-4ed7-b4b5-472f19a67995,'ADRIAN', 'Vera');
@@ -449,6 +448,7 @@ SELECT DISTINCT race_id from cycling.route;
 // Q31:
 // TUPLE
 // Rank nations by points, including top cyclist
+// tuple is rank, name, points
 CREATE TABLE cycling.nation_rank ( nation text PRIMARY KEY, info tuple<int,text,int> );
 INSERT INTO cycling.nation_rank (nation, info) VALUES ('Spain', (1,'Alejandro VALVERDE' , 9054));
 INSERT INTO cycling.nation_rank (nation, info) VALUES ('France', (2,'Sylvain CHAVANEL' , 6339));
@@ -498,7 +498,7 @@ DROP USER IF EXISTS chuck;
 CREATE ROLE IF NOT EXISTS team_manager WITH PASSWORD = 'RockIt4Us!';
 CREATE ROLE sys_admin WITH PASSWORD = 'IcanDoIt4ll' AND LOGIN = true AND SUPERUSER = true;
 ALTER ROLE sys_admin WITH PASSWORD = 'All4one1forAll' AND SUPERUSER = false;
-RANT sys_admin TO team_manager;
+GRANT sys_admin TO team_manager;
 GRANT team_manager TO sandy;
 LIST ROLES;
 LIST ROLES OF sandy;
@@ -512,26 +512,3 @@ REVOKE SELECT ON ALL KEYSPACES FROM team_manager;
 REVOKE EXECUTE ON FUNCTION cycling.fLog(double) FROM team_manager;
 LIST ALL PERMISSIONS OF sandy;
 LIST ALL PERMISSIONS ON cycling.cyclist_name OF chuck;
-============================
-
-CREATE TABLE cycling.top_five ( race text, year timestamp, top5 list<FROZEN <fullname>>, PRIMARY KEY (race, year) );
-
-INSERT INTO cycling.top_five (race, year, top5) VALUES ('Tour de Romandie', '2015-05-03', [{firstname: 'Ilnur', lastname: 'Zakarin'}, {firstname: 'Simon', lastname: 'Spilak'}]);
-UPDATE top_five SET top5 = top5 + [{firstname:'Christopher', lastname:'Froome'}] WHERE race = 'Tour de Romandie' AND year = '2015-05-03';
-
-SELECT * FROM top_five;
-
-// Procyclingstats.org - my DM for it
-
-// This will produce the data that could be used to do a 3-DAY listing with either (1) application logic to get last 3 days or (2) USING TTL and entering data promptly
-CREATE TABLE three_day ( race_date timestamp, race_name text, cyclist_rank int, cyclist_name FROZEN <fullname>, cyclist_team_name text, cyclist_race_time text, cyclist_country text, photo_blob blob, entry timestamp, PRIMARY KEY (race_date, cyclist_rank, race_name));
-COPY three_day (race_date, race_name, cyclist_rank, cyclist_name,cyclist_team_name,cyclist_race_time,cyclist_country,entry) FROM '~/CLONES/cassandra-example-code-LLP/C3.0/cy.csv' WITH HEADER=true AND DELIMITER='|';
-SELECT * FROM three_day;
-
-INSERT INTO three_day (race_date, race_name, cyclist_rank, cyclist_name, cyclist_team_name, cyclist_race_time, cyclist_country, entry) VALUES ('2015-05-18', 'An Post Ras - Stage 2 - Carlow > Tipperary', 1, {firstname:'Aaron', lastname:'Gate'}, 'An Post-Chain Reaction', '03:29:26','New Zealand', '2015-05-18 15:09:00');
-
-INSERT INTO three_day (race_date, race_name, cyclist_rank, cyclist_name, cyclist_team_name, cyclist_race_time, cyclist_country, entry) VALUES ('2015-05-18', 'An Post Ras - Stage 2 - Carlow > Tipperary', 2, {firstname:'Alex', lastname:'Frame'}, null, '03:29:26','New Zealand', '2015-05-18 15:09:00');
-
-INSERT INTO three_day (race_date, race_name, cyclist_rank, cyclist_name, cyclist_team_name, cyclist_race_time, cyclist_country, entry) VALUES ('2015-05-18', 'An Post Ras - Stage 2 - Carlow > Tipperary', 3, {firstname:'Davide', lastname:'Vigano'},'Team Idea 2010 ASD', '03:29:26','Italy', '2015-05-18 15:09:00');
-
-INSERT INTO three_day (race_date, race_name, cyclist_rank, cyclist_name, cyclist_team_name, cyclist_race_time, cyclist_country, entry) VALUES ('2015-05-17', 'Giro d''Italia', 1, {firstname:'Paolo', lastname:'Tiralongo'},'Astana Pro Team', '05:50:31','Italy', '2015-05-18 15:09:00');
