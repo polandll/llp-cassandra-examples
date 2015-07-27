@@ -226,12 +226,12 @@ SELECT * FROM cycling.birthday_list WHERE blist['bday'] = '27/07/1992';
 // CREATE INDEX - FULL ON FROZEN COLLECTION
 // ONLY VALID FOR FROZEN COLLECTIONS (SET, LIST, MAP)
 CREATE TABLE cycling.race_starts (cyclist_name text PRIMARY KEY, rnumbers FROZEN<LIST<int>>);
-CREATE INDEX full_idx ON cycling.race_starts (FULL(rnumbers));
-INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Alexander KRISTOFF',[40,5,14]);
-INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Alejandro VALVERDE',[67,17,20]);
-INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Alberto CONTADOR',[61,14,7]);
-INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Christopher FROOME',[28,10,6]);
-INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('John DEGENKOLB',[39,7,14]);
+CREATE INDEX rnumbers_idx ON cycling.race_starts (FULL(rnumbers));
+INSERT INTO cycling.race_starts (cyclist_name,rnumbers) VALUES ('Alexander KRISTOFF',[40,5,14]);
+INSERT INTO cycling.race_starts (cyclist_name,rnumbers) VALUES ('Alejandro VALVERDE',[67,17,20]);
+INSERT INTO cycling.race_starts (cyclist_name,rnumbers) VALUES ('Alberto CONTADOR',[61,14,7]);
+INSERT INTO cycling.race_starts (cyclist_name,rnumbers) VALUES ('Christopher FROOME',[28,10,6]);
+INSERT INTO cycling.race_starts (cyclist_name,rnumbers) VALUES ('John DEGENKOLB',[39,7,14]);
 SELECT * FROM cycling.race_starts WHERE rnumbers = [39,7,14];
 
 // NOT A QUERY, JUST AN EXAMPLE 
