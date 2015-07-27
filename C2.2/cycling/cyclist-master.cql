@@ -203,8 +203,33 @@ SELECT * FROM cycling.cyclist_career_teams WHERE teams CONTAINS 'Rabobank-Liv Gi
 // Q17: 
 // CREATE INDEX - COLLECTION ON MAP KEYS
 // Find all cyclist/team combinations for a particular year
+// CREATE TABLE cycling.cyclist_teams ( id UUID PRIMARY KEY, lastname text, firstname text, teams map<int,text> );
 CREATE INDEX team_year ON cycling.cyclist_teams (KEYS(teams));
 SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
+
+// Q35:
+// CREATE INDEX - ENTRIES ON MAP KEYS
+// ONLY VALID FOR MAP TYPE
+CREATE TABLE cycling.birthday_list (cyclist_name text PRIMARY KEY, blist map<text,text>);
+INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Allan DAVIS', {'age':'35', 'bday':'27/07/1980', 'nation':'AUSTRALIA'});
+INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Claudio VANDELLI', {'age':'54', 'bday':'27/07/1961', 'nation':'ITALY'});
+INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Laurence BOURQUE', {'age':'23', 'bday':'27/07/1992', 'nation':'CANADA'});
+INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Claudio HEINEN', {'age':'23', 'bday':'27/07/1992', 'nation':'GERMANY'});
+INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Luc HAGENAARS', {'age':'28', 'bday':'27/07/1987', 'nation':'NETHERLANDS'});
+INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Toine POELS', {'age':'52', 'bday':'27/07/1963', 'nation':'NETHERLANDS'});
+CREATE INDEX birthday_idx ON cycling.birthday_list (ENTRIES(blist));
+SELECT * FROM cycling.birthday_list WHERE blist['age'] = '23';
+SELECT * FROM cycling.birthday_list WHERE blist['nation'] = 'GERMANY';
+SELECT * FROM cycling.birthday_list WHERE blist['bday'] = '27/07/1992';
+
+// Q36:
+// CREATE INDEX - FULL ON FROZEN COLLECTION
+// ONLY VALID FOR FROZEN COLLECTIONS (SET, LIST, MAP)
+CREATE TABLE cycling.blah (id int PRIMARY KEY, name text, races FROZEN<LIST<text>>);
+CREATE INDEX full_idx ON cycling.blah (FULL(races));
+INSERT INTO cycling.blah (id,name,races) VALUES (1, 'lori',['first','second','third']);
+INSERT INTO cycling.blah (id,name,races) VALUES (2, 'lisa',['fourth','fifth','sixth']);
+SELECT * FROM cycling.blah WHERE races = ['first','second','third'];
 
 // NOT A QUERY, JUST AN EXAMPLE 
 // INSERT DATA IN JSON FORMAT
@@ -288,7 +313,6 @@ SELECT * FROM cycling.race_times WHERE race_name = '17th Santos Tour Down Under'
 // BATCH statement
 // Insert data into multiple tables using a BATCH statement
 // Note that what is inserted is data for the SAME cyclist, to two tables
-SELECT * FROM cycling.cyclist_teams WHERE teams CONTAINS KEY 2015;
 BEGIN BATCH
   INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (c7fceba0-c141-4207-9494-a29f9809de6f, 'PIETERS', 'Amy');
   INSERT INTO cycling.cyclist_id (lastname, firstname, age, id) VALUES ('PIETERS', 'Amy', 23, c7fceba0-c141-4207-9494-a29f9809de6f);
@@ -414,7 +438,7 @@ ALTER TABLE cycling.cyclist_alt_stats ADD age int;
 
 // ALTER TABLE WITH COLLECTION
 ALTER TABLE cycling.upcoming_calendar ADD description map<text,text>;
-UPDATE cycling.upcoming_calendar SET description = description + {'Criterium du Dauphine' : "Easy race', 'Tour du Suisse' : 'Hard uphill race'} WHERE year = 2015 AND month = 6;
+UPDATE cycling.upcoming_calendar SET description = description + {'Criterium du Dauphine' : 'Easy race', 'Tour du Suisse' : 'Hard uphill race'} WHERE year = 2015 AND month = 6;
 
 // ALTER TABLE AND ALTER COLUMN TYPE
 // ADDS COLUMN as varchar and then changes it to text
