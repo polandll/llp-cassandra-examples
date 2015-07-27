@@ -217,7 +217,7 @@ INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Laurence BOURQU
 INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Claudio HEINEN', {'age':'23', 'bday':'27/07/1992', 'nation':'GERMANY'});
 INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Luc HAGENAARS', {'age':'28', 'bday':'27/07/1987', 'nation':'NETHERLANDS'});
 INSERT INTO cycling.birthday_list (cyclist_name, blist) VALUES ('Toine POELS', {'age':'52', 'bday':'27/07/1963', 'nation':'NETHERLANDS'});
-CREATE INDEX birthday_idx ON cycling.birthday_list (ENTRIES(blist));
+CREATE INDEX blist_idx ON cycling.birthday_list (ENTRIES(blist));
 SELECT * FROM cycling.birthday_list WHERE blist['age'] = '23';
 SELECT * FROM cycling.birthday_list WHERE blist['nation'] = 'GERMANY';
 SELECT * FROM cycling.birthday_list WHERE blist['bday'] = '27/07/1992';
@@ -225,11 +225,14 @@ SELECT * FROM cycling.birthday_list WHERE blist['bday'] = '27/07/1992';
 // Q36:
 // CREATE INDEX - FULL ON FROZEN COLLECTION
 // ONLY VALID FOR FROZEN COLLECTIONS (SET, LIST, MAP)
-CREATE TABLE cycling.blah (id int PRIMARY KEY, name text, races FROZEN<LIST<text>>);
-CREATE INDEX full_idx ON cycling.blah (FULL(races));
-INSERT INTO cycling.blah (id,name,races) VALUES (1, 'lori',['first','second','third']);
-INSERT INTO cycling.blah (id,name,races) VALUES (2, 'lisa',['fourth','fifth','sixth']);
-SELECT * FROM cycling.blah WHERE races = ['first','second','third'];
+CREATE TABLE cycling.race_starts (cyclist_name text PRIMARY KEY, rnumbers FROZEN<LIST<int>>);
+CREATE INDEX full_idx ON cycling.race_starts (FULL(rnumbers));
+INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Alexander KRISTOFF',[40,5,14]);
+INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Alejandro VALVERDE',[67,17,20]);
+INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Alberto CONTADOR',[61,14,7]);
+INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('Christopher FROOME',[28,10,6]);
+INSERT INTO cycling.race_starts (name,rnumbers) VALUES ('John DEGENKOLB',[39,7,14]);
+SELECT * FROM cycling.race_starts WHERE rnumbers = [39,7,14];
 
 // NOT A QUERY, JUST AN EXAMPLE 
 // INSERT DATA IN JSON FORMAT
