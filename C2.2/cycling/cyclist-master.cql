@@ -555,3 +555,4 @@ INSERT INTO cyclist_mv (cid,name,age,birthday,country) VALUES (d1aad83b-be60-47a
 CREATE MATERIALIZED VIEW cyclist_by_age AS SELECT age, birthday, name, country FROM cyclist_mv WHERE age is NOT NULL AND cid IS NOT NULL PRIMARY KEY (age, cid);
 CREATE MATERIALIZED VIEW cyclist_by_country AS SELECT age, birthday, name, country FROM cyclist_mv WHERE country is NOT NULL AND cid IS NOT NULL PRIMARY KEY (country, cid);
 CREATE MATERIALIZED VIEW cyclist_by_birthday AS SELECT age, birthday, name, country FROM cyclist_mv WHERE birthday is NOT NULL AND cid IS NOT NULL PRIMARY KEY (birthday, cid);
+DROP MATERIALIZED VIEW cyclist_by_age;
