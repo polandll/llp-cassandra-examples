@@ -10,6 +10,7 @@ INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (e7cd5752-bc0d
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (e7ae5cf3-d358-4d99-b900-85902fda9bb0, 'FRAME','Alex');
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (220844bf-4860-49d6-9a4b-6b5d3a79cbfb, 'TIRALONGO','Paolo');
 INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47, 'KRUIKSWIJK','Steven');
+INSERT INTO cycling.cyclist_name (id, lastname, firstname) VALUES (fb372533-eb95-4bb4-8685-6ef61e994caa, 'MATTHEWS', 'Michael');
 SELECT * FROM cycling.cyclist_name;
 SELECT lastname, firstname FROM cycling.cyclist_name WHERE id = 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47;
 
@@ -560,3 +561,167 @@ DROP MATERIALIZED VIEW cyclist_by_age;
 // Q36:
 // USING TIMESTAMP
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (200, 'placeholder', '2015-05-27', '2015-05-27') USING TIMESTAMP 123456789;
+
+// SASI STUFF
+
+ **********
+ PREFIX - DEFAULT
+ **********
+CASE SENSITIVE:
+CREATE CUSTOM INDEX  fn_prefix ON cyclist_name (firstname) USING 'org.apache.cassandra.index.sasi.SASIIndex';
+works:
+SELECT * FROM cyclist_name WHERE firstname = 'Marianne';  //Exact match
+SELECT * FROM cyclist_name WHERE firstname LIKE 'M%';     // Match any starting with 'M'
+doesn't work:
+SELECT * FROM cyclist_name WHERE firstname = 'MARIANNE';
+SELECT * FROM cyclist_name WHERE firstname LIKE 'm%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%m%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%m%' ALLOW FILTERING;
+SELECT * FROM cyclist_name WHERE firstname LIKE '%M%';
+SELECT * FROM cyclist_name WHERE firstname = 'M%';
+SELECT * FROM cyclist_name WHERE firstname = '%M';
+SELECT * FROM cyclist_name WHERE firstname = '%M%';
+SELECT * FROM cyclist_name WHERE firstname = 'm%';
+
+THESE PRODUCE THE SAME RESULTS AS THE INDEX ABOVE
+CREATE CUSTOM INDEX  fn_prefix_allcase ON cyclist_name (firstname) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = { 'case_sensitive': 'true' };
+CREATE CUSTOM INDEX  fn_prefix_allcase ON cyclist_name (firstname) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = { 'case_sensitive': 'false' };
+ 
+CASE INSENSITIVE: 
+(APPARENTLY, THE ANALYZER MUST BE ADDED TO CHANGE IT TO BE INSENSITIVE TO CASE)
+CREATE CUSTOM INDEX fn_prefix_allcase ON cyclist_name (firstname) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = {
+'analyzer_class': 'org.apache.cassandra.index.sasi.analyzer.NonTokenizingAnalyzer',
+'case_sensitive': 'false'
+ };
+works:
+SELECT * FROM cyclist_name WHERE firstname = 'Marianne';
+SELECT * FROM cyclist_name WHERE firstname = 'MariAnne';
+SELECT * FROM cyclist_name WHERE firstname LIKE 'M%';
+SELECT * FROM cyclist_name WHERE firstname LIKE 'm%';
+SELECT * FROM cyclist_name WHERE firstname > 'Mar' ALLOW FILTERING;
+doesn't work:
+SELECT * FROM cyclist_name WHERE firstname LIKE '%M%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%M';
+SELECT * FROM cyclist_name WHERE firstname = '%M';
+SELECT * FROM cyclist_name WHERE firstname = 'M%';
+SELECT * FROM cyclist_name WHERE firstname > 'Mar';
+ 
+*********
+CONTAINS - matches on SUFFIX instead of PREFIX only
+*********
+ 
+CASE SENSITIVE:
+CREATE CUSTOM INDEX fn_contains ON cyclist_name (firstname) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = { 'mode': 'CONTAINS' };
+works:
+SELECT * FROM cyclist_name WHERE firstname = 'Marianne' ALLOW FILTERING;
+SELECT * FROM cyclist_name WHERE firstname LIKE '%M%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%arianne';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%arian%';
+SELECT * FROM cyclist_name WHERE firstname > 'Mar' ALLOW FILTERING;
+doesn't work:
+SELECT * FROM cyclist_name WHERE firstname = 'Marianne';
+SELECT * FROM cyclist_name WHERE firstname = 'MariAnne' ALLOW FILTERING;
+SELECT * FROM cyclist_name WHERE firstname LIKE 'M%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%M';
+SELECT * FROM cyclist_name WHERE firstname LIKE 'm%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%m%';
+
+THIS PRODUCES THE SAME RESULTS AS THE INDEX ABOVE
+CREATE CUSTOM INDEX fn_suffix_allcase ON cyclist_name (firstname) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = { 
+'mode': 'CONTAINS',
+'case_sensitive': 'false'
+};
+
+CASE INSENSITIVE:
+CREATE CUSTOM INDEX fn_suffix_allcase ON cyclist_name (firstname) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = { 
+'mode': 'CONTAINS',
+'analyzer_class': 'org.apache.cassandra.index.sasi.analyzer.NonTokenizingAnalyzer',
+'case_sensitive': 'false'
+};
+works:
+SELECT * FROM cyclist_name WHERE firstname = 'Marianne' ALLOW FILTERING;
+SELECT * FROM cyclist_name WHERE firstname LIKE '%M%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%m%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%arianne';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%arian%';
+SELECT * FROM cyclist_name WHERE firstname > 'Mar' ALLOW FILTERING;
+doesn't work:
+SELECT * FROM cyclist_name WHERE firstname = 'Marianne';
+SELECT * FROM cyclist_name WHERE firstname = 'MariAnne' ALLOW FILTERING;
+SELECT * FROM cyclist_name WHERE firstname LIKE 'M%';
+SELECT * FROM cyclist_name WHERE firstname LIKE '%M';
+SELECT * FROM cyclist_name WHERE firstname LIKE 'm%';
+
+********
+SPARSE
+********
+DOES NOT WORK - ONLY NON-LITERAL COLUMNS CAN BE INDEXED WITH SPARSE
+CASE SENSITIVE:
+CREATE CUSTOM INDEX fn_sparse ON cyclist_name (age) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = { 'mode': 'SPARSE' };
+works:
+SELECT * FROM cyclist_name WHERE age < 20;
+SELECT * FROM cyclist_name WHERE age > 20;
+SELECT * FROM cyclist_name WHERE age <= 20;
+SELECT * FROM cyclist_name WHERE age >= 20;
+
+**********
+ANALYZERS
+**********
+ALTER TABLE cyclist_name ADD comments text;
+UPDATE cyclist_name SET comments ='Rides hard, gets along with others, a real winner' WHERE id = fb372533-eb95-4bb4-8685-6ef61e994caa;
+UPDATE cyclist_name SET comments ='Rides fast, does not get along with others, a real dude' WHERE id = 5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
+
+CREATE CUSTOM INDEX stdanalyzer_idx ON cyclist_name (comments) USING 'org.apache.cassandra.index.sasi.SASIIndex'
+WITH OPTIONS = {
+'mode': 'CONTAINS',
+'analyzer_class': 'org.apache.cassandra.index.sasi.analyzer.StandardAnalyzer',
+'analyzed': 'true',
+'tokenization_skip_stop_words': 'and, the, or',
+'tokenization_enable_stemming': 'true',
+'tokenization_normalize_lowercase': 'true',
+'tokenization_locale': 'en'
+};
+works: 
+SELECT * FROM cyclist_name WHERE comments LIKE 'ride';
+ 
+
+***************
+COMPOUND QUERY 
+AND
+QUERY ON INDEXED and NON-INDEXES COLUMNS EXAMPLE 
+***************
+narrow down query and use inequality: 
+add a row:
+ALTER TABLE cyclist_name ADD age int;
+UPDATE cyclist_name SET age=23 WHERE id=5b6962dd-3f90-4c93-8f61-eabfa4a803e2;
+INSERT INTO cyclist_name (id,age,firstname,lastname) VALUES (8566eb59-07df-43b1-a21b-666a3c08c08a,18,'Marianne','DAAE');
+SELECT * FROM cyclist_name WHERE firstname='Marianne' and age > 20 allow filtering;
+
+
+KEYWORDS:
+mode:
+analyzed:
+analyzer_class:
+is_literal:
+max_compaction_flush_memory_in_mb:
+
+Standard Tokenizer Options:
+
+"tokenization_enable_stemming"
+"tokenization_skip_stop_words"
+"tokenization_locale";
+"tokenization_normalize_lowercase"
+"tokenization_normalize_uppercase"
+
+Non Tokenizing Options:
+
+"normalize_lowercase"
+"normalize_uppercase"
+"case_sensitive"
