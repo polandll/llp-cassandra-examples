@@ -142,6 +142,13 @@ INSERT INTO cycling.cyclist_stats (id, lastname, basics) VALUES (220844bf-4860-4
 SELECT * FROM cycling.cyclist_stats;
 SELECT * FROM cycling.cyclist_stats WHERE id = 220844bf-4860-49d6-9a4b-6b5d3a79cbfb;
 
+// NEW IN C* 3.6 
+// UPDATE AND DELETE single fields in UDTs with only non-collection fields
+// CHANGE "CREATE TABLE IN LAST EXAMPLE TO non-frozen
+CREATE TABLE cycling.cyclist_stats ( id UUID, lastname text, basics basic_info, PRIMARY KEY (id) );
+// Now birthday can be updated separate from nationality, weight, and height
+UPDATE cyclist_stats SET basics.birthday = '2000-12-12' WHERE id = 220844bf-4860-49d6-9a4b-6b5d3a79cbfb;
+
 // Q12:
 // Find total number of PCS points for a particular cyclist
 // CREATE TABLE WITH PRIMARY KEY: PARTITION KEY + 1 CLUSTERING COLUMN
