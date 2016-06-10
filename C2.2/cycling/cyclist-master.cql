@@ -689,6 +689,17 @@ SELECT * FROM cyclist_name WHERE age > 20;
 SELECT * FROM cyclist_name WHERE age <= 20;
 SELECT * FROM cyclist_name WHERE age >= 20;
 
+*** REVISION OF SPARSE BASED ON CASSANDRA-11383 TICKET ***
+CREATE TABLE cycling.comments (commenter text, created_at timestamp, comment text, PRIMARY KEY (commenter));
+INSERT INTO cycling.comments (commenter, comment, created_at) VALUES ('John', 'Fantastic race!', '2013-01-01 00:05:01.500');
+INSERT INTO cycling.comments (commenter, comment, created_at) VALUES ('Jane', 'What a finish', '2013-01-01 00:05:01.400');
+INSERT INTO cycling.comments (commenter, comment, created_at) VALUES ('Mary', 'Hated to see the race end.', '2013-01-01 00:05:01.300');
+INSERT INTO cycling.comments (commenter, comment, created_at) VALUES ('Jonnie', 'Thankfully, it is over.', '2013-01-01 00:05:01.600');
+SELECT * FROM cycling.comments;
+CREATE CUSTOM INDEX fn_sparse ON cycling.comments (created_at) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = { 'mode': 'SPARSE' };
+SELECT * FROM cycling.comments WHERE created_at < '2013-01-01 00:05:01.500';
+SELECT * FROM cycling.comments WHERE created_at >= '2013-01-01 00:05:01.500';
+
 **********
 ANALYZERS
 **********
