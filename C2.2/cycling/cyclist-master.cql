@@ -43,6 +43,11 @@ INSERT INTO cycling.rank_by_year_and_name (race_year, race_name, cyclist_name, r
 SELECT * FROM cycling.rank_by_year_and_name;
 SELECT * FROM cycling.rank_by_year_and_name WHERE race_year=2015 AND race_name='Tour of Japan - Stage 4 - Minami > Shinshu';
 
+// New C* 3.6 
+// PER PARTITION LIMIT
+// To get the Top Two for each race_year-race_name pair
+SELECT * FROM cycling.rank_by_year_and_name PER PARTITION LIMIT 2;
+
 // Q4:
 // Find a cyclist's id given lastname and firstname
 // Another CREATE TABLE using COMPOSITE PARTITION KEY
@@ -87,6 +92,12 @@ INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (102, 'Tour de Suisse','2015-06-13','2015-06-21');
 INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (103, 'Tour de France','2015-07-04','2015-07-26');
 SELECT * FROM cycling.calendar;
+
+// NEW FOR C*3.6
+// Clustering columns can be used in a WHERE clause with ALLOW FILTERING without secondary indexes
+// This query uses the clustering column "race_start_date" without an index and without using the partition key
+// but using ALLOW FILTERING
+SELECT * FROM cycling.calendar WHERE race_start_date='2015-06-13' ALLOW FILTERING;
 
 // Q7:
 // Find all calendar events for a particular year and month
