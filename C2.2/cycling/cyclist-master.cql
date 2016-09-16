@@ -754,3 +754,31 @@ Non Tokenizing Options:
 "normalize_lowercase"
 "normalize_uppercase"
 "case_sensitive"
+
+
+***********
+EXAMPLES FOR SECURITY
+**********
+// CREATE A ROLE THAT REPRESENTS AN INDIVIDUAL 
+CREATE ROLE alice WITH PASSWORD = 'enjoyLife' AND LOGIN = true;
+// CREATE A ROLE THAT REPRESENTS SOME FUNCTIONALITY
+CREATE ROLE cycling_admin WITH PASSWORD = '1234abcd';
+// GRANT THE ROLE PERMISSIONS
+GRANT ALL PERMISSIONS ON KEYSPACE cycling TO cycling_admin;
+// GRANT THE FUNCTIONAL ROLE TO THE INDIVIDUAL ROLE
+GRANT cycling_admin TO alice;
+
+CREATE ROLE cycling_analyst WITH PASSWORD = 'zyxw9876';
+GRANT SELECT ON TABLE cycling.analysis TO cycling_analyst;
+CREATE ROLE hockey_analyst WITH PASSWORD = 'Iget2seeAll';
+// GRANT A FUNCTIONAL ROLE TO ANOTHER FUNCTIONAL ROLE
+GRANT SELECT ON TABLE hockey.analysis TO hockey_analyst;
+GRANT hockey_analyst TO cycling_analyst;
+GRANT cyclist_analyst TO jane;
+
+// Give cycling_accounts the right to create roles
+GRANT CREATE ON ALL ROLES TO cycling_accounts;
+// Give cycling_accounts the right to grant or revoke permissions
+GRANT AUTHORIZE ON KEYSPACE cycling TO cycling_accounts;
+GRANT cyclist_accounts TO jane;
+GRANT cyclist_accounts TO john;
