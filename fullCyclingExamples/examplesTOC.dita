@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//DataStax//DTD DITA TOPIC (hi-d ui-d pr-d sw-d abbrev-d)//EN" "topic_ds.dtd">
+<topic id="examplesTOC">
+  <title>Examples</title>
+  <shortdesc>CQL description of keyspaces, tables and other database resources used in CQL
+    examples.</shortdesc>
+  <body>
+    <p>CQL description of keyspaces, tables and other database resources used in CQL examples.</p>
+  </body>
+</topic>

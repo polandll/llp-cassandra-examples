@@ -1,0 +1,6 @@
+ role          | super | login | options
+---------------+-------+-------+---------
+         coach | False | False |        {}
+ cycling_admin | False |  True |        {}
+
+(2 rows)

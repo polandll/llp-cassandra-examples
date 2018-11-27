@@ -1,0 +1,39 @@
+// START-rAVG
+average
+---------
+  11474
+
+(1 rows)
+// END-rAVG
+
+// START-rCOUNT
+row_count
+-----------
+        3
+
+(1 rows)
+// END-rCOUNT
+
+// START-rMIN
+fastest
+---------
+  11449
+
+(1 rows)
+// END-rMIN
+
+// START-rMAX
+slowest
+---------
+  11490
+
+(1 rows)
+// END-rMAX
+
+// START-rSUM
+total_time
+------------
+     34424
+
+(1 rows)
+// END-rSUM

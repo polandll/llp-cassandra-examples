@@ -1,0 +1,6 @@
+
+ role     | username | resource                                                   | permission | granted | restricted | grantable
+----------+----------+------------------------------------------------------------+------------+---------+------------+-----------
+ dantest1 | dantest1 | 'Paolo TIRALONGO' rows IN <table cycling.cyclist_expenses> |     SELECT |    True |      False |     False
+
+(1 rows)

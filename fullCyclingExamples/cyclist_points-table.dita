@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_points-table">
+  <title>cyclist_points</title>
+  <shortdesc>Select aggregated data using the built-in functions.</shortdesc>
+  <refbody>
+    <section id="cyclist_points_sums">
+      <p>Select aggregated data using the built-in functions such as <codeph>sum</codeph>.</p>
+      <codeblock outputclass="language-cql"><coderef href="cycling/cyclist_points-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

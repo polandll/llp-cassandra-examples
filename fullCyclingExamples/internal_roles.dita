@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="internal_roles">
+  <title>Cycling internal</title>
+  <shortdesc>Internal authentication with internally managed access control.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Internal authentication with internally managed access control.</p>
+      <codeblock><coderef href="cycling/rbac.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

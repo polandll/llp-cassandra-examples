@@ -1,0 +1,23 @@
+@ Row 1
+------------------------+------------------
+ cyclist_name           | Vera ADRIAN
+ expense_id             | 2
+ amount                 | 13.44
+ writetime(amount)      | 1481124356754405
+ description            | Lunch
+ writetime(description) | 1481124356754405
+ paid                   | True
+ writetime(paid)        | 1481124356754405
+
+@ Row 2
+------------------------+------------------
+ cyclist_name           | Vera ADRIAN
+ expense_id             | 3
+ amount                 | 25
+ writetime(amount)      | 1481124356754405
+ description            | Dinner
+ writetime(description) | 1481124356754405
+ paid                   | True
+ writetime(paid)        | 1481124356754405
+
+(2 rows)

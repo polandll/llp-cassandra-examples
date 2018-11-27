@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_base-table">
+  <title>cyclist_base</title>
+  <shortdesc><!--what is it used for?--></shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p><!--what is it used for?--></p>
+      <codeblock><coderef href="cycling/cyclist_base-table.cql"></coderef></codeblock>
+    </section>
+  </refbody>
+</reference>

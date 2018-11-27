@@ -1,0 +1,25 @@
+ role            | username        | resource           | permission | granted | restricted | grantable
+-----------------+-----------------+--------------------+------------+---------+------------+-----------
+           coach |           coach | <keyspace cycling> |      ALTER |    True |      False |     False
+           coach |           coach | <keyspace cycling> |     SELECT |    True |      False |     False
+           coach |           coach | <keyspace cycling> |     MODIFY |    True |      False |     False
+   cycling_admin |   cycling_admin | <keyspace cycling> |     CREATE |    True |      False |     False
+   cycling_admin |   cycling_admin | <keyspace cycling> |      ALTER |    True |      False |     False
+   cycling_admin |   cycling_admin | <keyspace cycling> |       DROP |    True |      False |     False
+   cycling_admin |   cycling_admin | <keyspace cycling> |     SELECT |    True |      False |     False
+   cycling_admin |   cycling_admin | <keyspace cycling> |     MODIFY |    True |      False |     False
+   cycling_admin |   cycling_admin | <keyspace cycling> |  AUTHORIZE |    True |      False |     False
+   cycling_admin |   cycling_admin | <keyspace cycling> |   DESCRIBE |    True |      False |     False
+ cycling_analyst | cycling_analyst | <keyspace cycling> |     SELECT |    True |      False |     False
+        dantest1 |        dantest1 | <keyspace cycling> |  AUTHORIZE |    True |      False |     False
+        db_admin |        db_admin | <keyspace cycling> |     SELECT |   False |       True |     False
+        db_admin |        db_admin | <keyspace cycling> |     MODIFY |   False |       True |     False
+          martin |          martin |    <all keyspaces> |     CREATE |   False |       True |     False
+          martin |          martin | <keyspace cycling> |     CREATE |    True |      False |     False
+      role_admin |      role_admin | <keyspace cycling> |     SELECT |   False |       True |     False
+      role_admin |      role_admin | <keyspace cycling> |     MODIFY |   False |       True |     False
+             sam |             sam | <keyspace cycling> |     SELECT |   False |      False |      True
+             sam |             sam | <keyspace cycling> |     MODIFY |   False |      False |      True
+    team_manager |    team_manager | <keyspace cycling> |     MODIFY |    True |      False |     False
+
+(21 rows)

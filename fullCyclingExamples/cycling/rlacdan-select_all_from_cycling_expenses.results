@@ -1,0 +1,15 @@
+ cyclist_name    | expense_id | balance | amount | description | paid
+-----------------+------------+---------+--------+-------------+------
+ Paolo TIRALONGO |         11 |    null |     10 |      dinner | null
+ Paolo TIRALONGO |         12 |    null |     10 |      dinner | null
+ Paolo TIRALONGO |         24 |    null |     10 |       lunch | null
+ Paolo TIRALONGO |         25 |    null |     11 |      dinner | null
+ Paolo TIRALONGO |         26 |    null |     12 |       lunch | null
+ Paolo TIRALONGO |         27 |    null |     13 |       lunch | null
+ Paolo TIRALONGO |         28 |    null |     14 |       lunch | null
+ Paolo TIRALONGO |         29 |    null |     15 |      dinner | null
+ Paolo TIRALONGO |         30 |    null |     16 |       lunch | null
+ Paolo TIRALONGO |         31 |    null |     17 |      dinner | null
+ Paolo TIRALONGO |         32 |    null |     18 |   breakfast | null
+
+(11 rows)

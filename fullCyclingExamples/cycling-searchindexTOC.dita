@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//DataStax//DTD DITA CONCEPT (hi-d ui-d pr-d sw-d abbrev-d)//EN" "concept_ds.dtd">
+<concept id="cycling-searchindexTOC">
+ <title>Cycling search index</title>
+ <titlealts>
+  <navtitle>Search index</navtitle>
+ </titlealts>
+ <shortdesc>Search index examples using the cycling tables.</shortdesc>
+ <conbody>
+  <p>Search index examples using the cycling tables.</p>
+ </conbody>
+</concept>

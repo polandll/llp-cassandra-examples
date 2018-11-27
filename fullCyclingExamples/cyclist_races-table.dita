@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_races-table">
+  <title>cyclist_races</title>
+  <shortdesc>Create user-defined type, insert data into UDT and time fields.</shortdesc>
+  <refbody>
+    <section id="cql">
+      <p>Create user-defined type, insert data into UDT and time
+        fields.<codeblock><coderef href="cycling/cyclist_races-table.cql"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>

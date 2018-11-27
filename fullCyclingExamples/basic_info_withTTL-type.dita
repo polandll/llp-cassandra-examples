@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="basic_info_withTTL-type">
+  <title>basic_info_withTTL</title>
+  <titlealts>
+    <navtitle>basic_info_withTTL</navtitle>
+  </titlealts>
+  <shortdesc audience="inlinexclude">User-defined type that contains fields for basic information
+    about a cyclist such as birthday, nationality, height, and weight.</shortdesc>
+  <refbody>
+    <section id="udtCreateBasicInfoWithTTL">
+      <p>User-defined type that contains fields for basic information about a cyclist such as
+        birthday, nationality, height, and weight. It also includes examples of inserting and
+        updating UDTs with time-expired data.</p>
+      <codeblock outputclass="language-cql"><coderef href="cycling/basic_info_withTTL-type.cql"/></codeblock>
+    </section>
+    <section id="udtViewBasicInfo">
+      <p/>
+    </section>
+  </refbody>
+</reference>

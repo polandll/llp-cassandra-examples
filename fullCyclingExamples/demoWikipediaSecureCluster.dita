@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="demoWikipediaSecureCluster">
+  <title>Using secure cluster</title>
+  <shortdesc>Information about running the Wikipedia demo on a secure cluster. </shortdesc>
+  <refbody>
+    <section>You can run the <xref keyref="demoWikipediaSingleNode"/> on a secure cluster. </section>
+    <section>
+      <p><b>Kerberos options</b></p>
+      <ul >
+        <li>-a enable Kerberos authentication</li>
+        <li>-h <varname>hostname</varname> server hostname (not required if server hostname
+          resolution is correctly set up)</li>
+      </ul>
+      <p><b>HTTP basic authentication</b></p>
+      <p>Use with DseAuthenticator.:<ul>
+          <li>-u username</li>
+          <li>-p password</li>
+        </ul>You can use this option to run the shell
+        scripts:<codeblock>./1-add-schema.sh -u root -p password &amp;&amp; ./2-index.sh -u root -p password</codeblock></p>
+      <p><b>SSL options</b></p>
+      <ul >
+        <li>-e <varname>cert</varname> enable HTTPS for client to node encryption, using
+            <varname>cert</varname> certificate file</li>
+        <li>-k disable strict hostname checking for SSL certificates</li>
+      </ul>
+    </section>
+  </refbody>
+</reference>

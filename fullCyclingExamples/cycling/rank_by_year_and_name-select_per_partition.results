@@ -1,0 +1,34 @@
+
+
+//* START-ir_results
+//rank | name
+//------+----------------------
+//   1 |        Daniel MARTIN
+//   2 | Johan Esteban CHAVES
+//   3 |      Benjamin PRADES
+//   1 |      Benjamin PRADES
+//   2 |          Adam PHELAN
+//   3 |         Thomas LEBAS
+
+(6 rows)
+END-ir_results */
+
+
+// START-fr_results
+//rank | name
+//------+-----------------
+//   1 | Benjamin PRADES
+//   2 |     Adam PHELAN
+
+(2 rows)
+// END-fr_results
+
+
+// START-rdistinct
+tokens               | name                                       | year
+----------------------+--------------------------------------------+------
+-7360458132859809350 |                        4th Tour of Beijing | 2014
+-2464051695347322913 | Tour of Japan - Stage 4 - Minami > Shinshu | 2014
+ -239980450398119954 |   Giro d'Italia - Stage 11 - Forli > Imola | 2015
+ 5816530691523888176 | Tour of Japan - Stage 4 - Minami > Shinshu | 2015
+ // END-rdistinct

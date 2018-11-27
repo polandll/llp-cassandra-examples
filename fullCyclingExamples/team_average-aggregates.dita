@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="team_average-aggregates">
+  <title>Cycling user-defined aggregate team_average</title>
+  <titlealts>
+    <navtitle>team_average</navtitle>
+  </titlealts>
+  <shortdesc>Creates a Java user-defined aggregate function that calculates the average of a target
+    column.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Creates a Java user-defined aggregate function that calculates the average of a target
+        column.</p>
+      <codeblock><coderef href="cycling/average-aggregate.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

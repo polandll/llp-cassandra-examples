@@ -1,0 +1,6 @@
+
+ role | username | resource                                               | permission | granted | restricted | grantable
+------+----------+--------------------------------------------------------+------------+---------+------------+-----------
+ jane |     jane | 'Vera ADRIAN' rows IN <table cycling.cyclist_expenses> |     SELECT |    True |      False |     False
+
+(1 rows)

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//DataStax//DTD DITA CONCEPT (hi-d ui-d pr-d sw-d abbrev-d)//EN" "concept_ds.dtd">
+<concept id="cyclingTypesTOC">
+ <title>Cycling types</title>
+ <titlealts>
+  <navtitle>User-defined types</navtitle>
+ </titlealts>
+ <shortdesc>User defined type examples used in the DataStax Enterprise documentation
+  set.</shortdesc>
+ <conbody>
+  <p>User defined type examples used in the DataStax Enterprise documentation set.</p>
+ </conbody>
+</concept>

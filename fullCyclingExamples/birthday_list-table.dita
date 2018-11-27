@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="birthday_list-table">
+  <title>birthday_list</title>
+  <shortdesc>Example for maps and indexing search index map fields.</shortdesc>
+  <refbody>
+    <section>
+      <p>Example for maps and indexing search index map fields.</p>
+      <p>Create the keyspace, table, and load the
+        data:<codeblock><coderef href="cycling/birthday_list-table.cql"/></codeblock></p>
+      <p>Create a default search index:<draft-comment author="tblessing">should remove regular
+          queries section below, covered in last section for regular (non-search node)
+          index</draft-comment><codeblock><coderef href="cycling/birthday_list-default_index.cql"/></codeblock></p>
+      <p>Create a custom index:<draft-comment author="tblessing">This does not have the CREATE
+          CUSTOM INDEX command, so how is this a custom
+        index?</draft-comment><codeblock><coderef href="cycling/birthday_list-custom_index.cql"/></codeblock></p>
+      <p>Create indexes on map collections to
+        query.<codeblock outputclass="language-cql"><coderef href="cycling/birthday_list_map_entries-table.cql"/></codeblock></p>
+      <p>Output from map index
+        queries:<codeblock outputclass="language-cql"><coderef href="cycling/birthday_list-queries.results"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>

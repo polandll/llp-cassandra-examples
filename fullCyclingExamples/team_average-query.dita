@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="team_average-query">
+  <title>Aggregating cycling data</title>
+  <shortdesc>Using native aggregate functions.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Using native aggregate functions.</p>
+      <codeblock><coderef href="cycling/team_average-queries.cql"/></codeblock>
+      <p>Results<codeblock outputclass="results"><coderef href="cycling/team_average-queries.results"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>

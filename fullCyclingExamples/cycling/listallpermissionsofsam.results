@@ -1,0 +1,6 @@
+ role | username | resource           | permission | granted | restricted | grantable
+------+----------+--------------------+------------+---------+------------+-----------
+  sam |      sam | <keyspace cycling> |     SELECT |   False |      False |      True
+  sam |      sam | <keyspace cycling> |     MODIFY |   False |      False |      True
+
+(2 rows)

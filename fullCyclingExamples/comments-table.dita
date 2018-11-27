@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="comments-table">
+  <title>comments</title>
+  <shortdesc>Example for count, timestamps, limiting results by partition.</shortdesc>
+  <refbody>
+    <section>
+      <p>Example for count, timestamps, limiting results by partition.</p>
+      <codeblock><coderef href="cycling/comments-table.cql"/></codeblock>
+    </section>
+    <section id="queries">
+      <title>Queries against the comment tables</title>
+      <p>Filter data on the time UUID
+        field.<codeblock><coderef href="cycling/comments-timeuuid.cql"/></codeblock></p>
+      <p>Return the most recent
+        records:<codeblock><coderef href="cycling/comments-most-recent.cql"/></codeblock></p>
+      <p>Date and time
+        queries:<codeblock><coderef href="cycling/comments-date-timestamp.cql"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>

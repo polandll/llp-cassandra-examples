@@ -1,0 +1,1 @@
+SELECT left(firstname,1), lastname from cycling.cyclist_name;

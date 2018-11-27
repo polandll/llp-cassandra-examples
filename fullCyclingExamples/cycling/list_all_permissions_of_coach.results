@@ -1,0 +1,7 @@
+ role  | username | resource           | permission | granted | restricted | grantable
+-------+----------+--------------------+------------+---------+------------+-----------
+ coach |    coach | <keyspace cycling> |      ALTER |    True |      False |     False
+ coach |    coach | <keyspace cycling> |     SELECT |    True |      False |     False
+ coach |    coach | <keyspace cycling> |     MODIFY |    True |      False |     False
+
+(3 rows)

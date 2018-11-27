@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//DataStax//DTD DITA TOPIC (hi-d ui-d pr-d sw-d abbrev-d)//EN" "topic_ds.dtd">
+<topic id="indexTOC">
+  <title>Index</title>
+  <shortdesc>Experimental secondary index.</shortdesc>
+  <body>
+    <p>Experimental secondary index.</p>
+  </body>
+</topic>

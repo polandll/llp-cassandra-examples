@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//DataStax//DTD DITA CONCEPT (hi-d ui-d pr-d sw-d abbrev-d)//EN" "concept_ds.dtd">
+<concept id="cyclingAuthToc">
+ <title>Cycling access control</title>
+ <titlealts>
+  <navtitle>Access control</navtitle>
+ </titlealts>
+ <shortdesc>Roles and access control for the cycling keyspace with different authentication and
+  authorization models.</shortdesc>
+ <conbody>
+  <p>Roles and access control for the cycling keyspace with different authentication and
+   authorization models.</p>
+ </conbody>
+</concept>

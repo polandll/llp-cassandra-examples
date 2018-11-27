@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="events-table">
+  <title>events</title>
+  <shortdesc>Uses month and date of cycling races to show how to get ranges that span clustering
+    columns. Example of copying data from a CSV into the table.</shortdesc>
+  <refbody>
+    <section>
+      <p>Uses month and date of cycling races to show how to get ranges that span clustering
+        columns. Example of copying data from a CSV into the table.</p>
+    </section>
+    <section id="table">
+      <title>events table</title>
+      <codeblock><coderef href="cycling/events-table.cql"/></codeblock>
+    </section>
+    <section id="data">
+      <title>Data from CSV</title>
+      <p>Insert the following comma separated
+        data:<codeblock><coderef href="cycling/events-data.csv"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//DataStax//DTD DITA CONCEPT (hi-d ui-d pr-d sw-d abbrev-d)//EN" "concept_ds.dtd">
+<concept id="cycling-tablesTOC">
+ <title>Cycling tables</title>
+ <titlealts>
+  <navtitle>Tables</navtitle>
+ </titlealts>
+ <shortdesc>CQL commands that create cycling example tables and insert the corresponding
+  data.</shortdesc>
+ <conbody>
+  <p>CQL commands that create cycling example tables and insert the corresponding data.</p>
+ </conbody>
+</concept>

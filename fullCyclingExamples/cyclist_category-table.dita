@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_category-table">
+  <title>cyclist_category</title>
+  <shortdesc>Clustering column simple example with corresponding query.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Clustering column simple example with corresponding query.</p>
+      <codeblock><coderef href="cycling/cyclist_category-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

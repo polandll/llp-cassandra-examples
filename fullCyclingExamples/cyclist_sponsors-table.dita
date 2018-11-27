@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_sponsors-table">
+  <title>cyclist_sponsors</title>
+  <shortdesc>Races and race sponsors in collection types.</shortdesc>
+  <refbody>
+    <section id="cyclistsponsorset">
+      <title>Cyclist sponsors set with TIMESTAMP and TTL</title>
+      <codeblock><coderef href="cycling/cyclist_sponsors-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

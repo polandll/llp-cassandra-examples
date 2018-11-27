@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="race_times-table">
+  <title>race_times</title>
+  <shortdesc><ph id="description">Field times includes duration and time, and a multicolumn primary
+      key.</ph></shortdesc>
+  <refbody>
+    <section id="cql">
+      <codeblock><coderef href="cycling/race_times-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

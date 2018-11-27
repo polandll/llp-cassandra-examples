@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="team_average-table">
+  <title>team_average</title>
+  <shortdesc>Partition key with two clustering columns. Shows use of aggregate and
+    functions.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Partition key with two clustering columns. Shows use of aggregate and functions.</p>
+      <codeblock><coderef href="cycling/team_average-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

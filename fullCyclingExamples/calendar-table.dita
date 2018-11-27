@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="calendar-table">
+  <title>calendar</title>
+  <shortdesc>Using clustering columns to display data.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Using clustering columns to display data.</p>
+      <codeblock><coderef href="cycling/calendar-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

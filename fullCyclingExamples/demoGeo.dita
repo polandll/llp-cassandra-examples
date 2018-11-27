@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//DataStax//DTD DITA TASK (hi-d ui-d pr-d sw-d abbrev-d)//EN" "task_ds.dtd">
+<task id="demoGeo">
+    <title>Indexing and querying polygons</title>
+    <shortdesc/>
+    <taskbody>
+        <context><p>Using United States of America state data, this tutorial demonstrates how to
+                index and query geospatial shapes, such as Polygons and MultiPolygons.
+                </p><p>Geospatial data is stored in the database in <xref
+                    href="https://en.wikipedia.org/wiki/Well-known_text" format="html"
+                    scope="external">WKT (Well Known Text)</xref> format. To support Polygons and
+                MultiPolygons fields, set the field type in the table index schema to
+                    <codeph>solr.SpatialRecursivePrefixTreeFieldType</codeph>. <note type="tip"
+                    >SpatialRecursivePrefixTreeFieldType supports multiValued spatial data. Most
+                    states are describable as Polygons, but others such as Hawaii and Alaska are
+                    MultiPolygons.</note></p><p>Polygonal searches use the following geospatial
+                predicates:</p><ul>
+                <li><b>Intersects</b>: Matches if the indexed value <b>overlaps</b> the search
+                    criteria.</li>
+                <li><b>IsWithin</b>: Matches if the indexed value <b>completely encapsulates</b> the
+                    search criteria.</li>
+                <li><b>IsDisjointTo</b>: Matches if the index value <b>does not overlap or touch</b>
+                    the search criteria.</li>
+            </ul><draft-comment author="pamelawonson">@pam need to finish</draft-comment><b><xref
+                    href="https://github.com/payamp/dse-search-polygon-tutorial#step-1-load-jts-library"
+                    format="html" scope="external" id="user-content-step-1-load-jts-library"
+            /></b></context>
+        <steps>
+            <step>
+                <cmd/>
+            </step>
+        </steps>
+    </taskbody>
+</task>

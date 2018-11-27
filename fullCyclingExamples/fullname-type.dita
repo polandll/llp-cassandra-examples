@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="fullname-type">
+  <title>fullname</title>
+  <shortdesc>User-defined type that contains two fields for first name and last name.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>User-defined type that contains two fields for first name and last name.</p>
+      <codeblock><coderef href="cycling/fullname-type.cql"/></codeblock>
+    </section>
+    <section>
+      <title>Displaying command results</title>
+      <p>
+        <codeblock outputclass="language-cql"><coderef href="cycling/fullname-desc.cqlsh"/></codeblock>
+      </p>
+      <codeblock outputclass="results"><coderef href="cycling/fullname-desc.results"/></codeblock>
+    </section>
+  </refbody>
+</reference>

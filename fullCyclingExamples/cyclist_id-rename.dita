@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_id-rename">
+  <title>cyclist_id</title>
+  <shortdesc>Composite partition key examples.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Composite partition key example with a clustering column.</p>
+      <codeblock><coderef href="cycling/cyclist_id-table.cql"/></codeblock>
+    </section>
+    <section id="queries">
+      <title>Queries</title>
+      <p>
+        <codeblock><coderef href="cycling/cyclist_id-where_basics.cql"/></codeblock>
+      </p>
+    </section>
+    <section>
+      <p>Composite partition key example without a clustering column.</p>
+      <codeblock outputclass="language-cql"><coderef href="cycling/cyclist_id-table2.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

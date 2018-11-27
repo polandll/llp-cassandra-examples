@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//DataStax//DTD DITA TASK (hi-d ui-d pr-d sw-d abbrev-d)//EN" "task_ds.dtd">
+<task id="demoKeyspace">
+    <title>Creating a demo keyspace for tutorials</title>
+    <shortdesc>Step-by-step instructions to create a keyspace for tutorials found in this
+        section.</shortdesc>
+    <taskbody>
+        <context>
+            <p>Step-by-step instructions to create a keyspace for tutorials found in this
+                section.</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Get a list of datacenter names (DC) in the cluster.</cmd>
+                <stepxmp>
+                    <screen outputclass="language-bash">dsetool status</screen>
+                </stepxmp>
+                <stepresult>The header line contains the datacenter name (<codeph>DC:
+                            <varname>datacenter_name</varname>) and the type of
+                    workload.</codeph><codeblock outputclass="results">DC: Cassandra       Workload: Cassandra       Graph: no
+======================================================
+...
+
+DC: Solr            Workload: Search          Graph: no
+======================================================
+...</codeblock></stepresult>
+            </step>
+            <step>
+                <cmd>Start a cqlsh session:</cmd>
+                <stepxmp>
+                    <codeblock>cqlsh</codeblock>
+                    <note type="tip">To connect cqlsh to a remote node use the host switch with the
+                        hostname or IP address.</note>
+                </stepxmp>
+            </step>
+            <step>
+                <cmd>Create a demo keyspace with a replication factor of 1 in each datacenter.</cmd>
+                <stepxmp>In multi-datacenter environments use
+                        <codeph>NetworkTopologyStrategy</codeph> and set the replication factor for
+                    each datacenter to at least
+                        one.<codeblock outputclass="language-cql">CREATE KEYSPACE demo 
+WITH replication = {
+    'class': 'NetworkTopologyStrategy', 
+    'Cassandra': '1', 
+    'Solr': '1'};</codeblock><note>Datacenter
+                        names are case-sensitive. Exit cqlsh and ensure that the name exactly
+                        matches the DC name from the <codeph>dsetool status</codeph>
+                    output.</note></stepxmp>
+            </step>
+        </steps>
+    </taskbody>
+</task>

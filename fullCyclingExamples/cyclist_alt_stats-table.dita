@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_alt_stats-table">
+  <title>cyclist_alt_stats</title>
+  <shortdesc/>
+  <refbody>
+    <section>
+      <p>Removes the table and inserts data required for examples.</p>
+      <codeblock><coderef href="cycling/cyclist_alt_stats.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

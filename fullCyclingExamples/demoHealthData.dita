@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//DataStax//DTD DITA TASK (hi-d ui-d pr-d sw-d abbrev-d)//EN" "task_ds.dtd">
+<task id="demoHealthData">
+    <title>Multi-faceted search using healthcare data</title>
+    <shortdesc>Create and alter search indexes using CQL index management commands.</shortdesc>
+    <taskbody>
+        <context>
+            <p>This quick start example provides an overview of creating and altering search indexes
+                using CQL index management commands. </p>
+        </context>
+        <prereq id="prereq_rql_tm5_bbb">
+            <ol id="ol_vxf_qfl_mbb">
+                <li>Create a demo keyspace with a replication factor of at least 1 in the search
+                    datacenter, see <xref keyref="demoKeyspace"/>.</li>
+                <li>Download the <xref href="/en/tutorials/health_data.cvs.zip" format="zip"
+                        scope="external">health_data.csv</xref> onto a search node.</li>
+            </ol>
+        </prereq>
+        <steps id="basicCreateIndex">
+            <step id="workload-search">
+                <cmd>Launch cqlsh on a search node:</cmd>
+                <substeps id="substeps_hxk_yh5_bbb">
+                    <substep>
+                        <cmd>Determine which nodes in the cluster are running a search
+                            workload:</cmd>
+                        <stepxmp>
+                            <screen outputclass="language-bash">dsetool status</screen>
+                            <note type="tip">DSE Search operations are  available only on
+                                search-enabled nodes. DataStax recommends single workload
+                                datacenters.</note>
+                        </stepxmp>
+                        <stepresult>The following example shows a development environment where all
+                            nodes in the cluster are in the same physical location, on the same
+                            rack, and the nodes have been separated into datacenters based on their
+                            workloads:<codeblock outputclass="results">DC: Main       Workload: Cassandra       Graph: no
+======================================================
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--   Address          Load             Owns               VNodes       Rack         Health [0,1]
+UN   10.10.10.111   15.51 MiB        ?                    8            rack1        0.90
+UN   10.10.10.113   19.51 MiB        ?                    8            rack1        0.90
+
+DC: Search            Workload: Search          Graph: no
+======================================================
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--   Address          Load             Owns               VNodes       Rack         Health [0,1]
+UN   10.10.10.108   18.13 MiB        ?                    8            rack1        0.90
+UN   10.10.10.110   17.4 MiB         ?                    8            rack1        0.90</codeblock></stepresult>
+                    </substep>
+                    <substep>
+                        <cmd>Launch a <codeph>cqlsh</codeph> session on a search node from the
+                            directory that contains the <filepath>health_data.csv</filepath>:</cmd>
+                        <stepxmp>
+                            <screen outputclass="language-bash">cd ~ &amp;&amp; cqlsh -k demo</screen>
+                        </stepxmp>
+                        <stepresult>A CQL sessions starts using the <xref keyref="demoKeyspace">demo
+                                keyspace</xref>.<codeblock outputclass="results">Connected to cluster1 at 10.10.10.108:9042.
+[cqlsh 5.0.1 | Cassandra 3.11.0.1805 | DSE 5.1.3 | CQL spec 3.4.4 | Native protocol v4]
+Use HELP for help.
+cqlsh:demo></codeblock><note
+                                type="tip">The active keyspace name appears in the cqlsh
+                                prompt.</note></stepresult>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Set up the <codeph>health_data</codeph> table with data:</cmd>
+                <substeps id="substeps_pb1_5j5_bbb">
+                    <substep>
+                        <cmd>Create the table:</cmd>
+                        <stepxmp>
+                            <codeblock outputclass="language-cql"><coderef href="search-demos/healthcare_demo/createTable-health_data.cql#createTable-health_data"/></codeblock>
+                            <note type="tip">After loading data that contains null values,
+                                temporarily set the grace period to zero to clean up
+                                tombstones.</note>
+                        </stepxmp>
+                    </substep>
+                    <substep>
+                        <cmd>Load data from the CSV file:</cmd>
+                        <stepxmp>
+                            <codeblock outputclass="language-cql"><coderef href="search-demos/healthcare_demo/load-data.cql"/></codeblock>
+                            <note>If <filepath>health_data.csv</filepath> is not in the directory
+                                where you launch cqlsh, specify the full path to the file.</note>
+                        </stepxmp>
+                        <stepresult>The script loads 20050 with no rows
+                            skipped.<codeblock outputclass="results">Using 1 child processes
+
+Starting copy of demo.health_data with columns [id, num_smokers, age, age_unit, age_months, major_medical_coverage, dental_coverage, routine_medical_coverage, employer_paid_plan, secondary_smoke, county, screening_month, pets, asthma, bronchitis, goiter, hay_fever, thyroid_disease, chronic_bronchitis, diagnosed_asthma, diagnosed_cataracts, diagnosed_emphysema, diagnosed_goiter, diagnosed_gout, diagnosed_hay_fever, diagnosed_lupus, diagnosed_other_cancer, diagnosed_skin_cancer, diagnosed_stroke, diagnosed_thyroid_disease, diagnosed_congestive_heart_failure, ethnicity, exam_status, family_sequence, family_size, fips, grade_completed, household_size, health_status, marital_status, bird, cat, dog, fish, other_pet, race, race_ethnicity, gender, birthplace, annual_income_20000, income_group, monthly_income_total].
+Processed: 20050 rows; Rate:    4782 rows/s; Avg. rate:    4560 rows/s
+20050 rows imported from 1 files in 4.397 seconds (0 skipped).</codeblock></stepresult>
+                    </substep>
+                    <substep>
+                        <cmd>Verify the number of records:</cmd>
+                        <stepxmp>
+                            <codeblock outputclass="language-cql">SELECT COUNT(*) FROM demo.health_data ;</codeblock>
+                        </stepxmp>
+                        <stepresult>
+                            <codeblock outputclass="results"> count
+-------
+ 20050
+
+(1 rows)
+
+Warnings :
+Aggregation query used without partition key</codeblock>
+                        </stepresult>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Create the search index:</cmd>
+                <stepxmp>
+                    <codeblock outputclass="language-cql">CREATE SEARCH INDEX ON demo.health_data 
+WITH COLUMNS * {excluded:false}, age_months, monthly_income_total {excluded: true} 
+AND PROFILES spaceSavingNoTextfield;</codeblock>
+                    <ul>
+                        <li>Only columns identified in the COLUMNS options are included. All columns are included when this
+                            option is omitted.</li>
+                    </ul>
+                </stepxmp>
+            </step>
+            <step>
+                <cmd>Display the schema:</cmd>
+                <stepxmp>
+                    <codeblock outputclass="language-cql">DESCRIBE ACTIVE SEARCH INDEX SCHEMA ON demo.health_data;</codeblock>
+                </stepxmp>
+                <stepresult>
+                    <codeblock outputclass="results">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?>
+&lt;schema name="autoSolrSchema" version="1.5">
+  &lt;types>
+    &lt;fieldType class="org.apache.solr.schema.StrField" name="StrField"/>
+    &lt;fieldType class="org.apache.solr.schema.TrieIntField" name="TrieIntField"/>
+  &lt;/types>
+  &lt;fields>
+    &lt;field indexed="true" multiValued="false" name="grade_completed" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_thyroid_disease" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="pets" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="secondary_smoke" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_lupus" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="gender" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="birthplace" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="income_group" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="marital_status" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="age_months" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="bird" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="hay_fever" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_hay_fever" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="routine_medical_coverage" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="annual_income_20000" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="exam_status" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="other_pet" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_stroke" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="employer_paid_plan" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="family_sequence" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_cataracts" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="major_medical_coverage" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_gout" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="age_unit" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="goiter" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="chronic_bronchitis" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="county" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="num_smokers" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="screening_month" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_emphysema" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_other_cancer" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="id" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="dental_coverage" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="health_status" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="fish" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="dog" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="asthma" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="ethnicity" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="age" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_asthma" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="race_ethnicity" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_congestive_heart_failure" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="family_size" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="race" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="thyroid_disease" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="bronchitis" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="household_size" stored="true" type="TrieIntField"/>
+    &lt;field indexed="true" multiValued="false" name="cat" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_goiter" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="diagnosed_skin_cancer" stored="true" type="StrField"/>
+    &lt;field indexed="true" multiValued="false" name="fips" stored="true" type="StrField"/>
+  &lt;/fields>
+  &lt;uniqueKey>(id,age)&lt;/uniqueKey>
+&lt;/schema></codeblock>
+                </stepresult>
+            </step>
+        </steps>
+    </taskbody>
+</task>

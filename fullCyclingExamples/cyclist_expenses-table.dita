@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_expenses-table">
+  <title>cyclist_expenses</title>
+  <shortdesc>Empty table to demonstrate batches.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Empty table to demonstrate batches.</p>
+      <codeblock><coderef href="cycling/cyclist_expenses-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

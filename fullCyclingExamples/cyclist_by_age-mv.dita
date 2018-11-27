@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_by_age-mv">
+  <title>cyclist_by_age-mv</title>
+  <shortdesc>Supports queries by age without an index or allow filtering.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Supports queries by age without an index or allow filtering.</p>
+      <codeblock><coderef href="cycling/cyclist_by_age-mv.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

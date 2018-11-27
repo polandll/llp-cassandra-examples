@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//DataStax//DTD DITA CONCEPT (hi-d ui-d pr-d sw-d abbrev-d)//EN" "concept_ds.dtd">
+<concept id="cyclingQueriesTOC">
+ <title>Cycling queries</title>
+ <shortdesc>Querying the cycling keyspace tables.</shortdesc>
+ <conbody>
+  <p>Querying the cycling keyspace tables.</p>
+ </conbody>
+</concept>

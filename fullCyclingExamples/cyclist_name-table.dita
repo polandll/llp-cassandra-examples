@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_name-table">
+  <title>cyclist_name</title>
+  <shortdesc>Simple single column partition key</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Simple single column partition key. Demonstrates inserting, updating, and deleting
+        data.</p>
+      <codeblock><coderef href="cycling/cyclist_name-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

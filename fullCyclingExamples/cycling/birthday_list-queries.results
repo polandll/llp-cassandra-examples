@@ -1,0 +1,13 @@
+// START-sameage
+ cyclist_name     | blist
+------------------+----------------------------------------------------------
+   Claudio HEINEN | {'age': '23', 'bday': '27/07/1992', 'nation': 'GERMANY'}
+ Laurence BOURQUE |  {'age': '23', 'bday': '27/07/1992', 'nation': 'CANADA'}
+// END-sameage
+
+// START-samenation
+ cyclist_name  | blist
+---------------+--------------------------------------------------------------
+ Luc HAGENAARS | {'age': '28', 'bday': '27/07/1987', 'nation': 'NETHERLANDS'}
+   Toine POELS | {'age': '52', 'bday': '27/07/1963', 'nation': 'NETHERLANDS'}
+// END-samenation

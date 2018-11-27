@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//DataStax//DTD DITA TOPIC (hi-d ui-d pr-d sw-d abbrev-d)//EN" "topic_ds.dtd">
+<topic id="cqlIndexMgmtQuickStart">
+  <title>Quick Start for CQL index management</title>
+  <shortdesc>Example for creating and altering search indexes using CQL index management
+    commands.</shortdesc>
+  <body>
+    <p>This quick start example provides an overview of creating and altering search indexes using
+      CQL index management commands. </p>
+    <section id="create1">
+      <title>Creating a search index</title>
+      <p>
+        <ol id="ol_yvx_3zm_51b">
+          <li>Launch cqlsh and create a tutorial keyspace on a solr node:<screen outputclass="language-cql">cqlsh</screen></li>
+          <li>Set up the table schema and create a default index:</li>
+          <li>Create the keyspace, create the table, and then <xref keyref="cqlCreateSearchIndex"
+              >create the search index</xref> on the users table from the <xref
+              href="https://academy.datastax.com/resources/datastax-reference-application-killrvideo/"
+              format="html" scope="external">KillrVideo</xref>
+              application:<screen outputclass="language-cql">CREATE KEYSPACE demo WITH 
+   replication = {
+      'class': 'SimpleStrategy', 
+      'replication_factor': 1};
+
+CREATE TABLE demo.users (
+   userid uuid, 
+   firstname text, 
+   lastname text, 
+   email text,
+   created_date timestamp, 
+   PRIMARY KEY (userid));
+
+CREATE SEARCH INDEX ON demo.users;</screen><p>A
+              new search index is generated on the table. Existing data is reindexed. </p></li>
+          <li>Use the CQL shell DESCRIBE SEARCH INDEX SCHEMA View the pending search index schema
+              <p>The generated schema looks like
+              this:<codeblock outputclass="language-xml">&lt;schema name="autoSolrSchema" version="1.5">
+  &lt;types>
+    &lt;fieldType class="org.apache.solr.schema.TextField" name="TextField">
+      &lt;analyzer>
+        &lt;tokenizer class="solr.StandardTokenizerFactory"/>
+        &lt;filter class="solr.LowerCaseFilterFactory"/>
+      &lt;/analyzer>
+    &lt;/fieldType>
+    &lt;fieldType class="org.apache.solr.schema.UUIDField" name="UUIDField"/>
+    &lt;fieldType class="org.apache.solr.schema.TrieDateField" name="TrieDateField"/>
+  &lt;/types>
+  &lt;fields>
+    &lt;field indexed="true" multiValued="false" name="firstname" stored="true" type="TextField"/>
+    &lt;field docValues="true" indexed="true" multiValued="false" name="userid" stored="true" type="UUIDField"/>
+    &lt;field indexed="true" multiValued="false" name="email" stored="true" type="TextField"/>
+    &lt;field indexed="true" multiValued="false" name="lastname" stored="true" type="TextField"/>
+    &lt;field docValues="true" indexed="true" multiValued="false" name="created_date" stored="true" type="TrieDateField"/>
+  &lt;/fields>
+  &lt;uniqueKey>userid&lt;/uniqueKey>
+&lt;/schema></codeblock></p></li>
+          <li>To increase tolerance of non-ASCII characters in the name field, add a new fieldType
+            to the schema with this <xref keyref="cqlAlterSearchIndexSchema"/>
+            statement:<screen outputclass="no-highlight">ALTER SEARCH INDEX SCHEMA ON demo.users 
+   ADD types.fieldType [ 
+      @name='TextField_intl' , 
+      @class='org.apache.solr.schema.TextField' ]
+   WITH  $${
+      "analyzer": [ {
+         "type": "index",
+         "tokenizer": { "class": "solr.StandardTokenizerFactory" },
+         "filter": [ { "class": "solr.LowerCaseFilterFactory" },
+              { "class": "solr.ASCIIFoldingFilterFactory" }
+            ]
+          },
+          {
+            "type": "search",
+            "tokenizer": { "class": "solr.StandardTokenizerFactory" },
+            "filter": [
+              { "class": "solr.LowerCaseFilterFactory" },
+              { "class": "solr.ASCIIFoldingFilterFactory" }
+            ]
+          }
+        ]
+      }$$;
+</screen>The
+            dollar signs ($$) syntax in the ALTER SEARCH INDEX SCHEMA example are dollar quotes to
+            escape a single quotation mark, see <xref keyref="siEscapeCharacters/singleQ">Escaping single
+              quotation marks</xref>. This new fieldType has separate index and search analysis
+            phases:<codeblock outputclass="language-xml">&lt;fieldType class="org.apache.solr.schema.TextField" name="TextField_intl">
+  &lt;analyzer type="index">
+    &lt;filter class="solr.LowerCaseFilterFactory"/>
+    &lt;filter class="solr.ASCIIFoldingFilterFactory"/>
+    &lt;tokenizer class="solr.StandardTokenizerFactory"/>
+  &lt;/analyzer>
+  &lt;analyzer type="search">
+    &lt;filter class="solr.LowerCaseFilterFactory"/>
+    &lt;filter class="solr.ASCIIFoldingFilterFactory"/>
+    &lt;tokenizer class="solr.StandardTokenizerFactory"/>
+  &lt;/analyzer>
+&lt;/fieldType></codeblock></li>
+          <li>Change the type on the firstname and lastname
+            fields:<screen outputclass="language-cql">ALTER SEARCH INDEX SCHEMA ON demo.users 
+  SET field[@name='firstname']@type = 'TextField_intl';
+</screen><screen outputclass="language-cql">ALTER SEARCH INDEX SCHEMA ON demo.users 
+  SET field[@name='lastname']@type = 'TextField_intl';
+</screen></li>
+          <li>In contrast to the dsetool search index management commands, all changes made with
+            ALTER SEARCH INDEX affect only the pending resources for the search index. To use the
+              changes:<ol id="ol_brh_41n_51b">
+              <li>Reload the
+                index.<screen outputclass="language-cql">RELOAD SEARCH INDEX ON demo.users; </screen></li>
+              <li>If there is existing data in the index, rebuild the
+                index.<screen outputclass="language-cql">REBUILD SEARCH INDEX ON demo.users;</screen></li>
+            </ol></li>
+        </ol>
+      </p>
+    </section>
+  </body>
+</topic>

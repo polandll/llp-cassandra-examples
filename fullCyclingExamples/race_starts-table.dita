@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="race_starts-table">
+  <title>race_starts</title>
+  <shortdesc>Frozen list full index example.</shortdesc>
+  <refbody>
+    <section id="frozenFullIndex">
+      <p>Frozen list full index example.</p>
+      <codeblock><coderef href="cycling/race_starts-table.cql"/></codeblock>
+      <p>Output from
+        query:<codeblock><coderef href="cycling/race_starts-queries.results"/></codeblock>The
+          <codeph>SELECT</codeph> statement finds any cyclist who has 39 Pro race wins, 7 Grand Tour
+        starts, and 14 Classic starts.</p>
+    </section>
+  </refbody>
+</reference>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="comments-si">
+  <title>comments search index</title>
+  <shortdesc>Modifying the configuration and schema on the comments table search index.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Modifying the configuration and schema on the comments table search index.</p>
+      <note>Depends on the <xref keyref="comments-table"/> table.</note>
+      <codeblock><coderef href="cycling/comments-searchindex.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

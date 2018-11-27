@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_teams-table">
+  <title>cyclist_teams</title>
+  <shortdesc>Map data type example.</shortdesc>
+  <refbody>
+    <section id="cyclistTeamsMap">
+      <p>Map data type example. Create an index on a map key and query for a value that contains a
+        key.</p>
+      <codeblock><coderef href="cycling/cyclist_teams-table.cql"/></codeblock>
+      <p>Query
+        output:<codeblock outputclass="language-cql"><coderef href="cycling/cyclist_team-queries.results"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>
+

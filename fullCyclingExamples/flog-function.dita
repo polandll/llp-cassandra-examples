@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="flog-function">
+  <title>flog</title>
+  <shortdesc>User-defined function.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>User-defined function.</p>
+      <codeblock><coderef href="cycling/flog-function.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

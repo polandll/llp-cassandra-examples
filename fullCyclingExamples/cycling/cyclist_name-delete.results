@@ -1,0 +1,75 @@
+// START-nametableinitial
+ id                                   | firstname | lastname
+--------------------------------------+-----------+-----------------
+ e7ae5cf3-d358-4d99-b900-85902fda9bb0 |      Alex |           FRAME
+ fb372533-eb95-4bb4-8685-6ef61e994caa |   Michael |        MATTHEWS
+ 5b6962dd-3f90-4c93-8f61-eabfa4a803e2 |  Marianne |             VOS
+ 220844bf-4860-49d6-9a4b-6b5d3a79cbfb |     Paolo |       TIRALONGO
+ 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47 |    Steven |      KRUIKSWIJK
+ e7cd5752-bc0d-4157-a80f-7523add8dbcd |      Anna | VAN DER BREGGEN
+
+(6 rows)
+// END-nametableinitial
+
+// START-delete1stlastname
+ id                                   | firstname | lastname
+--------------------------------------+-----------+-----------------
+ e7ae5cf3-d358-4d99-b900-85902fda9bb0 |      null |            null
+ fb372533-eb95-4bb4-8685-6ef61e994caa |   Michael |        MATTHEWS
+ 5b6962dd-3f90-4c93-8f61-eabfa4a803e2 |  Marianne |             VOS
+ 220844bf-4860-49d6-9a4b-6b5d3a79cbfb |     Paolo |       TIRALONGO
+ 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47 |    Steven |      KRUIKSWIJK
+ e7cd5752-bc0d-4157-a80f-7523add8dbcd |      Anna | VAN DER BREGGEN
+
+(6 rows)
+// END-delete1stlastname
+
+// START-appliedtrue
+ [applied]
+-----------
+      True
+// END-appliedtrue
+
+// START-deleteentirerowresult
+ id                                   | firstname | lastname
+--------------------------------------+-----------+-----------------
+ fb372533-eb95-4bb4-8685-6ef61e994caa |   Michael |        MATTHEWS
+ 5b6962dd-3f90-4c93-8f61-eabfa4a803e2 |  Marianne |             VOS
+ 220844bf-4860-49d6-9a4b-6b5d3a79cbfb |     Paolo |       TIRALONGO
+ 6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47 |    Steven |      KRUIKSWIJK
+ e7cd5752-bc0d-4157-a80f-7523add8dbcd |      Anna | VAN DER BREGGEN
+
+(5 rows)
+// END-deleteentirerowresult
+
+// START-appliedfshowdata
+ [applied] | firstname | lastname
+-----------+-----------+----------
+     False |   Michael | MATTHEWS
+// END-appliedfshowdata
+
+// START-appliedfalse
+ [applied]
+-----------
+     False
+// END-appliedfalse
+
+// START-deletedsteven
+ id                                   | firstname | lastname
+--------------------------------------+-----------+-----------------
+ fb372533-eb95-4bb4-8685-6ef61e994caa |   Michael |        MATTHEWS
+ 5b6962dd-3f90-4c93-8f61-eabfa4a803e2 |  Marianne |             VOS
+ 220844bf-4860-49d6-9a4b-6b5d3a79cbfb |     Paolo |       TIRALONGO
+ e7cd5752-bc0d-4157-a80f-7523add8dbcd |      Anna | VAN DER BREGGEN
+
+(4 rows)
+// END-deletedsteven
+
+// START-deletemultiplerowsresult
+ id                                   | firstname | lastname
+--------------------------------------+-----------+-----------------
+ fb372533-eb95-4bb4-8685-6ef61e994caa |   Michael |        MATTHEWS
+ e7cd5752-bc0d-4157-a80f-7523add8dbcd |      Anna | VAN DER BREGGEN
+
+(2 rows)
+// END-deletemultiplerowsresult

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="basic_info-type">
+  <title>basic_info</title>
+  <titlealts>
+    <navtitle>basic_info</navtitle>
+  </titlealts>
+  <shortdesc audience="inlinexclude">User-defined type that contains fields for basic information
+    about a cyclist such as birthday, nationality, height, and weight.</shortdesc>
+  <refbody>
+    <section id="udtCreateBasicInfo">
+      <p>User-defined type that contains fields for basic information about a cyclist such as
+        birthday, nationality, height, and weight.</p>
+      <codeblock outputclass="language-cql"><coderef href="cycling/basic_info-type.cql"/></codeblock>
+    </section>
+    <section id="udtViewBasicInfo">
+      <p/>
+    </section>
+  </refbody>
+</reference>

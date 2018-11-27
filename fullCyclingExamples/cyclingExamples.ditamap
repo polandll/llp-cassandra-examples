@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
+<map audience="cql">
+ <title>CQL examples</title>
+ <topicref href="examplesTOC.dita" keys="examplesTOC.dita">
+  <topicref href="cyclingks.dita" keys="cyclingks">
+   <topicref href="cyclingTypesTOC.dita" keys="cyclingTypesTOC">
+    <topicref href="basic_info-type.dita" keys="basic_info-type"/>
+    <topicref href="basic_info_withTTL-type.dita" keys="basic_info_withTTL-type"/>
+    <topicref href="fullname-type.dita" keys="fullname-type"/>
+    <topicref href="race-type.dita" keys="race-type"/>
+   </topicref>
+   <topicref href="cycling-tablesTOC.dita" keys="cycling-tablesTOC">
+    <topicref href="birthday_list-table.dita" keys="birthday_list-table"/>
+    <topicref href="calendar-table.dita" keys="calendar-table"/>
+    <topicref href="comments-table.dita" keys="comments-table"/>
+    <topicref href="country_flag-table.dita" keys="country_flag-table"/>
+    <topicref href="cyclist_alt_stats-table.dita" keys="cyclist_alt_stats-table"/>
+    <topicref href="cyclist_base-table.dita" keys="cyclist_base-table"/>
+    <topicref href="cyclist_career_teams-table.dita" keys="cyclist_career_teams-table"/>
+    <topicref href="cyclist_category-table.dita" keys="cyclist_category-table"/>
+    <topicref href="cyclist_emails-table.dita" keys="cyclist_emails-table"/>
+    <topicref href="cyclist_expenses-table.dita" keys="cyclist_expenses-table"/>
+    <topicref href="cyclist_id-rename.dita" keys="cyclist_id-table"/>
+    <topicref href="cyclist_name-table.dita" keys="cyclist_name-table"/>
+    <topicref href="cyclist_points-table.dita" keys="cyclist_points-table"/>
+    <topicref href="cyclist_races-table.dita" keys="cyclist_races-table"/>
+    <topicref href="cyclist_sponsors-table.dita" keys="cyclist_sponsors-table"/>
+    <topicref href="../cyclist_stats-table.dita"/>
+    <topicref href="cyclist_teams-table.dita" keys="cyclist_teams-table"/>
+    <topicref href="events-table.dita" keys="events-table"/>
+    <topicref href="popular_count.dita" keys="popular_count-table"/>
+    <topicref href="race_sponsors-table.dita" keys="race_sponsors-table"/>
+    <topicref href="race_starts-table.dita" keys="race_starts-table"/>
+    <topicref href="race_times-table.dita" keys="race_times-table"/>
+    <topicref href="race_winners-table.dita" keys="race_winners-table"/>
+    <topicref href="rank_by_year_and_name-table.dita" keys="rank_by_year_and_name-table"/>
+    <topicref href="team_average-table.dita" keys="team_average-table"/>
+    <topicref href="upcoming_calendar-table.dita" keys="upcoming_calendar-table"/>
+    <topicref href="cyclingMaterializedViewsTOC.dita" keys="cyclingMaterializedViewsTOC">
+     <topicref href="cyclist_by_age-mv.dita" keys="cyclist_by_age-mv"/>
+    </topicref>
+   </topicref>
+   <topicref href="cyclingQueriesTOC.dita" keys="cyclingQueriesTOC">
+    <topicref href="team_average-query.dita" keys="team_average-query"/>
+   </topicref>
+   <topicref href="cyclingFunctionsTOC.dita" keys="cyclingFunctionsTOC">
+    <topicref href="team_average-aggregates.dita" keys="team_average-aggregates"/>
+    <topicref href="flog-function.dita" keys="flog-function"/>
+    <topicref href="left-function.dita" keys="left-function"/>
+   </topicref>
+   <topicref href="cycling-searchindexTOC.dita" keys="cycling-searchindexTOC">
+    <topicref href="comments-si.dita" keys="comments-si"/>
+   </topicref>
+   <topicref href="indexTOC.dita" keys="indexTOC">
+    <topicref href="cyclist_name-index.dita" keys="cyclist_name-index"/>
+   </topicref>
+   <topicref href="cyclingAuthToc.dita" keys="cyclingAuthToc">
+    <topicref href="internal_roles.dita" keys="internal_roles"/>
+   </topicref>
+  </topicref>
+  <topicref href="tutorialsDemosTOC.dita" keys="tutorialsDemosTOC">
+   <topicref href="demoKeyspace.dita" keys="demoKeyspace"/>
+   <topicref href="demoHealthData.dita" keys="demoHealthData"/>
+   <topicref href="cqlIndexMgmtQuickStart.dita" keys="cqlIndexMgmtQuickStart"/>
+   <topicref href="demoWikipediaSingleNode.dita" keys="demoWikipediaSingleNode">
+    <topicref href="demoWikipediaSecureCluster.dita"
+     keys="demoWikipediaSecureCluster"/>
+   </topicref>
+   <topicref href="demoGeo.dita" keys="demoGeo"/>
+  </topicref>
+ </topicref>
+</map>

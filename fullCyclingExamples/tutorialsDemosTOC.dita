@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//DataStax//DTD DITA TOPIC (hi-d ui-d pr-d sw-d abbrev-d)//EN" "topic_ds.dtd">
+<topic id="tutorialsDemosTOC">
+  <title>Search index examples</title>
+  <shortdesc>Step-by-step tutorials with sample keyspaces, tables, and data that demonstrate DSE
+    Search index functionality.</shortdesc>
+  <body>
+    <p>Use these step-by-step tutorials with sample keyspaces, tables, and data to learn how to
+      setup and use DSE Search index functionality.</p>
+    <p>Useful external resources:</p>
+    <ul id="ul_hlq_b32_zx">
+      <li><xref href="https://github.com/payamp/dse-search-polygon-tutorial" format="html"
+        scope="external">Tutorial</xref> how to index and query geospatial Polygons and
+        MultiPolygons.</li>
+      <li><xref href="https://github.com/phact/docker-silk-dse" format="html" scope="external"
+        >Docker container</xref> for running Silk on DSE Search.</li>
+    </ul>
+  </body>
+</topic>

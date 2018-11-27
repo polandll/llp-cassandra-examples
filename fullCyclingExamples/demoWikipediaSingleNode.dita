@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//DataStax//DTD DITA TASK (hi-d ui-d pr-d sw-d abbrev-d)//EN" "task_ds.dtd"><task id="demoWikipediaSingleNode">
+    <title>Term and phrase searches using the wikipedia demo</title>
+    <shortdesc>Set up the Wikipedia demo, keyspace, table, and data and run queries on terms in
+        article titles and bodies.</shortdesc>
+    <taskbody>
+        <context>
+            <p>The Wikipedia demo scripts automatically download 3,000+ Wikipedia articles, create a
+                CQL keyspace and table, insert the articles, and create a search index on both the
+                title and body columns.</p>
+        </context>
+        <prereq id="prereq">The demo scripts connect to the localhost on the Solr port. Ensure that
+            the Solr interface and port <codeph>127.0.0.1:8983</codeph> are accessible.</prereq>
+        <steps >
+            <step id="dse-install-start-spark">
+                <cmd><xref keyref="startStopDseTOC">Start DataStax Enterprise</xref> as a search
+                    node.</cmd>
+            </step>
+            <step>
+                <cmd>Go to
+                        <codeph><varname>installation_directory</varname>/demos/wikipedia</codeph>.</cmd>
+            </step>
+            <step>
+                <cmd>Run the script to add the wikipedia schema:</cmd>
+                <stepxmp>
+                    <screen outputclass="language-bash">./1-add-schema.sh</screen>
+                </stepxmp>
+                <stepresult>This script creates the <codeph>wiki</codeph> keyspace with a single
+                    table <codeph>solr</codeph>.</stepresult>
+            </step>
+            <step>
+                <cmd>To use the demo in a cluster that has more than one node, change the keyspace
+                    replication from SimpleStrategy to NetworkTopologyStrategy, and set the factor
+                    to 1 in each datacenter:</cmd>
+                <stepxmp>
+                    <screen outputclass="language-bash">cqlsh -e 'ALTER KEYSPACE wiki WITH replication = {'class': 'NetworkTopologyStrategy', 'Cassandra' : 1, 'Solr' : 1};</screen>
+                    <p>In this example, the cluster has two datacenters, <codeph>Cassandra</codeph>
+                        and <codeph>Solr</codeph>. Datacenter names are case-sensitive.</p>
+                </stepxmp>
+            </step>
+            <step>
+                <cmd>Load the data and index the table using the second script
+                        (<codeph>2-index.sh</codeph>).</cmd>
+                <stepxmp>
+                    <screen outputclass="language-bash">./2-index.sh --wikifile wikipedia-sample.bz2</screen>
+                </stepxmp>
+                <stepresult> 3,000 articles are loaded into the <codeph>solr</codeph> table and then
+                    indexed.<codeblock outputclass="results">Start indexing wikipedia...
+------------> config properties:
+docs.file = wikipedia-sample.bz2
+keep.image.only.docs = false
+-------------------------------
+Indexed 1000
+Indexed 2000
+Indexed 3000
+Finished
+Visit http://localhost:8983/demos/wikipedia/ to see data</codeblock></stepresult>
+            </step>
+            <step importance="optional">
+                <cmd>Verify that the data was successfully loaded into the keyspace/table:</cmd>
+                <stepxmp><screen outputclass="language-bash">cqlsh -e 'DESC KEYSPACE wiki; SELECT count(*) FROM wiki.solr;'</screen>The
+                    results show the details of the keyspace, table schema, index settings, and
+                    number of
+                    articles.<codeblock outputclass="results">CREATE KEYSPACE wiki WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+
+CREATE TABLE wiki.solr (
+    id text PRIMARY KEY,
+    body text,
+    date text,
+    solr_query text,
+    title text
+) WITH bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = ''
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+CREATE CUSTOM INDEX wiki_solr_solr_query_index ON wiki.solr (solr_query) USING 'com.datastax.bdp.search.solr.Cql3SolrSecondaryIndex';
+
+ count
+-------
+  3579
+
+(1 rows)
+
+Warnings :
+Aggregation query used without partition key
+</codeblock></stepxmp>
+            </step>
+            <step>
+                <cmd>Start <codeph>cqlsh</codeph> using the wiki keyspace.</cmd>
+                <stepxmp>
+                    <screen outputclass="language-bash">cqlsh -k wiki</screen>
+                </stepxmp>
+                <stepresult>CQL shell session starts on the localhost in the <codeph>wiki</codeph>
+                    keyspace.<codeblock outputclass="results">Connected to pw-search at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 3.11.0.1805 | DSE 5.1.3 | CQL spec 3.4.4 | Native protocol v4]
+Use HELP for help.
+cqlsh:wiki></codeblock></stepresult>
+            </step>
+            <step>
+                <cmd>Disable paging, for faster query results on small data sets:</cmd>
+                <stepxmp>
+                    <codeblock outputclass="language-cql">PAGING off</codeblock>
+                    <note>Paging is turned off only for the session. Paging is enabled after a
+                        restart. Use a cqlshrc file to change the default startup parameters for
+                        cqlsh.</note>
+                </stepxmp>
+                <stepresult>
+                    <codeblock outputclass="results">Disabled Query paging.</codeblock>
+                </stepresult>
+            </step>
+            <step>
+                <cmd>Display the solr table search index schema:</cmd>
+                <stepxmp>
+                    <codeblock outputclass="language-cql">DESCRIBE ACTIVE SEARCH INDEX SCHEMA ON solr;</codeblock>
+                </stepxmp>
+                <stepresult>
+                    <codeblock outputclass="results">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?>
+&lt;schema name="autoSolrSchema" version="1.5">
+  &lt;types>
+    &lt;fieldType class="org.apache.solr.schema.TextField" name="TextField">
+      &lt;analyzer>
+        &lt;tokenizer class="solr.WikipediaTokenizerFactory"/>
+      &lt;/analyzer>
+    &lt;/fieldType>
+    &lt;fieldType class="org.apache.solr.schema.StrField" name="StrField"/>
+  &lt;/types>
+  &lt;fields>
+    &lt;field indexed="true" multiValued="false" name="body" stored="true" type="TextField"/>
+    &lt;field indexed="true" multiValued="false" name="title" stored="true" type="TextField"/>
+    &lt;field docValues="true" indexed="true" multiValued="false" name="id" stored="true" type="StrField"/>
+    &lt;field docValues="true" indexed="true" multiValued="false" name="date" stored="true" type="StrField"/>
+  &lt;/fields>
+  &lt;uniqueKey>id&lt;/uniqueKey>
+&lt;/schema></codeblock>
+                </stepresult>
+            </step>
+            <step>
+                <cmd>Execute queries against the table using the index:</cmd>
+                <choices id="choices_uny_1sp_x1b">
+                    <choice>Return the titles of articles that contain the word
+                        national:<codeblock outputclass="language-cql">SELECT title FROM solr WHERE solr_query='title:national';</codeblock>Seven
+                        records are
+                        returned.<codeblock outputclass="results"> title
+--------------------------------------------------------------------------
+                                      Bolivia national football team 1999
+                                      Bolivia national football team 2000
+                                    Kenya national under-20 football team
+                                      Bolivia national football team 2001
+                                      Bolivia national football team 2002
+                                 Israel men's national inline hockey team
+ List of French born footballers who have played for other national teams
+
+(7 rows)</codeblock></choice>
+                </choices>
+            </step>
+        </steps>
+    </taskbody>
+</task>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="rank_by_year_and_name-table">
+  <title>rank_by_year_and_name</title>
+  <shortdesc><ph id="description">Using a composite partition key and writing conditional statements
+      (WHERE).</ph></shortdesc>
+  <refbody>
+    <section id="cql">
+      <codeblock><coderef href="cycling/rank_by_year_and_name-table.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclist_name-index">
+  <title>Index on cyclist_name</title>
+  <shortdesc>Create an experimental secondary index.</shortdesc>
+  <refbody>
+    <section id="descriptive_title">
+      <p>Create an experimental secondary index.</p>
+      <codeblock><coderef href="cycling/cyclist_name-index.cql"/></codeblock>
+    </section>
+  </refbody>
+</reference>

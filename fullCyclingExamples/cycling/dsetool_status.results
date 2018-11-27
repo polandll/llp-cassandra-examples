@@ -1,0 +1,10 @@
+DC: Cassandra       Workload: Cassandra       Graph: no
+======================================================
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--   Address          Load             Owns                 Token                                        Rack         Health [0,1]
+                                                            0
+UN   10.0.0.15   67.44 MiB        ?                    -9223372036854775808                         rack1        0.90
+UN   10.0.0.110   766.4 KiB        ?                    0                                            rack2        0.90
+
+Note: you must specify a keyspace to get ownership information.

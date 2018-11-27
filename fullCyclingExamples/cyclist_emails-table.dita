@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="ref_ds_kx1_xfz_1fb">
+  <title>cyclist_emails</title>
+  <shortdesc audience="inlinexclude">Create and drop the cyclist emails table with its known
+    ID.</shortdesc>
+  <refbody>
+    <section id="description">
+      <p>Empty table to demonstrate creating, dropping, and recreating the
+          <codeph>cyclist_emails</codeph> table with its original ID so that commit logs can replay
+        properly during restores. Be sure to take note of the table ID, visible in the
+          <codeph>system_schema</codeph>
+        table.<codeblock outputclass="language-cql"><coderef href="cycling/cyclist_emails-table.cql"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>

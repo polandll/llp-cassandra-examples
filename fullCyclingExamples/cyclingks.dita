@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//DataStax//DTD DITA REFERENCE (hi-d ui-d pr-d sw-d abbrev-d)//EN" "reference_ds.dtd">
+<reference id="cyclingks">
+  <title>Setting up the Cycling keyspace</title>
+  <shortdesc>CQL commands to set up the cycling keyspace and examples used in this
+    guide.</shortdesc>
+  <refbody>
+    <section>
+      <p>CQL commands to set up the cycling keyspace and examples used in this guide.</p>
+      <p>Use the replication factor that is appropriate for the type of snitch in your environment.
+        The following assumes that the DataStax Enterprise deployment is a single node cluster in a
+        development environment.</p>
+      <p>Update the following command and create a CQL file named
+          <filepath>0_create_keyspace.cql</filepath> in the same directory where you launch
+          <codeph>cqlsh</codeph>.<codeblock><coderef href="cycling/0_create_keyspace.cql#0_create_keyspace"/></codeblock></p>
+    </section>
+    <section>
+      <title>Additional cycling keyspace examples</title>
+      <p>Shows additional keyspace
+        examples<codeblock outputclass="language-cql"><coderef href="cycling/cycling-keyspace.cql"/></codeblock></p>
+    </section>
+  </refbody>
+</reference>

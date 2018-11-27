@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//DataStax//DTD DITA CONCEPT (hi-d ui-d pr-d sw-d abbrev-d)//EN" "concept_ds.dtd">
+<concept id="cyclingMaterializedViewsTOC">
+ <title>Cycling Materialized Views</title>
+ <titlealts>
+  <navtitle>Materialized views</navtitle>
+ </titlealts>
+ <shortdesc>Create materialized views from cycling tables.</shortdesc>
+ <conbody>
+  <p>Create materialized views from cycling tables.</p>
+ </conbody>
+</concept>

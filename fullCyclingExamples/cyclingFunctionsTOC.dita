@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//DataStax//DTD DITA CONCEPT (hi-d ui-d pr-d sw-d abbrev-d)//EN" "concept_ds.dtd">
+<concept id="cyclingFunctionsTOC">
+ <title>Cycling user-defined functions</title>
+ <shortdesc>Sample user-defined functions and aggregates.</shortdesc>
+ <conbody>
+  <p>Sample user-defined functions and aggregates.<note type="important">Requires setting the <xref
+     keyref="configCassandra_yaml/enable_user_defined_functions"/> and <xref
+     keyref="configCassandra_yaml/enable_scripted_user_defined_functions"/> to true in the
+     <filepath-popup>cassandra.yaml</filepath-popup>.
+</note></p>
+ </conbody>
+</concept>
