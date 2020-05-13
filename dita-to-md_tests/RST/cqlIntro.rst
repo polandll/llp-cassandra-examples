@@ -41,11 +41,12 @@ documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
 +------------------+----------------------------------------------------------------+
 | New CQL features | - `JSON support <cql_using/useInsertJSON.md>` for CQL3         |
 |                  | - `User Defined Functions <cql_using/useCreateUDF.md>` (UDFs)  |
-|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>` (UDAs) |
+|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>` (UDAs)
+|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>` (RBAC) |
+|                  | - Native Protocol v.4                                          |
+|                  | -`Materialized Views <cql_using/useCreateMV.md>`               |
 +------------------+----------------------------------------------------------------+
- - `Role Based Access
-Control <cql_using/useSecureRoles.md>`__ (RBAC) - Native Protocol v.4 -
-`Materialized Views <cql_using/useCreateMV.md>`__ - Addition of
+ - Addition of
 `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh - In Cassandra
 3.4 and later, `SSTable Attached Secondary Indexes
 (SASI) <cql_using/useSASIIndex.md>`__ have been introduced for queries
