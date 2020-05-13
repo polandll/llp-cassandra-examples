@@ -38,11 +38,12 @@ so that CQL statements can be passed from client to cluster and back.
 `Cassandra 3.x
 documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
 
-New CQL features
-
-\| - `JSON support <cql_using/useInsertJSON.md>`__\ for CQL3 - `User
-Defined Functions <cql_using/useCreateUDF.md>`__ (UDFs) - `User Defined
-Aggregates <cql_using/useCreateUDA.md>`__ (UDAs) - `Role Based Access
++------------------+----------------------------------------------------------------+
+| New CQL features | - `JSON support <cql_using/useInsertJSON.md>` for CQL3         |
+|                  | - `User Defined Functions <cql_using/useCreateUDF.md>` (UDFs)  |
+|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>` (UDAs) |
++------------------+----------------------------------------------------------------+
+ - `Role Based Access
 Control <cql_using/useSecureRoles.md>`__ (RBAC) - Native Protocol v.4 -
 `Materialized Views <cql_using/useCreateMV.md>`__ - Addition of
 `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh - In Cassandra
