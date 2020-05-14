@@ -38,49 +38,42 @@ so that CQL statements can be passed from client to cluster and back.
 `Cassandra 3.x
 documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
 
-+------------------+------------------------------------------------------------------------+
-| New CQL features | - `JSON support <cql_using/useInsertJSON.md>`__ for CQL3               |
-|                  | - `User Defined Functions <cql_using/useCreateUDF.md>`__ (UDFs)        |
-|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>`__ (UDAs)       |
-|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>`__ (RBAC)   |
-|                  | - Native Protocol v.4                                                  | 
-|                  | - `Materialized Views <cql_using/useCreateMV.md>`__                    |
-|                  | - Addition of `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh|
-+------------------+------------------------------------------------------------------------+
++-----------------------+------------------------------------------------------------------------+
+| New CQL features      | - `JSON support <cql_using/useInsertJSON.md>`__ for CQL3               |
+|                       | - `User Defined Functions <cql_using/useCreateUDF.md>`__ (UDFs)        |
+|                       | - `User Defined Aggregates <cql_using/useCreateUDA.md>`__ (UDAs)       |
+|                       | - `Role Based Access Control <cql_using/useSecureRoles.md>`__ (RBAC)   |
+|                       | - Native Protocol v.4                                                  | 
+|                       | - `Materialized Views <cql_using/useCreateMV.md>`__                    |
+|                       | - Addition of `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh|
+|                       | - In Cassandra 3.4 and later, `SSTable Attached Secondary Indexes      |
+|                       |   (SASI) <cql_using/useSASIIndex.md>`__ have been introduced for       |
+|                       |   queries that previously required the use of ``ALLOW FILTERING``.     |
++-----------------------+------------------------------------------------------------------------+
+| Improved CQL features | - Additional `COPY <cql_reference/cqlshCopy.md>`__ command options     |
+|                       | - New `WITH ID <cql_reference/cqlCreateTable.md#>`__ option with       |
+|                       |   ``CREATE TABLE`` command                                             |
++-----------------------+------------------------------------------------------------------------+
 
- - Addition of
-`CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh - In Cassandra
-3.4 and later, `SSTable Attached Secondary Indexes
-(SASI) <cql_using/useSASIIndex.md>`__ have been introduced for queries
-that previously required the use of ``ALLOW FILTERING``.
-
-\| \| Improved CQL features
-
-\| - Additional `COPY <cql_reference/cqlshCopy.md>`__ command options -
-New `WITH ID <cql_reference/cqlCreateTable.md#>`__ option with
-``CREATE TABLE`` command - Support `IN
-clause <cql_using/useQueryIN.md>`__ on any partition key column or
-clustering column - Accept `Dollar Quoted
-Strings <cql_reference/escape_char_r.md>`__ - Allow Mixing Token and
-Partition Key Restrictions - Support `Indexing Key/Value Entries on Map
-Collections <cql_using/useIndexColl.md>`__ - `Date data
-type <cql_reference/timeuuid_functions_r.md>`__ added and improved
-time/date conversion functions - `Tinyint and
-smallint <cql_reference/cql_data_types_c.md>`__ data types added -
-Change to CREATE TABLE `syntax for compression
-options <cql_reference/cqlCreateTable.md#>`__ - In Cassandra 3.4 and
-later, static columns can be indexed. - In Cassandra 3.6 and later,
-`clustering columns can be used in WHERE clause without secondary
-index <cql_using/useQueryColumnsSort.md>`__. - In Cassandra 3.6 and
-later, `individual subfields of a user-defined type (UDT) can be updated
+- Support `IN clause <cql_using/useQueryIN.md>`__ on any partition key column or
+clustering column 
+- Accept `Dollar Quoted Strings <cql_reference/escape_char_r.md>`__ 
+- Allow Mixing Token and Partition Key Restrictions 
+- Support `Indexing Key/Value Entries on Map Collections <cql_using/useIndexColl.md>`__ 
+- `Date data type <cql_reference/timeuuid_functions_r.md>`__ added and improved
+time/date conversion functions 
+- `Tinyint and smallint <cql_reference/cql_data_types_c.md>`__ data types added 
+- Change to CREATE TABLE `syntax for compression options <cql_reference/cqlCreateTable.md#>`__ 
+- In Cassandra 3.4 and later, static columns can be indexed. 
+- In Cassandra 3.6 and later, `clustering columns can be used in WHERE clause without secondary
+index <cql_using/useQueryColumnsSort.md>`__. 
+- In Cassandra 3.6 and later, `individual subfields of a user-defined type (UDT) can be updated
 and deleted <cql_using/useInsertUDT.md>`__ if non-collection fields are
-used. - In Cassandra 3.6 and later, a query can be limited to return
-results from each partition, such as a "Top 3" listing using `PER
-PARTITION
-LIMIT <cql_using/useQueryColumnsSort.md#section_n5f_pgg_gw>`__. - In
-Cassandra 3.10 and later, a `materialized view can be restricted using
-non-primary key columns <cql_using/useCreateMV.md>`__ in the filtering
-clause on creation.
+used. 
+- In Cassandra 3.6 and later, a query can be limited to return results from each partition, such 
+as a "Top 3" listing using `PER PARTITION LIMIT <cql_using/useQueryColumnsSort.md#section_n5f_pgg_gw>`__. 
+- In Cassandra 3.10 and later, a `materialized view can be restricted using non-primary key 
+columns <cql_using/useCreateMV.md>`__ in the filtering clause on creation.
 
 \| \| Removed CQL features
 
