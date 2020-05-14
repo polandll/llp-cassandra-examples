@@ -59,18 +59,18 @@ documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
    * - Heading row 1, column 1
      - Heading row 1, column 2
    * -
-    - `JSON support <cql_using/useInsertJSON.md>` for CQL3
+     - `JSON support <cql_using/useInsertJSON.md>`_ for CQL3
    * - 
-     - `User Defined Functions  <cql_using/useCreateUDF.md>` (UDFs)
+     - `User Defined Functions  <cql_using/useCreateUDF.md>`_ (UDFs)
 
 +------------------+----------------------------------------------------------------------+
-| New CQL features | - `JSON support <cql_using/useInsertJSON.md>` for CQL3               |
-|                  | - `User Defined Functions <cql_using/useCreateUDF.md>` (UDFs)        |
-|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>` (UDAs)       |
-|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>` (RBAC)   |
+| New CQL features | - `JSON support <cql_using/useInsertJSON.md>`_ for CQL3               |
+|                  | - `User Defined Functions <cql_using/useCreateUDF.md>`_ (UDFs)        |
+|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>`_ (UDAs)       |
+|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>`_ (RBAC)   |
 |                  | - Native Protocol v.4                                                | 
-|                  | - `Materialized Views <cql_using/useCreateMV.md>`                    |
-|                  | - Addition of `CLEAR <cql_reference/cqlshClear.md>` command for cqlsh|
+|                  | - `Materialized Views <cql_using/useCreateMV.md>`_                    |
+|                  | - Addition of `CLEAR <cql_reference/cqlshClear.md>`_ command for cqlsh|
 +------------------+----------------------------------------------------------------------+
  - Addition of
 `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh - In Cassandra
