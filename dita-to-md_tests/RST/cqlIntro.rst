@@ -53,25 +53,26 @@ documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
      - Row 2, column 3
 
 .. list-table:: Title
-   :widths: 25 25 50
+   :widths: 25 60
    :header-rows: 1
 
-   * - Heading row 1, column 1
-     - Heading row 1, column 2
+   * - New CQL Features
+     - 
    * -
-     - `JSON support <cql_using/useInsertJSON.md>`_ for CQL3
+     - `JSON support <cql_using/useInsertJSON.md>`__ for CQL3
    * - 
-     - `User Defined Functions  <cql_using/useCreateUDF.md>`_ (UDFs)
+     - `User Defined Functions  <cql_using/useCreateUDF.md>`__ (UDFs)
 
-+------------------+----------------------------------------------------------------------+
-| New CQL features | - `JSON support <cql_using/useInsertJSON.md>`_ for CQL3               |
-|                  | - `User Defined Functions <cql_using/useCreateUDF.md>`_ (UDFs)        |
-|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>`_ (UDAs)       |
-|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>`_ (RBAC)   |
-|                  | - Native Protocol v.4                                                | 
-|                  | - `Materialized Views <cql_using/useCreateMV.md>`_                    |
-|                  | - Addition of `CLEAR <cql_reference/cqlshClear.md>`_ command for cqlsh|
-+------------------+----------------------------------------------------------------------+
++------------------+------------------------------------------------------------------------+
+| New CQL features | - `JSON support <cql_using/useInsertJSON.md>`__ for CQL3               |
+|                  | - `User Defined Functions <cql_using/useCreateUDF.md>`__ (UDFs)        |
+|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>`__ (UDAs)       |
+|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>`__ (RBAC)   |
+|                  | - Native Protocol v.4                                                  | 
+|                  | - `Materialized Views <cql_using/useCreateMV.md>`__                    |
+|                  | - Addition of `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh|
++------------------+------------------------------------------------------------------------+
+
  - Addition of
 `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh - In Cassandra
 3.4 and later, `SSTable Attached Secondary Indexes
