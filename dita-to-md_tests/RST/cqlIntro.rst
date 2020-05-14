@@ -38,15 +38,15 @@ so that CQL statements can be passed from client to cluster and back.
 `Cassandra 3.x
 documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
 
-+------------------+--------------------------------------------------------------------+
-| New CQL features | - `JSON support <cql_using/useInsertJSON.md>` for CQL3             |
-|                  | - `User Defined Functions <cql_using/useCreateUDF.md>` (UDFs)      |
-|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>` (UDAs)     |
-|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>` (RBAC) |
-|                  | - Native Protocol v.4                                              |
-|                  | - `Materialized Views <cql_using/useCreateMV.md>`                  |
++------------------+----------------------------------------------------------------------+
+| New CQL features | - `JSON support <cql_using/useInsertJSON.md>` for CQL3               |
+|                  | - `User Defined Functions <cql_using/useCreateUDF.md>` (UDFs)        |
+|                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>` (UDAs)       |
+|                  | - `Role Based Access Control <cql_using/useSecureRoles.md>` (RBAC)   |
+|                  | - Native Protocol v.4                                                | 
+|                  | - `Materialized Views <cql_using/useCreateMV.md>`                    |
 |                  | - Addition of `CLEAR <cql_reference/cqlshClear.md>` command for cqlsh|
-+------------------+--------------------------------------------------------------------+
++------------------+----------------------------------------------------------------------+
  - Addition of
 `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh - In Cassandra
 3.4 and later, `SSTable Attached Secondary Indexes
