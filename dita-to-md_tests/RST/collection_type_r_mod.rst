@@ -35,7 +35,7 @@ overwritten.
 
 ::
 
-    column_name collection_type<data_type, frozen<column_name>>
+    column_name *collection_type*<*data_type*, frozen<*column_name*>>
 
 For example:
 
