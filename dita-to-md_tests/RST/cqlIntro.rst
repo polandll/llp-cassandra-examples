@@ -38,31 +38,6 @@ so that CQL statements can be passed from client to cluster and back.
 `Cassandra 3.x
 documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
 
-.. list-table:: Title
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Heading row 1, column 1
-     - Heading row 1, column 2
-     - Heading row 1, column 3
-   * - Row 1, column 1
-     -
-     - Row 1, column 3
-   * - Row 2, column 1
-     - Row 2, column 2
-     - Row 2, column 3
-
-.. list-table:: Title
-   :widths: 25 60
-   :header-rows: 1
-
-   * - New CQL Features
-     - 
-   * -
-     - `JSON support <cql_using/useInsertJSON.md>`__ for CQL3
-   * - 
-     - `User Defined Functions  <cql_using/useCreateUDF.md>`__ (UDFs)
-
 +------------------+------------------------------------------------------------------------+
 | New CQL features | - `JSON support <cql_using/useInsertJSON.md>`__ for CQL3               |
 |                  | - `User Defined Functions <cql_using/useCreateUDF.md>`__ (UDFs)        |
