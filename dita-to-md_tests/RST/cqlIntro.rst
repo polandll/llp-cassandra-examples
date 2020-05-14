@@ -44,7 +44,8 @@ documentation </en/cassandra-oss/3.x/cassandra/cassandraAbout.html>`__.
 |                  | - `User Defined Aggregates <cql_using/useCreateUDA.md>` (UDAs)     |
 |                  | - `Role Based Access Control <cql_using/useSecureRoles.md>` (RBAC) |
 |                  | - Native Protocol v.4                                              |
-|                  | -`Materialized Views <cql_using/useCreateMV.md>`                   |
+|                  | - `Materialized Views <cql_using/useCreateMV.md>`                  |
+|                  | - Addition of `CLEAR <cql_reference/cqlshClear.md>` command for cqlsh|
 +------------------+--------------------------------------------------------------------+
  - Addition of
 `CLEAR <cql_reference/cqlshClear.md>`__ command for cqlsh - In Cassandra
