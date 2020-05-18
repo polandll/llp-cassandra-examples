@@ -1,5 +1,18 @@
 = Operating Cassandra
 
-snitch topo_changes repair read_repair hints compaction/index
-bloom_filters compression cdc backups bulk_loading metrics security
-hardware
+:toc:
+== link:snitch.html[Snitches]
+== link:topo_changes.html[Topology changes]
+== link:repair.html[Repair]
+== link:read_repair.html[Read repair]
+== link:hints.html[Hints]
+== link:compaction.html[Compaction]
+== link:index.html[Indexes]
+== link:bloom_filters.html[Bloom filters]
+== link:compression.html[Compression]
+== link:cdc.html[CDC]
+== link:backups.html[Backups]
+== link:bulk_loading.html[Bulk loading]
+== link:metrics.html[Metrics]
+== link:security.html[Security]
+== link:hardware.html[Hardware]
