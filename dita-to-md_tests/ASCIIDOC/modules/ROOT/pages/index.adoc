@@ -9,18 +9,18 @@ https://wiki.apache.org/cassandra/HowToContribute[these instructions].
 Contents:
 
 :toc:
-getting_started/index 
-new/index 
-architecture/index 
-cql/index
-data_modeling/index 
-configuration/index 
-operating/index 
-tools/index
-troubleshooting/index 
-development/index 
-faq/index 
-plugins/index
+== link:getting_started/index.html[Getting Started] 
+== link:new/index.html[New]
+== link:architecture/index.html[Architecture]
+== link:cql/index.html[CQL]
+== link:data_modeling/index.html[Data modeling]
+== link:configuration/index.html[Configuration]
+== link:operating/index.html[Operating]
+== link:tools/index.html[Tools]
+== link:troubleshooting/index.html[Troubleshooting]
+== link:development/index.html[Development] 
+== link:faq/index.html[FAQ]
+== link:plugins/index.html[Plug-ins]
 
 bugs 
 contactus
