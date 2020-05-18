@@ -2,5 +2,11 @@
 
 This section covers the new features in Apache Cassandra 4.0.
 
-java11 virtualtables auditlogging fqllogging messaging streaming
-transientreplication
+:toc:
+== link:java11.html[Java 11]
+== link:virtualtables.html[Virtual tables]
+== link:auditlogging.html[Audit logging]
+== link:fqllogging.html[FQL logging]
+== link:messaging.html[Messaging]
+== link:streaming.html[Streaming]
+== link:transientreplication.html[Transient replication]
