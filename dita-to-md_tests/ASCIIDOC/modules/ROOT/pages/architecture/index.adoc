@@ -4,7 +4,7 @@ This section describes the general architecture of Apache Cassandra.
 
 :toc:
 
-==link:overview.html 
-==link:dynamo.html
-==link:storage_engine.html
-==link:guarantees.html
+== link:overview.html[Overview]
+== link:dynamo.html[Dynamo]
+== link:storage_engine.html[Storage engine]
+== link:guarantees.html[Guarantees]

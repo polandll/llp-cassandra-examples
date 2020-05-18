@@ -1,12 +1,12 @@
 = Data Modeling
 
 :toc:
-==link:intro 
-==link:data_modeling_conceptual 
-==link:data_modeling_rdbms 
-==link:data_modeling_queries
-==link:data_modeling_logical 
-==link:data_modeling_physical 
-==link:data_modeling_refining
-==link:data_modeling_schema 
-==link:data_modeling_tools
+== link:intro[Introduction]
+== link:data_modeling_conceptual.html[Conceptual]
+== link:data_modeling_rdbms.html[RDBMS]
+== link:data_modeling_queries.html[Queries]
+== link:data_modeling_logical.html[Logical]
+== link:data_modeling_physical.html[Physical]
+== link:data_modeling_refining.html[Refining]
+== link:data_modeling_schema.html[Schema] 
+== link:data_modeling_tools.html[Tools]
