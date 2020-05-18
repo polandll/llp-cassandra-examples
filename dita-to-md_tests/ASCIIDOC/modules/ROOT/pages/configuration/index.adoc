@@ -2,4 +2,6 @@
 
 This section describes how to configure Apache Cassandra.
 
-cass_yaml_file cass_rackdc_file
+:toc:
+==link:cass_yaml_file.html 
+==link:cass_rackdc_file.html

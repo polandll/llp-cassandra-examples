@@ -1,5 +1,12 @@
 = Data Modeling
 
-intro data_modeling_conceptual data_modeling_rdbms data_modeling_queries
-data_modeling_logical data_modeling_physical data_modeling_refining
-data_modeling_schema data_modeling_tools
+:toc:
+==link:intro 
+==link:data_modeling_conceptual 
+==link:data_modeling_rdbms 
+==link:data_modeling_queries
+==link:data_modeling_logical 
+==link:data_modeling_physical 
+==link:data_modeling_refining
+==link:data_modeling_schema 
+==link:data_modeling_tools
