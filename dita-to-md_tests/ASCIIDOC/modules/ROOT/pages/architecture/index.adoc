@@ -1,0 +1,5 @@
+= Architecture
+
+This section describes the general architecture of Apache Cassandra.
+
+overview dynamo storage_engine guarantees
