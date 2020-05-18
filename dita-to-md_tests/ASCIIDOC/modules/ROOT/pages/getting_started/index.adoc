@@ -3,7 +3,7 @@
 This section covers how to get started using Apache Cassandra and should
 be the first thing to read if you are new to Cassandra.
 
-:toc:
+:toc: left
 == link:installing.html[Installing]
 == link:configuring.html[Configuring]
 == link:querying.html[Querying]
