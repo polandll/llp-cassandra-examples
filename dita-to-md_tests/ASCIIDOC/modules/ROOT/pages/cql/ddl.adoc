@@ -917,8 +917,8 @@ computing the chunk number from an uncompressed file offset. Block size
 may be adjusted based on read/write access patterns such as:
 
 ____
-* How much data is typically requested at once
-* Average size of rows in the table
+- How much data is typically requested at once
+- Average size of rows in the table
 ____
 
 --
