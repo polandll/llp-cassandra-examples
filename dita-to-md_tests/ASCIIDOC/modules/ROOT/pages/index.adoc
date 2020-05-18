@@ -8,7 +8,7 @@ https://wiki.apache.org/cassandra/HowToContribute[these instructions].
 
 Contents:
 
-:toc:
+:toc: left
 == link:getting_started/index.html[Getting Started] 
 == link:new/index.html[New]
 == link:architecture/index.html[Architecture]
