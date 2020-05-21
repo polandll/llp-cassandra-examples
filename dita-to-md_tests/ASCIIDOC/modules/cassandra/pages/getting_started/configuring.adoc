@@ -1,6 +1,6 @@
 = Configuring Cassandra
 
-The `Cassandra` configuration files location varies, depending on the
+The xref:ROOT:glossary.doc#Cassandra[Cassandra] configuration files location varies, depending on the
 type of installation:
 
 * tarball: `conf` directory within the tarball install location

@@ -13,4 +13,8 @@ don't have access to the machines running Cassandra, or are running on
 Windows or another operating system you may not be able to use the exact
 commands but there are likely equivalent tools you can use.
 
-finding_nodes reading_logs use_nodetool use_tools
+:toc:
+== xfer:finding_nodes.adoc[Finding nodes]
+== xfer:reading_logs.adoc[Reading logs]
+== xfer:use_nodetool.adoc[Using nodetool]
+== xfer:use_tools.adoc[Using other tools]

@@ -1,0 +1,37 @@
+= Contact us
+
+include::{partialsdir}license.adoc[]
+
+== Contacts:
+
+You can get in touch with the Cassandra community either via the mailing lists or :ref:`Slack rooms <slack>`.
+
+.. _mailing-lists:
+
+=== Mailing lists
+-------------
+
+The following mailing lists are available:
+
+- `Users <http://www.mail-archive.com/user@cassandra.apache.org/>`__ – General discussion list for users - `Subscribe
+  <user-subscribe@cassandra.apache.org>`__
+- `Developers <http://www.mail-archive.com/dev@cassandra.apache.org/>`__ – Development related discussion - `Subscribe
+  <dev-subscribe@cassandra.apache.org>`__
+- `Commits <http://www.mail-archive.com/commits@cassandra.apache.org/>`__ – Commit notification source repository -
+  `Subscribe <commits-subscribe@cassandra.apache.org>`__
+- `Client Libraries <http://www.mail-archive.com/client-dev@cassandra.apache.org/>`__ – Discussion related to the
+  development of idiomatic client APIs - `Subscribe <client-dev-subscribe@cassandra.apache.org>`__
+
+Subscribe by sending an email to the email address in the Subscribe links above. Follow the instructions in the welcome
+email to confirm your subscription. Make sure to keep the welcome email as it contains instructions on how to
+unsubscribe.
+
+===  _slack:
+
+Slack
+-----
+To chat with developers or users in real-time, join our rooms on `ASF Slack <https://s.apache.org/slack-invite>`__:
+
+- ``cassandra`` - for user questions and general discussions.
+- ``cassandra-dev`` - strictly for questions or discussions related to Cassandra development.
+

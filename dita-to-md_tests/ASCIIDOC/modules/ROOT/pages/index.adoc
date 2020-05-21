@@ -1,26 +1,40 @@
+:cass-url: https://cassandra.apache.org
+:cass-contrib-url: https://wiki.apache.org/cassandra/HowToContribute
+
 = Welcome to Apache Cassandra's documentation!
 
 This is the official documentation for
-http://cassandra.apache.org[Apache Cassandra] . If you would like to
+{cass-url}[Apache Cassandra] . If you would like to
 contribute to this documentation, you are welcome to do so by submitting
 your contribution like any other patch following
-https://wiki.apache.org/cassandra/HowToContribute[these instructions].
+{cass-contrib-url}[these instructions].
 
 Contents:
 
 :toc: left
-== link:getting_started/index.html[Getting Started] 
-== link:new/index.html[New]
-== link:architecture/index.html[Architecture]
-== link:cql/index.html[CQL]
-== link:data_modeling/index.html[Data modeling]
-== link:configuration/index.html[Configuration]
-== link:operating/index.html[Operating]
-== link:tools/index.html[Tools]
-== link:troubleshooting/index.html[Troubleshooting]
-== link:development/index.html[Development] 
-== link:faq/index.html[FAQ]
-== link:plugins/index.html[Plug-ins]
 
-bugs 
-contactus
+== Main 
+
+=== xref:cassandra:new/index.adoc[What's New]
+
+[frame=none]
+[grid=none]
+[cols=2*, stripes=even]
+|===
+
+h| xref:cassandra:getting_started/index.adoc[Getting Started] | xref:cassandra:cql/index.adoc[CQL] 
+| Newbie friendly starting point			      | CQL reference documentation
+h|xref:cassandra:data_modeling/index.adoc[Data modeling]      | xref:cassandra:configuration/index.adoc[Configuration]
+| Hint: it's not relational	| Cassandra's handles and knobs 
+h| xref:cassandra:operating/index.adoc[Operating] | xref:cassandra:tools/index.adoc[Tools]
+| The operator's corner	| cqlsh, nodetool, ...
+h| xref:cassandra:troubleshooting/index.adoc[Troubleshooting]	| xref:cassandra:development/index.adoc[Development]
+| What to look for when you have a problem	| Learn how to improve Cassandra and contribute patches
+h|xref:cassandra:faq/index.adoc[FAQ]	| xref:cassandra:plugins/index.adoc[Plug-ins]
+| Frequently Asked Questions (with answers!)	| Plug-ins
+
+|===
+
+== Meta information
+=== xref:bugs.adoc[Reporting Bugs]
+=== xref:contactus.adoc[Contact us]

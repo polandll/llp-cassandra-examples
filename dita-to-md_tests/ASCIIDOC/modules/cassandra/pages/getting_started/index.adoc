@@ -1,0 +1,12 @@
+= Getting Started
+
+This section covers how to get started using Apache Cassandra and should
+be the first thing to read if you are new to Cassandra.
+
+:toc: left
+
+== xref:installing.adoc[Installing]
+== xref:configuring.adoc[Configuring]
+== xref:querying.adoc[Querying]
+== xref:drivers.adoc[]
+== xref:production.adoc[]
