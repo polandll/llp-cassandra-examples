@@ -22,19 +22,20 @@ Contents:
 [cols=2*, stripes=even]
 |===
 
-h| xref:cassandra:getting_started/index.adoc[Getting Started] | xref:cassandra:cql/index.adoc[CQL] 
+a| xref:cassandra:getting_started/index.adoc[Getting Started] | xref:cassandra:cql/index.adoc[CQL] 
 | Newbie friendly starting point			      | CQL reference documentation
-h|xref:cassandra:data_modeling/index.adoc[Data modeling]      | xref:cassandra:configuration/index.adoc[Configuration]
+a|xref:cassandra:data_modeling/index.adoc[Data modeling]      | xref:cassandra:configuration/index.adoc[Configuration]
 | Hint: it's not relational	| Cassandra's handles and knobs 
-h| xref:cassandra:operating/index.adoc[Operating] | xref:cassandra:tools/index.adoc[Tools]
+a| xref:cassandra:operating/index.adoc[Operating] | xref:cassandra:tools/index.adoc[Tools]
 | The operator's corner	| cqlsh, nodetool, ...
-h| xref:cassandra:troubleshooting/index.adoc[Troubleshooting]	| xref:cassandra:development/index.adoc[Development]
+a| xref:cassandra:troubleshooting/index.adoc[Troubleshooting]	| xref:cassandra:development/index.adoc[Development]
 | What to look for when you have a problem	| Learn how to improve Cassandra and contribute patches
-h|xref:cassandra:faq/index.adoc[FAQ]	| xref:cassandra:plugins/index.adoc[Plug-ins]
+a|xref:cassandra:faq/index.adoc[FAQ]	| xref:cassandra:plugins/index.adoc[Plug-ins]
 | Frequently Asked Questions (with answers!)	| Plug-ins
 
 |===
 
 == Meta information
+
 === xref:bugs.adoc[Reporting Bugs]
 === xref:contactus.adoc[Contact us]

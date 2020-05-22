@@ -1,3 +1,8 @@
+:cass_download: http://cassandra.apache.org/download/[Apache Cassandra Download]
+:cass_archives: http://archive.apache.org/dist/cassandra/[Apache Archives]
+:version: 4.0
+:version_long: 4.0.0
+
 = Installing Cassandra
 
 These are the instructions for deploying the supported releases of
@@ -58,36 +63,34 @@ binaries and configuration files as the `cassandra` OS user.
 
 [source,none]
 ----
-$ java -version
-openjdk version "1.8.0_222"
-OpenJDK Runtime Environment (build 1.8.0_222-8u222-b10-1ubuntu1~16.04.1-b10)
-OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
+include::{examplesdir}java_verify.sh[]
 ----
 
 [arabic, start=2]
 . Download the binary tarball from one of the mirrors on the
-http://cassandra.apache.org/download/[Apache Cassandra Download] site.
-For example, to download 4.0:
+{cass_download} site.
+For example, to download {version}:
 
 [source,none]
 ----
-$ curl -OL http://apache.mirror.digitalpacific.com.au/cassandra/4.0.0/apache-cassandra-4.0.0-bin.tar.gz
+include::{examplesdir}curl_install.sh[]
 ----
 
-NOTE: The mirrors only host the latest versions of each major supported
+[NOTE]
+====
+The mirrors only host the latest versions of each major supported
 release. To download an earlier version of Cassandra, visit the
-http://archive.apache.org/dist/cassandra/[Apache Archives].
+{cass_archives}.
+====
 
 [arabic, start=3]
-. OPTIONAL: Verify the integrity of the downloaded tarball using one of
-the methods https://www.apache.org/dyn/closer.cgi#verify[here]. For
+. [.underline]#OPTIONAL:# Verify the integrity of the downloaded tarball using one of
+the methods link:https://www.apache.org/dyn/closer.cgi#verify[here]. For
 example, to verify the hash of the downloaded file using GPG:
 
 [source,none]
 ----
-$ gpg --print-md SHA256 apache-cassandra-4.0.0-bin.tar.gz 
-apache-cassandra-4.0.0-bin.tar.gz: 28757DDE 589F7041 0F9A6A95 C39EE7E6
-                                   CDE63440 E2B06B91 AE6B2006 14FA364D
+include::{examplesdir}gpg.sh[]
 ----
 
 Compare the signature with the SHA256 file from the Downloads site:

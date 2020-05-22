@@ -5,8 +5,12 @@ be the first thing to read if you are new to Cassandra.
 
 :toc: left
 
-== xref:installing.adoc[Installing]
-== xref:configuring.adoc[Configuring]
-== xref:querying.adoc[Querying]
-== xref:drivers.adoc[]
-== xref:production.adoc[]
+include::installing.adoc[Installing]
+
+include::configuring.adoc[Configuring]
+
+include::querying.adoc[Querying]
+
+include::drivers.adoc[]
+
+include::production.adoc[]

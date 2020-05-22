@@ -1,7 +1,5 @@
 = Reporting Bugs
 
-include::{partialsdir}license.adoc[]
-
 If you encounter a problem with Cassandra, the first places to ask for help are the link:https://cassandra.apache.org/doc/latest/contactus.html#mailing-lists[mailing lists] 
 and the `cassandra` link:https://cassandra.apache.org/doc/latest/contactus.html#slack[Slack room].
 
