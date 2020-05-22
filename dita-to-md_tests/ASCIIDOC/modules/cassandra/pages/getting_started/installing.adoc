@@ -66,6 +66,13 @@ binaries and configuration files as the `cassandra` OS user.
 include::{examplesdir}java_verify.sh[]
 ----
 
+resulting in:
+
+[source,none]
+----
+include::{examplesdir}java_verify.result[]
+----
+
 [arabic, start=2]
 . Download the binary tarball from one of the mirrors on the
 {cass_download} site.
@@ -93,7 +100,15 @@ example, to verify the hash of the downloaded file using GPG:
 include::{examplesdir}gpg.sh[]
 ----
 
-Compare the signature with the SHA256 file from the Downloads site:
+resulting in:
+
+[source,none]
+----
+include::{examplesdir}gpg.result[]
+----
+
+[arabic, start=4]
+Compare the returned signature with the SHA256 file from the Downloads site:
 
 [source,none]
 ----
