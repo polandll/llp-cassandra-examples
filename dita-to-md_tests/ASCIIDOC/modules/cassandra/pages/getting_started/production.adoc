@@ -1,10 +1,10 @@
-= Production Recommendations
+== Production Recommendations
 
 The `cassandra.yaml` and `jvm.options` files have a number of notes and
 recommendations for production usage. This page expands on some of the
 notes in these files with additional information.
 
-== Tokens
+=== Tokens
 
 Using more than 1 token (referred to as vnodes) allows for more flexible
 expansion and more streaming peers when bootstrapping new nodes into the
@@ -45,7 +45,7 @@ In addition to setting the token count, it's extremely important that
 `allocate_tokens_for_local_replication_factor` be set as well, to ensure
 even token allocation.
 
-== Read Ahead
+=== Read Ahead
 
 Read ahead is an operating system feature that attempts to keep as much
 data loaded in the page cache as possible. The goal is to decrease

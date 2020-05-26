@@ -1,4 +1,4 @@
-= Configuring Cassandra
+== Configuring Cassandra
 
 The xref:ROOT:glossary.doc#Cassandra[Cassandra] configuration files location varies, depending on the
 type of installation:
@@ -29,7 +29,7 @@ Two sample configuration files can also be found in `./conf`:
 metrics-report will collect
 * `cqlshrc.sample`: how the CQL shell, cqlsh, can be configured
 
-== Main runtime properties
+=== Main runtime properties
 
 Configuring Cassandra is done by setting yaml properties in the
 `cassandra.yaml` file. At a minimum you should consider setting the
@@ -49,7 +49,7 @@ consecutively which address to use. Set one property, not both.
 9042 blocked by a firewall, so that clients like cqlsh can communicate
 with Cassandra on this port.
 
-== Changing the location of directories
+=== Changing the location of directories
 
 The following yaml properties control the location of directories:
 
@@ -64,14 +64,14 @@ located.
 For performance reasons, if you have multiple disks, consider putting
 commitlog and data files on different disks.
 
-== Environment variables
+=== Environment variables
 
 JVM-level settings such as heap size can be set in `cassandra-env.sh`.
 You can add any additional JVM command line argument to the `JVM_OPTS`
 environment variable; when Cassandra starts, these arguments will be
 passed to the JVM.
 
-== Logging
+=== Logging
 
 The default logger is [.title-ref]#logback#. By default it will log:
 

@@ -1,10 +1,10 @@
-= Client drivers
+== Client drivers
 
 Here are known Cassandra client drivers organized by language. Before
 choosing a driver, you should verify the Cassandra version and
 functionality supported by a specific driver.
 
-== Java
+=== Java
 
 * http://achilles.archinnov.info/[Achilles]
 * https://github.com/Netflix/astyanax/wiki/Getting-Started[Astyanax]
@@ -13,26 +13,26 @@ functionality supported by a specific driver.
 * https://github.com/impetus-opensource/Kundera[Kundera]
 * https://github.com/deanhiller/playorm[PlayORM]
 
-== Python
+=== Python
 
 * https://github.com/datastax/python-driver[Datastax Python driver]
 
-== Ruby
+=== Ruby
 
 * https://github.com/datastax/ruby-driver[Datastax Ruby driver]
 
-== C# / .NET
+=== C# / .NET
 
 * https://github.com/pchalamet/cassandra-sharp[Cassandra Sharp]
 * https://github.com/datastax/csharp-driver[Datastax C# driver]
 * https://github.com/managedfusion/fluentcassandra[Fluent Cassandra]
 
-== Nodejs
+=== Nodejs
 
 * https://github.com/datastax/nodejs-driver[Datastax Nodejs driver]
 * https://github.com/jorgebay/node-cassandra-cql[Node-Cassandra-CQL]
 
-== PHP
+=== PHP
 
 * http://code.google.com/a/apache-extras.org/p/cassandra-pdo[CQL | PHP]
 * https://github.com/datastax/php-driver/[Datastax PHP driver]
@@ -40,53 +40,53 @@ functionality supported by a specific driver.
 * http://evseevnn.github.io/php-cassandra-binary/[PHP Library for
 Cassandra]
 
-== C++
+=== C++
 
 * https://github.com/datastax/cpp-driver[Datastax C++ driver]
 * http://sourceforge.net/projects/libqtcassandra[libQTCassandra]
 
-== Scala
+=== Scala
 
 * https://github.com/datastax/spark-cassandra-connector[Datastax Spark
 connector]
 * https://github.com/newzly/phantom[Phantom]
 * https://github.com/getquill/quill[Quill]
 
-== Clojure
+=== Clojure
 
 * https://github.com/mpenet/alia[Alia]
 * https://github.com/clojurewerkz/cassaforte[Cassaforte]
 * https://github.com/mpenet/hayt[Hayt]
 
-== Erlang
+=== Erlang
 
 * https://github.com/matehat/cqerl[CQerl]
 * https://github.com/silviucpp/erlcass[Erlcass]
 
-== Go
+=== Go
 
 * http://relops.com/cqlc/[CQLc]
 * https://github.com/hailocab/gocassa[Gocassa]
 * https://github.com/gocql/gocql[GoCQL]
 
-== Haskell
+=== Haskell
 
 * https://github.com/ozataman/cassy[Cassy]
 
-== Rust
+=== Rust
 
 * https://github.com/neich/rust-cql[Rust CQL]
 
-== Perl
+=== Perl
 
 * https://github.com/tvdw/perl-dbd-cassandra[Cassandra::Client and
 DBD::Cassandra]
 
-== Elixir
+=== Elixir
 
 * https://github.com/lexhide/xandra[Xandra]
 * https://github.com/matehat/cqex[CQEx]
 
-== Dart
+=== Dart
 
 * https://github.com/achilleasa/dart_cassandra_cql[dart_cassandra_cql]
