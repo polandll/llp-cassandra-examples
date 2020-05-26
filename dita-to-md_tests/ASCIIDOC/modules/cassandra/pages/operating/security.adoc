@@ -277,7 +277,7 @@ and 2 for each node in turn. As each node restarts and clients
 reconnect, the enforcement of the granted permissions will begin.
 
 See also: `GRANT PERMISSION <grant-permission-statement>`,
-[.title-ref]#GRANT ALL <grant-all># and `REVOKE PERMISSION
+GRANT ALL <grant-all> and `REVOKE PERMISSION
 <revoke-permission-statement>`
 
 [[auth-caching]]
@@ -399,7 +399,7 @@ File-Based Password Authentication In JMX]
 An alternative to the out-of-the-box JMX auth is to useeCassandra's own
 authentication and/or authorization providers for JMX clients. This is
 potentially more flexible and secure but it come with one major caveat.
-Namely that it is not available until [.title-ref]#after# a node has
+Namely that it is not available until *after* a node has
 joined the ring, because the auth subsystem is not fully configured
 until that point However, it is often critical for monitoring purposes
 to have JMX access particularly during bootstrap. So it is recommended,

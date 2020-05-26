@@ -6,7 +6,7 @@
 CQL uses database roles to represent users and group of users.
 Syntactically, a role is defined by:
 
-role_name: [.title-ref]#identifier# | [.title-ref]#string#
+role_name: identifier | string
 
 [[create-role-statement]]
 === CREATE ROLE
@@ -14,12 +14,12 @@ role_name: [.title-ref]#identifier# | [.title-ref]#string#
 Creating a role uses the `CREATE ROLE` statement:
 
 create_role_statement: CREATE ROLE [ IF NOT EXISTS ]
-[.title-ref]#role_name# : [ WITH [.title-ref]#role_options# ]
-role_options: [.title-ref]#role_option# ( AND [.title-ref]#role_option#
-)* role_option: PASSWORD '=' [.title-ref]#string# :| LOGIN '='
-[.title-ref]#boolean# :| SUPERUSER '=' [.title-ref]#boolean# :| OPTIONS
-'=' [.title-ref]#map_literal# :| ACCESS TO DATACENTERS
-[.title-ref]#set_literal# :| ACCESS TO ALL DATACENTERS
+role_name : [ WITH role_options ]
+role_options: role_option( AND role_option)* 
+role_option: PASSWORD '=' string :| 
+LOGIN '=' boolean :| SUPERUSER '=' boolean 
+:| OPTIONS '=' map_literal :| ACCESS TO DATACENTERS
+set_literal :| ACCESS TO ALL DATACENTERS
 
 For instance:
 

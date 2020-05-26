@@ -115,7 +115,9 @@ the replacement process.
 replaced.
 . You are replacing using the same IP address as the dead node *and*
 replacement takes longer than `max_hint_window_in_ms`.
-====== Monitoring progress
+====
+
+== Monitoring progress
 
 Bootstrap, replace, move and remove progress can be monitored using
 `nodetool netstats` which will show the progress of the streaming

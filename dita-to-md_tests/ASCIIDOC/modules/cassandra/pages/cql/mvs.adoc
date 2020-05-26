@@ -144,11 +144,10 @@ After creation, you can alter the options of a materialized view using
 the `ALTER MATERIALIZED VIEW` statement:
 
 alter_materialized_view_statement: ALTER MATERIALIZED VIEW
-[.title-ref]#view_name# WITH [.title-ref]#table_options#
+view_nameWITH table_options
 
 The options that can be updated are the same than at creation time and
-thus the `same than for tables
-<create-table-options>`.
+thus the `same than for tables <create-table-options>`.
 
 [[drop-materialized-view-statement]]
 == DROP MATERIALIZED VIEW
@@ -156,8 +155,7 @@ thus the `same than for tables
 Dropping a materialized view users the `DROP MATERIALIZED VIEW`
 statement:
 
-drop_materialized_view_statement: DROP MATERIALIZED VIEW [ IF EXISTS ]
-[.title-ref]#view_name#;
+drop_materialized_view_statement: DROP MATERIALIZED VIEW [ IF EXISTS ] view_name;
 
 If the materialized view does not exists, the statement will return an
 error, unless `IF EXISTS` is used in which case the operation is a
