@@ -1,4 +1,0 @@
-= Contributing to Cassandra
-
-gettingstarted ide testing patches code_style how_to_review
-how_to_commit documentation ci dependencies release_process

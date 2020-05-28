@@ -1,5 +1,0 @@
-= Operating Cassandra
-
-snitch topo_changes repair read_repair hints compaction/index
-bloom_filters compression cdc backups bulk_loading metrics security
-hardware
