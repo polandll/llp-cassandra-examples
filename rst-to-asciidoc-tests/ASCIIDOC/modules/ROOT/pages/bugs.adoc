@@ -1,0 +1,13 @@
+= Reporting Bugs
+
+If you encounter a problem with Cassandra, the first places to ask for help are the link:https://cassandra.apache.org/doc/latest/contactus.html#mailing-lists[mailing lists] 
+and the `cassandra` link:https://cassandra.apache.org/doc/latest/contactus.html#slack[Slack room].
+
+If, after having asked for help, you suspect that you have found a bug in Cassandra, you should report it by opening a
+ticket in the link:https://issues.apache.org/jira/browse/CASSANDRA[Apache Cassandra JIRA] tracking system. Please provide as much
+detail as you can in the description of the ticket. Make sure you indicate which version of Cassandra you are running and in which
+environment.
+
+Further details on how to contribute can be found at our xref:cassandra:development/index.adoc[Development] section. Please note that the source of
+this documentation is part of the Cassandra git repository and hence contributions to the documentation should follow the
+same path.

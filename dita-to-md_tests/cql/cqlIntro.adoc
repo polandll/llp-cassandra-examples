@@ -1,0 +1,68 @@
+[[cqlIntro]]
+== Introduction to Cassandra Query Language
+
+Cassandra Query Language (CQL) is a query language for the Cassandra
+database.
+
+[[welcome]]
+=== About this document
+
+Welcome to the CQL documentation provided by DataStax. To ensure that
+you get the best experience in using this document, take a moment to
+look at the link:/en/landing_page/doc/landing_page/docTips.html[Tips for
+using DataStax documentation].
+
+The link:/en[landing pages] provide information about supported
+platforms, product compatibility, planning and testing cluster
+deployments, recommended production settings, troubleshooting,
+third-party software, resources for additional information,
+administrator and developer topics, and earlier documentation.
+
+[[cql-overview]]
+=== Overview of the Cassandra Query Language
+
+Cassandra Query Language (CQL) is a query language for the Cassandra
+database. This release of CQL works with Cassandra 3.x.
+
+The Cassandra Query Language (CQL) is the primary language for
+communicating with the Cassandra database. The most basic way to
+interact with Cassandra is using the CQL shell, cqlsh. Using cqlsh, you
+can create keyspaces and tables, insert and query tables, plus much
+more. If you prefer a graphical tool, you can use
+link:/en/archived/developer/devcenter/doc/devcenter/features.html[DataStax
+DevCenter]. For production, DataStax supplies a number of
+link:/en/developer/driver-matrix/doc/common/driverMatrix.html[drivers]
+so that CQL statements can be passed from client to cluster and back.
+
+*Important:* This document assumes you are familiar with the
+link:/en/cassandra-oss/3.x/cassandra/cassandraAbout.html[Cassandra 3.x
+documentation].
+
+[verse]
+--
+New CQL features
+--
+
+| - link:cql_using/useInsertJSON.md[JSON support]for CQL3 -
+link:cql_using/useCreateUDF.md[User Defined Functions] (UDFs) -
+link:cql_using/useCreateUDA.md[User Defined Aggregates] (UDAs) -
+link:cql_using/useSecureRoles.md[Role Based Access Control] (RBAC) -
+Native Protocol v.4 - link:cql_using/useCreateMV.md[Materialized Views]
+- Addition of link:cql_reference/cqlshClear.md[CLEAR] command for cqlsh
+- In Cassandra 3.4 and later, link:cql_using/useSASIIndex.md[SSTable
+Attached Secondary Indexes (SASI)] have been introduced for queries that
+previously required the use of `+ALLOW FILTERING+`.
+
+| | Improved CQL features
+
+| - Additional link:cql_reference/cqlshCopy.md[COPY] command options -
+New link:cql_reference/cqlCreateTable.md#[WITH ID] option with
+`+CREATE TABLE+` command - Support link:cql_using/useQueryIN.md[IN
+clause] on any partition key column or clustering column - Accept
+link:cql_reference/escape_char_r.md[Dollar Quoted Strings] - Allow
+Mixing Token and Partition Key Restrictions - Support
+link:cql_using/useIndexColl.md[Indexing Key/Value Entries on Map
+Collections] - link:cql_reference/timeuuid_functions_r.md[Date data
+type] added and improved time/date conversion functions -
+link:cql_reference/cql_data_types_c.md[Tinyint and smallint] data types
+added - Change to CREATE TAB

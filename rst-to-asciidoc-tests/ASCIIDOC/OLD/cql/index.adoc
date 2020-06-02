@@ -1,0 +1,17 @@
+= The Cassandra Query Language (CQL)
+
+This document describes the Cassandra Query Language
+(CQL)footnote:[Technically, this document CQL version 3, which is not
+backward compatible with CQL version 1 and 2 (which have been deprecated
+and remove) and differs from it in numerous ways.]. Note that this
+document describes the last version of the languages. However, the
+link:#changes[changes] section provides the diff between the different
+versions of CQL.
+
+CQL offers a model close to SQL in the sense that data is put in
+_tables_ containing _rows_ of _columns_. For that reason, when used in
+this document, these terms (tables, rows and columns) have the same
+definition than they have in SQL.
+
+definitions types ddl dml indexes mvs security functions operators json
+triggers appendices changes
