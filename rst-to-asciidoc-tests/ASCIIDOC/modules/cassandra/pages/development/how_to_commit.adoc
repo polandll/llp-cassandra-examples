@@ -59,7 +59,9 @@ nothing. Without the flag, the command is equivalent to running git push
 once per each branch. This is nifty in case a race condition happens -
 you won’t push half the branches, blocking other committers’ progress
 while you are resolving the issue.
-====[TIP]
+====
+
+[TIP]
 .Tip
 ====
 The fastest way to get a patch from someone’s commit in a branch on GH -

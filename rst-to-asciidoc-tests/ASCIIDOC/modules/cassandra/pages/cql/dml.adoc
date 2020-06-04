@@ -3,13 +3,13 @@
 This section describes the statements supported by CQL to insert,
 update, delete and query data.
 
-[#select-statement]
+[[select-statement]]
 == SELECT
 
 Querying data from data is done using a `SELECT` statement:
 
 select_statement: SELECT [ JSON | DISTINCT ] (
-[]#select_claus | '_' ) : FROM `table_name` : [ WHERE
+[.title-ref]#select_clause# | '_' ) : FROM `table_name` : [ WHERE
 `where_clause` ] : [ GROUP BY `group_by_clause` ] : [ ORDER BY
 `ordering_clause` ] : [ PER PARTITION LIMIT (`integer` | `bind_marker`)
 ] : [ LIMIT (`integer` | `bind_marker`) ] : [ ALLOW FILTERING ]
@@ -17,15 +17,15 @@ select_clause: `selector` [ AS `identifier` ] ( ',' `selector` [ AS
 `identifier` ] ) selector: `column_name` : | `term` : | CAST '('
 `selector` AS `cql_type` ')' : | `function_name` '(' [ `selector` ( ','
 `selector` )_ ] ')' : | COUNT '(' '_' ')' where_clause: `relation` ( AND
-`relation` )_ relation: []#column_nam []#operato
-[]#ter : '(' []#column_nam ( ','
-[]#column_nam )* ')' []#operato
-[]#tuple_litera : TOKEN '(' []#column_nam ( ','
-[]#column_nam )* ')' []#operato
-[]#ter operator: '=' | '<' | '>' | '<=' | '>=' | '!=' | IN |
-CONTAINS | CONTAINS KEY group_by_clause: []#column_nam ( ','
-[]#column_nam )* ordering_clause: []#column_nam
-[ ASC | DESC ] ( ',' []#column_nam [ ASC | DESC ] )*
+`relation` )_ relation: [.title-ref]#column_name# [.title-ref]#operator#
+[.title-ref]#term# : '(' [.title-ref]#column_name# ( ','
+[.title-ref]#column_name# )* ')' [.title-ref]#operator#
+[.title-ref]#tuple_literal# : TOKEN '(' [.title-ref]#column_name# ( ','
+[.title-ref]#column_name# )* ')' [.title-ref]#operator#
+[.title-ref]#term# operator: '=' | '<' | '>' | '<=' | '>=' | '!=' | IN |
+CONTAINS | CONTAINS KEY group_by_clause: [.title-ref]#column_name# ( ','
+[.title-ref]#column_name# )* ordering_clause: [.title-ref]#column_name#
+[ ASC | DESC ] ( ',' [.title-ref]#column_name# [ ASC | DESC ] )*
 
 For instance:
 
@@ -87,7 +87,7 @@ which counts all non-null results.
 
 ==== Aliases
 
-Every _top-level_ selector can also be aliased (using []#AS#).
+Every _top-level_ selector can also be aliased (using [.title-ref]#AS#).
 If so, the name of the corresponding column in the result set will be
 that of the alias. For instance:
 
@@ -115,6 +115,7 @@ Currently, aliases aren't recognized anywhere else in the statement
 where they are used (not in the `WHERE` clause, not in the `ORDER BY`
 clause, ...). You must use the orignal column name instead.
 ====
+
 ==== `WRITETIME` and `TTL` function
 
 Selection supports two special functions (that aren't allowed anywhere
@@ -129,7 +130,7 @@ internally for each column, namely:
 * the remaining time to live (in seconds) for the value of the column if
 it set to expire (and `null` otherwise).
 
-[#where-clause]
+[[where-clause]]
 === The `WHERE` clause
 
 The `WHERE` clause specifies which rows must be queried. It is composed
@@ -235,7 +236,7 @@ sets, and maps). In the case of maps, `CONTAINS` applies to the map
 values. The `CONTAINS KEY` operator may only be used on map columns and
 applies to the map keys.
 
-[#group-by-clause]
+[[group-by-clause]]
 === Grouping results
 
 The `GROUP BY` option allows to condense into a single row all selected
@@ -256,7 +257,7 @@ If a column is selected without an aggregate function, in a statement
 with a `GROUP BY`, the first value encounter in each group will be
 returned.
 
-[#ordering-clause]
+[[ordering-clause]]
 === Ordering results
 
 The `ORDER BY` clause allows to select the order of the returned
@@ -272,7 +273,7 @@ columns and the reverse of that one.
 * otherwise, the orderings allowed are the order of the
 `CLUSTERING ORDER` option and the reversed one.
 
-[#limit-clause]
+[[limit-clause]]
 === Limiting results
 
 The `LIMIT` option to a `SELECT` statement limits the number of rows
@@ -280,7 +281,7 @@ returned by a query, while the `PER PARTITION LIMIT` option limits the
 number of rows returned for a given partition by the query. Note that
 both type of limit can used in the same statement.
 
-[#allow-filtering]
+[[allow-filtering]]
 === Allowing filtering
 
 By default, CQL only allows select queries that don't involve
@@ -353,18 +354,17 @@ doing”, you can force the execution of this query by using
 SELECT * FROM users WHERE birth_year = 1981 AND country = 'FR' ALLOW FILTERING;
 ----
 
-[#insert-statement]
+[[insert-statement]]
 == INSERT
 
 Inserting data for a row is done using an `INSERT` statement:
 
-insert_statement: INSERT INTO []#table_nam (
-[]#names_values# | []#json_claus ) : [ IF NOT
-EXISTS ] : [ USING []#update_paramete ( AND
-[]#update_paramete )* ] names_values: []#names#
-VALUES []#tuple_litera json_clause: JSON
-[]#strin [ DEFAULT ( NULL | UNSET ) ] names: '('
-[]#column_nam ( ',' []#column_nam )* ')'
+INSERT INTO `table_name` ( `names_values` | `json_clause` )
+                   : [ IF NOT EXISTS ]
+                   : [ USING `update_parameter` ( AND `update_parameter` )* ]
+   names_values: `names` VALUES `tuple_literal`
+   json_clause: JSON `string` [ DEFAULT ( NULL | UNSET ) ]
+   names: '(' `column_name` ( ',' `column_name` )* ')
 
 For instance:
 
@@ -403,25 +403,24 @@ informations on the `update_parameter`.
 
 Also note that `INSERT` does not support counters, while `UPDATE` does.
 
-[#update-statement]
+[[update-statement]]
 == UPDATE
 
 Updating a row is done using an `UPDATE` statement:
 
-update_statement: UPDATE table_name : [ USING
-update_parameter( AND update_paramete )* ]
-: SET assignment ( ',' assignment )* : WHERE
-where_clause : [ IF ( EXISTS | condition (
-AND condition )*) ] update_parameter: ( TIMESTAMP | TTL )
-( integer | bind_marker ) assignment:
-simple_selection '=' term :|
-column_name '=' column_name ( '+' | '-' )
-term :| column_name '='
-list_literal '+' column_name
-simple_selection: []#column_name :| column_name
-'[' term ']' :| column_name '.'
-field_name condition: `simple_selection
-operator term
+	UPDATE `table_name`
+                      : [ USING `update_parameter` ( AND `update_parameter` )* ]
+                   : SET `assignment` ( ',' `assignment` )*
+                   : WHERE `where_clause`
+                   : [ IF ( EXISTS | `condition` ( AND `condition` )*) ]
+   update_parameter: ( TIMESTAMP | TTL ) ( `integer` | `bind_marker` )
+   assignment: `simple_selection` '=' `term`
+             :| `column_name` '=' `column_name` ( '+' | '-' ) `term`
+             :| `column_name` '=' `list_literal` '+' `column_name`
+   simple_selection: `column_name`
+                   :| `column_name` '[' `term` ']'
+                   :| `column_name` '.' `field_name
+   condition: `simple_selection` `operator` `term`
 
 For instance:
 
@@ -491,16 +490,16 @@ is specified in that update). By default, values never expire. A TTL of
 TTL of 0 will remove the TTL for the inserted or updated values. A TTL
 of `null` is equivalent to inserting with a TTL of 0.
 
-[#delete_statement]
+[[delete_statement]]
 == DELETE
 
 Deleting rows or parts of rows uses the `DELETE` statement:
 
-delete_statement: DELETE [ []#simple_selectio ( ','
-[]#simple_selectio ) ] : FROM []#table_nam : [
-USING []#update_paramete ( AND
-[]#update_paramete )* ] : WHERE []#where_claus :
-[ IF ( EXISTS | []#conditio ( AND []#conditio
+delete_statement: DELETE [ [.title-ref]#simple_selection# ( ','
+[.title-ref]#simple_selection# ) ] : FROM [.title-ref]#table_name# : [
+USING [.title-ref]#update_parameter# ( AND
+[.title-ref]#update_parameter# )* ] : WHERE [.title-ref]#where_clause# :
+[ IF ( EXISTS | [.title-ref]#condition# ( AND [.title-ref]#condition#
 )*) ]
 
 For instance:
@@ -535,18 +534,17 @@ clause, similar to `UPDATE` and `INSERT` statements. However, as with
 performance cost (internally, Paxos will be used) and so should be used
 sparingly.
 
-[#batch_statement]
+[[batch_statement]]
 == BATCH
 
 Multiple `INSERT`, `UPDATE` and `DELETE` can be executed in a single
 statement by grouping them through a `BATCH` statement:
 
-batch_statement: BEGIN [ UNLOGGED | COUNTER ] BATCH : [ USING
-update_parameter ( AND update_parameter )* ]
-: modification_statement ( ';'
-modification_statement )* : APPLY BATCH
-modification_statement: insert_statement |
-update_statement | delete_statement
+   batch_statement: BEGIN [ UNLOGGED | COUNTER ] BATCH
+                   : [ USING `update_parameter` ( AND `update_parameter` )* ]
+                   : `modification_statement` ( ';' `modification_statement` )*
+                   : APPLY BATCH
+   modification_statement: `insert_statement` | `update_statement` | `delete_statement`
 
 For instance:
 

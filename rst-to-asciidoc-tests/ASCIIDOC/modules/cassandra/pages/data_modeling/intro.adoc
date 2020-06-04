@@ -210,7 +210,8 @@ minimum.
 .Warning
 ====
 Materialized views (MVs) are experimental in the latest (4.0) release.
-====Materialized views (MVs) could be used to implement multiple queries
+====
+Materialized views (MVs) could be used to implement multiple queries
 for a single table. A materialized view is a table built from data from
 another table, the base table, with new primary key and new properties.
 Changes to the base table data automatically add and update data in a

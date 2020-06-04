@@ -144,10 +144,11 @@ After creation, you can alter the options of a materialized view using
 the `ALTER MATERIALIZED VIEW` statement:
 
 alter_materialized_view_statement: ALTER MATERIALIZED VIEW
-view_nameWITH table_options
+[.title-ref]#view_name# WITH [.title-ref]#table_options#
 
 The options that can be updated are the same than at creation time and
-thus the `same than for tables <create-table-options>`.
+thus the `same than for tables
+<create-table-options>`.
 
 [[drop-materialized-view-statement]]
 == DROP MATERIALIZED VIEW
@@ -155,7 +156,8 @@ thus the `same than for tables <create-table-options>`.
 Dropping a materialized view users the `DROP MATERIALIZED VIEW`
 statement:
 
-drop_materialized_view_statement: DROP MATERIALIZED VIEW [ IF EXISTS ] view_name;
+drop_materialized_view_statement: DROP MATERIALIZED VIEW [ IF EXISTS ]
+[.title-ref]#view_name#;
 
 If the materialized view does not exists, the statement will return an
 error, unless `IF EXISTS` is used in which case the operation is a
@@ -166,10 +168,5 @@ no-op.
 [NOTE]
 .Note
 ====
-Removal of columns not selected in the Materialized View (via
-`UPDATE base SET unselected_column = null` or
-`DELETE unselected_column FROM base`) may shadow missed updates to other
-columns received by hints or repair. For this reason, we advise against
-doing deletions on base columns not selected in views until this is
-fixed on CASSANDRA-13826.
+Removal of columns not selected in the Materialized View (via ``UPDATE base SET unselected_column = null`` or ``DELETE unselected_column FROM base``) may shadow missed updates to other columns received by hints or repair. For this reason, we advise against doing deletions on base columns not selected in views until this is fixed on CASSANDRA-13826.
 ====

@@ -34,16 +34,13 @@ This may take a significant amount of time depending on whether
 artifacts have to be downloaded and the number of classes that need to
 be compiled.
 
-[HINT]
+[TIP]
 .Hint
 ====
 You can setup multiple working trees for different Cassandra versions
 from the same repository using
 https://git-scm.com/docs/git-worktree[git-worktree].
-====[verse]
---
-
---
+====
 
 == Setting up Cassandra in IntelliJ IDEA
 

@@ -1,0 +1,53 @@
+:user_ML_url: http://www.mail-archive.com/user@cassandra.apache.org/
+:user_sub: user-subscribe@cassandra.apache.org
+:dev_ML_url: http://www.mail-archive.com/dev@cassandra.apache.org/
+:dev_sub: dev-subscribe@cassandra.apache.org
+:commit_ML_url: http://www.mail-archive.com/commits@cassandra.apache.org/
+:commit_sub: commits-subscribe@cassandra.apache.org
+:client_ML_url: http://www.mail-archive.com/client-dev@cassandra.apache.org/
+:client_sub: client-dev-subscribe@cassandra.apache.org
+:asf_slack: https://s.apache.org/slack-invite
+
+= Contact us
+
+You can get in touch with the Cassandra community either via the mailing lists or Slack rooms.
+
+== Mailing lists
+
+The following mailing lists are available:
+
+[cols="2,6a,4"]
+|===
+| Type | URL/Subscribe | Description
+
+| `Users`
+| * {user_ML_url} 
+* {user_sub} 
+| General discussion list for users
+
+|`Developers` 
+| * {dev_ML_url} 
+* {dev_sub} 
+| Development related discussion 
+
+|`Commits` 
+| * {commit_ML_url} 
+* {commit_sub} 
+| Commit notification source repository
+
+|`Client Libraries` 
+| * {client_ML_url} 
+* {client_sub} 
+| Discussion related to the development of idiomatic client APIs
+|===
+
+Read the mailing list using the URL. Subscribe by sending an email to the Subscribe email address. The welcome email you will get will give instructions
+for confirming your subscription. Make sure to keep the welcome email as it contains instructions on how to unsubscribe.
+
+==  Slack
+
+To chat with developers or users in real-time, join our rooms at `ASF Slack` {asf_slack}:
+
+- `cassandra` for user questions and general discussions
+- `cassandra-dev` strictly for questions or discussions related to Cassandra development
+

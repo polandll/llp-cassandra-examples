@@ -21,7 +21,7 @@ As a general rule of thumb:::
   an issue into individual tasks and contributions that can be reviewed
   separately
 
-[HINT]
+[TIP]
 .Hint
 ====
 Not sure what to work? Just pick an issue marked as
@@ -129,7 +129,6 @@ So you've finished coding and the great moment arrives: it's time to
 submit your patch!
 
 ____
---
 [arabic]
 . Create a branch for your changes if you haven't done already. Many
 contributors name their branches based on ticket number and Cassandra
@@ -209,8 +208,6 @@ do not be discouraged. If possible, the reviewer will give suggestions
 to improve your patch or explain why it is not suitable.
 . If the reviewer has given feedback to improve the patch, make the
 necessary changes and move the ticket into "Patch Available" once again.
-
---
 ____
 
 Once the review process is complete, you will receive a +1. Wait for a

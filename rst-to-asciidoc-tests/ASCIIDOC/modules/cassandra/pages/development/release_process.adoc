@@ -154,7 +154,7 @@ the next steps that are required.
 validate that your artifacts exist as you expect them.
 
 Publish the Bintray Uploaded Distribution Packages
----------------------------------------
+--------------------------------------------------
 
 Log into bintray and publish the uploaded artifacts.
 

@@ -67,7 +67,9 @@ tools and should be avoided. In general, unquoted identifiers should be
 preferred but if you use quoted identifiers, it is strongly advised to
 avoid any name enclosed by squared brackets (like `"[applied]"`) and any
 name that looks like a function call (like `"f(x)"`).
-====More formally, we have:
+====
+
+More formally, we have:
 
 identifier: [.title-ref]#unquoted_identifier# |
 [.title-ref]#quoted_identifier# unquoted_identifier:

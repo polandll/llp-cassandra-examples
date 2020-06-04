@@ -1,14 +1,4 @@
 = Contributing to Cassandra
 
-:toc:
-== xref:gettingstarted.adoc[Getting started]
-== xref:ide.adoc[IDE]
-== xref:testing.adoc[Testing]
-== xref:patches.adoc[Patches]
-== xref:code_style.adoc[Code style]
-== xref:how_to_review.adoc[How to review]
-== xref:how_to_commit.adoc[How to commit]
-== xref:documentation.adoc[Documentation]
-== xref:ci.adoc[CI]
-== xref:dependencies.adoc[Dependencies] 
-== xref:release_process.adoc[Release process]
+gettingstarted ide testing patches code_style how_to_review
+how_to_commit documentation ci dependencies release_process

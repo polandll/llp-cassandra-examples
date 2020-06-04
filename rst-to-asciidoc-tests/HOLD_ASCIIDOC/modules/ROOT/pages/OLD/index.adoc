@@ -1,0 +1,41 @@
+:cass-url: https://cassandra.apache.org
+:cass-contrib-url: https://wiki.apache.org/cassandra/HowToContribute
+
+= Welcome to Apache Cassandra's documentation!
+
+This is the official documentation for
+{cass-url}[Apache Cassandra] . If you would like to
+contribute to this documentation, you are welcome to do so by submitting
+your contribution like any other patch following
+{cass-contrib-url}[these instructions].
+
+Contents:
+
+:toc: left
+
+== Main 
+
+=== xref:cassandra:new/index.adoc[What's New]
+
+[frame=none]
+[grid=none]
+[cols=2*, stripes=even]
+|===
+
+a| xref:cassandra:getting_started/index.adoc[Getting Started] | xref:cassandra:cql/index.adoc[CQL] 
+| Newbie friendly starting point			      | CQL reference documentation
+a|xref:cassandra:data_modeling/index.adoc[Data modeling]      | xref:cassandra:configuration/index.adoc[Configuration]
+| Hint: it's not relational	| Cassandra's handles and knobs 
+a| xref:cassandra:operating/index.adoc[Operating] | xref:cassandra:tools/index.adoc[Tools]
+| The operator's corner	| cqlsh, nodetool, ...
+a| xref:cassandra:troubleshooting/index.adoc[Troubleshooting]	| xref:cassandra:development/index.adoc[Development]
+| What to look for when you have a problem	| Learn how to improve Cassandra and contribute patches
+a|xref:cassandra:faq/index.adoc[FAQ]	| xref:cassandra:plugins/index.adoc[Plug-ins]
+| Frequently Asked Questions (with answers!)	| Plug-ins
+
+|===
+
+== Meta information
+
+=== xref:bugs.adoc[Reporting Bugs]
+=== xref:contactus.adoc[Contact us]

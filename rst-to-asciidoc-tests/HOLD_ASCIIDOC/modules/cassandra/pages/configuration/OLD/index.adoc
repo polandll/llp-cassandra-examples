@@ -1,0 +1,7 @@
+= Configuring Cassandra
+
+This section describes how to configure Apache Cassandra.
+
+:toc:
+== xref:cass_yaml_file.adoc[cassandra.yaml file]
+== xref:cass_rackdc_file.adoc[cassandra_rackdc.properties files]
