@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Guarantees :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li>Cassandra</li>
+    <li><a href="index.html">Architecture</a></li>
+    <li><a href="guarantees.html">Guarantees</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/architecture/guarantees.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Guarantees</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Apache Cassandra is a highly scalable and reliable database. Cassandra
+is used in web based applications that serve large number of clients and
+the quantity of data processed is web-scale (Petabyte) large. Cassandra
+makes some guarantees about its scalability, availability and
+reliability. To fully understand the inherent limitations of a storage
+system in an environment in which a certain level of network partition
+failure is to be expected and taken into account when designing the
+system it is important to first briefly introduce the CAP theorem.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="what-is-cap"><a class="anchor" href="#what-is-cap"></a>What is CAP?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>According to the CAP theorem it is not possible for a distributed data
+store to provide more than two of the following guarantees
+simultaneously.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Consistency: Consistency implies that every read receives the most
+recent write or errors out</p>
+</li>
+<li>
+<p>Availability: Availability implies that every request receives a
+response. It is not guaranteed that the response contains the most
+recent write or data.</p>
+</li>
+<li>
+<p>Partition tolerance: Partition tolerance refers to the tolerance of a
+storage system to failure of a network partition. Even if some of the
+messages are dropped or delayed the system continues to operate.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>CAP theorem implies that when using a network partition, with the
+inherent risk of partition failure, one has to choose between
+consistency and availability and both cannot be guaranteed at the same
+time. CAP theorem is illustrated in Figure 1.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/Figure_1_guarantees.jpg" alt="image">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 1. CAP Theorem</p>
+</div>
+<div class="paragraph">
+<p>High availability is a priority in web based applications and to this
+objective Cassandra chooses Availability and Partition Tolerance from
+the CAP guarantees, compromising on data Consistency to some extent.</p>
+</div>
+<div class="paragraph">
+<p>Cassandra makes the following guarantees.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>High Scalability</p>
+</li>
+<li>
+<p>High Availability</p>
+</li>
+<li>
+<p>Durability</p>
+</li>
+<li>
+<p>Eventual Consistency of writes to a single table</p>
+</li>
+<li>
+<p>Lightweight transactions with linearizable consistency</p>
+</li>
+<li>
+<p>Batched writes across multiple tables are guaranteed to succeed
+completely or not at all</p>
+</li>
+<li>
+<p>Secondary indexes are guaranteed to be consistent with their local
+replicas data</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="high-scalability"><a class="anchor" href="#high-scalability"></a>High Scalability</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra is a highly scalable storage system in which nodes may be
+added/removed as needed. Using gossip-based protocol a unified and
+consistent membership list is kept at each node.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="high-availability"><a class="anchor" href="#high-availability"></a>High Availability</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra guarantees high availability of data by implementing a
+fault-tolerant storage system. Failure detection in a node is detected
+using a gossip-based protocol.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="durability"><a class="anchor" href="#durability"></a>Durability</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra guarantees data durability by using replicas. Replicas are
+multiple copies of a data stored on different nodes in a cluster. In a
+multi-datacenter environment the replicas may be stored on different
+datacenters. If one replica is lost due to unrecoverable node/datacenter
+failure the data is not completely lost as replicas are still available.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="eventual-consistency"><a class="anchor" href="#eventual-consistency"></a>Eventual Consistency</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Meeting the requirements of performance, reliability, scalability and
+high availability in production Cassandra is an eventually consistent
+storage system. Eventually consistent implies that all updates reach all
+replicas eventually. Divergent versions of the same data may exist
+temporarily but they are eventually reconciled to a consistent state.
+Eventual consistency is a tradeoff to achieve high availability and it
+involves some read and write latencies.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="lightweight-transactions-with-linearizable-consistency"><a class="anchor" href="#lightweight-transactions-with-linearizable-consistency"></a>Lightweight transactions with linearizable consistency</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Data must be read and written in a sequential order. Paxos consensus
+protocol is used to implement lightweight transactions. Paxos protocol
+implements lightweight transactions that are able to handle concurrent
+operations using linearizable consistency. Linearizable consistency is
+sequential consistency with real-time constraints and it ensures
+transaction isolation with compare and set (CAS) transaction. With CAS
+replica data is compared and data that is found to be out of date is set
+to the most consistent value. Reads with linearizable consistency allow
+reading the current state of the data, which may possibly be
+uncommitted, without making a new addition or update.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="batched-writes"><a class="anchor" href="#batched-writes"></a>Batched Writes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The guarantee for batched writes across multiple tables is that they
+will eventually succeed, or none will. Batch data is first written to
+batchlog system data, and when the batch data has been successfully
+stored in the cluster the batchlog data is removed. The batch is
+replicated to another node to ensure the full batch completes in the
+event the coordinator node fails.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="secondary-indexes"><a class="anchor" href="#secondary-indexes"></a>Secondary Indexes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A secondary index is an index on a column and is used to query a table
+that is normally not queryable. Secondary indexes when built are
+guaranteed to be consistent with their local replicas.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

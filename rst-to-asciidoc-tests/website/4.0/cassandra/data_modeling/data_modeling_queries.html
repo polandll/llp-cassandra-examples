@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Defining Application Queries :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="data_modeling_queries.html">Defining Application Queries</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/data_modeling/data_modeling_queries.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Defining Application Queries</h1>
+<div class="paragraph">
+<p>Let’s try the query-first approach to start designing the data model for
+a hotel application. The user interface design for the application is
+often a great artifact to use to begin identifying queries. Let’s assume
+that you’ve talked with the project stakeholders and your UX designers
+have produced user interface designs or wireframes for the key use
+cases. You’ll likely have a list of shopping queries like the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Q1. Find hotels near a given point of interest.</p>
+</li>
+<li>
+<p>Q2. Find information about a given hotel, such as its name and
+location.</p>
+</li>
+<li>
+<p>Q3. Find points of interest near a given hotel.</p>
+</li>
+<li>
+<p>Q4. Find an available room in a given date range.</p>
+</li>
+<li>
+<p>Q5. Find the rate and amenities for a room.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is often helpful to be able to refer to queries by a shorthand number
+rather that explaining them in full. The queries listed here are
+numbered Q1, Q2, and so on, which is how they are referenced in diagrams
+throughout the example.</p>
+</div>
+<div class="paragraph">
+<p>Now if the application is to be a success, you’ll certainly want
+customers to be able to book reservations at hotels. This includes steps
+such as selecting an available room and entering their guest
+information. So clearly you will also need some queries that address the
+reservation and guest entities from the conceptual data model. Even
+here, however, you’ll want to think not only from the customer
+perspective in terms of how the data is written, but also in terms of
+how the data will be queried by downstream use cases.</p>
+</div>
+<div class="paragraph">
+<p>You natural tendency as might be to focus first on designing the tables
+to store reservation and guest records, and only then start thinking
+about the queries that would access them. You may have felt a similar
+tension already when discussing the shopping queries before, thinking
+“but where did the hotel and point of interest data come from?” Don’t
+worry, you will see soon enough. Here are some queries that describe how
+users will access reservations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Q6. Lookup a reservation by confirmation number.</p>
+</li>
+<li>
+<p>Q7. Lookup a reservation by hotel, date, and guest name.</p>
+</li>
+<li>
+<p>Q8. Lookup all reservations by guest name.</p>
+</li>
+<li>
+<p>Q9. View guest details.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of the queries are shown in the context of the workflow of the
+application in the figure below. Each box on the diagram represents a
+step in the application workflow, with arrows indicating the flows
+between steps and the associated query. If you’ve modeled the
+application well, each step of the workflow accomplishes a task that
+“unlocks” subsequent steps. For example, the “View hotels near POI” task
+helps the application learn about several hotels, including their unique
+keys. The key for a selected hotel may be used as part of Q2, in order
+to obtain detailed description of the hotel. The act of booking a room
+creates a reservation record that may be accessed by the guest and hotel
+staff at a later time through various additional queries.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/data_modeling_hotel_queries.png" alt="image">
+</div>
+</div>
+<div class="paragraph">
+<p><em>Material adapted from Cassandra, The Definitive Guide. Published by
+O&#8217;Reilly Media, Inc. Copyright © 2020 Jeff Carpenter, Eben Hewitt. All
+rights reserved. Used with permission.</em></p>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

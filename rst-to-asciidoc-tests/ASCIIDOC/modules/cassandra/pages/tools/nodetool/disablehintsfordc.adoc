@@ -1,0 +1,4 @@
+[[nodetool_disablehintsfordc]]
+== disablehintsfordc
+
+== Usage

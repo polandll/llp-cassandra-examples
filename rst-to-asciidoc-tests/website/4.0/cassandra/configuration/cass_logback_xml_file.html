@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>logback.xml file :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="cass_logback_xml_file.html">logback.xml file</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/configuration/cass_logback_xml_file.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">logback.xml file</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>logback.xml</code> configuration file can optionally set logging levels
+for the logs written to <code>system.log</code> and <code>debug.log</code>. The logging levels
+can also be set using <code>nodetool setlogginglevels</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="options"><a class="anchor" href="#options"></a>Options</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="appender-nameappender_choiceappender"><a class="anchor" href="#appender-nameappender_choiceappender"></a><code>appender name="&lt;appender_choice&gt;"&#8230;&#8203;&lt;/appender&gt;</code></h3>
+<div class="paragraph">
+<p>Specify log type and settings. Possible appender names are: <code>SYSTEMLOG</code>,
+<code>DEBUGLOG</code>, <code>ASYNCDEBUGLOG</code>, and <code>STDOUT</code>. <code>SYSTEMLOG</code> ensures that WARN
+and ERROR message are written synchronously to the specified file.
+<code>DEBUGLOG</code> and <code>ASYNCDEBUGLOG</code> ensure that DEBUG messages are written
+either synchronously or asynchronously, respectively, to the specified
+file. <code>STDOUT</code> writes all messages to the console in a human-readable
+format.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong> &lt;appender name="SYSTEMLOG"
+class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="file-filename-file"><a class="anchor" href="#file-filename-file"></a><code>&lt;file&gt; &lt;filename&gt; &lt;/file&gt;</code></h3>
+<div class="paragraph">
+<p>Specify the filename for a log.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong> &lt;file&gt;$\{cassandra.logdir}/system.log&lt;/file&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="level-log_level-level"><a class="anchor" href="#level-log_level-level"></a><code>&lt;level&gt; &lt;log_level&gt; &lt;/level&gt;</code></h3>
+<div class="paragraph">
+<p>Specify the level for a log. Part of the filter. Levels are: <code>ALL</code>,
+<code>TRACE</code>, <code>DEBUG</code>, <code>INFO</code>, <code>WARN</code>, <code>ERROR</code>, <code>OFF</code>. <code>TRACE</code> creates the
+most verbose log, <code>ERROR</code> the least.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Note</div>
+<div class="paragraph">
+<p>Note: Increasing logging levels can generate heavy logging output on
+a moderately trafficked cluster. You can use the
+<code>nodetool getlogginglevels</code> command to see the current logging
+configuration.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Default:</strong> INFO</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong> &lt;level&gt;INFO&lt;/level&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="rollingpolicy-classrolling_policy_choice-filenamepatternpattern_infofilenamepattern-rollingpolicy"><a class="anchor" href="#rollingpolicy-classrolling_policy_choice-filenamepatternpattern_infofilenamepattern-rollingpolicy"></a><code>&lt;rollingPolicy class="&lt;rolling_policy_choice&gt;" &lt;fileNamePattern&gt;&lt;pattern_info&gt;&lt;/fileNamePattern&gt; &#8230;&#8203; &lt;/rollingPolicy&gt;</code></h3>
+<div class="paragraph">
+<p>Specify the policy for rolling logs over to an archive.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong> &lt;rollingPolicy
+class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="filenamepattern-pattern_info-filenamepattern"><a class="anchor" href="#filenamepattern-pattern_info-filenamepattern"></a><code>&lt;fileNamePattern&gt; &lt;pattern_info&gt; &lt;/fileNamePattern&gt;</code></h3>
+<div class="paragraph">
+<p>Specify the pattern information for rolling over the log to archive.
+Part of the rolling policy.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong>
+&lt;fileNamePattern&gt;$\{cassandra.logdir}/system.log.%d{yyyy-MM-dd}.%i.zip&lt;/fileNamePattern&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="maxfilesize-size-maxfilesize"><a class="anchor" href="#maxfilesize-size-maxfilesize"></a><code>&lt;maxFileSize&gt; &lt;size&gt; &lt;/maxFileSize&gt;</code></h3>
+<div class="paragraph">
+<p>Specify the maximum file size to trigger rolling a log. Part of the
+rolling policy.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong> &lt;maxFileSize&gt;50MB&lt;/maxFileSize&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="maxhistory-number_of_days-maxhistory"><a class="anchor" href="#maxhistory-number_of_days-maxhistory"></a><code>&lt;maxHistory&gt; &lt;number_of_days&gt; &lt;/maxHistory&gt;</code></h3>
+<div class="paragraph">
+<p>Specify the maximum history in days to trigger rolling a log. Part of
+the rolling policy.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong> &lt;maxHistory&gt;7&lt;/maxHistory&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="encoder-patternpattern-encoder"><a class="anchor" href="#encoder-patternpattern-encoder"></a><code>&lt;encoder&gt; &lt;pattern&gt;&#8230;&#8203;&lt;/pattern&gt; &lt;/encoder&gt;</code></h3>
+<div class="paragraph">
+<p>Specify the format of the message. Part of the rolling policy.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong> &lt;maxHistory&gt;7&lt;/maxHistory&gt; <strong>Example:</strong> &lt;encoder&gt;
+&lt;pattern&gt;%-5level [%thread] %date{ISO8601} %F:%L - %msg%n&lt;/pattern&gt;
+&lt;/encoder&gt;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="contents-of-default-logback-xml"><a class="anchor" href="#contents-of-default-logback-xml"></a>Contents of default <code>logback.xml</code></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-XML hljs" data-lang="XML">&lt;configuration scan="true" scanPeriod="60 seconds"&gt;
+  &lt;jmxConfigurator /&gt;
+
+  &lt;!-- No shutdown hook; we run it ourselves in StorageService after shutdown --&gt;
+
+  &lt;!-- SYSTEMLOG rolling file appender to system.log (INFO level) --&gt;
+
+  &lt;appender name="SYSTEMLOG" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+    &lt;filter class="ch.qos.logback.classic.filter.ThresholdFilter"&gt;
+  &lt;level&gt;INFO&lt;/level&gt;
+    &lt;/filter&gt;
+    &lt;file&gt;${cassandra.logdir}/system.log&lt;/file&gt;
+    &lt;rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"&gt;
+      &lt;!-- rollover daily --&gt;
+      &lt;fileNamePattern&gt;${cassandra.logdir}/system.log.%d{yyyy-MM-dd}.%i.zip&lt;/fileNamePattern&gt;
+      &lt;!-- each file should be at most 50MB, keep 7 days worth of history, but at most 5GB --&gt;
+      &lt;maxFileSize&gt;50MB&lt;/maxFileSize&gt;
+      &lt;maxHistory&gt;7&lt;/maxHistory&gt;
+      &lt;totalSizeCap&gt;5GB&lt;/totalSizeCap&gt;
+    &lt;/rollingPolicy&gt;
+    &lt;encoder&gt;
+      &lt;pattern&gt;%-5level [%thread] %date{ISO8601} %F:%L - %msg%n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+  &lt;/appender&gt;
+
+  &lt;!-- DEBUGLOG rolling file appender to debug.log (all levels) --&gt;
+
+  &lt;appender name="DEBUGLOG" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+    &lt;file&gt;${cassandra.logdir}/debug.log&lt;/file&gt;
+    &lt;rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"&gt;
+      &lt;!-- rollover daily --&gt;
+      &lt;fileNamePattern&gt;${cassandra.logdir}/debug.log.%d{yyyy-MM-dd}.%i.zip&lt;/fileNamePattern&gt;
+      &lt;!-- each file should be at most 50MB, keep 7 days worth of history, but at most 5GB --&gt;
+      &lt;maxFileSize&gt;50MB&lt;/maxFileSize&gt;
+      &lt;maxHistory&gt;7&lt;/maxHistory&gt;
+      &lt;totalSizeCap&gt;5GB&lt;/totalSizeCap&gt;
+    &lt;/rollingPolicy&gt;
+    &lt;encoder&gt;
+      &lt;pattern&gt;%-5level [%thread] %date{ISO8601} %F:%L - %msg%n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+  &lt;/appender&gt;
+
+  &lt;!-- ASYNCLOG assynchronous appender to debug.log (all levels) --&gt;
+
+  &lt;appender name="ASYNCDEBUGLOG" class="ch.qos.logback.classic.AsyncAppender"&gt;
+    &lt;queueSize&gt;1024&lt;/queueSize&gt;
+    &lt;discardingThreshold&gt;0&lt;/discardingThreshold&gt;
+    &lt;includeCallerData&gt;true&lt;/includeCallerData&gt;
+    &lt;appender-ref ref="DEBUGLOG" /&gt;
+  &lt;/appender&gt;
+
+  &lt;!-- STDOUT console appender to stdout (INFO level) --&gt;
+
+  &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
+    &lt;filter class="ch.qos.logback.classic.filter.ThresholdFilter"&gt;
+      &lt;level&gt;INFO&lt;/level&gt;
+    &lt;/filter&gt;
+    &lt;encoder&gt;
+      &lt;pattern&gt;%-5level [%thread] %date{ISO8601} %F:%L - %msg%n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+  &lt;/appender&gt;
+
+  &lt;!-- Uncomment bellow and corresponding appender-ref to activate logback metrics
+  &lt;appender name="LogbackMetrics" class="com.codahale.metrics.logback.InstrumentedAppender" /&gt;
+   --&gt;
+
+  &lt;root level="INFO"&gt;
+    &lt;appender-ref ref="SYSTEMLOG" /&gt;
+    &lt;appender-ref ref="STDOUT" /&gt;
+    &lt;appender-ref ref="ASYNCDEBUGLOG" /&gt; &lt;!-- Comment this line to disable debug.log --&gt;
+    &lt;!--
+    &lt;appender-ref ref="LogbackMetrics" /&gt;
+    --&gt;
+  &lt;/root&gt;
+
+  &lt;logger name="org.apache.cassandra" level="DEBUG"/&gt;
+  &lt;logger name="com.thinkaurelius.thrift" level="ERROR"/&gt;
+&lt;/configuration&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

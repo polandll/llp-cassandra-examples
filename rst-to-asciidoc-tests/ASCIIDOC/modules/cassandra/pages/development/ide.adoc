@@ -188,15 +188,15 @@ process through the following steps:
 
 From the menu, select `Run->Debug Configurations..`
 
-image:images/eclipse_debug0.png[image]
+image::eclipse_debug0.png[image]
 
 Create new remote application
 
-image:images/eclipse_debug1.png[image]
+image::eclipse_debug1.png[image]
 
 Configure connection settings by specifying a name and port 1414
 
-image:images/eclipse_debug2.png[image]
+image::eclipse_debug2.png[image]
 
 Afterwards confirm "Debug" to connect to the JVM and start debugging
 Cassandra!
@@ -208,16 +208,16 @@ use the command line.
 
 From the menu, select `Run->Run Configurations..`
 
-image:images/eclipse_debug3.png[image]
+image::eclipse_debug3.png[image]
 
 Create new application
 
-image:images/eclipse_debug4.png[image]
+image::eclipse_debug4.png[image]
 
 Specify name, project and main class
 `org.apache.cassandra.service.CassandraDaemon`
 
-image:images/eclipse_debug5.png[image]
+image::eclipse_debug5.png[image]
 
 Configure additional JVM specific parameters that will start Cassandra
 with some of the settings created by the regular startup script. Change
@@ -227,7 +227,7 @@ heap related values as needed.
 -Xms1024M -Xmx1024M -Xmn220M -Xss256k -ea -XX:+UseThreadPriorities -XX:ThreadPriorityPolicy=42 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+UseCondCardMark -javaagent:./lib/jamm-0.3.0.jar -Djava.net.preferIPv4Stack=true
 ....
 
-image:images/eclipse_debug6.png[image]
+image::eclipse_debug6.png[image]
 
 Now just confirm "Debug" and you should see the output of Cassandra
 starting up in the Eclipse console and should be able to set breakpoints

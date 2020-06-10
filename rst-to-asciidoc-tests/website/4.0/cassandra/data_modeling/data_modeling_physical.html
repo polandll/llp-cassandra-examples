@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Physical Data Modeling :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="data_modeling_physical.html">Physical Data Modeling</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/data_modeling/data_modeling_physical.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Physical Data Modeling</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once you have a logical data model defined, creating the physical model
+is a relatively simple process.</p>
+</div>
+<div class="paragraph">
+<p>You walk through each of the logical model tables, assigning types to
+each item. You can use any valid <code>CQL data type &lt;data-types&gt;</code>, including
+the basic types, collections, and user-defined types. You may identify
+additional user-defined types that can be created to simplify your
+design.</p>
+</div>
+<div class="paragraph">
+<p>After you’ve assigned data types, you analyze the model by performing
+size calculations and testing out how the model works. You may make some
+adjustments based on your findings. Once again let&#8217;s cover the data
+modeling process in more detail by working through an example.</p>
+</div>
+<div class="paragraph">
+<p>Before getting started, let’s look at a few additions to the Chebotko
+notation for physical data models. To draw physical models, you need to
+be able to add the typing information for each column. This figure shows
+the addition of a type for each column in a sample table.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/data_modeling_chebotko_physical.png" alt="image">
+</div>
+</div>
+<div class="paragraph">
+<p>The figure includes a designation of the keyspace containing each table
+and visual cues for columns represented using collections and
+user-defined types. Note the designation of static columns and secondary
+index columns. There is no restriction on assigning these as part of a
+logical model, but they are typically more of a physical data modeling
+concern.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="hotel-physical-data-model"><a class="anchor" href="#hotel-physical-data-model"></a>Hotel Physical Data Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now let’s get to work on the physical model. First, you need keyspaces
+to contain the tables. To keep the design relatively simple, create a
+<code>hotel</code> keyspace to contain tables for hotel and availability data, and
+a <code>reservation</code> keyspace to contain tables for reservation and guest
+data. In a real system, you might divide the tables across even more
+keyspaces in order to separate concerns.</p>
+</div>
+<div class="paragraph">
+<p>For the <code>hotels</code> table, use Cassandra’s <code>text</code> type to represent the
+hotel’s <code>id</code>. For the address, create an <code>address</code> user defined type.
+Use the <code>text</code> type to represent the phone number, as there is
+considerable variance in the formatting of numbers between countries.</p>
+</div>
+<div class="paragraph">
+<p>While it would make sense to use the <code>uuid</code> type for attributes such as
+the <code>hotel_id</code>, this document uses mostly <code>text</code> attributes as
+identifiers, to keep the samples simple and readable. For example, a
+common convention in the hospitality industry is to reference properties
+by short codes like "AZ123" or "NY229". This example uses these values
+for <code>hotel_ids</code>, while acknowledging they are not necessarily globally
+unique.</p>
+</div>
+<div class="paragraph">
+<p>You’ll find that it’s often helpful to use unique IDs to uniquely
+reference elements, and to use these <code>uuids</code> as references in tables
+representing other entities. This helps to minimize coupling between
+different entity types. This may prove especially effective if you are
+using a microservice architectural style for your application, in which
+there are separate services responsible for each entity type.</p>
+</div>
+<div class="paragraph">
+<p>As you work to create physical representations of various tables in the
+logical hotel data model, you use the same approach. The resulting
+design is shown in this figure:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/data_modeling_hotel_physical.png" alt="image">
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the <code>address</code> type is also included in the design. It is
+designated with an asterisk to denote that it is a user-defined type,
+and has no primary key columns identified. This type is used in the
+<code>hotels</code> and <code>hotels_by_poi</code> tables.</p>
+</div>
+<div class="paragraph">
+<p>User-defined types are frequently used to help reduce duplication of
+non-primary key columns, as was done with the <code>address</code> user-defined
+type. This can reduce complexity in the design.</p>
+</div>
+<div class="paragraph">
+<p>Remember that the scope of a UDT is the keyspace in which it is defined.
+To use <code>address</code> in the <code>reservation</code> keyspace defined below design,
+you’ll have to declare it again. This is just one of the many trade-offs
+you have to make in data model design.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="reservation-physical-data-model"><a class="anchor" href="#reservation-physical-data-model"></a>Reservation Physical Data Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now, let’s examine reservation tables in the design. Remember that the
+logical model contained three denormalized tables to support queries for
+reservations by confirmation number, guest, and hotel and date. For the
+first iteration of your physical data model design, assume you&#8217;re going
+to manage this denormalization manually. Note that this design could be
+revised to use Cassandra’s (experimental) materialized view feature.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/data_modeling_reservation_physical.png" alt="image">
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the <code>address</code> type is reproduced in this keyspace and
+<code>guest_id</code> is modeled as a <code>uuid</code> type in all of the tables.</p>
+</div>
+<div class="paragraph">
+<p><em>Material adapted from Cassandra, The Definitive Guide. Published by
+O&#8217;Reilly Media, Inc. Copyright © 2020 Jeff Carpenter, Eben Hewitt. All
+rights reserved. Used with permission.</em></p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

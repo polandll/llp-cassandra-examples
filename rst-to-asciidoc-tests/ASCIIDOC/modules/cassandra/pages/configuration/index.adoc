@@ -2,5 +2,10 @@
 
 This section describes how to configure Apache Cassandra.
 
-cass_yaml_file cass_rackdc_file cass_env_sh_file cass_topo_file
-cass_cl_archive_file cass_logback_xml_file cass_jvm_options_file
+* xref:configuration/cass_yaml_file.adoc[cassandra.yaml]
+* xref:configuration/cass_rackdc_file.adoc[cassandra-rackdc.properties]
+* xref:configuration/cass_env_sh_file.adoc[cassandra-env.sh]
+* xref:configuration/cass_topo_file.adoc[cassandra-topologies.properties]
+* xref:configuration/cass_cl_archive_file.adoc[commitlog-archiving.properties]
+* xref:configuration/cass_cl_logback_xml_file.adoc[logback.xml]
+* xref:configuration/cass_jvm_options_file.adoc[jvm-* files]

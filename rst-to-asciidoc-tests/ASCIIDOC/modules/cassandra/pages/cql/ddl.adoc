@@ -623,7 +623,7 @@ Note that this option is basically a hint for the storage engine to
 change the order in which it stores the row but it has 3 visible
 consequences:
 
-# it limits which `ORDER BY` clause are allowed for
+. it limits which `ORDER BY` clause are allowed for
 `selects <select-statement>` on that table. You can only::
   order results by the clustering order or the reverse clustering order.
   Meaning that if a table has 2 clustering column `a` and `b` and you
@@ -631,10 +631,10 @@ consequences:
   will be allowed to use `ORDER BY (a DESC, b ASC)` and (reverse
   clustering order) `ORDER BY (a ASC, b DESC)` but *not*
   `ORDER BY (a ASC, b ASC)` (nor `ORDER BY (a DESC, b DESC)`).
-# it also change the default order of results when queried (if no
+. it also change the default order of results when queried (if no
 `ORDER BY` is provided). Results are always returned::
   in clustering order (within a partition).
-# it has a small performance impact on some queries as queries in
+. it has a small performance impact on some queries as queries in
 reverse clustering order are slower than the one in::
   forward clustering order. In practice, this means that if you plan on
   querying mostly in the reverse natural order of your columns (which is

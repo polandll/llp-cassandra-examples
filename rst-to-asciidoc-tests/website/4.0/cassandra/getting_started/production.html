@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Production Recommendations :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li>Cassandra</li>
+    <li><a href="index.html">Getting Started</a></li>
+    <li><a href="production.html">Production recommendations</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/getting_started/production.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Production Recommendations</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>cassandra.yaml</code> and <code>jvm.options</code> files have a number of notes and
+recommendations for production usage. This page expands on some of the
+notes in these files with additional information.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tokens"><a class="anchor" href="#tokens"></a>Tokens</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using more than 1 token (referred to as vnodes) allows for more flexible
+expansion and more streaming peers when bootstrapping new nodes into the
+cluster. This can limit the negative impact of streaming (I/O and CPU
+overhead) as well as allow for incremental cluster expansion.</p>
+</div>
+<div class="paragraph">
+<p>As a tradeoff, more tokens will lead to sharing data with more peers,
+which can result in decreased availability. To learn more about this we
+recommend reading
+<a href="https://github.com/jolynch/python_performance_toolkit/raw/master/notebooks/cassandra_availability/whitepaper/cassandra-availability-virtual.pdf">this
+paper</a>.</p>
+</div>
+<div class="paragraph">
+<p>The number of tokens can be changed using the following setting:</p>
+</div>
+<div class="paragraph">
+<p><code>num_tokens: 16</code></p>
+</div>
+<div class="paragraph">
+<p>Here are the most common token counts with a brief explanation of when
+and why you would use each one.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 13%;">
+<col style="width: 87%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Token Count</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum availablility, maximum cluster size, fewest peers, but
+inflexible expansion. Must always double size of cluster to expand and
+remain balanced.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A healthy mix of elasticity and availability. Recommended for
+clusters which will eventually reach over 30 nodes. Requires adding
+approximately 20% more nodes to remain balanced. Shrinking a cluster may
+result in cluster imbalance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Best for heavily elastic clusters which expand and shrink
+regularly, but may have issues availability with larger clusters. Not
+recommended for clusters over 50 nodes.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In addition to setting the token count, it&#8217;s extremely important that
+<code>allocate_tokens_for_local_replication_factor</code> be set as well, to ensure
+even token allocation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="read-ahead"><a class="anchor" href="#read-ahead"></a>Read Ahead</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Read ahead is an operating system feature that attempts to keep as much
+data loaded in the page cache as possible. The goal is to decrease
+latency by using additional throughput on reads where the latency
+penalty is high due to seek times on spinning disks. By leveraging read
+ahead, the OS can pull additional data into memory without the cost of
+additional seeks. This works well when available RAM is greater than the
+size of the hot dataset, but can be problematic when the hot dataset is
+much larger than available RAM. The benefit of read ahead decreases as
+the size of your hot dataset gets bigger in proportion to available
+memory.</p>
+</div>
+<div class="paragraph">
+<p>With small partitions (usually tables with no partition key, but not
+limited to this case) and solid state drives, read ahead can increase
+disk usage without any of the latency benefits, and in some cases can
+result in up to a 5x latency and throughput performance penalty. Read
+heavy, key/value tables with small (under 1KB) rows are especially prone
+to this problem.</p>
+</div>
+<div class="paragraph">
+<p>We recommend the following read ahead settings:</p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 59%;">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Hardware</th>
+<th class="tableblock halign-left valign-top">Initial Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Spinning Disks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64KB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4KB</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Read ahead can be adjusted on Linux systems by using the
+<span class="title-ref">blockdev</span> tool.</p>
+</div>
+<div class="paragraph">
+<p>For example, we can set read ahead of
+<code>/dev/sda1\</code> to 4KB by doing the following::      blockdev --setra 8 /dev/sda1  <strong>Note</strong>: blockdev accepts the number of 512 byte sectors to read ahead.  The argument of 8 above is equivilent to 4KB.  Since each system is different, use the above recommendations as a starting point and tuning based on your SLA and throughput requirements.  To understand how read ahead impacts disk resource usage we recommend carefully reading through the :ref:`troubleshooting &lt;use-os-tools&gt;\` portion of the documentation.   Compression <sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup>  Compressed data is stored by compressing fixed size byte buffers and writing the data to disk.  The buffer size is determined by the`chunk_length_in_kb`element in the compression map of the schema settings.  The default setting is 16KB starting with Cassandra 4.0.  Since the entire compressed buffer must be read off disk, using too high of a compression chunk length can lead to significant overhead when reading small records.  Combined with the default read ahead setting this can result in massive read amplification for certain workloads.  LZ4Compressor is the default and recommended compression algorithm.  There is additional information on this topic on `The Last Pickle Blog &lt;<a href="https://thelastpickle.com/blog/2018/08/08/compression_performance.html&gt;\`_" class="bare">thelastpickle.com/blog/2018/08/08/compression_performance.html&gt;\`_</a>.  Compaction <sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup>  There are different :ref:\`compaction &lt;compaction&gt;\` strategies available for different workloads. We recommend reading up on the different strategies to understand which is the best for your environment.  Different tables may (and frequently do) use different compaction strategies on the same cluster.  Encryption <sup>^</sup><sup>^</sup><sup>^</sup>^^  It is significantly easier to set up peer to peer encryption and client server encryption when setting up your production cluster as opposed to setting it up once the cluster is already serving production traffic.  If you are planning on using network encryption eventually (in any form), we recommend setting it up now.  Changing these configurations down the line is not impossible, but mistakes can result in downtime or data loss.  Ensure Keyspaces are Created with NetworkTopologyStrategy <sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup>  Production clusters should never use SimpleStrategy.  Production keyspaces should use the NetworkTopologyStrategy (NTS).  For example::      create KEYSPACE mykeyspace WITH replication =     {'class': 'NetworkTopologyStrategy', 'datacenter1': 3};  NetworkTopologyStrategy allows Cassandra to take advantage of multiple racks and data centers.  Configure Racks and Snitch <sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup>^  <strong>Correctly configuring or changing racks after a cluster has been provisioned is an unsupported process</strong>.  Migrating from a single rack to multiple racks is also unsupported and can result in data loss.  Using`GossipingPropertyFileSnitch`is the most flexible solution for on premise or mixed cloud environments.<code>Ec2Snitch`</code>
+is reliable for AWS EC2 only environments.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

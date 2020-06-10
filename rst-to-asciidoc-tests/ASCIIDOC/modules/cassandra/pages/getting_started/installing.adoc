@@ -56,9 +56,14 @@ binaries and configuration files as the `cassandra` OS user.
 [arabic]
 . Verify the version of Java installed. For example:
 
-[source,none]
+[source,bash]
 ----
 $ java -version
+----
+should return:
+
+[source,none]
+----
 openjdk version "1.8.0_222"
 OpenJDK Runtime Environment (build 1.8.0_222-8u222-b10-1ubuntu1~16.04.1-b10)
 OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
@@ -67,7 +72,7 @@ OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
 [arabic, start=2]
 . Download the binary tarball from one of the mirrors on the
 http://cassandra.apache.org/download/[Apache Cassandra Download] site.
-For example, to download 4.0:
+For example, to download Cassandra 4.0:
 
 [source,none]
 ----
@@ -83,18 +88,30 @@ http://archive.apache.org/dist/cassandra/[Apache Archives].
 the methods https://www.apache.org/dyn/closer.cgi#verify[here]. For
 example, to verify the hash of the downloaded file using GPG:
 
-[source,none]
+[source,bash]
 ----
 $ gpg --print-md SHA256 apache-cassandra-4.0.0-bin.tar.gz 
+----
+
+should return:
+
+[source,none]
+----
 apache-cassandra-4.0.0-bin.tar.gz: 28757DDE 589F7041 0F9A6A95 C39EE7E6
                                    CDE63440 E2B06B91 AE6B2006 14FA364D
 ----
 
 Compare the signature with the SHA256 file from the Downloads site:
 
-[source,none]
+[source,bash]
 ----
 $ curl -L https://downloads.apache.org/cassandra/4.0.0/apache-cassandra-4.0.0-bin.tar.gz.sha256
+----
+
+which returns: 
+
+[source,none]
+----
 28757dde589f70410f9a6a95c39ee7e6cde63440e2b06b91ae6b200614fa364d
 ----
 
@@ -135,10 +152,9 @@ Cassandra].
 [arabic, start=6]
 . Start Cassandra:
 
-[source,none]
+[source,bash]
 ----
-$ cd apache-cassandra-4.0.0/
-$ bin/cassandra
+$ cd apache-cassandra-4.0.0/ && bin/cassandra
 ----
 
 NOTE: This will run Cassandra as the authenticated Linux user.
@@ -160,7 +176,7 @@ INFO  [main] 2019-12-17 03:03:37,526 Server.java:156 - Starting listening for CQ
 [arabic, start=7]
 . Check the status of Cassandra:
 
-[source,none]
+[source,bash]
 ----
 $ bin/nodetool status
 ----
@@ -170,7 +186,7 @@ The status column in the output should report UN which stands for
 
 Alternatively, connect to the database with:
 
-[source,none]
+[source,bash]
 ----
 $ bin/cqlsh
 ----
@@ -180,9 +196,16 @@ $ bin/cqlsh
 [arabic]
 . Verify the version of Java installed. For example:
 
-[source,none]
+// LLP: NEED TO ADD TO PARTIALS TO REUSE
+[source,bash]
 ----
 $ java -version
+----
+
+should return:
+
+[source,none]
+----
 openjdk version "1.8.0_222"
 OpenJDK Runtime Environment (build 1.8.0_222-8u222-b10-1ubuntu1~16.04.1-b10)
 OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)

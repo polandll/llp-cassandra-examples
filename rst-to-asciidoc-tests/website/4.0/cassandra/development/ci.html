@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Jenkins CI Environment :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="ci.html">Jenkins CI Environment</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/development/ci.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Jenkins CI Environment</h1>
+<div class="sect1">
+<h2 id="about-ci-testing-and-apache-cassandra"><a class="anchor" href="#about-ci-testing-and-apache-cassandra"></a>About CI testing and Apache Cassandra</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra can be automatically tested using various test suites, that
+are either implemented based on JUnit or the
+<a href="https://github.com/riptano/cassandra-dtest">dtest</a> scripts written in
+Python. As outlined in <code>testing</code>, each kind of test suite addresses a
+different way how to test Cassandra. But in the end, all of them will be
+executed together on our CI platform at
+<a href="https://builds.apache.org">builds.apache.org</a>, running
+<a href="http://jenkins-ci.org">Jenkins</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="setting-up-your-own-jenkins-server"><a class="anchor" href="#setting-up-your-own-jenkins-server"></a>Setting up your own Jenkins server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Jenkins is an open source solution that can be installed on a large
+number of platforms. Setting up a custom Jenkins instance for Cassandra
+may be desirable for users who have hardware to spare, or organizations
+that want to run Cassandra tests for custom patches before contribution.</p>
+</div>
+<div class="paragraph">
+<p>Please refer to the Jenkins download and documentation pages for details
+on how to get Jenkins running, possibly also including slave build
+executor instances. The rest of the document will focus on how to setup
+Cassandra jobs in your Jenkins environment.</p>
+</div>
+<div class="sect2">
+<h3 id="required-plugins"><a class="anchor" href="#required-plugins"></a>Required plugins</h3>
+<div class="paragraph">
+<p>The following plugins need to be installed additionally to the standard
+plugins (git, ant, ..).</p>
+</div>
+<div class="paragraph">
+<p>You can install any missing plugins through the install manager.</p>
+</div>
+<div class="paragraph">
+<p>Go to <code>Manage Jenkins &#8594; Manage Plugins &#8594; Available</code> and install the
+following plugins and respective dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Job DSL</p>
+</li>
+<li>
+<p>Javadoc Plugin</p>
+</li>
+<li>
+<p>description setter plugin</p>
+</li>
+<li>
+<p>Throttle Concurrent Builds Plug-in</p>
+</li>
+<li>
+<p>Test stability history</p>
+</li>
+<li>
+<p>Hudson Post build task</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setup-seed-job"><a class="anchor" href="#setup-seed-job"></a>Setup seed job</h3>
+<div class="paragraph">
+<p>Config <code>New Item</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Name it <code>Cassandra-Job-DSL</code></p>
+</li>
+<li>
+<p>Select <code>Freestyle project</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Under <code>Source Code Management</code> select Git using the repository:
+<code><a href="https://github.com/apache/cassandra-builds" class="bare">github.com/apache/cassandra-builds</a></code></p>
+</div>
+<div class="paragraph">
+<p>Under <code>Build</code>, confirm <code>Add build step</code> &#8594; <code>Process Job DSLs</code> and enter
+at <code>Look on Filesystem</code>: <code>jenkins-dsl/cassandra_job_dsl_seed.groovy</code></p>
+</div>
+<div class="paragraph">
+<p>Generated jobs will be created based on the Groovy script&#8217;s default
+settings. You may want to override settings by checking
+<code>This project is parameterized</code> and add <code>String Parameter</code> for on the
+variables that can be found in the top of the script. This will allow
+you to setup jobs for your own repository and branches (e.g. working
+branches).</p>
+</div>
+<div class="paragraph">
+<p><strong>When done, confirm "Save"</strong></p>
+</div>
+<div class="paragraph">
+<p>You should now find a new entry with the given name in your project
+list. However, building the project will still fail and abort with an
+error message <span class="title-ref">"Processing DSL script
+cassandra_job_dsl_seed.groovy ERROR: script not yet approved for use"</span>.
+Goto <code>Manage Jenkins</code> &#8594; <code>In-process Script Approval</code> to fix this issue.
+Afterwards you should be able to run the script and have it generate
+numerous new jobs based on the found branches and configured templates.</p>
+</div>
+<div class="paragraph">
+<p>Jobs are triggered by either changes in Git or are scheduled to execute
+periodically, e.g. on daily basis. Jenkins will use any available
+executor with the label "cassandra", once the job is to be run. Please
+make sure to make any executors available by selecting
+<code>Build Executor Status</code> &#8594; <code>Configure</code> &#8594; Add &#8220;cassandra&#8221; as label and
+save.</p>
+</div>
+<div class="paragraph">
+<p>Executors need to have "JDK 1.8 (latest)" installed. This is done under
+<code>Manage Jenkins &#8594; Global Tool Configuration &#8594; JDK Installations…</code>.
+Executors also need to have the virtualenv package installed on their
+system.</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

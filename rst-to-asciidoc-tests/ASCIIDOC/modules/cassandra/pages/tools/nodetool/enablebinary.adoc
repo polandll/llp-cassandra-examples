@@ -1,0 +1,4 @@
+[[nodetool_enablebinary]]
+== enablebinary
+
+== Usage

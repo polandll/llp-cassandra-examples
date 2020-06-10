@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Compression :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="compression.html">Compression</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/operating/compression.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Compression</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra offers operators the ability to configure compression on a
+per-table basis. Compression reduces the size of data on disk by
+compressing the SSTable in user-configurable compression
+<code>chunk_length_in_kb</code>. As Cassandra SSTables are immutable, the CPU cost
+of compressing is only necessary when the SSTable is written -
+subsequent updates to data will land in different SSTables, so Cassandra
+will not need to decompress, overwrite, and recompress data when UPDATE
+commands are issued. On reads, Cassandra will locate the relevant
+compressed chunks on disk, decompress the full chunk, and then proceed
+with the remainder of the read path (merging data from disks and
+memtables, read repair, and so on).</p>
+</div>
+<div class="paragraph">
+<p>Compression algorithms typically trade off between the following three
+areas:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Compression speed</strong>: How fast does the compression algorithm compress
+data. This is critical in the flush and compaction paths because data
+must be compressed before it is written to disk.</p>
+</li>
+<li>
+<p><strong>Decompression speed</strong>: How fast does the compression algorithm
+de-compress data. This is critical in the read and compaction paths as
+data must be read off disk in a full chunk and decompressed before it
+can be returned.</p>
+</li>
+<li>
+<p><strong>Ratio</strong>: By what ratio is the uncompressed data reduced by. Cassandra
+typically measures this as the size of data on disk relative to the
+uncompressed size. For example a ratio of <code>0.5</code> means that the data on
+disk is 50% the size of the uncompressed data. Cassandra exposes this
+ratio per table as the <code>SSTable Compression Ratio</code> field of
+<code>nodetool tablestats</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Cassandra offers five compression algorithms by default that make
+different tradeoffs in these areas. While benchmarking compression
+algorithms depends on many factors (algorithm parameters such as
+compression level, the compressibility of the input data, underlying
+processor class, etc &#8230;&#8203;), the following table should help you pick a
+starting point based on your application&#8217;s requirements with an
+extremely rough grading of the different choices by their performance in
+these areas (A is relatively good, F is relatively bad):</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 19%;">
+<col style="width: 11%;">
+<col style="width: 13%;">
+<col style="width: 6%;">
+<col style="width: 11%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Compression Algorithm</th>
+<th class="tableblock halign-left valign-top">Cassandra Class</th>
+<th class="tableblock halign-left valign-top">Compression</th>
+<th class="tableblock halign-left valign-top">Decompression</th>
+<th class="tableblock halign-left valign-top">Ratio</th>
+<th class="tableblock halign-left valign-top">C* Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lz4.github.io/lz4/">LZ4</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LZ4Compressor</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A+</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A+</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>C+</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;=1.2.2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://lz4.github.io/lz4/">LZ4HC</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LZ4Compressor</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>C+</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A+</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>B+</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;= 3.6</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://facebook.github.io/zstd/">Zstd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ZstdCompressor</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A-</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A-</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A+</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;= 4.0</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://google.github.io/snappy/">Snappy</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SnappyCompressor</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A-</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>C</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;= 1.0</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://zlib.net">Deflate (zlib)</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DeflateCompressor</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>C</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>C</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A</p>
+</div>
+</blockquote>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;= 1.0</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Generally speaking for a performance critical (latency or throughput)
+application <code>LZ4</code> is the right choice as it gets excellent ratio per CPU
+cycle spent. This is why it is the default choice in Cassandra.</p>
+</div>
+<div class="paragraph">
+<p>For storage critical applications (disk footprint), however, <code>Zstd</code> may
+be a better choice as it can get significant additional ratio to <code>LZ4</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>Snappy</code> is kept for backwards compatibility and <code>LZ4</code> will typically be
+preferable.</p>
+</div>
+<div class="paragraph">
+<p><code>Deflate</code> is kept for backwards compatibility and <code>Zstd</code> will typically
+be preferable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-compression"><a class="anchor" href="#configuring-compression"></a>Configuring Compression</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Compression is configured on a per-table basis as an optional argument
+to <code>CREATE TABLE</code> or <code>ALTER TABLE</code>. Three options are available for all
+compressors:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>class</code> (default: <code>LZ4Compressor</code>): specifies the compression class to
+use. The two "fast" compressors are <code>LZ4Compressor</code> and
+<code>SnappyCompressor</code> and the two "good" ratio compressors are
+<code>ZstdCompressor</code> and <code>DeflateCompressor</code>.</p>
+</li>
+<li>
+<p><code>chunk_length_in_kb</code> (default: <code>16KiB</code>): specifies the number of
+kilobytes of data per compression chunk. The main tradeoff here is that
+larger chunk sizes give compression algorithms more context and improve
+their ratio, but require reads to deserialize and read more off disk.</p>
+</li>
+<li>
+<p><code>crc_check_chance</code> (default: <code>1.0</code>): determines how likely Cassandra
+is to verify the checksum on each compression chunk during reads to
+protect against data corruption. Unless you have profiles indicating
+this is a performance problem it is highly encouraged not to turn this
+off as it is Cassandra&#8217;s only protection against bitrot.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>LZ4Compressor</code> supports the following additional options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>lz4_compressor_type</code> (default <code>fast</code>): specifies if we should use the
+<code>high</code> (a.k.a <code>LZ4HC</code>) ratio version or the <code>fast</code> (a.k.a <code>LZ4</code>) version
+of <code>LZ4</code>. The <code>high</code> mode supports a configurable level, which can allow
+operators to tune the performance &lt;&#8594; ratio tradeoff via the
+<code>lz4_high_compressor_level</code> option. Note that in <code>4.0</code> and above it may
+be preferable to use the <code>Zstd</code> compressor.</p>
+</li>
+<li>
+<p><code>lz4_high_compressor_level</code> (default <code>9</code>): A number between <code>1</code> and
+<code>17</code> inclusive that represents how much CPU time to spend trying to get
+more compression ratio. Generally lower levels are "faster" but they get
+less ratio and higher levels are slower but get more compression ratio.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>ZstdCompressor</code> supports the following options in addition:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>compression_level</code> (default <code>3</code>): A number between <code>-131072</code> and <code>22</code>
+inclusive that represents how much CPU time to spend trying to get more
+compression ratio. The lower the level, the faster the speed (at the
+cost of ratio). Values from 20 to 22 are called "ultra levels" and
+should be used with caution, as they require more memory. The default of
+<code>3</code> is a good choice for competing with <code>Deflate</code> ratios and <code>1</code> is a
+good choice for competing with <code>LZ4</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Users can set compression using the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">CREATE TABLE keyspace.table (id int PRIMARY KEY) WITH compression = {'class': 'LZ4Compressor'};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">ALTER TABLE keyspace.table WITH compression = {'class': 'LZ4Compressor', 'chunk_length_in_kb': 64, 'crc_check_chance': 0.5};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once enabled, compression can be disabled with <code>ALTER TABLE</code> setting
+<code>enabled</code> to <code>false</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs" data-lang="none">ALTER TABLE keyspace.table WITH compression = {'enabled':'false'};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Operators should be aware, however, that changing compression is not
+immediate. The data is compressed when the SSTable is written, and as
+SSTables are immutable, the compression will not be modified until the
+table is compacted. Upon issuing a change to the compression options via
+<code>ALTER TABLE</code>, the existing SSTables will not be modified until they are
+compacted - if an operator needs compression changes to take effect
+immediately, the operator can trigger an SSTable rewrite using
+<code>nodetool scrub</code> or <code>nodetool upgradesstables -a</code>, both of which will
+rebuild the SSTables on disk, re-compressing the data in the process.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="benefits-and-uses"><a class="anchor" href="#benefits-and-uses"></a>Benefits and Uses</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Compression&#8217;s primary benefit is that it reduces the amount of data
+written to disk. Not only does the reduced size save in storage
+requirements, it often increases read and write throughput, as the CPU
+overhead of compressing data is faster than the time it would take to
+read or write the larger volume of uncompressed data from disk.</p>
+</div>
+<div class="paragraph">
+<p>Compression is most useful in tables comprised of many rows, where the
+rows are similar in nature. Tables containing similar text columns (such
+as repeated JSON blobs) often compress very well. Tables containing data
+that has already been compressed or random data (e.g. benchmark
+datasets) do not typically compress well.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="operational-impact"><a class="anchor" href="#operational-impact"></a>Operational Impact</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Compression metadata is stored off-heap and scales with data on disk.
+This often requires 1-3GB of off-heap RAM per terabyte of data on disk,
+though the exact usage varies with <code>chunk_length_in_kb</code> and compression
+ratios.</p>
+</li>
+<li>
+<p>Streaming operations involve compressing and decompressing data on
+compressed tables - in some code paths (such as non-vnode bootstrap),
+the CPU overhead of compression can be a limiting factor.</p>
+</li>
+<li>
+<p>To prevent slow compressors (<code>Zstd</code>, <code>Deflate</code>, <code>LZ4HC</code>) from blocking
+flushes for too long, all three flush with the default fast <code>LZ4</code>
+compressor and then rely on normal compaction to re-compress the data
+into the desired compression strategy. See <span class="title-ref">CASSANDRA-15379
+<a href="https://issues.apache.org/jira/browse/CASSANDRA-15379" class="bare">issues.apache.org/jira/browse/CASSANDRA-15379</a></span> for more
+details.</p>
+</li>
+<li>
+<p>The compression path checksums data to ensure correctness - while the
+traditional Cassandra read path does not have a way to ensure
+correctness of data on disk, compressed tables allow the user to set
+<code>crc_check_chance</code> (a float from 0.0 to 1.0) to allow Cassandra to
+probabilistically validate chunks on read to verify bits on disk are not
+corrupt.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="advanced-use"><a class="anchor" href="#advanced-use"></a>Advanced Use</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Advanced users can provide their own compression class by implementing
+the interface at <code>org.apache.cassandra.io.compress.ICompressor</code>.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+[[nodetool_disablefullquerylog]]
+== disablefullquerylog
+
+== Usage

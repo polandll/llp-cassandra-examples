@@ -1,0 +1,4 @@
+[[nodetool_gettraceprobability]]
+== gettraceprobability
+
+== Usage

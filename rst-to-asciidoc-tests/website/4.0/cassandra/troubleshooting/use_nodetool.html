@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Use Nodetool :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="use_nodetool.html">Use Nodetool</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/troubleshooting/use_nodetool.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Use Nodetool</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra&#8217;s <code>nodetool</code> allows you to narrow problems from the cluster
+down to a particular node and gives a lot of insight into the state of
+the Cassandra process itself. There are dozens of useful commands (see
+<code>nodetool help</code> for all the commands), but briefly some of the most
+useful for troubleshooting:</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nodetool-status"><a class="anchor" href="#nodetool-status"></a>Cluster Status</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can use <code>nodetool status</code> to assess status of the cluster:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nodetool status &lt;optional keyspace&gt;
+
+Datacenter: dc1
+=======================
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens       Owns (effective)  Host ID                               Rack
+UN  127.0.1.1  4.69 GiB   1            100.0%            35ea8c9f-b7a2-40a7-b9c5-0ee8b91fdd0e  r1
+UN  127.0.1.2  4.71 GiB   1            100.0%            752e278f-b7c5-4f58-974b-9328455af73f  r2
+UN  127.0.1.3  4.69 GiB   1            100.0%            9dc1a293-2cc0-40fa-a6fd-9e6054da04a7  r3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case we can see that we have three nodes in one datacenter with
+about 4.6GB of data each and they are all "up". The up/down status of a
+node is independently determined by every node in the cluster, so you
+may have to run <code>nodetool status</code> on multiple nodes in a cluster to see
+the full view.</p>
+</div>
+<div class="paragraph">
+<p>You can use <code>nodetool status</code> plus a little grep to see which nodes are
+down:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nodetool status | grep -v '^UN'
+Datacenter: dc1
+===============
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens       Owns (effective)  Host ID                               Rack
+Datacenter: dc2
+===============
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens       Owns (effective)  Host ID                               Rack
+DN  127.0.0.5  105.73 KiB  1            33.3%             df303ac7-61de-46e9-ac79-6e630115fd75  r1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case there are two datacenters and there is one node down in
+datacenter <code>dc2</code> and rack <code>r1</code>. This may indicate an issue on
+<code>127.0.0.5</code> warranting investigation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nodetool-proxyhistograms"><a class="anchor" href="#nodetool-proxyhistograms"></a>Coordinator Query Latency</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can view latency distributions of coordinator read and write latency
+to help narrow down latency issues using <code>nodetool proxyhistograms</code>:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nodetool proxyhistograms
+Percentile       Read Latency      Write Latency      Range Latency   CAS Read Latency  CAS Write Latency View Write Latency
+                     (micros)           (micros)           (micros)           (micros)           (micros)           (micros)
+50%                    454.83             219.34               0.00               0.00               0.00               0.00
+75%                    545.79             263.21               0.00               0.00               0.00               0.00
+95%                    654.95             315.85               0.00               0.00               0.00               0.00
+98%                    785.94             379.02               0.00               0.00               0.00               0.00
+99%                   3379.39            2346.80               0.00               0.00               0.00               0.00
+Min                     42.51             105.78               0.00               0.00               0.00               0.00
+Max                  25109.16           43388.63               0.00               0.00               0.00               0.00</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here you can see the full latency distribution of reads, writes, range
+requests (e.g. <code>select * from keyspace.table</code>), CAS read (compare phase
+of CAS) and CAS write (set phase of compare and set). These can be
+useful for narrowing down high level latency problems, for example in
+this case if a client had a 20 millisecond timeout on their reads they
+might experience the occasional timeout from this node but less than 1%
+(since the 99% read latency is 3.3 milliseconds &lt; 20 milliseconds).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nodetool-tablehistograms"><a class="anchor" href="#nodetool-tablehistograms"></a>Local Query Latency</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you know which table is having latency/error issues, you can use
+<code>nodetool tablehistograms</code> to get a better idea of what is happening
+locally on a node:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nodetool tablehistograms keyspace table
+Percentile  SSTables     Write Latency      Read Latency    Partition Size        Cell Count
+                              (micros)          (micros)           (bytes)
+50%             0.00             73.46            182.79             17084               103
+75%             1.00             88.15            315.85             17084               103
+95%             2.00            126.93            545.79             17084               103
+98%             2.00            152.32            654.95             17084               103
+99%             2.00            182.79            785.94             17084               103
+Min             0.00             42.51             24.60             14238                87
+Max             2.00          12108.97          17436.92             17084               103</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This shows you percentile breakdowns particularly critical metrics.</p>
+</div>
+<div class="paragraph">
+<p>The first column contains how many sstables were read per logical read.
+A very high number here indicates that you may have chosen the wrong
+compaction strategy, e.g. <code>SizeTieredCompactionStrategy</code> typically has
+many more reads per read than <code>LeveledCompactionStrategy</code> does for
+update heavy workloads.</p>
+</div>
+<div class="paragraph">
+<p>The second column shows you a latency breakdown of <em>local</em> write
+latency. In this case we see that while the p50 is quite good at 73
+microseconds, the maximum latency is quite slow at 12 milliseconds. High
+write max latencies often indicate a slow commitlog volume (slow to
+fsync) or large writes that quickly saturate commitlog segments.</p>
+</div>
+<div class="paragraph">
+<p>The third column shows you a latency breakdown of <em>local</em> read latency.
+We can see that local Cassandra reads are (as expected) slower than
+local writes, and the read speed correlates highly with the number of
+sstables read per read.</p>
+</div>
+<div class="paragraph">
+<p>The fourth and fifth columns show distributions of partition size and
+column count per partition. These are useful for determining if the
+table has on average skinny or wide partitions and can help you isolate
+bad data patterns. For example if you have a single cell that is 2
+megabytes, that is probably going to cause some heap pressure when it&#8217;s
+read.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nodetool-tpstats"><a class="anchor" href="#nodetool-tpstats"></a>Threadpool State</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can use <code>nodetool tpstats</code> to view the current outstanding requests
+on a particular node. This is useful for trying to find out which
+resource (read threads, write threads, compaction, request response
+threads) the Cassandra process lacks. For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nodetool tpstats
+Pool Name                         Active   Pending      Completed   Blocked  All time blocked
+ReadStage                              2         0             12         0                 0
+MiscStage                              0         0              0         0                 0
+CompactionExecutor                     0         0           1940         0                 0
+MutationStage                          0         0              0         0                 0
+GossipStage                            0         0          10293         0                 0
+Repair-Task                            0         0              0         0                 0
+RequestResponseStage                   0         0             16         0                 0
+ReadRepairStage                        0         0              0         0                 0
+CounterMutationStage                   0         0              0         0                 0
+MemtablePostFlush                      0         0             83         0                 0
+ValidationExecutor                     0         0              0         0                 0
+MemtableFlushWriter                    0         0             30         0                 0
+ViewMutationStage                      0         0              0         0                 0
+CacheCleanupExecutor                   0         0              0         0                 0
+MemtableReclaimMemory                  0         0             30         0                 0
+PendingRangeCalculator                 0         0             11         0                 0
+SecondaryIndexManagement               0         0              0         0                 0
+HintsDispatcher                        0         0              0         0                 0
+Native-Transport-Requests              0         0            192         0                 0
+MigrationStage                         0         0             14         0                 0
+PerDiskMemtableFlushWriter_0           0         0             30         0                 0
+Sampler                                0         0              0         0                 0
+ViewBuildExecutor                      0         0              0         0                 0
+InternalResponseStage                  0         0              0         0                 0
+AntiEntropyStage                       0         0              0         0                 0
+
+Message type           Dropped                  Latency waiting in queue (micros)
+                                             50%               95%               99%               Max
+READ                         0               N/A               N/A               N/A               N/A
+RANGE_SLICE                  0              0.00              0.00              0.00              0.00
+_TRACE                       0               N/A               N/A               N/A               N/A
+HINT                         0               N/A               N/A               N/A               N/A
+MUTATION                     0               N/A               N/A               N/A               N/A
+COUNTER_MUTATION             0               N/A               N/A               N/A               N/A
+BATCH_STORE                  0               N/A               N/A               N/A               N/A
+BATCH_REMOVE                 0               N/A               N/A               N/A               N/A
+REQUEST_RESPONSE             0              0.00              0.00              0.00              0.00
+PAGED_RANGE                  0               N/A               N/A               N/A               N/A
+READ_REPAIR                  0               N/A               N/A               N/A               N/A</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command shows you all kinds of interesting statistics. The first
+section shows a detailed breakdown of threadpools for each Cassandra
+stage, including how many threads are current executing (Active) and how
+many are waiting to run (Pending). Typically if you see pending
+executions in a particular threadpool that indicates a problem localized
+to that type of operation. For example if the <code>RequestResponseState</code>
+queue is backing up, that means that the coordinators are waiting on a
+lot of downstream replica requests and may indicate a lack of token
+awareness, or very high consistency levels being used on read requests
+(for example reading at <code>ALL</code> ties up RF <code>RequestResponseState</code> threads
+whereas <code>LOCAL_ONE</code> only uses a single thread in the <code>ReadStage</code>
+threadpool). On the other hand if you see a lot of pending compactions
+that may indicate that your compaction threads cannot keep up with the
+volume of writes and you may need to tune either the compaction strategy
+or the <code>concurrent_compactors</code> or <code>compaction_throughput</code> options.</p>
+</div>
+<div class="paragraph">
+<p>The second section shows drops (errors) and latency distributions for
+all the major request types. Drops are cumulative since process start,
+but if you have any that indicate a serious problem as the default
+timeouts to qualify as a drop are quite high (~5-10 seconds). Dropped
+messages often warrants further investigation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nodetool-compactionstats"><a class="anchor" href="#nodetool-compactionstats"></a>Compaction State</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As Cassandra is a LSM datastore, Cassandra sometimes has to compact
+sstables together, which can have adverse effects on performance. In
+particular, compaction uses a reasonable quantity of CPU resources,
+invalidates large quantities of the OS
+<a href="https://en.wikipedia.org/wiki/Page_cache">page cache</a>, and can put a lot
+of load on your disk drives. There are great <code>os tools &lt;os-iostat&gt;</code> to
+determine if this is the case, but often it&#8217;s a good idea to check if
+compactions are even running using <code>nodetool compactionstats</code>:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nodetool compactionstats
+pending tasks: 2
+- keyspace.table: 2
+
+id                                   compaction type keyspace table completed total    unit  progress
+2062b290-7f3a-11e8-9358-cd941b956e60 Compaction      keyspace table 21848273  97867583 bytes 22.32%
+Active compaction remaining time :   0h00m04s</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case there is a single compaction running on the
+<code>keyspace.table</code> table, has completed 21.8 megabytes of 97 and Cassandra
+estimates (based on the configured compaction throughput) that this will
+take 4 seconds. You can also pass <code>-H</code> to get the units in a human
+readable format.</p>
+</div>
+<div class="paragraph">
+<p>Generally each running compaction can consume a single core, but the
+more you do in parallel the faster data compacts. Compaction is crucial
+to ensuring good read performance so having the right balance of
+concurrent compactions such that compactions complete quickly but don&#8217;t
+take too many resources away from query threads is very important for
+performance. If you notice compaction unable to keep up, try tuning
+Cassandra&#8217;s <code>concurrent_compactors</code> or <code>compaction_throughput</code> options.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

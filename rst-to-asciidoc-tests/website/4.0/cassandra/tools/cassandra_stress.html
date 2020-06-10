@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Cassandra Stress :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="cassandra_stress.html">Cassandra Stress</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/tools/cassandra_stress.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Cassandra Stress</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>cassandra-stress is a tool for benchmarking and load testing a Cassandra
+cluster. cassandra-stress supports testing arbitrary CQL tables and
+queries to allow users to benchmark their data model.</p>
+</div>
+<div class="paragraph">
+<p>This documentation focuses on user mode as this allows the testing of
+your actual schema.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are several operation types:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="ulist">
+<ul>
+<li>
+<p>write-only, read-only, and mixed workloads of standard data</p>
+</li>
+<li>
+<p>write-only and read-only workloads for counter columns</p>
+</li>
+<li>
+<p>user configured workloads, running custom queries on custom schemas</p>
+</li>
+</ul>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The syntax is <span class="title-ref">cassandra-stress &lt;command&gt; [options]</span>. If you
+want more information on a given command or options, just run
+<span class="title-ref">cassandra-stress help &lt;command|option&gt;</span>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Commands</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">read:</dt>
+<dd>
+<p>Multiple concurrent reads - the cluster must first be populated by a
+write test</p>
+</dd>
+<dt class="hdlist1">write:</dt>
+<dd>
+<p>Multiple concurrent writes against the cluster</p>
+</dd>
+<dt class="hdlist1">mixed:</dt>
+<dd>
+<p>Interleaving of any basic commands, with configurable ratio and
+distribution - the cluster must first be populated by a write test</p>
+</dd>
+<dt class="hdlist1">counter_write:</dt>
+<dd>
+<p>Multiple concurrent updates of counters.</p>
+</dd>
+<dt class="hdlist1">counter_read:</dt>
+<dd>
+<p>Multiple concurrent reads of counters. The cluster must first be
+populated by a counterwrite test.</p>
+</dd>
+<dt class="hdlist1">user:</dt>
+<dd>
+<p>Interleaving of user provided queries, with configurable ratio and
+distribution.</p>
+</dd>
+<dt class="hdlist1">help:</dt>
+<dd>
+<p>Print help for a command or option</p>
+</dd>
+<dt class="hdlist1">print:</dt>
+<dd>
+<p>Inspect the output of a distribution definition</p>
+</dd>
+<dt class="hdlist1">legacy:</dt>
+<dd>
+<p>Legacy support mode</p>
+</dd>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1">Primary Options</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">-pop:</dt>
+<dd>
+<p>Population distribution and intra-partition visit order</p>
+</dd>
+<dt class="hdlist1">-insert:</dt>
+<dd>
+<p>Insert specific options relating to various methods for batching and
+splitting partition updates</p>
+</dd>
+<dt class="hdlist1">-col:</dt>
+<dd>
+<p>Column details such as size and count distribution, data generator,
+names, comparator and if super columns should be used</p>
+</dd>
+<dt class="hdlist1">-rate:</dt>
+<dd>
+<p>Thread count, rate limit or automatic mode (default is auto)</p>
+</dd>
+<dt class="hdlist1">-mode:</dt>
+<dd>
+<p>Thrift or CQL with options</p>
+</dd>
+<dt class="hdlist1">-errors:</dt>
+<dd>
+<p>How to handle errors when encountered during stress</p>
+</dd>
+<dt class="hdlist1">-sample:</dt>
+<dd>
+<p>Specify the number of samples to collect for measuring latency</p>
+</dd>
+<dt class="hdlist1">-schema:</dt>
+<dd>
+<p>Replication settings, compression, compaction, etc.</p>
+</dd>
+<dt class="hdlist1">-node:</dt>
+<dd>
+<p>Nodes to connect to</p>
+</dd>
+<dt class="hdlist1">-log:</dt>
+<dd>
+<p>Where to log progress to, and the interval at which to do it</p>
+</dd>
+<dt class="hdlist1">-transport:</dt>
+<dd>
+<p>Custom transport factories</p>
+</dd>
+<dt class="hdlist1">-port:</dt>
+<dd>
+<p>The port to connect to cassandra nodes on</p>
+</dd>
+<dt class="hdlist1">-sendto:</dt>
+<dd>
+<p>Specify a stress server to send this command to</p>
+</dd>
+<dt class="hdlist1">-graph:</dt>
+<dd>
+<p>Graph recorded metrics</p>
+</dd>
+<dt class="hdlist1">-tokenrange:</dt>
+<dd>
+<p>Token range settings</p>
+</dd>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1">Suboptions</dt>
+<dd>
+<p>Every command and primary option has its own collection of suboptions.
+These are too numerous to list here. For information on the suboptions
+for each command or option, please use the help command,
+<span class="title-ref">cassandra-stress help &lt;command|option&gt;</span>.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="user-mode"><a class="anchor" href="#user-mode"></a>User mode</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>User mode allows you to use your stress your own schemas. This can save
+time in the long run rather than building an application and then
+realising your schema doesn&#8217;t scale.</p>
+</div>
+<div class="sect2">
+<h3 id="profile"><a class="anchor" href="#profile"></a>Profile</h3>
+<div class="paragraph">
+<p>User mode requires a profile defined in YAML. Multiple YAML files may be
+specified in which case operations in the ops argument are referenced as
+specname.opname.</p>
+</div>
+<div class="paragraph">
+<p>An identifier for the profile:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">specname: staff_activities</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The keyspace for the test:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">keyspace: staff</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>CQL for the keyspace. Optional if the keyspace already exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">keyspace_definition: |
+ CREATE KEYSPACE stresscql WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The table to be stressed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">table: staff_activities</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>CQL for the table. Optional if the table already exists:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">table_definition: |
+  CREATE TABLE staff_activities (
+      name text,
+      when timeuuid,
+      what text,
+      PRIMARY KEY(name, when, what)
+  )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Optional meta information on the generated columns in the above table.
+The min and max only apply to text and blob types. The distribution
+field represents the total unique population distribution of that column
+across rows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">columnspec:
+  - name: name
+    size: uniform(5..10) # The names of the staff members are between 5-10 characters
+    population: uniform(1..10) # 10 possible staff members to pick from
+  - name: when
+    cluster: uniform(20..500) # Staff members do between 20 and 500 events
+  - name: what
+    size: normal(10..100,50)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Supported types are:</p>
+</div>
+<div class="paragraph">
+<p>An exponential distribution over the range [min..max]:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">EXP(min..max)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An extreme value (Weibull) distribution over the range [min..max]:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">EXTREME(min..max,shape)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A gaussian/normal distribution, where mean=(min+max)/2, and stdev is
+(mean-min)/stdvrng:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">GAUSSIAN(min..max,stdvrng)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A gaussian/normal distribution, with explicitly defined mean and stdev:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">GAUSSIAN(min..max,mean,stdev)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A uniform distribution over the range [min, max]:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">UNIFORM(min..max)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A fixed distribution, always returning the same value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">FIXED(val)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If preceded by ~, the distribution is inverted</p>
+</div>
+<div class="paragraph">
+<p>Defaults for all columns are size: uniform(4..8), population:
+uniform(1..100B), cluster: fixed(1)</p>
+</div>
+<div class="paragraph">
+<p>Insert distributions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">insert:
+  # How many partition to insert per batch
+  partitions: fixed(1)
+  # How many rows to update per partition
+  select: fixed(1)/500
+  # UNLOGGED or LOGGED batch for insert
+  batchtype: UNLOGGED</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Currently all inserts are done inside batches.</p>
+</div>
+<div class="paragraph">
+<p>Read statements to use during the test:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">queries:
+   events:
+      cql: select *  from staff_activities where name = ?
+      fields: samerow
+   latest_event:
+      cql: select * from staff_activities where name = ?  LIMIT 1
+      fields: samerow</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running a user mode test:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">cassandra-stress user profile=./example.yaml duration=1m "ops(insert=1,latest_event=1,events=1)" truncate=once</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will create the schema then run tests for 1 minute with an equal
+number of inserts, latest_event queries and events queries. Additionally
+the table will be truncated once before the test.</p>
+</div>
+<div class="paragraph">
+<p>The full example can be found here <code>yaml &lt;./stress-example.yaml&gt;</code></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Running a user mode test with multiple yaml files</dt>
+<dd>
+<p>  cassandra-stress user profile=./example.yaml,./example2.yaml
+  duration=1m "ops(ex1.insert=1,ex1.latest_event=1,ex2.insert=2)"
+  truncate=once
+This will run operations as specified in both the example.yaml and
+example2.yaml files. example.yaml and example2.yaml can reference the</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">same table</dt>
+<dd>
+<p>although care must be taken that the table definition is identical
+(data generation specs can be different).</p>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="lightweight-transaction-support"><a class="anchor" href="#lightweight-transaction-support"></a>Lightweight transaction support</h3>
+<div class="paragraph">
+<p>cassandra-stress supports lightweight transactions. In this it will
+first read current data from Cassandra and then uses read value(s) to
+fulfill lightweight transaction condition(s).</p>
+</div>
+<div class="paragraph">
+<p>Lightweight transaction update query:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">queries:
+  regularupdate:
+      cql: update blogposts set author = ? where domain = ? and published_date = ?
+      fields: samerow
+  updatewithlwt:
+      cql: update blogposts set author = ? where domain = ? and published_date = ? IF body = ? AND url = ?
+      fields: samerow</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The full example can be found here <code>yaml &lt;./stress-lwt-example.yaml&gt;</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="graphing"><a class="anchor" href="#graphing"></a>Graphing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Graphs can be generated for each run of stress.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/example-stress-graph.png" alt="image">
+</div>
+</div>
+<div class="paragraph">
+<p>To create a new graph:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">cassandra-stress user profile=./stress-example.yaml "ops(insert=1,latest_event=1,events=1)" -graph file=graph.html title="Awesome graph"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To add a new run to an existing graph point to an existing file and add
+a revision name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">cassandra-stress user profile=./stress-example.yaml duration=1m "ops(insert=1,latest_event=1,events=1)" -graph file=graph.html title="Awesome graph" revision="Second run"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq"><a class="anchor" href="#faq"></a>FAQ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>How do you use NetworkTopologyStrategy for the keyspace?</strong></p>
+</div>
+<div class="paragraph">
+<p>Use the schema option making sure to either escape the parenthesis or
+enclose in quotes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">cassandra-stress write -schema "replication(strategy=NetworkTopologyStrategy,datacenter1=3)"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>How do you use SSL?</strong></p>
+</div>
+<div class="paragraph">
+<p>Use the transport option:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">cassandra-stress "write n=100k cl=ONE no-warmup" -transport "truststore=$HOME/jks/truststore.jks truststore-password=cassandra"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Is Cassandra Stress a secured tool?</strong></p>
+</div>
+<div class="paragraph">
+<p>Cassandra stress is not a secured tool. Serialization and other aspects
+of the tool offer no security guarantees.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -2,4 +2,7 @@
 
 This section describes the general architecture of Apache Cassandra.
 
-overview dynamo storage_engine guarantees
+* xref:architecture/overview.adoc[Overview]
+* xref:architecture/dynamo.adoc[Dynamo]
+* xref:architecture/storage_engine.adoc[Storage Engine]
+* xref:architecture/guarantees.adoc[Guarantees]

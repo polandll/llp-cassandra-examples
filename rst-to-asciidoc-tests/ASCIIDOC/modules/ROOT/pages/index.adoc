@@ -1,16 +1,47 @@
-= Troubleshooting
+= Welcome to Apache Cassandra's documentation!
 
-As any distributed database does, sometimes Cassandra breaks and you
-will have to troubleshoot what is going on. Generally speaking you can
-debug Cassandra like any other distributed Java program, meaning that
-you have to find which machines in your cluster are misbehaving and then
-isolate the problem using logs and tools. Luckily Cassandra had a great
-set of instrospection tools to help you.
+This is the official documentation for
+http://cassandra.apache.org[Apache Cassandra] . If you would like to
+contribute to this documentation, you are welcome to do so by submitting
+your contribution like any other patch following
+https://wiki.apache.org/cassandra/HowToContribute[these instructions].
 
-These pages include a number of command examples demonstrating various
-debugging and analysis techniques, mostly for Linux/Unix systems. If you
-don't have access to the machines running Cassandra, or are running on
-Windows or another operating system you may not be able to use the exact
-commands but there are likely equivalent tools you can use.
+== Main documentation
 
-finding_nodes reading_logs use_nodetool use_tools
+[frame=none]
+[cols="a,a"]
+|===
+|* xref:cassandra:getting_started/index.adoc[Getting Started]
+** Newbie starting point
+|* xref:cassandra:operating/index.adoc[Operation] 
+** The operator's corner
+
+|* xref:cassandra:architecture/index.adoc[Architecture] 
+** Cassandra's big picture
+|* xref:cassandra:tools/index.adoc[Tools]
+** cqlsh, nodetool, and others
+
+|* xref:cassandra:data_modeling/index.adoc[Data modeling] 
+** Hint: it's not relational
+|* xref:cassandra:troubleshooting/index.adoc[Troubleshooting] 
+** What to look for when you have a problem
+
+|* xref:cassandra:cql/index.adoc[Cassandra Query Language (CQL)] 
+** CQL reference documentation
+|* xref:cassandra:development/index.adoc[Development]
+** Learn how to improve Cassandra and contribute patches
+
+|* xref:cassandra:faq/index.adoc[FAQ] 
+** Frequently asked questions
+|* xref:cassandra:configuration/index.adoc[Configuration] 
+** Cassandra's handles and knobs
+
+|* xref:cassandra:new/index.adoc[New in 4.0] 
+** What's new in Cassandra 4.0
+|* xref:cassandra:plugins/index.adoc[Plug-ins]
+** Third-party plug-ins
+|===
+
+== Meta information
+* xref:bugs.adoc[Reporting bugs]
+* xref:contactus.adoc[Contact us]

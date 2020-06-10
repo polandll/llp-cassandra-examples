@@ -13,5 +13,16 @@ _tables_ containing _rows_ of _columns_. For that reason, when used in
 this document, these terms (tables, rows and columns) have the same
 definition than they have in SQL.
 
-definitions types ddl dml indexes mvs security functions operators json
-triggers appendices changes
+* xref:cql/definitions.adoc[Definitions]
+* xref:cql/types.adoc[Data types]
+* xref:cql/ddl.adoc[DDL]
+* xref:cql/dml.adoc[DML]
+* xref:cql/indexes.adoc[Indexes]
+* xref:cql/mvs.adoc[Materialized Views]
+* xref:cql/functions.adoc[Functions]
+* xref:cql/operators.adoc[Operators]
+* xref:cql/json.adoc[JSON]
+* xref:cql/security.adoc[Security]
+* xref:cql/triggers.adoc[Triggers]
+* xref:cql/appendices.adoc[Appendices]
+* xref:cql/changes.adoc[Changes]

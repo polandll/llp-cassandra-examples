@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Leveled Compaction Strategy :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="lcs.html">Leveled Compaction Strategy</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/operating/compaction/lcs.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Leveled Compaction Strategy</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The idea of <code>LeveledCompactionStrategy</code> (LCS) is that all sstables are
+put into different levels where we guarantee that no overlapping
+sstables are in the same level. By overlapping we mean that the
+first/last token of a single sstable are never overlapping with other
+sstables. This means that for a SELECT we will only have to look for the
+partition key in a single sstable per level. Each level is 10x the size
+of the previous one and each sstable is 160MB by default. L0 is where
+sstables are streamed/flushed - no overlap guarantees are given here.</p>
+</div>
+<div class="paragraph">
+<p>When picking compaction candidates we have to make sure that the
+compaction does not create overlap in the target level. This is done by
+always including all overlapping sstables in the next level. For example
+if we select an sstable in L3, we need to guarantee that we pick all
+overlapping sstables in L4 and make sure that no currently ongoing
+compactions will create overlap if we start that compaction. We can
+start many parallel compactions in a level if we guarantee that we wont
+create overlap. For L0 &#8594; L1 compactions we almost always need to
+include all L1 sstables since most L0 sstables cover the full range. We
+also can&#8217;t compact all L0 sstables with all L1 sstables in a single
+compaction since that can use too much memory.</p>
+</div>
+<div class="paragraph">
+<p>When deciding which level to compact LCS checks the higher levels first
+(with LCS, a "higher" level is one with a higher number, L0 being the
+lowest one) and if the level is behind a compaction will be started in
+that level.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="major-compaction"><a class="anchor" href="#major-compaction"></a>Major compaction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is possible to do a major compaction with LCS - it will currently
+start by filling out L1 and then once L1 is full, it continues with L2
+etc. This is sub optimal and will change to create all the sstables in a
+high level instead, CASSANDRA-11817.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="bootstrapping"><a class="anchor" href="#bootstrapping"></a>Bootstrapping</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>During bootstrap sstables are streamed from other nodes. The level of
+the remote sstable is kept to avoid many compactions after the bootstrap
+is done. During bootstrap the new node also takes writes while it is
+streaming the data from a remote node - these writes are flushed to L0
+like all other writes and to avoid those sstables blocking the remote
+sstables from going to the correct level, we only do STCS in L0 until
+the bootstrap is done.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stcs-in-l0"><a class="anchor" href="#stcs-in-l0"></a>STCS in L0</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If LCS gets very many L0 sstables reads are going to hit all (or most)
+of the L0 sstables since they are likely to be overlapping. To more
+quickly remedy this LCS does STCS compactions in L0 if there are more
+than 32 sstables there. This should improve read performance more
+quickly compared to letting LCS do its L0 &#8594; L1 compactions. If you keep
+getting too many sstables in L0 it is likely that LCS is not the best
+fit for your workload and STCS could work out better.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="starved-sstables"><a class="anchor" href="#starved-sstables"></a>Starved sstables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If a node ends up with a leveling where there are a few very high level
+sstables that are not getting compacted they might make it impossible
+for lower levels to drop tombstones etc. For example, if there are
+sstables in L6 but there is only enough data to actually get a L4 on the
+node the left over sstables in L6 will get starved and not compacted.
+This can happen if a user changes sstable_size_in_mb from 5MB to 160MB
+for example. To avoid this LCS tries to include those starved high level
+sstables in other compactions if there has been 25 compaction rounds
+where the highest level has not been involved.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="lcs-options"><a class="anchor" href="#lcs-options"></a>LCS options</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>sstable_size_in_mb</code> (default: 160MB)</dt>
+<dd>
+<p>The target compressed (if using compression) sstable size - the
+sstables can end up being larger if there are very large partitions on
+the node.</p>
+</dd>
+<dt class="hdlist1"><code>fanout_size</code> (default: 10)</dt>
+<dd>
+<p>The target size of levels increases by this fanout_size multiplier.
+You can reduce the space amplification by tuning this option.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>LCS also support the <code>cassandra.disable_stcs_in_l0</code> startup option
+(<code>-Dcassandra.disable_stcs_in_l0=true</code>) to avoid doing STCS in L0.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../../_/js/site.js"></script>
+<script async src="../../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

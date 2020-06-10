@@ -34,7 +34,7 @@ logged in with an existing account.
 . Fork the GitHub mirror of the
 https://github.com/apache/cassandra[Cassandra repository]
 
-image:images/docs_fork.png[image]
+image::docs_fork.png[image]
 
 [arabic, start=2]
 . Create a new branch that you can use to make your edits. It's
@@ -42,14 +42,14 @@ recommended to have a separate branch for each of your working projects.
 It will also make it easier to create a pull request later to when you
 decide you’re ready to contribute your work.
 
-image:images/docs_create_branch.png[image]
+image::docs_create_branch.png[image]
 
 [arabic, start=3]
 . Navigate to document sources `doc/source` to find the `.rst` file to
 edit. The URL of the document should correspond to the directory
 structure. New files can be created using the "Create new file" button:
 
-image:images/docs_create_file.png[image]
+image::docs_create_file.png[image]
 
 [arabic, start=4]
 . At this point you should be able to edit the file using the GitHub web
@@ -57,23 +57,23 @@ editor. Start by naming your file and add some content. Have a look at
 other existing `.rst` files to get a better idea what format elements to
 use.
 
-image:images/docs_editor.png[image]
+image::docs_editor.png[image]
 
 Make sure to preview added content before committing any changes.
 
-image:images/docs_preview.png[image]
+image::docs_preview.png[image]
 
 [arabic, start=5]
 . Commit your work when you're done. Make sure to add a short
 description of all your edits since the last time you committed before.
 
-image:images/docs_commit.png[image]
+image::docs_commit.png[image]
 
 [arabic, start=6]
 . Finally if you decide that you're done working on your branch, it's
 time to create a pull request!
 
-image:images/docs_pr.png[image]
+image::docs_pr.png[image]
 
 Afterwards the GitHub Cassandra mirror will list your pull request and
 you're done. Congratulations! Please give us some time to look at your

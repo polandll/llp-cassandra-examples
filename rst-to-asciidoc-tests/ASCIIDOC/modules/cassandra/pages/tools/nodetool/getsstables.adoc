@@ -1,0 +1,4 @@
+[[nodetool_getsstables]]
+== getsstables
+
+== Usage

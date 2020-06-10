@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Full Query Logging :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../data_modeling/index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="fqllogging.html">Full Query Logging</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/new/fqllogging.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Full Query Logging</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Apache Cassandra 4.0 adds a new feature to support a means of logging
+all queries as they were invoked
+(<a href="https://issues.apache.org/jira/browse/CASSANDRA-13983">CASSANDRA-13983</a>).
+For correctness testing it&#8217;s useful to be able to capture production
+traffic so that it can be replayed against both the old and new versions
+of Cassandra while comparing the results.</p>
+</div>
+<div class="paragraph">
+<p>Cassandra 4.0 includes an implementation of a full query logging (FQL)
+that uses chronicle-queue to implement a rotating log of queries. Some
+of the features of FQL are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Single thread asynchronously writes log entries to disk to reduce
+impact on query latency</p>
+</li>
+<li>
+<p>Heap memory usage bounded by a weighted queue with configurable
+maximum weight sitting in front of logging thread</p>
+</li>
+<li>
+<p>If the weighted queue is full producers can be blocked or samples can
+be dropped</p>
+</li>
+<li>
+<p>Disk utilization is bounded by deleting old log segments once a
+configurable size is reached</p>
+</li>
+<li>
+<p>The on disk serialization uses a flexible schema binary format
+(chronicle-wire) making it easy to skip unrecognized fields, add new
+ones, and omit old ones.</p>
+</li>
+<li>
+<p>Can be enabled and configured via JMX, disabled, and reset (delete on
+disk data), logging path is configurable via both JMX and YAML</p>
+</li>
+<li>
+<p>Introduce new <code>fqltool</code> in <code>/bin</code> that currently implements <code>Dump</code>
+which can dump in a readable format full query logs as well as follow
+active full query logs. FQL <code>Replay</code> and <code>Compare</code> are also available.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Cassandra 4.0 has a binary full query log based on Chronicle Queue that
+can be controlled using <code>nodetool enablefullquerylog</code>,
+<code>disablefullquerylog</code>, and <code>resetfullquerylog</code>. The log contains all
+queries invoked, approximate time they were invoked, any parameters
+necessary to bind wildcard values, and all query options. A readable
+version of the log can be dumped or tailed using the new <code>bin/fqltool</code>
+utility. The full query log is designed to be safe to use in production
+and limits utilization of heap memory and disk space with limits you can
+specify when enabling the log.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="objective"><a class="anchor" href="#objective"></a>Objective</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Full Query Logging logs all requests to the CQL interface. The full
+query logs could be used for debugging, performance benchmarking,
+testing and auditing CQL queries. The audit logs also include CQL
+requests but full query logging is dedicated to CQL requests only with
+features such as FQL Replay and FQL Compare that are not available in
+audit logging.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="full-query-logger"><a class="anchor" href="#full-query-logger"></a>Full Query Logger</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Full Query Logger is a logger that logs entire query contents after
+the query finishes. FQL only logs the queries that successfully
+complete. The other queries (e.g. timed out, failed) are not to be
+logged. Queries are logged in one of two modes: single query or batch of
+queries. The log for an invocation of a batch of queries includes the
+following attributes:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>type - The type of the batch
+queries - CQL text of the queries
+values - Values to bind to as parameters for the queries
+queryOptions - Options associated with the query invocation
+queryState - Timestamp state associated with the query invocation
+batchTimeMillis - Approximate time in milliseconds since the epoch since the batch was invoked</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The log for single CQL query includes the following attributes:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>query - CQL query text
+queryOptions - Options associated with the query invocation
+queryState - Timestamp state associated with the query invocation
+queryTimeMillis - Approximate time in milliseconds since the epoch since the batch was invoked</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Full query logging is backed up by <code>BinLog</code>. BinLog is a quick and dirty
+binary log. Its goal is good enough performance, predictable footprint,
+simplicity in terms of implementation and configuration and most
+importantly minimal impact on producers of log records. Performance
+safety is accomplished by feeding items to the binary log using a
+weighted queue and dropping records if the binary log falls sufficiently
+far behind. Simplicity and good enough performance is achieved by using
+a single log writing thread as well as Chronicle Queue to handle writing
+the log, making it available for readers, as well as log rolling.</p>
+</div>
+<div class="paragraph">
+<p>Weighted queue is a wrapper around any blocking queue that turns it into
+a blocking weighted queue. The queue will weigh each element being added
+and removed. Adding to the queue is blocked if adding would violate the
+weight bound. If an element weighs in at larger than the capacity of the
+queue then exactly one such element will be allowed into the queue at a
+time. If the weight of an object changes after it is added it could
+create issues. Checking weight should be cheap so memorize expensive to
+compute weights. If weight throws that can also result in leaked permits
+so it&#8217;s always a good idea to memorize weight so it doesn&#8217;t throw. In
+the interests of not writing unit tests for methods no one uses there is
+a lot of <code>UnsupportedOperationException</code>. If you need them then add them
+and add proper unit tests to <code>WeightedQueueTest</code>. "Good" tests. 100%
+coverage including exception paths and resource leaks.</p>
+</div>
+<div class="paragraph">
+<p>The FQL tracks information about store files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Store files as they are added and their storage impact. Delete them if
+over storage limit.</p>
+</li>
+<li>
+<p>The files in the chronicle queue that have already rolled</p>
+</li>
+<li>
+<p>The number of bytes in store files that have already rolled</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>FQL logger sequence is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start the consumer thread that writes log records. Can only be done
+once.</p>
+</li>
+<li>
+<p>Offer a record to the log. If the in memory queue is full the record
+will be dropped and offer will return false.</p>
+</li>
+<li>
+<p>Put a record into the log. If the in memory queue is full the putting
+thread will be blocked until there is space or it is interrupted.</p>
+</li>
+<li>
+<p>Clean up the buffers on thread exit, finalization will check again
+once this is no longer reachable ensuring there are no stragglers in the
+queue.</p>
+</li>
+<li>
+<p>Stop the consumer thread that writes log records. Can be called
+multiple times.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Next, we shall demonstrate full query logging with an example.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-full-query-logging"><a class="anchor" href="#configuring-full-query-logging"></a>Configuring Full Query Logging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Full Query Logger default options are configured on a per node basis in
+<code>cassandra.yaml</code> with following configuration property.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>full_query_logging_options:</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As an example setup create a three node Cassandra 4.0 cluster. The
+<code>nodetool status</code> command lists the nodes in the cluster.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[ec2-user@ip-10-0-2-238 ~]$ nodetool status
+Datacenter: us-east-1
+=====================
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  AddressLoad   Tokens  Owns (effective)  Host ID Rack
+UN  10.0.1.115  442.42 KiB  25632.6%   b64cb32a-b32a-46b4-9eeb-e123fa8fc287  us-east-1b
+UN  10.0.3.206  559.52 KiB  25631.9%   74863177-684b-45f4-99f7-d1006625dc9e  us-east-1d
+UN  10.0.2.238  587.87 KiB  25635.5%   4dcdadd2-41f9-4f34-9892-1f20868b27c7  us-east-1c</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In subsequent sub-sections we shall discuss enabling and configuring
+full query logging.</p>
+</div>
+<div class="sect2">
+<h3 id="setting-the-fql-directory"><a class="anchor" href="#setting-the-fql-directory"></a>Setting the FQL Directory</h3>
+<div class="paragraph">
+<p>A dedicated directory path must be provided to write full query log data
+to when the full query log is enabled. The directory for FQL must exist,
+and have permissions set. The full query log will recursively delete the
+contents of this path at times. It is recommended not to place links in
+this directory to other sections of the filesystem. The
+<code>full_query_log_dir</code> property in <code>cassandra.yaml</code> is pre-configured.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>full_query_log_dir: /tmp/cassandrafullquerylog</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>log_dir</code> option may be used to configure the FQL directory if the
+<code>full_query_log_dir</code> is not set.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>full_query_logging_options:
+   # log_dir:</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create the FQL directory if it does not exist and set its permissions.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo mkdir -p /tmp/cassandrafullquerylog
+sudo chmod -R 777 /tmp/cassandrafullquerylog</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-the-roll-cycle"><a class="anchor" href="#setting-the-roll-cycle"></a>Setting the Roll Cycle</h3>
+<div class="paragraph">
+<p>The <code>roll_cycle</code> option sets how often to roll FQL log segments so they
+can potentially be reclaimed. Supported values are <code>MINUTELY</code>, <code>HOURLY</code>
+and <code>DAILY</code>. Default setting is <code>HOURLY</code>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>roll_cycle: HOURLY</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-other-options"><a class="anchor" href="#setting-other-options"></a>Setting Other Options</h3>
+<div class="paragraph">
+<p>The <code>block</code> option specifies whether the FQL should block if the FQL
+falls behind or should drop log records. Default value of <code>block</code> is
+<code>true</code>. The <code>max_queue_weight</code> option sets the maximum weight of in
+memory queue for records waiting to be written to the file before
+blocking or dropping. The <code>max_log_size</code> option sets the maximum size of
+the rolled files to retain on disk before deleting the oldest file. The
+<code>archive_command</code> option sets the archive command to execute on rolled
+log files. The <code>max_archive_retries</code> option sets the max number of
+retries of failed archive commands.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre># block: true
+   # max_queue_weight: 268435456 # 256 MiB
+   # max_log_size: 17179869184 # 16 GiB
+   ## archive command is "/path/to/script.sh %path" where %path is replaced with the file
+being rolled:
+   # archive_command:
+   # max_archive_retries: 10</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>max_queue_weight</code> must be &gt; 0. Similarly <code>max_log_size</code> must be &gt;
+0. An example full query logging options is as follows.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>full_query_log_dir: /tmp/cassandrafullquerylog
+
+# default options for full query logging - these can be overridden from command line when
+executing
+# nodetool enablefullquerylog
+# nodetool enablefullquerylog
+#full_query_logging_options:
+   # log_dir:
+   roll_cycle: HOURLY
+   # block: true
+   # max_queue_weight: 268435456 # 256 MiB
+   # max_log_size: 17179869184 # 16 GiB
+   ## archive command is "/path/to/script.sh %path" where %path is replaced with the file
+being rolled:
+   # archive_command:
+   # max_archive_retries: 10</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>full_query_log_dir</code> setting is not within the
+<code>full_query_logging_options</code> but still is for full query logging.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enabling-full-query-logging"><a class="anchor" href="#enabling-full-query-logging"></a>Enabling Full Query Logging</h3>
+<div class="paragraph">
+<p>Full Query Logging is enabled on a per-node basis. . The
+<code>nodetool enablefullquerylog</code> command is used to enable full query
+logging. Defaults for the options are configured in <code>cassandra.yaml</code> and
+these can be overridden from command line.</p>
+</div>
+<div class="paragraph">
+<p>The syntax of the nodetool enablefullquerylog command is as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>nodetool [(-h &lt;host&gt; | --host &lt;host&gt;)] [(-p &lt;port&gt; | --port &lt;port&gt;)]
+[(-pp | --print-port)] [(-pw &lt;password&gt; | --password &lt;password&gt;)]
+[(-pwf &lt;passwordFilePath&gt; | --password-file &lt;passwordFilePath&gt;)]
+[(-u &lt;username&gt; | --username &lt;username&gt;)] enablefullquerylog
+[--archive-command &lt;archive_command&gt;] [--blocking]
+[--max-archive-retries &lt;archive_retries&gt;]
+[--max-log-size &lt;max_log_size&gt;] [--max-queue-weight &lt;max_queue_weight&gt;]
+[--path &lt;path&gt;] [--roll-cycle &lt;roll_cycle&gt;]
+
+OPTIONS
+ --archive-command &lt;archive_command&gt;
+Command that will handle archiving rolled full query log files.
+Format is "/path/to/script.sh %path" where %path will be replaced
+with the file to archive
+
+ --blocking
+If the queue is full whether to block producers or drop samples.
+
+ -h &lt;host&gt;, --host &lt;host&gt;
+Node hostname or ip address
+
+ --max-archive-retries &lt;archive_retries&gt;
+Max number of archive retries.
+
+ --max-log-size &lt;max_log_size&gt;
+How many bytes of log data to store before dropping segments. Might
+not be respected if a log file hasn't rolled so it can be deleted.
+
+ --max-queue-weight &lt;max_queue_weight&gt;
+Maximum number of bytes of query data to queue to disk before
+blocking or dropping samples.
+
+ -p &lt;port&gt;, --port &lt;port&gt;
+Remote jmx agent port number
+
+ --path &lt;path&gt;
+Path to store the full query log at. Will have it's contents
+recursively deleted.
+
+ -pp, --print-port
+Operate in 4.0 mode with hosts disambiguated by port number
+
+ -pw &lt;password&gt;, --password &lt;password&gt;
+Remote jmx agent password
+
+ -pwf &lt;passwordFilePath&gt;, --password-file &lt;passwordFilePath&gt;
+Path to the JMX password file
+
+ --roll-cycle &lt;roll_cycle&gt;
+How often to roll the log file (MINUTELY, HOURLY, DAILY).
+
+ -u &lt;username&gt;, --username &lt;username&gt;
+Remote jmx agent username</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the following command on each node in the cluster.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>nodetool enablefullquerylog --path /tmp/cassandrafullquerylog</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After the full query logging has been enabled run some CQL statements to
+generate full query logs.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-cql-statements"><a class="anchor" href="#running-cql-statements"></a>Running CQL Statements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Start CQL interface with <code>cqlsh</code> command.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[ec2-user@ip-10-0-2-238 ~]$ cqlsh
+Connected to Cassandra Cluster at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 4.0-SNAPSHOT | CQL spec 3.4.5 | Native protocol v4]
+Use HELP for help.
+cqlsh&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run some CQL statements. Create a keyspace. Create a table and add some
+data. Query the table.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cqlsh&gt; CREATE KEYSPACE AuditLogKeyspace
+  ... WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+cqlsh&gt; USE AuditLogKeyspace;
+cqlsh:auditlogkeyspace&gt; CREATE TABLE t (
+...id int,
+...k int,
+...v text,
+...PRIMARY KEY (id)
+... );
+cqlsh:auditlogkeyspace&gt; INSERT INTO t (id, k, v) VALUES (0, 0, 'val0');
+cqlsh:auditlogkeyspace&gt; INSERT INTO t (id, k, v) VALUES (0, 1, 'val1');
+cqlsh:auditlogkeyspace&gt; SELECT * FROM t;
+
+id | k | v
+----+---+------
+ 0 | 1 | val1
+
+(1 rows)
+cqlsh:auditlogkeyspace&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="viewing-the-full-query-logs"><a class="anchor" href="#viewing-the-full-query-logs"></a>Viewing the Full Query Logs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>fqltool</code> is used to view the full query logs. The <code>fqltool</code> has the
+following usage syntax.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>fqltool &lt;command&gt; [&lt;args&gt;]
+
+The most commonly used fqltool commands are:
+   compare   Compare result files generated by fqltool replay
+   dump Dump the contents of a full query log
+   help Display help information
+   replay    Replay full query logs
+
+See 'fqltool help &lt;command&gt;' for more information on a specific command.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>fqltool dump</code> command is used to dump (list) the contents of a full
+query log. Run the <code>fqltool dump</code> command after some CQL statements have
+been run.</p>
+</div>
+<div class="paragraph">
+<p>The full query logs get listed. Truncated output is as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[ec2-user@ip-10-0-2-238 cassandrafullquerylog]$ fqltool dump ./
+WARN  [main] 2019-08-02 03:07:53,635 Slf4jExceptionHandler.java:42 - Using Pauser.sleepy() as not enough processors, have 2, needs 8+
+Type: single-query
+Query start time: 1564708322030
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system.peers
+Values:
+
+Type: single-query
+Query start time: 1564708322054
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system.local WHERE key='local'
+Values:
+
+Type: single-query
+Query start time: 1564708322109
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.keyspaces
+Values:
+
+Type: single-query
+Query start time: 1564708322116
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.tables
+Values:
+
+Type: single-query
+Query start time: 1564708322139
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.columns
+Values:
+
+Type: single-query
+Query start time: 1564708322142
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.functions
+Values:
+
+Type: single-query
+Query start time: 1564708322141
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.aggregates
+Values:
+
+Type: single-query
+Query start time: 1564708322143
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.types
+Values:
+
+Type: single-query
+Query start time: 1564708322144
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.indexes
+Values:
+
+Type: single-query
+Query start time: 1564708322142
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.triggers
+Values:
+
+Type: single-query
+Query start time: 1564708322145
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708322
+Query: SELECT * FROM system_schema.views
+Values:
+
+Type: single-query
+Query start time: 1564708345408
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:-2147483648
+Query: CREATE KEYSPACE AuditLogKeyspace
+WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+Values:
+
+Type: single-query
+Query start time: 1564708345675
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708345
+Query: SELECT peer, rpc_address, schema_version FROM system.peers
+Values:
+
+Type: single-query
+Query start time: 1564708345676
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708345
+Query: SELECT schema_version FROM system.local WHERE key='local'
+Values:
+
+Type: single-query
+Query start time: 1564708346323
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708346
+Query: SELECT * FROM system_schema.keyspaces WHERE keyspace_name = 'auditlogkeyspace'
+Values:
+
+Type: single-query
+Query start time: 1564708360873
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:-2147483648
+Query: USE AuditLogKeyspace;
+Values:
+
+Type: single-query
+Query start time: 1564708360874
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:-2147483648
+Query: USE "auditlogkeyspace"
+Values:
+
+Type: single-query
+Query start time: 1564708378837
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:-2147483648
+Query: CREATE TABLE t (
+    id int,
+    k int,
+    v text,
+    PRIMARY KEY (id)
+);
+Values:
+
+Type: single-query
+Query start time: 1564708379247
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708379
+Query: SELECT * FROM system_schema.tables WHERE keyspace_name = 'auditlogkeyspace' AND table_name = 't'
+Values:
+
+Type: single-query
+Query start time: 1564708379255
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708379
+Query: SELECT * FROM system_schema.views WHERE keyspace_name = 'auditlogkeyspace' AND view_name = 't'
+Values:
+
+Type: single-query
+Query start time: 1564708397144
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708397
+Query: INSERT INTO t (id, k, v) VALUES (0, 0, 'val0');
+Values:
+
+Type: single-query
+Query start time: 1564708397167
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708397
+Query: INSERT INTO t (id, k, v) VALUES (0, 1, 'val1');
+Values:
+
+Type: single-query
+Query start time: 1564708434782
+Protocol version: 4
+Generated timestamp:-9223372036854775808
+Generated nowInSeconds:1564708434
+Query: SELECT * FROM t;
+Values:
+
+[ec2-user@ip-10-0-2-238 cassandrafullquerylog]$</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Full query logs are generated on each node. Enabling of full query
+logging on one node and the log files generated on the node are as
+follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[root@localhost ~]# ssh -i cassandra.pem ec2-user@52.1.243.83
+Last login: Fri Aug  2 00:14:53 2019 from 75.155.255.51
+[ec2-user@ip-10-0-3-206 ~]$ sudo mkdir /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-3-206 ~]$ sudo chmod -R 777 /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-3-206 ~]$ nodetool enablefullquerylog --path /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-3-206 ~]$ cd /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-3-206 cassandrafullquerylog]$ ls -l
+total 44
+-rw-rw-r--. 1 ec2-user ec2-user 83886080 Aug  2 01:24 20190802-01.cq4
+-rw-rw-r--. 1 ec2-user ec2-user    65536 Aug  2 01:23 directory-listing.cq4t
+[ec2-user@ip-10-0-3-206 cassandrafullquerylog]$</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Enabling of full query logging on another node and the log files
+generated on the node are as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[root@localhost ~]# ssh -i cassandra.pem ec2-user@3.86.103.229
+Last login: Fri Aug  2 00:13:04 2019 from 75.155.255.51
+[ec2-user@ip-10-0-1-115 ~]$ sudo mkdir /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-1-115 ~]$ sudo chmod -R 777 /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-1-115 ~]$ nodetool enablefullquerylog --path /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-1-115 ~]$ cd /tmp/cassandrafullquerylog
+[ec2-user@ip-10-0-1-115 cassandrafullquerylog]$ ls -l
+total 44
+-rw-rw-r--. 1 ec2-user ec2-user 83886080 Aug  2 01:24 20190802-01.cq4
+-rw-rw-r--. 1 ec2-user ec2-user    65536 Aug  2 01:23 directory-listing.cq4t
+[ec2-user@ip-10-0-1-115 cassandrafullquerylog]$</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>nodetool resetfullquerylog</code> resets the full query logger if it is
+enabled. Also deletes any generated files in the last used full query
+log path as well as the one configured in <code>cassandra.yaml</code>. It stops the
+full query log and cleans files in the configured full query log
+directory from <code>cassandra.yaml</code> as well as JMX.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="full-query-replay"><a class="anchor" href="#full-query-replay"></a>Full Query Replay</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>fqltool</code> provides the <code>replay</code> command
+(<a href="https://issues.apache.org/jira/browse/CASSANDRA-14618">CASSANDRA-14618</a>)
+to replay the full query logs. The FQL replay could be run on a
+different machine or even a different cluster for testing, debugging and
+performance benchmarking.</p>
+</div>
+<div class="paragraph">
+<p>The main objectives of <code>fqltool replay</code> are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To be able to compare different runs of production traffic against
+different versions/configurations of Cassandra.</p>
+</li>
+<li>
+<p>Take FQL logs from several machines and replay them in "order" by the
+timestamps recorded.</p>
+</li>
+<li>
+<p>Record the results from each run to be able to compare different runs
+(against different clusters/versions/etc).</p>
+</li>
+<li>
+<p>If fqltool replay is run against 2 or more clusters, the results could
+be compared.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The FQL replay could also be used on the same node on which the full
+query log are generated to recreate a dropped database object.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The syntax of <code>fqltool replay</code> is as follows:</p>
+</div>
+</blockquote>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>fqltool replay [--keyspace &lt;keyspace&gt;] [--results &lt;results&gt;]
+[--store-queries &lt;store_queries&gt;] --target &lt;target&gt;... [--] &lt;path1&gt;
+[&lt;path2&gt;...&lt;pathN&gt;]
+
+OPTIONS
+ --keyspace &lt;keyspace&gt;
+Only replay queries against this keyspace and queries without
+keyspace set.
+
+ --results &lt;results&gt;
+Where to store the results of the queries, this should be a
+directory. Leave this option out to avoid storing results.
+
+ --store-queries &lt;store_queries&gt;
+Path to store the queries executed. Stores queries in the same order
+as the result sets are in the result files. Requires --results
+
+ --target &lt;target&gt;
+Hosts to replay the logs to, can be repeated to replay to more
+hosts.
+
+ --
+This option can be used to separate command-line options from the
+list of argument, (useful when arguments might be mistaken for
+command-line options
+
+ &lt;path1&gt; [&lt;path2&gt;...&lt;pathN&gt;]
+Paths containing the full query logs to replay.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As an example of using <code>fqltool replay</code>, drop a keyspace.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cqlsh:auditlogkeyspace&gt; DROP KEYSPACE AuditLogKeyspace;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Subsequently run <code>fqltool replay</code>. The directory to store results of
+queries and the directory to store the queries run are specified and
+these directories must be created and permissions set before running
+<code>fqltool replay</code>. The <code>--results</code> and <code>--store-queries</code> directories are
+optional but if <code>--store-queries</code> is to be set the <code>--results</code> must also
+be set.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[ec2-user@ip-10-0-2-238 cassandra]$ fqltool replay --keyspace AuditLogKeyspace --results
+/cassandra/fql/logs/results/replay --store-queries /cassandra/fql/logs/queries/replay --
+target 3.91.56.164 -- /tmp/cassandrafullquerylog</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Describe the keyspaces after running <code>fqltool replay</code> and the keyspace
+that was dropped gets listed again.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cqlsh:auditlogkeyspace&gt; DESC KEYSPACES;
+
+system_schema  system  system_distributed  system_virtual_schema
+system_auth    auditlogkeyspace  system_traces  system_views
+
+cqlsh:auditlogkeyspace&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="full-query-compare"><a class="anchor" href="#full-query-compare"></a>Full Query Compare</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>fqltool compare</code> command
+(<a href="https://issues.apache.org/jira/browse/CASSANDRA-14619">CASSANDRA-14619</a>)
+is used to compare result files generated by <code>fqltool replay</code>. The
+<code>fqltool compare</code> command that can take the recorded runs from
+<code>fqltool replay</code> and compares them, it should output any differences and
+potentially all queries against the mismatching partition up until the
+mismatch.</p>
+</div>
+<div class="paragraph">
+<p>The <code>fqltool compare</code> could be used for comparing result files generated
+by different versions of Cassandra or different Cassandra configurations
+as an example. The command usage is as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[ec2-user@ip-10-0-2-238 ~]$ fqltool help compare
+NAME
+  fqltool compare - Compare result files generated by fqltool replay
+
+SYNOPSIS
+  fqltool compare --queries &lt;queries&gt; [--] &lt;path1&gt; [&lt;path2&gt;...&lt;pathN&gt;]
+
+OPTIONS
+  --queries &lt;queries&gt;
+ Directory to read the queries from. It is produced by the fqltool
+ replay --store-queries option.
+
+  --
+ This option can be used to separate command-line options from the
+ list of argument, (useful when arguments might be mistaken for
+ command-line options
+
+  &lt;path1&gt; [&lt;path2&gt;...&lt;pathN&gt;]
+ Directories containing result files to compare.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>fqltool compare</code> stores each row as a separate chronicle document
+to be able to avoid reading up the entire result set in memory when
+comparing document formats:</p>
+</div>
+<div class="paragraph">
+<p>To mark the start of a new result set:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>-------------------
+version: int16
+type: column_definitions
+column_count: int32;
+column_definition: text, text
+column_definition: text, text</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>....
+
+To mark a failed query set:
+
+....
+---------------------
+version: int16
+type: query_failed
+message: text
+---------------------
+....
+
+To mark a row set:
+
+....
+--------------------
+version: int16
+type: row
+row_column_count: int32
+column: bytes
+--------------------
+....
+
+To mark the end of a result set:
+
+....</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>version: int16
+type: end_resultset</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>....
+
+== Performance Overhead of FQL
+
+In performance testing FQL appears to have little or no overhead in
+`WRITE` only workloads, and a minor overhead in `MIXED` workload.</pre>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

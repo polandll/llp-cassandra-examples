@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Introduction :: Apache Cassandra Documentation</title>
+    <meta name="generator" content="Antora 2.3.1">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Apache Cassandra Documentation&nbsp;&nbsp;&nbsp;<img src="../../../../_/img/cassandra_logo.png"></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Download</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Documentation</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Latest</a>
+            <a class="navbar-item" href="#">3.x</a>
+            <a class="navbar-item" href="#">3.0</a>
+            <a class="navbar-item" href="#">2.1</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Developer Mailing List</a>
+            <a class="navbar-item" href="#">User Mailing List</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Blog</a>
+	</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ASCIIDOC_POC" data-version="4.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">ASCIIDOC_POC</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../index.html">Cassandra Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../glossary.html">Glossary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../bugs.html">How to report bugs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../contactus.html">Contact us</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cassandra</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../architecture/index.html">Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/dynamo.html">Dynamo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/storage_engine.html">Storage engine</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../architecture/guarantees.html">Guarantees</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../new/index.html">What&#8217;s new</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/installing.html">Installing Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/configuring.html">Configuring Cassandra</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/querying.html">Inserting and querying</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/drivers.html">Client drivers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../getting_started/production.html">Production recommendations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html">Data Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#cql/index.adoc{">CQL</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/changes.html">Changes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/ddl.html">DDL</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/dml.html">DML</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/types.html">Data types</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/operators.html">Operators</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/definitions.html">Definitions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/indexes.html">Secondary indexes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/mvs.html">Materialized views</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/functions.html">Functions</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/json.html">JSON</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/triggers.html">Triggers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cql/appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/index.html">Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operating/index.html">Operating</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tools/index.html">Tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../development/index.html">Development</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../plugins/index.html">Plug-ins</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../troubleshooting/index.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../faq/index.html">FAQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">ASCIIDOC_POC</span>
+    <span class="version">4.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">ASCIIDOC_POC</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">4.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">ASCIIDOC_POC</a></li>
+    <li><a href="intro.html">Introduction</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/lorina.poland/CLONES/cassandra-examples/rst-to-asciidoc-tests/ASCIIDOC/modules/cassandra/pages/data_modeling/intro.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Introduction</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Apache Cassandra stores data in tables, with each table consisting of
+rows and columns. CQL (Cassandra Query Language) is used to query the
+data stored in tables. Apache Cassandra data model is based around and
+optimized for querying. Cassandra does not support relational data
+modeling intended for relational databases.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="what-is-data-modeling"><a class="anchor" href="#what-is-data-modeling"></a>What is Data Modeling?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Data modeling is the process of identifying entities and their
+relationships. In relational databases, data is placed in normalized
+tables with foreign keys used to reference related data in other tables.
+Queries that the application will make are driven by the structure of
+the tables and related data are queried as table joins.</p>
+</div>
+<div class="paragraph">
+<p>In Cassandra, data modeling is query-driven. The data access patterns
+and application queries determine the structure and organization of data
+which then used to design the database tables.</p>
+</div>
+<div class="paragraph">
+<p>Data is modeled around specific queries. Queries are best designed to
+access a single table, which implies that all entities involved in a
+query must be in the same table to make data access (reads) very fast.
+Data is modeled to best suit a query or a set of queries. A table could
+have one or more entities as best suits a query. As entities do
+typically have relationships among them and queries could involve
+entities with relationships among them, a single entity may be included
+in multiple tables.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="query-driven-modeling"><a class="anchor" href="#query-driven-modeling"></a>Query-driven modeling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unlike a relational database model in which queries make use of table
+joins to get data from multiple tables, joins are not supported in
+Cassandra so all required fields (columns) must be grouped together in a
+single table. Since each query is backed by a table, data is duplicated
+across multiple tables in a process known as denormalization. Data
+duplication and a high write throughput are used to achieve a high read
+performance.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="goals"><a class="anchor" href="#goals"></a>Goals</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The choice of the primary key and partition key is important to
+distribute data evenly across the cluster. Keeping the number of
+partitions read for a query to a minimum is also important because
+different partitions could be located on different nodes and the
+coordinator would need to send a request to each node adding to the
+request overhead and latency. Even if the different partitions involved
+in a query are on the same node, fewer partitions make for a more
+efficient query.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="partitions"><a class="anchor" href="#partitions"></a>Partitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Apache Cassandra is a distributed database that stores data across a
+cluster of nodes. A partition key is used to partition data among the
+nodes. Cassandra partitions data over the storage nodes using a variant
+of consistent hashing for data distribution. Hashing is a technique used
+to map data with which given a key, a hash function generates a hash
+value (or simply a hash) that is stored in a hash table. A partition key
+is generated from the first field of a primary key. Data partitioned
+into hash tables using partition keys provides for rapid lookup. Fewer
+the partitions used for a query faster is the response time for the
+query.</p>
+</div>
+<div class="paragraph">
+<p>As an example of partitioning, consider table <code>t</code> in which <code>id</code> is the
+only field in the primary key.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE TABLE t (
+   id int,
+   k int,
+   v text,
+   PRIMARY KEY (id)
+);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The partition key is generated from the primary key <code>id</code> for data
+distribution across the nodes in a cluster.</p>
+</div>
+<div class="paragraph">
+<p>Consider a variation of table <code>t</code> that has two fields constituting the
+primary key to make a composite or compound primary key.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE TABLE t (
+   id int,
+   c text,
+   k int,
+   v text,
+   PRIMARY KEY (id,c)
+);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the table <code>t</code> with a composite primary key the first field <code>id</code> is
+used to generate the partition key and the second field <code>c</code> is the
+clustering key used for sorting within a partition. Using clustering
+keys to sort data makes retrieval of adjacent data more efficient.</p>
+</div>
+<div class="paragraph">
+<p>In general, the first field or component of a primary key is hashed to
+generate the partition key and the remaining fields or components are
+the clustering keys that are used to sort data within a partition.
+Partitioning data improves the efficiency of reads and writes. The other
+fields that are not primary key fields may be indexed separately to
+further improve query performance.</p>
+</div>
+<div class="paragraph">
+<p>The partition key could be generated from multiple fields if they are
+grouped as the first component of a primary key. As another variation of
+the table <code>t</code>, consider a table with the first component of the primary
+key made of two fields grouped using parentheses.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE TABLE t (
+   id1 int,
+   id2 int,
+   c1 text,
+   c2 text
+   k int,
+   v text,
+   PRIMARY KEY ((id1,id2),c1,c2)
+);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the preceding table <code>t</code> the first component of the primary key
+constituting fields <code>id1</code> and <code>id2</code> is used to generate the partition
+key and the rest of the fields <code>c1</code> and <code>c2</code> are the clustering keys
+used for sorting within a partition.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="comparing-with-relational-data-model"><a class="anchor" href="#comparing-with-relational-data-model"></a>Comparing with Relational Data Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Relational databases store data in tables that have relations with other
+tables using foreign keys. A relational database’s approach to data
+modeling is table-centric. Queries must use table joins to get data from
+multiple tables that have a relation between them. Apache Cassandra does
+not have the concept of foreign keys or relational integrity. Apache
+Cassandra’s data model is based around designing efficient queries;
+queries that don’t involve multiple tables. Relational databases
+normalize data to avoid duplication. Apache Cassandra in contrast
+de-normalizes data by duplicating data in multiple tables for a
+query-centric data model. If a Cassandra data model cannot fully
+integrate the complexity of relationships between the different entities
+for a particular query, client-side joins in application code may be
+used.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="examples-of-data-modeling"><a class="anchor" href="#examples-of-data-modeling"></a>Examples of Data Modeling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As an example, a <code>magazine</code> data set consists of data for magazines with
+attributes such as magazine id, magazine name, publication frequency,
+publication date, and publisher. A basic query (Q1) for magazine data is
+to list all the magazine names including their publication frequency. As
+not all data attributes are needed for Q1 the data model would only
+consist of <code>id</code> ( for partition key), magazine name and publication
+frequency as shown in Figure 1.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="../_images/images/Figure_1_data_model.jpg" alt="image"></span></p>
+</div>
+<div class="paragraph">
+<p>Figure 1. Data Model for Q1</p>
+</div>
+<div class="paragraph">
+<p>Another query (Q2) is to list all the magazine names by publisher. For
+Q2 the data model would consist of an additional attribute <code>publisher</code>
+for the partition key. The <code>id</code> would become the clustering key for
+sorting within a partition. Data model for Q2 is illustrated in Figure
+2.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="../_images/images/Figure_2_data_model.jpg" alt="image"></span></p>
+</div>
+<div class="paragraph">
+<p>Figure 2. Data Model for Q2</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="designing-schema"><a class="anchor" href="#designing-schema"></a>Designing Schema</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After the conceptual data model has been created a schema may be
+designed for a query. For Q1 the following schema may be used.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE TABLE magazine_name (id int PRIMARY KEY, name text, publicationFrequency text)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For Q2 the schema definition would include a clustering key for sorting.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE TABLE magazine_publisher (publisher text,id int,name text, publicationFrequency text,
+PRIMARY KEY (publisher, id)) WITH CLUSTERING ORDER BY (id DESC)</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="data-model-analysis"><a class="anchor" href="#data-model-analysis"></a>Data Model Analysis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The data model is a conceptual model that must be analyzed and optimized
+based on storage, capacity, redundancy and consistency. A data model may
+need to be modified as a result of the analysis. Considerations or
+limitations that are used in data model analysis include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Partition Size</p>
+</li>
+<li>
+<p>Data Redundancy</p>
+</li>
+<li>
+<p>Disk space</p>
+</li>
+<li>
+<p>Lightweight Transactions (LWT)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The two measures of partition size are the number of values in a
+partition and partition size on disk. Though requirements for these
+measures may vary based on the application a general guideline is to
+keep number of values per partition to below 100,000 and disk space per
+partition to below 100MB.</p>
+</div>
+<div class="paragraph">
+<p>Data redundancies as duplicate data in tables and multiple partition
+replicates are to be expected in the design of a data model , but
+nevertheless should be kept in consideration as a parameter to keep to
+the minimum. LWT transactions (compare-and-set, conditional update)
+could affect performance and queries using LWT should be kept to the
+minimum.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="using-materialized-views"><a class="anchor" href="#using-materialized-views"></a>Using Materialized Views</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="title">Warning</div>
+<div class="paragraph">
+<p>Materialized views (MVs) are experimental in the latest (4.0) release.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Materialized views (MVs) could be used to implement multiple queries
+for a single table. A materialized view is a table built from data from
+another table, the base table, with new primary key and new properties.
+Changes to the base table data automatically add and update data in a
+MV. Different queries may be implemented using a materialized view as an
+MV&#8217;s primary key differs from the base table. Queries are optimized by
+the primary key definition.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
