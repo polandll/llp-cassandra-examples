@@ -1,0 +1,392 @@
+:cass_download: http://cassandra.apache.org/download/[Apache Cassandra Download]
+:cass_archives: http://archive.apache.org/dist/cassandra/[Apache Archives]
+:version: 4.0
+:version_long: 4.0.0
+
+== Installing Cassandra
+
+These are the instructions for deploying the supported releases of
+Apache Cassandra on Linux servers.
+
+Cassandra runs on a wide array of Linux distributions including (but not
+limited to):
+
+* Ubuntu, most notably LTS releases 16.04 to 18.04
+* CentOS & RedHat Enterprise Linux (RHEL) including 6.6 to 7.7
+* Amazon Linux AMIs including 2016.09 through to Linux 2
+* Debian versions 8 & 9
+* SUSE Enterprise Linux 12
+
+This is not an exhaustive list of operating system platforms, nor is it
+prescriptive. However users will be well-advised to conduct exhaustive
+tests of their own particularly for less-popular distributions of Linux.
+Deploying on older versions is not recommended unless you have previous
+experience with the older distribution in a production environment.
+
+=== Prerequisites
+
+* Install the latest version of Java 8, either the
+http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle
+Java Standard Edition 8] or http://openjdk.java.net/[OpenJDK 8]. To
+verify that you have the correct version of java installed, type
+`java -version`.
+* *NOTE*: _Experimental_ support for Java 11 was added in Cassandra 4.0
+(https://issues.apache.org/jira/browse/CASSANDRA-9608[CASSANDRA-9608]).
+Running Cassandra on Java 11 is _experimental_. Do so at your own risk.
+For more information, see
+https://github.com/apache/cassandra/blob/trunk/NEWS.txt[NEWS.txt].
+* For using cqlsh, the latest version of
+https://www.python.org/downloads/[Python 2.7] or Python 3.6+. To verify
+that you have the correct version of Python installed, type
+`python --version`.
+
+=== Choosing an installation method
+
+For most users, installing the binary tarball is the simplest choice.
+The tarball unpacks all its contents into a single location with
+binaries and configuration files located in their own subdirectories.
+The most obvious attribute of the tarball installation is it does not
+require `root` permissions and can be installed on any Linux
+distribution.
+
+Packaged installations require `root` permissions. Install the RPM build
+on CentOS and RHEL-based distributions if you want to install Cassandra
+using YUM. Install the Debian build on Ubuntu and other Debian-based
+distributions if you want to install Cassandra using APT. Note that both
+the YUM and APT methods required `root` permissions and will install the
+binaries and configuration files as the `cassandra` OS user.
+
+=== Installing the binary tarball
+
+
+. Verify the version of Java installed. For example:
+
+[source,none]
+----
+include::{examplesdir}java_verify.sh[]
+----
+
+resulting in:
+
+[source,none]
+----
+include::{examplesdir}java_verify.result[]
+----
+
+[ start=2]
+. Download the binary tarball from one of the mirrors on the
+{cass_download} site.
+For example, to download {version}:
+
+[source,none]
+----
+include::{examplesdir}curl_install.sh[]
+----
+
+[NOTE]
+====
+The mirrors only host the latest versions of each major supported
+release. To download an earlier version of Cassandra, visit the
+{cass_archives}.
+====
+
+[ start=3]
+. [.underline]#OPTIONAL:# Verify the integrity of the downloaded tarball using one of
+the methods link:https://www.apache.org/dyn/closer.cgi#verify[here]. For
+example, to verify the hash of the downloaded file using GPG:
+
+[source,none]
+----
+include::{examplesdir}verify_gpg.sh[]
+----
+
+resulting in:
+
+[source,none]
+----
+include::{examplesdir}verify_gpg.result[]
+----
+
+[start=4]
+Compare the returned signature with the SHA256 file from the Downloads site:
+
+[source,none]
+----
+$ curl -L https://downloads.apache.org/cassandra/4.0.0/apache-cassandra-4.0.0-bin.tar.gz.sha256
+28757dde589f70410f9a6a95c39ee7e6cde63440e2b06b91ae6b200614fa364d
+----
+
+[start=4]
+. Unpack the tarball:
+
+[source,none]
+----
+$ tar xzvf apache-cassandra-4.0.0-bin.tar.gz
+----
+
+The files will be extracted to the `apache-cassandra-4.0.0/` directory.
+This is the tarball installation location.
+
+[ start=5]
+. Located in the tarball installation location are the directories for
+the scripts, binaries, utilities, configuration, data and log files:
+
+[source,none]
+----
+<tarball_installation>/
+    bin/
+    conf/
+    data/
+    doc/
+    interface/
+    javadoc/
+    lib/
+    logs/
+    pylib/
+    tools/
+----
+
+For information on how to configure your installation, see
+http://cassandra.apache.org/doc/latest/getting_started/configuring.html[Configuring
+Cassandra].
+
+[ start=6]
+. Start Cassandra:
+
+[source,none]
+----
+$ cd apache-cassandra-4.0.0/
+$ bin/cassandra
+----
+
+NOTE: This will run Cassandra as the authenticated Linux user.
+
+You can monitor the progress of the startup with:
+
+[source,none]
+----
+$ tail -f logs/system.log
+----
+
+Cassandra is ready when you see an entry like this in the `system.log`:
+
+[source,none]
+----
+INFO  [main] 2019-12-17 03:03:37,526 Server.java:156 - Starting listening for CQL clients on localhost/127.0.0.1:9042 (unencrypted)...
+----
+
+[ start=7]
+. Check the status of Cassandra:
+
+[source,none]
+----
+$ bin/nodetool status
+----
+
+The status column in the output should report UN which stands for
+"Up/Normal".
+
+Alternatively, connect to the database with:
+
+[source,none]
+----
+$ bin/cqlsh
+----
+
+=== Installing the Debian packages
+
+[arabic]
+. Verify the version of Java installed. For example:
+
+[source,none]
+----
+$ java -version
+openjdk version "1.8.0_222"
+OpenJDK Runtime Environment (build 1.8.0_222-8u222-b10-1ubuntu1~16.04.1-b10)
+OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
+----
+
+[ start=2]
+. Add the Apache repository of Cassandra to the file
+`cassandra.sources.list`. The latest major version is 4.0 and the
+corresponding distribution name is `40x` (with an "x" as the suffix).
+For older releases use `311x` for C* 3.11 series, `30x` for 3.0, `22x`
+for 2.2 and `21x` for 2.1. For example, to add the repository for
+version 4.0 (`40x`):
+
+[source,none]
+----
+$ echo "deb http://www.apache.org/dist/cassandra/debian 40x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+deb http://www.apache.org/dist/cassandra/debian 40x main
+----
+
+[ start=3]
+. Add the Apache Cassandra repository keys to the list of trusted keys
+on the server:
+
+[source,none]
+----
+$ curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  266k  100  266k    0     0   320k      0 --:--:-- --:--:-- --:--:--  320k
+OK
+----
+
+[ start=4]
+. Update the package index from sources:
+
+[source,none]
+----
+$ sudo apt-get update
+----
+
+[ start=5]
+. Install Cassandra with APT:
+
+[source,none]
+----
+$ sudo apt-get install cassandra
+----
+
+NOTE: A new Linux user `cassandra` will get created as part of the
+installation. The Cassandra service will also be run as this user.
+
+[ start=6]
+. The Cassandra service gets started automatically after installation.
+Monitor the progress of the startup with:
+
+[source,none]
+----
+$ tail -f /var/log/cassandra/system.log
+----
+
+Cassandra is ready when you see an entry like this in the `system.log`:
+
+[source,none]
+----
+INFO  [main] 2019-12-17 03:03:37,526 Server.java:156 - Starting listening for CQL clients on localhost/127.0.0.1:9042 (unencrypted)...
+----
+
+NOTE: For information on how to configure your installation, see
+http://cassandra.apache.org/doc/latest/getting_started/configuring.html[Configuring
+Cassandra].
+
+[ start=7]
+. Check the status of Cassandra:
+
+[source,none]
+----
+$ nodetool status
+----
+
+The status column in the output should report `UN` which stands for
+"Up/Normal".
+
+Alternatively, connect to the database with:
+
+[source,none]
+----
+$ cqlsh
+----
+
+=== Installing the RPM packages
+
+[arabic]
+. Verify the version of Java installed. For example:
+
+[source,none]
+----
+$ java -version
+openjdk version "1.8.0_222"
+OpenJDK Runtime Environment (build 1.8.0_232-b09)
+OpenJDK 64-Bit Server VM (build 25.232-b09, mixed mode)
+----
+
+[ start=2]
+. Add the Apache repository of Cassandra to the file
+`/etc/yum.repos.d/cassandra.repo` (as the `root` user). The latest major
+version is 4.0 and the corresponding distribution name is `40x` (with an
+"x" as the suffix). For older releases use `311x` for C* 3.11 series,
+`30x` for 3.0, `22x` for 2.2 and `21x` for 2.1. For example, to add the
+repository for version 4.0 (`40x`):
+
+[source,none]
+----
+[cassandra]
+name=Apache Cassandra
+baseurl=https://downloads.apache.org/cassandra/redhat/40x/
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://downloads.apache.org/cassandra/KEYS
+----
+
+[ start=3]
+. Update the package index from sources:
+
+[source,none]
+----
+$ sudo yum update
+----
+
+[ start=4]
+. Install Cassandra with YUM:
+
+[source,none]
+----
+$ sudo yum install cassandra
+----
+
+NOTE: A new Linux user `cassandra` will get created as part of the
+installation. The Cassandra service will also be run as this user.
+
+[ start=5]
+. Start the Cassandra service:
+
+[source,none]
+----
+$ sudo service cassandra start
+----
+
+[ start=6]
+. Monitor the progress of the startup with:
+
+[source,none]
+----
+$ tail -f /var/log/cassandra/system.log
+----
+
+Cassandra is ready when you see an entry like this in the `system.log`:
+
+[source,none]
+----
+INFO  [main] 2019-12-17 03:03:37,526 Server.java:156 - Starting listening for CQL clients on localhost/127.0.0.1:9042 (unencrypted)...
+----
+
+NOTE: For information on how to configure your installation, see
+http://cassandra.apache.org/doc/latest/getting_started/configuring.html[Configuring
+Cassandra].
+
+[ start=7]
+. Check the status of Cassandra:
+
+[source,none]
+----
+$ nodetool status
+----
+
+The status column in the output should report `UN` which stands for
+"Up/Normal".
+
+Alternatively, connect to the database with:
+
+[source,none]
+----
+$ cqlsh
+----
+
+=== Further installation info
+
+For help with installation issues, see the
+http://cassandra.apache.org/doc/latest/troubleshooting/index.html[Troubleshooting]
+section.

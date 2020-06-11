@@ -1,0 +1,4 @@
+[[nodetool_getstreamthroughput]]
+== getstreamthroughput
+
+== Usage

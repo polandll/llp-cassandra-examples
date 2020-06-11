@@ -1,0 +1,16 @@
+= Getting Started
+
+This section covers how to get started using Apache Cassandra and should
+be the first thing to read if you are new to Cassandra.
+
+:toc: left
+
+include::installing.adoc[Installing]
+
+include::configuring.adoc[Configuring]
+
+include::querying.adoc[Querying]
+
+include::drivers.adoc[]
+
+include::production.adoc[]

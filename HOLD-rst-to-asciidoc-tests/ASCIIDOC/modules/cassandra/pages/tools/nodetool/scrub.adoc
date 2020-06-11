@@ -1,0 +1,4 @@
+[[nodetool_scrub]]
+== scrub
+
+== Usage

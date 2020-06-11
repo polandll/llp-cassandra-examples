@@ -1,0 +1,4 @@
+[[nodetool_clearsnapshot]]
+== clearsnapshot
+
+== Usage

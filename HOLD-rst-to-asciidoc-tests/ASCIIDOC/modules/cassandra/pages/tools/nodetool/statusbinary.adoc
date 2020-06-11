@@ -1,0 +1,4 @@
+[[nodetool_statusbinary]]
+== statusbinary
+
+== Usage

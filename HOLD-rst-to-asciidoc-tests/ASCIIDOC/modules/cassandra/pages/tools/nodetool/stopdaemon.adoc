@@ -1,0 +1,4 @@
+[[nodetool_stopdaemon]]
+== stopdaemon
+
+== Usage

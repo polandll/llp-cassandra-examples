@@ -1,0 +1,4 @@
+[[nodetool_sethintedhandoffthrottlekb]]
+== sethintedhandoffthrottlekb
+
+== Usage

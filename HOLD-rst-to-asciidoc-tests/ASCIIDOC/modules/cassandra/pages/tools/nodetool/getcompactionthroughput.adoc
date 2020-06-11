@@ -1,0 +1,4 @@
+[[nodetool_getcompactionthroughput]]
+== getcompactionthroughput
+
+== Usage
