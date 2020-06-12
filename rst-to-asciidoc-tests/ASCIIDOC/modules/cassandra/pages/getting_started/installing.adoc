@@ -58,15 +58,13 @@ binaries and configuration files as the `cassandra` OS user.
 
 [source,bash]
 ----
-$ java -version
+include::example$java_verify.sh[]
 ----
 should return:
 
 [source,none]
 ----
-openjdk version "1.8.0_222"
-OpenJDK Runtime Environment (build 1.8.0_222-8u222-b10-1ubuntu1~16.04.1-b10)
-OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
+include::example$java_verify.result[]
 ----
 
 [arabic, start=2]
@@ -74,9 +72,9 @@ OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
 http://cassandra.apache.org/download/[Apache Cassandra Download] site.
 For example, to download Cassandra 4.0:
 
-[source,none]
+[source,bash]
 ----
-$ curl -OL http://apache.mirror.digitalpacific.com.au/cassandra/4.0.0/apache-cassandra-4.0.0-bin.tar.gz
+include::example$curl_install.sh[]
 ----
 
 NOTE: The mirrors only host the latest versions of each major supported
@@ -90,22 +88,21 @@ example, to verify the hash of the downloaded file using GPG:
 
 [source,bash]
 ----
-$ gpg --print-md SHA256 apache-cassandra-4.0.0-bin.tar.gz 
+include::example$verify_gpg.sh[]
 ----
 
 should return:
 
 [source,none]
 ----
-apache-cassandra-4.0.0-bin.tar.gz: 28757DDE 589F7041 0F9A6A95 C39EE7E6
-                                   CDE63440 E2B06B91 AE6B2006 14FA364D
+include::example$verify_gpg.result[]
 ----
 
 Compare the signature with the SHA256 file from the Downloads site:
 
 [source,bash]
 ----
-$ curl -L https://downloads.apache.org/cassandra/4.0.0/apache-cassandra-4.0.0-bin.tar.gz.sha256
+include::example$curl_verify_sha.sh[]
 ----
 
 which returns: 
