@@ -16,14 +16,13 @@ Commit notification source repository - link:mail-to:commits-subscribe@cassandra
 * http://www.mail-archive.com/client-dev@cassandra.apache.org/[Client Libraries]:  
 Discussion related to the development of idiomatic client APIs - link:mail-to:client-dev-subscribe@cassandra.apache.org[Subscribe]
 
-Subscribe by sending an email to the email address in the Subscribe
-links above. Follow the instructions in the welcome email to confirm
-your subscription. Make sure to keep the welcome email as it contains
-instructions on how to unsubscribe.
+Subscribe by clicking on the Subscribe links above. Follow the instructions 
+in the welcome email to confirm your subscription. Make sure to keep the welcome email 
+as it contains instructions on how to unsubscribe.
 
 == Slack
 
-To chat with developers or users in real-time, join our rooms on
+To chat with users or developers in real-time, join our rooms on
 https://s.apache.org/slack-invite[ASF Slack]:
 
 * `cassandra` - for user questions and general discussions.

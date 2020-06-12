@@ -1,10 +1,14 @@
 = Welcome to Apache Cassandra's documentation!
 
-This is the official documentation for
-http://cassandra.apache.org[Apache Cassandra] . If you would like to
-contribute to this documentation, you are welcome to do so by submitting
-your contribution like any other patch following
-https://wiki.apache.org/cassandra/HowToContribute[these instructions].
+:description: Starting page for Apache Cassandra documentation.
+:keywords: Apache, Cassandra, NoSQL, database
+:cass-url: http://cassandra.apache.org
+:cass-contrib-url: https://wiki.apache.org/cassandra/HowToContribute
+
+This is the official documentation for {cass-url}[Apache Cassandra]. 
+If you would like to contribute to this documentation, you are welcome 
+to do so by submitting your contribution like any other patch following
+{cass-contrib-url}[these instructions].
 
 == Main documentation
 
