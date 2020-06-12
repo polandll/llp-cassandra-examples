@@ -45,9 +45,6 @@ conflict-free replicated data type for each CQL row (a.k.a
 https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#LWW-Element-Set_(Last-Write-Wins-Element-Set)[LWW-Element-Set
 CRDT]) to resolve conflicting mutations on replica sets.
 
-____
-____
-
 === Consistent Hashing using a Token Ring
 
 Cassandra partitions data over storage nodes using a special form of
