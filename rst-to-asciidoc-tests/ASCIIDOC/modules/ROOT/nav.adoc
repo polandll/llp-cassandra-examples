@@ -1,4 +1,4 @@
-* xref:index.adoc[Cassandra Documentation]
+* xref:index.adoc[Main]
 ** xref:glossary.adoc[Glossary]
 ** xref:bugs.adoc[How to report bugs]
 ** xref:contactus.adoc[Contact us]

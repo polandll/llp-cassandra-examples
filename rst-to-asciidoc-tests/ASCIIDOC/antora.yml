@@ -1,7 +1,6 @@
-name: ASCIIDOC_POC
+name: Cassandra
 version: '4.0'
-#prerelease: -rc.4
-#start_page: ROOT:index.adoc
+prerelease: -rc.5
 nav:
 - modules/ROOT/nav.adoc
 - modules/cassandra/nav.adoc
