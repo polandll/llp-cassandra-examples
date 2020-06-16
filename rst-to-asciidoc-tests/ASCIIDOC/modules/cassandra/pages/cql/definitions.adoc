@@ -67,33 +67,25 @@ tools and should be avoided. In general, unquoted identifiers should be
 preferred but if you use quoted identifiers, it is strongly advised to
 avoid any name enclosed by squared brackets (like `"[applied]"`) and any
 name that looks like a function call (like `"f(x)"`).
-====
+====More formally, we have:
 
-More formally, we have:
-
-[source, bnf]
-----
-identifier ::= unquoted_identifier | quoted_identifier 
-unquoted_identifier ::= re('[a-zA-Z][link:[a-zA-Z0-9]]*') 
-quoted_identifier ::= '"' (any character where " can appear if doubled)+ '"'
-----
+identifier: [.title-ref]#unquoted_identifier# |
+[.title-ref]#quoted_identifier# unquoted_identifier:
+re('[a-zA-Z][link:[a-zA-Z0-9]]*') quoted_identifier: '"' (any character
+where " can appear if doubled)+ '"'
 
 == Constants
 
 CQL defines the following kind of _constants_:
 
-[source, bnf]
-----
-constant ::= string | integer | float | boolean | uuid | blob# | NULL 
-string ::= ''' (any character where ' can appear if doubled)+ ''' 
-           '$$' (any character other than '$$') '$$' 
-integer ::= re('-?[0-9]+') 
-float ::= re('-?[0-9]+(.[0-9]*)?([eE][+-]?[0-9+])?') | NAN | INFINITY 
-boolean ::= TRUE | FALSE 
-uuid ::= hex{8}-hex{4}-hex{4}-hex{4}-hex{12}
-hex ::= re("[0-9a-fA-F]") 
-blob ::= '0' ('x' | 'X') hex+
-----
+constant: [.title-ref]#string# | [.title-ref]#integer# |
+[.title-ref]#float# | [.title-ref]#boolean# | [.title-ref]#uuid# |
+[.title-ref]#blob# | NULL string: ''' (any character where ' can appear
+if doubled)+ ''' : '$$' (any character other than '$$') '$$' integer:
+re('-?[0-9]+') float: re('-?[0-9]+(.[0-9]*)?([eE][+-]?[0-9+])?') | NAN |
+INFINITY boolean: TRUE | FALSE uuid:
+[.title-ref]#hex#\{8}-[.title-ref]#hex#\{4}-[.title-ref]#hex#\{4}-[.title-ref]#hex#\{4}-[.title-ref]#hex#\{12}
+hex: re("[0-9a-fA-F]") blob: '0' ('x' | 'X') [.title-ref]##hex##+
 
 In other words:
 
@@ -122,15 +114,16 @@ For how these constants are typed, see the `data-types` section.
 CQL has the notion of a _term_, which denotes the kind of values that
 CQL support. Terms are defined by:
 
-[source, bnf]
-----
-term ::= constant | literal | function_call | arithmetic_operation | type_hint | bind_marker 
-literal ::= collection_literal | udt_literal | tuple_literal 
-function_call ::= identifier '(' [ term (',' term)* ] ')'
-arithmetic_operation ::= '-' term | term ('+' | '-' | '*' | '/' | '%') term
-type_hint ::= '(' cql_type ) term 
-bind_marker ::= '?' | ':' identifier
-----
+term: [.title-ref]#constant# | [.title-ref]#literal# |
+[.title-ref]#function_call# | [.title-ref]#arithmetic_operation# |
+[.title-ref]#type_hint# | [.title-ref]#bind_marker# literal:
+[.title-ref]#collection_literal# | [.title-ref]#udt_literal# |
+[.title-ref]#tuple_literal# function_call: [.title-ref]#identifier# '('
+[ [.title-ref]#term# (',' [.title-ref]#term#)* ] ')'
+arithmetic_operation: '-' [.title-ref]#term# | [.title-ref]#term# ('+' |
+'-' | '*' | '/' | '%') [.title-ref]#term# type_hint: '('
+[.title-ref]#cql_type# [.title-ref]#)# term bind_marker: '?' | ':'
+[.title-ref]#identifier#
 
 A term is thus one of:
 
@@ -187,57 +180,45 @@ data.
 All the statements are listed below and are described in the rest of
 this documentation (see links above):
 
-[source, bnf]
-----
-cql_statement ::= statement [ ';' ] 
-statement ::= ddl_statement 
-	      | dml_statement
-	      | secondary_index_statement 
- 	      | materialized_view_statement 
-	      | role_or_permission_statement 
-	      | udf_statement 
- 	      | udt_statement 
-	      | trigger_statement 
-ddl_statement:  use_statement 
-		| create_keyspace_statement
-		| alter_keyspace_statement
-		| drop_keyspace_statement
-		| create_table_statement 
-		| alter_table_statement 
-		| drop_table_statement 
-		| truncate_statement
-dml_statement:  select_statement
-		| insert_statement
-		| update_statement 
-		| delete_statement
-		| batch_statement
-secondary_index_statement ::=  create_index_statement 
-			       | drop_index_statement 
-materialized_view_statement ::= create_materialized_view_statement 
-			        | drop_materialized_view_statement
-role_or_permission_statement ::= create_role_statement 
-				 | alter_role_statement
-				 | drop_role_statement
-				 | grant_role_statement
-				 | revoke_role_statement 
-				 | list_roles_statement 
-				 | grant_permission_statement 
-				 | revoke_permission_statement 
-				 | list_permissions_statement 
-				 | create_user_statement
-				 | alter_user_statement
-				 | drop_user_statement
-				 | list_users_statement 
-udf_statement ::= create_function_statement
-		  | drop_function_statement 
-		  | create_aggregate_statement 
-		  | drop_aggregate_statement 
-udt_statement ::= create_type_statement 
-		  | alter_type_statement 
-		  | drop_type_statement
-trigger_statement ::= create_trigger_statement 
-		      | drop_trigger_statement
-----
+cql_statement: [.title-ref]#statement# [ ';' ] statement:
+[.title-ref]#ddl_statement# : | [.title-ref]#dml_statement# : |
+[.title-ref]#secondary_index_statement# : |
+[.title-ref]#materialized_view_statement# : |
+[.title-ref]#role_or_permission_statement# : |
+[.title-ref]#udf_statement# : | [.title-ref]#udt_statement# : |
+[.title-ref]#trigger_statement# ddl_statement:
+[.title-ref]#use_statement# : | [.title-ref]#create_keyspace_statement#
+: | [.title-ref]#alter_keyspace_statement# : |
+[.title-ref]#drop_keyspace_statement# : |
+[.title-ref]#create_table_statement# : |
+[.title-ref]#alter_table_statement# : |
+[.title-ref]#drop_table_statement# : | [.title-ref]#truncate_statement#
+dml_statement: [.title-ref]#select_statement# : |
+[.title-ref]#insert_statement# : | [.title-ref]#update_statement# : |
+[.title-ref]#delete_statement# : | [.title-ref]#batch_statement#
+secondary_index_statement: [.title-ref]#create_index_statement# : |
+[.title-ref]#drop_index_statement# materialized_view_statement:
+[.title-ref]#create_materialized_view_statement# : |
+[.title-ref]#drop_materialized_view_statement#
+role_or_permission_statement: [.title-ref]#create_role_statement# : |
+[.title-ref]#alter_role_statement# : | [.title-ref]#drop_role_statement#
+: | [.title-ref]#grant_role_statement# : |
+[.title-ref]#revoke_role_statement# : |
+[.title-ref]#list_roles_statement# : |
+[.title-ref]#grant_permission_statement# : |
+[.title-ref]#revoke_permission_statement# : |
+[.title-ref]#list_permissions_statement# : |
+[.title-ref]#create_user_statement# : |
+[.title-ref]#alter_user_statement# : | [.title-ref]#drop_user_statement#
+: | [.title-ref]#list_users_statement# udf_statement:
+[.title-ref]#create_function_statement# : |
+[.title-ref]#drop_function_statement# : |
+[.title-ref]#create_aggregate_statement# : |
+[.title-ref]#drop_aggregate_statement# udt_statement:
+[.title-ref]#create_type_statement# : |
+[.title-ref]#alter_type_statement# : | [.title-ref]#drop_type_statement#
+trigger_statement: [.title-ref]#create_trigger_statement# : |
+[.title-ref]#drop_trigger_statement#
 
 == Prepared Statements
 

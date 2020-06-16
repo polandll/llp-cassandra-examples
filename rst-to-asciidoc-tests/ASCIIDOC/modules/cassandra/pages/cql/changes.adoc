@@ -204,13 +204,39 @@ are integer values representing major, minor, and patch level
 respectively. There is no correlation between Cassandra release versions
 and the CQL language version.
 
-[cols=2*, options="header"]
+[cols=",",options="header",]
 |===
-|Version |Description
+|version |description
+a|
+____
+Major
+____
 
-| Major | The major version _must_ be bumped when backward incompatible changes are introduced. This should rarely occur.
+a|
+____
+The major version _must_ be bumped when backward incompatible changes
+are introduced. This should rarely occur.
+____
 
-| Minor | Minor version increments occur when new, but backward compatible, functionality is introduced.
+a|
+____
+Minor
+____
 
-| Patch | The patch version is incremented when bugs are fixed.
+a|
+____
+Minor version increments occur when new, but backward compatible,
+functionality is introduced.
+____
+
+a|
+____
+Patch
+____
+
+a|
+____
+The patch version is incremented when bugs are fixed.
+____
+
 |===

@@ -1,527 +1,670 @@
 = Security
 
-There are three main components to the security features provided by
-Cassandra:
+[[cql-roles]]
+== Database Roles
 
-* TLS/SSL encryption for client and inter-node communication
-* Client authentication
-* Authorization
+CQL uses database roles to represent users and group of users.
+Syntactically, a role is defined by:
 
-By default, these features are disabled as Cassandra is configured to
-easily find and be found by other members of a cluster. In other words,
-an out-of-the-box Cassandra installation presents a large attack surface
-for a bad actor. Enabling authentication for clients using the binary
-protocol is not sufficient to protect a cluster. Malicious users able to
-access internode communication and JMX ports can still:
-
-* Craft internode messages to insert users into authentication schema
-* Craft internode messages to truncate or drop schema
-* Use tools such as `sstableloader` to overwrite `system_auth` tables
-* Attach to the cluster directly to capture write traffic
-
-Correct configuration of all three security components should negate
-theses vectors. Therefore, understanding Cassandra's security features
-is crucial to configuring your cluster to meet your security needs.
-
-== TLS/SSL Encryption
-
-Cassandra provides secure communication between a client machine and a
-database cluster and between nodes within a cluster. Enabling encryption
-ensures that data in flight is not compromised and is transferred
-securely. The options for client-to-node and node-to-node encryption are
-managed separately and may be configured independently.
-
-In both cases, the JVM defaults for supported protocols and cipher
-suites are used when encryption is enabled. These can be overidden using
-the settings in `cassandra.yaml`, but this is not recommended unless
-there are policies in place which dictate certain settings or a need to
-disable vulnerable ciphers or protocols in cases where the JVM cannot be
-updated.
-
-FIPS compliant settings can be configured at the JVM level and should
-not involve changing encryption settings in cassandra.yaml. See
-https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/FIPS.html[the
-java document on FIPS] for more details.
-
-For information on generating the keystore and truststore files used in
-SSL communications, see the
-http://download.oracle.com/javase/6/docs/technotes/guides/security/jsse/JSSERefGuide.html#CreateKeystore[java
-documentation on creating keystores]
-
-== SSL Certificate Hot Reloading
-
-Beginning with Cassandra 4, Cassandra supports hot reloading of SSL
-Certificates. If SSL/TLS support is enabled in Cassandra, the node
-periodically polls the Trust and Key Stores specified in cassandra.yaml.
-When the files are updated, Cassandra will reload them and use them for
-subsequent connections. Please note that the Trust & Key Store passwords
-are part of the yaml so the updated files should also use the same
-passwords. The default polling interval is 10 minutes.
-
-Certificate Hot reloading may also be triggered using the
-`nodetool reloadssl` command. Use this if you want to Cassandra to
-immediately notice the changed certificates.
-
-=== Inter-node Encryption
-
-The settings for managing inter-node encryption are found in
-`cassandra.yaml` in the `server_encryption_options` section. To enable
-inter-node encryption, change the `internode_encryption` setting from
-its default value of `none` to one value from: `rack`, `dc` or `all`.
-
-=== Client to Node Encryption
-
-The settings for managing client to node encryption are found in
-`cassandra.yaml` in the `client_encryption_options` section. There are
-two primary toggles here for enabling encryption, `enabled` and
-`optional`.
-
-* If neither is set to `true`, client connections are entirely
-unencrypted.
-* If `enabled` is set to `true` and `optional` is set to `false`, all
-client connections must be secured.
-* If both options are set to `true`, both encrypted and unencrypted
-connections are supported using the same port. Client connections using
-encryption with this configuration will be automatically detected and
-handled by the server.
-
-As an alternative to the `optional` setting, separate ports can also be
-configured for secure and unsecure connections where operational
-requirements demand it. To do so, set `optional` to false and use the
-`native_transport_port_ssl` setting in `cassandra.yaml` to specify the
-port to be used for secure client communication.
-
-[[operation-roles]]
-== Roles
-
-Cassandra uses database roles, which may represent either a single user
-or a group of users, in both authentication and permissions management.
-Role management is an extension point in Cassandra and may be configured
-using the `role_manager` setting in `cassandra.yaml`. The default
-setting uses `CassandraRoleManager`, an implementation which stores role
-information in the tables of the `system_auth` keyspace.
-
-See also the `CQL documentation on roles <cql-roles>`.
-
-== Authentication
-
-Authentication is pluggable in Cassandra and is configured using the
-`authenticator` setting in `cassandra.yaml`. Cassandra ships with two
-options included in the default distribution.
-
-By default, Cassandra is configured with `AllowAllAuthenticator` which
-performs no authentication checks and therefore requires no credentials.
-It is used to disable authentication completely. Note that
-authentication is a necessary condition of Cassandra's permissions
-subsystem, so if authentication is disabled, effectively so are
-permissions.
-
-The default distribution also includes `PasswordAuthenticator`, which
-stores encrypted credentials in a system table. This can be used to
-enable simple username/password authentication.
-
-[[password-authentication]]
-=== Enabling Password Authentication
-
-Before enabling client authentication on the cluster, client
-applications should be pre-configured with their intended credentials.
-When a connection is initiated, the server will only ask for credentials
-once authentication is enabled, so setting up the client side config in
-advance is safe. In contrast, as soon as a server has authentication
-enabled, any connection attempt without proper credentials will be
-rejected which may cause availability problems for client applications.
-Once clients are setup and ready for authentication to be enabled,
-follow this procedure to enable it on the cluster.
-
-Pick a single node in the cluster on which to perform the initial
-configuration. Ideally, no clients should connect to this node during
-the setup process, so you may want to remove it from client config,
-block it at the network level or possibly add a new temporary node to
-the cluster for this purpose. On that node, perform the following steps:
-
-[arabic]
-. Open a `cqlsh` session and change the replication factor of the
-`system_auth` keyspace. By default, this keyspace uses
-`SimpleReplicationStrategy` and a `replication_factor` of 1. It is
-recommended to change this for any non-trivial deployment to ensure that
-should nodes become unavailable, login is still possible. Best practice
-is to configure a replication factor of 3 to 5 per-DC.
-
-[source,none]
+[source, bnf]
 ----
-ALTER KEYSPACE system_auth WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': 3, 'DC2': 3};
+role_name ::= identifier | string
 ----
 
-[arabic, start=2]
-. Edit `cassandra.yaml` to change the `authenticator` option like so:
 
-[source,none]
-----
-authenticator: PasswordAuthenticator
-----
+[[create-role-statement]]
+=== CREATE ROLE
 
-[arabic, start=3]
-. Restart the node.
-. Open a new `cqlsh` session using the credentials of the default
-superuser:
+Creating a role uses the `CREATE ROLE` statement:
 
-[source,none]
+[source, bnf]
 ----
-cqlsh -u cassandra -p cassandra
-----
-
-[arabic, start=5]
-. During login, the credentials for the default superuser are read with
-a consistency level of `QUORUM`, whereas those for all other users
-(including superusers) are read at `LOCAL_ONE`. In the interests of
-performance and availability, as well as security, operators should
-create another superuser and disable the default one. This step is
-optional, but highly recommended. While logged in as the default
-superuser, create another superuser role which can be used to bootstrap
-further configuration.
-
-[source,none]
-----
-# create a new superuser
-CREATE ROLE dba WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = 'super';
+create_role_statement ::= CREATE ROLE [ IF NOT EXISTS ] role_name 
+			  [ WITH role_options# ]
+role_options ::= role_option ( AND role_option)* 
+role_option ::= PASSWORD '=' string
+		| LOGIN '=' boolean 
+		| SUPERUSER '=' boolean
+		| OPTIONS '=' map_literal 
+		| ACCESS TO DATACENTERS set_literal 
+		| ACCESS TO ALL DATACENTERS
 ----
 
-[arabic, start=6]
-. Start a new cqlsh session, this time logging in as the new_superuser
-and disable the default superuser.
+For instance:
 
-[source,none]
+[source,cql]
 ----
-ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false;
-----
-
-[arabic, start=7]
-. Finally, set up the roles and credentials for your application users
-with `CREATE ROLE <create-role-statement>` statements.
-
-At the end of these steps, the one node is configured to use password
-authentication. To roll that out across the cluster, repeat steps 2 and
-3 on each node in the cluster. Once all nodes have been restarted,
-authentication will be fully enabled throughout the cluster.
-
-Note that using `PasswordAuthenticator` also requires the use of
-`CassandraRoleManager <operation-roles>`.
-
-See also: `setting-credentials-for-internal-authentication`,
-`CREATE ROLE <create-role-statement>`,
-`ALTER ROLE <alter-role-statement>`,
-`ALTER KEYSPACE <alter-keyspace-statement>` and `GRANT PERMISSION
-<grant-permission-statement>`,
-
-== Authorization
-
-Authorization is pluggable in Cassandra and is configured using the
-`authorizer` setting in `cassandra.yaml`. Cassandra ships with two
-options included in the default distribution.
-
-By default, Cassandra is configured with `AllowAllAuthorizer` which
-performs no checking and so effectively grants all permissions to all
-roles. This must be used if `AllowAllAuthenticator` is the configured
-authenticator.
-
-The default distribution also includes `CassandraAuthorizer`, which does
-implement full permissions management functionality and stores its data
-in Cassandra system tables.
-
-=== Enabling Internal Authorization
-
-Permissions are modelled as a whitelist, with the default assumption
-that a given role has no access to any database resources. The
-implication of this is that once authorization is enabled on a node, all
-requests will be rejected until the required permissions have been
-granted. For this reason, it is strongly recommended to perform the
-initial setup on a node which is not processing client requests.
-
-The following assumes that authentication has already been enabled via
-the process outlined in `password-authentication`. Perform these steps
-to enable internal authorization across the cluster:
-
-[arabic]
-. On the selected node, edit `cassandra.yaml` to change the `authorizer`
-option like so:
-
-[source,none]
-----
-authorizer: CassandraAuthorizer
+CREATE ROLE new_role;
+CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true;
+CREATE ROLE bob WITH PASSWORD = 'password_b' AND LOGIN = true AND SUPERUSER = true;
+CREATE ROLE carlos WITH OPTIONS = { 'custom_option1' : 'option1_value', 'custom_option2' : 99 };
+CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true AND ACCESS TO DATACENTERS {'DC1', 'DC3'};
+CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true AND ACCESS TO ALL DATACENTERS;
 ----
 
-[arabic, start=2]
-. Restart the node.
-. Open a new `cqlsh` session using the credentials of a role with
-superuser credentials:
+By default roles do not possess `LOGIN` privileges or `SUPERUSER`
+status.
 
-[source,none]
+`Permissions <cql-permissions>` on database resources are granted to
+roles; types of resources include keyspaces, tables, functions and roles
+themselves. Roles may be granted to other roles to create hierarchical
+permissions structures; in these hierarchies, permissions and
+`SUPERUSER` status are inherited, but the `LOGIN` privilege is not.
+
+If a role has the `LOGIN` privilege, clients may identify as that role
+when connecting. For the duration of that connection, the client will
+acquire any roles and privileges granted to that role.
+
+Only a client with with the `CREATE` permission on the database roles
+resource may issue `CREATE ROLE` requests (see the
+`relevant section <cql-permissions>` below), unless the client is a
+`SUPERUSER`. Role management in Cassandra is pluggable and custom
+implementations may support only a subset of the listed options.
+
+Role names should be quoted if they contain non-alphanumeric characters.
+
+==== Setting credentials for internal authentication
+
+Use the `WITH PASSWORD` clause to set a password for internal
+authentication, enclosing the password in single quotation marks.
+
+If internal authentication has not been set up or the role does not have
+`LOGIN` privileges, the `WITH PASSWORD` clause is not necessary.
+
+==== Restricting connections to specific datacenters
+
+If a `network_authorizer` has been configured, you can restrict login
+roles to specific datacenters with the `ACCESS TO DATACENTERS` clause
+followed by a set literal of datacenters the user can access. Not
+specifiying datacenters implicitly grants access to all datacenters. The
+clause `ACCESS TO ALL DATACENTERS` can be used for explicitness, but
+there's no functional difference.
+
+==== Creating a role conditionally
+
+Attempting to create an existing role results in an invalid query
+condition unless the `IF NOT EXISTS` option is used. If the option is
+used and the role exists, the statement is a no-op:
+
+[source,cql]
 ----
-cqlsh -u dba -p super
-----
-
-[arabic, start=4]
-. Configure the appropriate access privileges for your clients using
-link:cql.html#grant-permission[GRANT PERMISSION] statements. On the
-other nodes, until configuration is updated and the node restarted, this
-will have no effect so disruption to clients is avoided.
-
-[source,none]
-----
-GRANT SELECT ON ks.t1 TO db_user;
-----
-
-[arabic, start=5]
-. Once all the necessary permissions have been granted, repeat steps 1
-and 2 for each node in turn. As each node restarts and clients
-reconnect, the enforcement of the granted permissions will begin.
-
-See also: `GRANT PERMISSION <grant-permission-statement>`,
-[.title-ref]#GRANT ALL <grant-all># and `REVOKE PERMISSION
-<revoke-permission-statement>`
-
-[[auth-caching]]
-== Caching
-
-Enabling authentication and authorization places additional load on the
-cluster by frequently reading from the `system_auth` tables.
-Furthermore, these reads are in the critical paths of many client
-operations, and so has the potential to severely impact quality of
-service. To mitigate this, auth data such as credentials, permissions
-and role details are cached for a configurable period. The caching can
-be configured (and even disabled) from `cassandra.yaml` or using a JMX
-client. The JMX interface also supports invalidation of the various
-caches, but any changes made via JMX are not persistent and will be
-re-read from `cassandra.yaml` when the node is restarted.
-
-Each cache has 3 options which can be set:
-
-Validity Period::
-  Controls the expiration of cache entries. After this period, entries
-  are invalidated and removed from the cache.
-Refresh Rate::
-  Controls the rate at which background reads are performed to pick up
-  any changes to the underlying data. While these async refreshes are
-  performed, caches will continue to serve (possibly) stale data.
-  Typically, this will be set to a shorter time than the validity
-  period.
-Max Entries::
-  Controls the upper bound on cache size.
-
-The naming for these options in `cassandra.yaml` follows the convention:
-
-* `<type>_validity_in_ms`
-* `<type>_update_interval_in_ms`
-* `<type>_cache_max_entries`
-
-Where `<type>` is one of `credentials`, `permissions`, or `roles`.
-
-As mentioned, these are also exposed via JMX in the mbeans under the
-`org.apache.cassandra.auth` domain.
-
-== JMX access
-
-Access control for JMX clients is configured separately to that for CQL.
-For both authentication and authorization, two providers are available;
-the first based on standard JMX security and the second which integrates
-more closely with Cassandra's own auth subsystem.
-
-The default settings for Cassandra make JMX accessible only from
-localhost. To enable remote JMX connections, edit `cassandra-env.sh` (or
-`cassandra-env.ps1` on Windows) to change the `LOCAL_JMX` setting to
-`no`. Under the standard configuration, when remote JMX connections are
-enabled, `standard JMX authentication <standard-jmx-auth>` is also
-switched on.
-
-Note that by default, local-only connections are not subject to
-authentication, but this can be enabled.
-
-If enabling remote connections, it is recommended to also use
-`SSL <jmx-with-ssl>` connections.
-
-Finally, after enabling auth and/or SSL, ensure that tools which use
-JMX, such as `nodetool <nodetool>`, are correctly configured and working
-as expected.
-
-=== Standard JMX Auth
-
-Users permitted to connect to the JMX server are specified in a simple
-text file. The location of this file is set in `cassandra-env.sh` by the
-line:
-
-[source,none]
-----
-JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.password.file=/etc/cassandra/jmxremote.password"
+CREATE ROLE other_role;
+CREATE ROLE IF NOT EXISTS other_role;
 ----
 
-Edit the password file to add username/password pairs:
+[[alter-role-statement]]
+=== ALTER ROLE
 
-[source,none]
-----
-jmx_user jmx_password
-----
+Altering a role options uses the `ALTER ROLE` statement:
 
-Secure the credentials file so that only the user running the Cassandra
-process can read it :
-
-[source,none]
+[source, bnf]
 ----
-$ chown cassandra:cassandra /etc/cassandra/jmxremote.password
-$ chmod 400 /etc/cassandra/jmxremote.password
+alter_role_statement ::= ALTER ROLE role_name WITH role_options
 ----
 
-Optionally, enable access control to limit the scope of what defined
-users can do via JMX. Note that this is a fairly blunt instrument in
-this context as most operational tools in Cassandra require full
-read/write access. To configure a simple access file, uncomment this
-line in `cassandra-env.sh`:
+For instance:
 
-[source,none]
+[source,cql]
 ----
-#JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.access.file=/etc/cassandra/jmxremote.access"
+ALTER ROLE bob WITH PASSWORD = 'PASSWORD_B' AND SUPERUSER = false;
 ----
 
-Then edit the access file to grant your JMX user readwrite permission:
+==== Restricting connections to specific datacenters
 
-[source,none]
+If a `network_authorizer` has been configured, you can restrict login
+roles to specific datacenters with the `ACCESS TO DATACENTERS` clause
+followed by a set literal of datacenters the user can access. To remove
+any data center restrictions, use the `ACCESS TO ALL DATACENTERS`
+clause.
+
+Conditions on executing `ALTER ROLE` statements:
+
+* A client must have `SUPERUSER` status to alter the `SUPERUSER` status
+of another role
+* A client cannot alter the `SUPERUSER` status of any role it currently
+holds
+* A client can only modify certain properties of the role with which it
+identified at login (e.g. `PASSWORD`)
+* To modify properties of a role, the client must be granted `ALTER`
+`permission <cql-permissions>` on that role
+
+[[drop-role-statement]]
+=== DROP ROLE
+
+Dropping a role uses the `DROP ROLE` statement:
+
+[source, bnf]
 ----
-jmx_user readwrite
-----
-
-Cassandra must be restarted to pick up the new settings.
-
-See also :
-http://docs.oracle.com/javase/7/docs/technotes/guides/management/agent.html#gdenv[Using
-File-Based Password Authentication In JMX]
-
-=== Cassandra Integrated Auth
-
-An alternative to the out-of-the-box JMX auth is to useeCassandra's own
-authentication and/or authorization providers for JMX clients. This is
-potentially more flexible and secure but it come with one major caveat.
-Namely that it is not available until [.title-ref]#after# a node has
-joined the ring, because the auth subsystem is not fully configured
-until that point However, it is often critical for monitoring purposes
-to have JMX access particularly during bootstrap. So it is recommended,
-where possible, to use local only JMX auth during bootstrap and then, if
-remote connectivity is required, to switch to integrated auth once the
-node has joined the ring and initial setup is complete.
-
-With this option, the same database roles used for CQL authentication
-can be used to control access to JMX, so updates can be managed
-centrally using just `cqlsh`. Furthermore, fine grained control over
-exactly which operations are permitted on particular MBeans can be
-acheived via `GRANT PERMISSION <grant-permission-statement>`.
-
-To enable integrated authentication, edit `cassandra-env.sh` to
-uncomment these lines:
-
-[source,none]
-----
-#JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.remote.login.config=CassandraLogin"
-#JVM_OPTS="$JVM_OPTS -Djava.security.auth.login.config=$CASSANDRA_HOME/conf/cassandra-jaas.config"
+drop_role_statement ::= DROP ROLE [ IF EXISTS ] role_name
 ----
 
-And disable the JMX standard auth by commenting this line:
+`DROP ROLE` requires the client to have `DROP`
+`permission <cql-permissions>` on the role in question. In addition,
+client may not `DROP` the role with which it identified at login.
+Finally, only a client with `SUPERUSER` status may `DROP` another
+`SUPERUSER` role.
 
-[source,none]
+Attempting to drop a role which does not exist results in an invalid
+query condition unless the `IF EXISTS` option is used. If the option is
+used and the role does not exist the statement is a no-op.
+
+[NOTE]
+.Note
+====
+DROP ROLE intentionally does not terminate any open user sessions.
+Currently connected sessions will remain connected and will retain the
+ability to perform any database actions which do not require
+`authorization<authorization>`. However, if authorization is enabled,
+`permissions<cql-permissions>` of the dropped role are also revoked,
+subject to the `caching options<auth-caching>` configured in
+`cassandra.yaml<cassandra-yaml>`. Should a dropped role be subsequently
+recreated and have new `permissions<grant-permission-statement>` or
+`roles<grant-role-statement>` granted to it, any client sessions still
+connected will acquire the newly granted permissions and roles.
+====[[grant-role-statement]]
+=== GRANT ROLE
+
+Granting a role to another uses the `GRANT ROLE` statement:
+
+[source, bnf]
 ----
-JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.password.file=/etc/cassandra/jmxremote.password"
-----
-
-To enable integrated authorization, uncomment this line:
-
-[source,none]
-----
-#JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.authorizer=org.apache.cassandra.auth.jmx.AuthorizationProxy"
-----
-
-Check standard access control is off by ensuring this line is commented
-out:
-
-[source,none]
-----
-#JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.access.file=/etc/cassandra/jmxremote.access"
-----
-
-With integrated authentication and authorization enabled, operators can
-define specific roles and grant them access to the particular JMX
-resources that they need. For example, a role with the necessary
-permissions to use tools such as jconsole or jmc in read-only mode would
-be defined as:
-
-[source,none]
-----
-CREATE ROLE jmx WITH LOGIN = false;
-GRANT SELECT ON ALL MBEANS TO jmx;
-GRANT DESCRIBE ON ALL MBEANS TO jmx;
-GRANT EXECUTE ON MBEAN 'java.lang:type=Threading' TO jmx;
-GRANT EXECUTE ON MBEAN 'com.sun.management:type=HotSpotDiagnostic' TO jmx;
-
-# Grant the role with necessary permissions to use nodetool commands (including nodetool status) in read-only mode
-GRANT EXECUTE ON MBEAN 'org.apache.cassandra.db:type=EndpointSnitchInfo' TO jmx;
-GRANT EXECUTE ON MBEAN 'org.apache.cassandra.db:type=StorageService' TO jmx;
-
-# Grant the jmx role to one with login permissions so that it can access the JMX tooling
-CREATE ROLE ks_user WITH PASSWORD = 'password' AND LOGIN = true AND SUPERUSER = false;
-GRANT jmx TO ks_user;
+grant_role_statement ::= GRANT role_name TO role_name#
 ----
 
-Fine grained access control to individual MBeans is also supported:
+For instance:
 
-[source,none]
+[source,cql]
 ----
-GRANT EXECUTE ON MBEAN 'org.apache.cassandra.db:type=Tables,keyspace=test_keyspace,table=t1' TO ks_user;
-GRANT EXECUTE ON MBEAN 'org.apache.cassandra.db:type=Tables,keyspace=test_keyspace,table=*' TO ks_owner;
+GRANT report_writer TO alice;
 ----
 
-This permits the `ks_user` role to invoke methods on the MBean
-representing a single table in `test_keyspace`, while granting the same
-permission for all table level MBeans in that keyspace to the `ks_owner`
-role.
+This statement grants the `report_writer` role to `alice`. Any
+permissions granted to `report_writer` are also acquired by `alice`.
 
-Adding/removing roles and granting/revoking of permissions is handled
-dynamically once the initial setup is complete, so no further restarts
-are required if permissions are altered.
+Roles are modelled as a directed acyclic graph, so circular grants are
+not permitted. The following examples result in error conditions:
 
-See also: `Permissions <cql-permissions>`.
+[source,cql]
+----
+GRANT role_a TO role_b;
+GRANT role_b TO role_a;
 
-=== JMX With SSL
+GRANT role_a TO role_b;
+GRANT role_b TO role_c;
+GRANT role_c TO role_a;
+----
 
-JMX SSL configuration is controlled by a number of system properties,
-some of which are optional. To turn on SSL, edit the relevant lines in
-`cassandra-env.sh` (or `cassandra-env.ps1` on Windows) to uncomment and
-set the values of these properties as required:
+[[revoke-role-statement]]
+=== REVOKE ROLE
 
-`com.sun.management.jmxremote.ssl`::
-  set to true to enable SSL
-`com.sun.management.jmxremote.ssl.need.client.auth`::
-  set to true to enable validation of client certificates
-`com.sun.management.jmxremote.registry.ssl`::
-  enables SSL sockets for the RMI registry from which clients obtain the
-  JMX connector stub
-`com.sun.management.jmxremote.ssl.enabled.protocols`::
-  by default, the protocols supported by the JVM will be used, override
-  with a comma-separated list. Note that this is not usually necessary
-  and using the defaults is the preferred option.
-`com.sun.management.jmxremote.ssl.enabled.cipher.suites`::
-  by default, the cipher suites supported by the JVM will be used,
-  override with a comma-separated list. Note that this is not usually
-  necessary and using the defaults is the preferred option.
-`javax.net.ssl.keyStore`::
-  set the path on the local filesystem of the keystore containing server
-  private keys and public certificates
-`javax.net.ssl.keyStorePassword`::
-  set the password of the keystore file
-`javax.net.ssl.trustStore`::
-  if validation of client certificates is required, use this property to
-  specify the path of the truststore containing the public certificates
-  of trusted clients
-`javax.net.ssl.trustStorePassword`::
-  set the password of the truststore file
+Revoking a role uses the `REVOKE ROLE` statement:
 
-See also:
-http://docs.oracle.com/javase/7/docs/technotes/guides/management/agent.html#gdemv[Oracle
-Java7 Docs],
-https://www.lullabot.com/articles/monitor-java-with-jmx[Monitor Java
-with JMX]
+[source, bnf]
+----
+revoke_role_statement ::= REVOKE role_name FROM role_name
+----
+
+For instance:
+
+[source,cql]
+----
+REVOKE report_writer FROM alice;
+----
+
+This statement revokes the `report_writer` role from `alice`. Any
+permissions that `alice` has acquired via the `report_writer` role are
+also revoked.
+
+[[list-roles-statement]]
+=== LIST ROLES
+
+All the known roles (in the system or granted to specific role) can be
+listed using the `LIST ROLES` statement:
+
+[source, bnf]
+----
+list_roles_statement ::= LIST ROLES [ OF role_name] [ NORECURSIVE ]
+----
+
+For instance:
+
+[source,cql]
+----
+LIST ROLES;
+----
+
+returns all known roles in the system, this requires `DESCRIBE`
+permission on the database roles resource. And:
+
+[source,cql]
+----
+LIST ROLES OF alice;
+----
+
+enumerates all roles granted to `alice`, including those transitively
+acquired. But:
+
+[source,cql]
+----
+LIST ROLES OF bob NORECURSIVE
+----
+
+lists all roles directly granted to `bob` without including any of the
+transitively acquired ones.
+
+== Users
+
+Prior to the introduction of roles in Cassandra 2.2, authentication and
+authorization were based around the concept of a `USER`. For backward
+compatibility, the legacy syntax has been preserved with `USER` centric
+statements becoming synonyms for the `ROLE` based equivalents. In other
+words, creating/updating a user is just a different syntax for
+creating/updating a role.
+
+[[create-user-statement]]
+=== CREATE USER
+
+Creating a user uses the `CREATE USER` statement:
+
+[source, bnf]
+----
+create_user_statement ::= CREATE USER [ IF NOT EXISTS ] role_name 
+			  [ WITH PASSWORD string ] 
+			  [ user_option ] 
+user_option: SUPERUSER | NOSUPERUSER
+----
+
+For instance:
+
+[source,cql]
+----
+CREATE USER alice WITH PASSWORD 'password_a' SUPERUSER;
+CREATE USER bob WITH PASSWORD 'password_b' NOSUPERUSER;
+----
+
+`CREATE USER` is equivalent to `CREATE ROLE` where the `LOGIN` option is
+`true`. So, the following pairs of statements are equivalent:
+
+[source,cql]
+----
+CREATE USER alice WITH PASSWORD 'password_a' SUPERUSER;
+CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true AND SUPERUSER = true;
+
+CREATE USER IF NOT EXISTS alice WITH PASSWORD 'password_a' SUPERUSER;
+CREATE ROLE IF NOT EXISTS alice WITH PASSWORD = 'password_a' AND LOGIN = true AND SUPERUSER = true;
+
+CREATE USER alice WITH PASSWORD 'password_a' NOSUPERUSER;
+CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true AND SUPERUSER = false;
+
+CREATE USER alice WITH PASSWORD 'password_a' NOSUPERUSER;
+CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true;
+
+CREATE USER alice WITH PASSWORD 'password_a';
+CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true;
+----
+
+[[alter-user-statement]]
+=== ALTER USER
+
+Altering the options of a user uses the `ALTER USER` statement:
+
+[source, bnf]
+----
+alter_user_statement ::= ALTER USER role_name [ WITH PASSWORD string] [ user_option]
+----
+
+For instance:
+
+[source,cql]
+----
+ALTER USER alice WITH PASSWORD 'PASSWORD_A';
+ALTER USER bob SUPERUSER;
+----
+
+[[drop-user-statement]]
+=== DROP USER
+
+Dropping a user uses the `DROP USER` statement:
+
+[source, bnf]
+----
+drop_user_statement ::= DROP USER [ IF EXISTS ] role_name
+----
+
+[[list-users-statement]]
+=== LIST USERS
+
+Existing users can be listed using the `LIST USERS` statement:
+
+list_users_statement: LIST USERS
+
+Note that this statement is equivalent to:
+
+[source,cql]
+----
+LIST ROLES;
+----
+
+but only roles with the `LOGIN` privilege are included in the output.
+
+== Data Control
+
+[[cql-permissions]]
+=== Permissions
+
+Permissions on resources are granted to roles; there are several
+different types of resources in Cassandra and each type is modelled
+hierarchically:
+
+* The hierarchy of Data resources, Keyspaces and Tables has the
+structure `ALL KEYSPACES` -> `KEYSPACE` -> `TABLE`.
+* Function resources have the structure `ALL FUNCTIONS` -> `KEYSPACE` ->
+`FUNCTION`
+* Resources representing roles have the structure `ALL ROLES` -> `ROLE`
+* Resources representing JMX ObjectNames, which map to sets of
+MBeans/MXBeans, have the structure `ALL MBEANS` -> `MBEAN`
+
+Permissions can be granted at any level of these hierarchies and they
+flow downwards. So granting a permission on a resource higher up the
+chain automatically grants that same permission on all resources lower
+down. For example, granting `SELECT` on a `KEYSPACE` automatically
+grants it on all `TABLES` in that `KEYSPACE`. Likewise, granting a
+permission on `ALL FUNCTIONS` grants it on every defined function,
+regardless of which keyspace it is scoped in. It is also possible to
+grant permissions on all functions scoped to a particular keyspace.
+
+Modifications to permissions are visible to existing client sessions;
+that is, connections need not be re-established following permissions
+changes.
+
+The full set of available permissions is:
+
+* `CREATE`
+* `ALTER`
+* `DROP`
+* `SELECT`
+* `MODIFY`
+* `AUTHORIZE`
+* `DESCRIBE`
+* `EXECUTE`
+
+Not all permissions are applicable to every type of resource. For
+instance, `EXECUTE` is only relevant in the context of functions or
+mbeans; granting `EXECUTE` on a resource representing a table is
+nonsensical. Attempting to `GRANT` a permission on resource to which it
+cannot be applied results in an error response. The following
+illustrates which permissions can be granted on which types of resource,
+and which statements are enabled by that permission.
+
+[cols=",,",options="header",]
+|===
+|Permission |Resource |Operations
+
+| `CREATE` | `ALL KEYSPACES` | `CREATE KEYSPACE` and `CREATE TABLE` in any keyspace
+
+| `CREATE` | `KEYSPACE` | `CREATE TABLE` in specified keyspace
+
+| `CREATE` | `ALL FUNCTIONS` | `CREATE FUNCTION` in any keyspace and `CREATE AGGREGATE` in any keyspace
+
+| `CREATE` | `ALL FUNCTIONS IN KEYSPACE` | `CREATE FUNCTION` and `CREATE AGGREGATE` in specified keyspace
+
+| `CREATE` | `ALL ROLES` | `CREATE ROLE`
+
+| `ALTER` | `ALL KEYSPACES` | `ALTER KEYSPACE` and `ALTER TABLE` in any keyspace
+
+| `ALTER` | `KEYSPACE` | `ALTER KEYSPACE` and `ALTER TABLE` in specified keyspace 
+
+| `ALTER` | `TABLE` | `ALTER TABLE`
+
+| `ALTER` | `ALL FUNCTIONS` | `CREATE FUNCTION` and `CREATE AGGREGATE`: replacing any existing
+
+| `ALTER` | `ALL FUNCTIONS IN KEYSPACE` | `CREATE FUNCTION` and `CREATE AGGREGATE`: replacing existing in specified keyspace
+
+| `ALTER` | `FUNCTION` | `CREATE FUNCTION` and `CREATE AGGREGATE`: replacing existing
+
+| `ALTER` | `ALL ROLES` | `ALTER ROLE` on any role
+
+| `ALTER` | `ROLE` | `ALTER ROLE`
+
+| `DROP` | `ALL KEYSPACES` | `DROP KEYSPACE` and `DROP TABLE` in any keyspace
+
+| `DROP` | `KEYSPACE` | `DROP TABLE` in specified keyspace
+
+| `DROP` | `TABLE` | `DROP TABLE`
+
+| `DROP` | `ALL FUNCTIONS` | `DROP FUNCTION` and `DROP AGGREGATE` in any keyspace
+
+| `DROP` | `ALL FUNCTIONS IN KEYSPACE` | `DROP FUNCTION` and `DROP AGGREGATE` in specified keyspace
+
+| `DROP` | `FUNCTION` | `DROP FUNCTION`
+
+| `DROP` | `ALL ROLES` | `DROP ROLE` on any role
+
+| `DROP` | `ROLE` | `DROP ROLE`
+
+| `SELECT` | `ALL KEYSPACES` | `SELECT` on any table
+
+| `SELECT` | `KEYSPACE` | `SELECT` on any table in specified keyspace
+
+| `SELECT` | `TABLE` | `SELECT` on specified table
+
+| `SELECT` | `ALL MBEANS` | Call getter methods on any mbean
+
+| `SELECT` | `MBEANS` | Call getter methods on any mbean matching a wildcard pattern 
+
+| `SELECT` | `MBEAN` | Call getter methods on named mbean
+
+| `MODIFY` | `ALL KEYSPACES` | `INSERT`, `UPDATE`, `DELETE` and `TRUNCATE` on any table
+
+| `MODIFY` | `KEYSPACE` | `INSERT`, `UPDATE`, `DELETE` and `TRUNCATE` on any table in specified
+keyspace
+
+| `MODIFY` | `TABLE` | `INSERT`, `UPDATE`, `DELETE` and `TRUNCATE` on specified table
+
+| `MODIFY` | `ALL MBEANS` | Call setter methods on any mbean
+
+| `MODIFY` | `MBEANS` | Call setter methods on any mbean matching a wildcard pattern
+
+| `MODIFY` | `MBEAN` | Call setter methods on named mbean
+
+| `AUTHORIZE` | `ALL KEYSPACES` | `GRANT PERMISSION` and `REVOKE PERMISSION` on any table
+
+| `AUTHORIZE` | `KEYSPACE` | `GRANT PERMISSION` and `REVOKE PERMISSION` on any table in specified keyspace
+
+| `AUTHORIZE` | `TABLE` | `GRANT PERMISSION` and `REVOKE PERMISSION` on specified table
+
+| `AUTHORIZE` | `ALL FUNCTIONS` | `GRANT PERMISSION` and `REVOKE PERMISSION` on any function
+
+| `AUTHORIZE` | `ALL FUNCTIONS IN KEYSPACE` | `GRANT PERMISSION` and `REVOKE PERMISSION` in specified keyspace
+
+| `AUTHORIZE` | `FUNCTION` | `GRANT PERMISSION` and `REVOKE PERMISSION` on specified function
+
+| `AUTHORIZE` | `ALL MBEANS` | `GRANT PERMISSION` and `REVOKE PERMISSION` on any mbean
+
+| `AUTHORIZE` | `MBEANS` | `GRANT PERMISSION` and `REVOKE PERMISSION` on any mbean matching a wildcard pattern
+
+| `AUTHORIZE` | `MBEAN` | `GRANT PERMISSION` and `REVOKE PERMISSION` on named mbean
+
+| `AUTHORIZE` | `ALL ROLES` | `GRANT ROLE` and `REVOKE ROLE` on any role
+
+| `AUTHORIZE` | `ROLES` | `GRANT ROLE` and `REVOKE ROLE` on specified roles
+
+| `DESCRIBE` | `ALL ROLES` | `LIST ROLES` on all roles or only roles granted to another, specified role
+
+| `DESCRIBE` | `ALL MBEANS` | Retrieve metadata about any mbean from the platform's MBeanServer
+
+
+| `DESCRIBE` | `MBEANS` | Retrieve metadata about any mbean matching a wildcard patter from the
+platform's MBeanServer
+
+| `DESCRIBE` | `MBEAN` | Retrieve metadata about a named mbean from the platform's MBeanServer
+
+| `EXECUTE` | `ALL FUNCTIONS` | `SELECT`, `INSERT` and `UPDATE` using any function, and use of any
+function in `CREATE AGGREGATE`
+
+| `EXECUTE` | `ALL FUNCTIONS IN KEYSPACE` | `SELECT`, `INSERT` and `UPDATE` using any function in specified keyspace
+and use of any function in keyspace in `CREATE AGGREGATE`
+
+| `EXECUTE` | `FUNCTION` | `SELECT`, `INSERT` and `UPDATE` using specified function and use of the function in `CREATE AGGREGATE`
+
+| `EXECUTE` | `ALL MBEANS` | Execute operations on any mbean
+
+| `EXECUTE` | `MBEANS` | Execute operations on any mbean matching a wildcard pattern
+
+| `EXECUTE` | `MBEAN` | Execute operations on named mbean
+|===
+
+[[grant-permission-statement]]
+=== GRANT PERMISSION
+
+Granting a permission uses the `GRANT PERMISSION` statement:
+
+[source, bnf]
+----
+grant_permission_statement ::= GRANT permissions ON resource TO role_name 
+permissions ::= ALL [ PERMISSIONS ] | permission [ PERMISSION ] 
+permission ::= CREATE | ALTER | DROP | SELECT | MODIFY | AUTHORIZE | DESCRIBE | EXECUTE
+resource ::= 	ALL KEYSPACES 
+		| KEYSPACE keyspace_name 
+		| [ TABLE ] table_name 
+		| ALL ROLES 
+		| ROLE role_name
+		| ALL FUNCTIONS [ IN KEYSPACE keyspace_name ]
+		| FUNCTION function_name '(' [ cql_type( ',' cql_type )* ] ')' 
+		| ALL MBEANS 
+		| ( MBEAN | MBEANS ) string
+----
+
+For instance:
+
+[source,cql]
+----
+GRANT SELECT ON ALL KEYSPACES TO data_reader;
+----
+
+This gives any user with the role `data_reader` permission to execute
+`SELECT` statements on any table across all keyspaces:
+
+[source,cql]
+----
+GRANT MODIFY ON KEYSPACE keyspace1 TO data_writer;
+----
+
+This give any user with the role `data_writer` permission to perform
+`UPDATE`, `INSERT`, `UPDATE`, `DELETE` and `TRUNCATE` queries on all
+tables in the `keyspace1` keyspace:
+
+[source,cql]
+----
+GRANT DROP ON keyspace1.table1 TO schema_owner;
+----
+
+This gives any user with the `schema_owner` role permissions to `DROP`
+`keyspace1.table1`:
+
+[source,cql]
+----
+GRANT EXECUTE ON FUNCTION keyspace1.user_function( int ) TO report_writer;
+----
+
+This grants any user with the `report_writer` role permission to execute
+`SELECT`, `INSERT` and `UPDATE` queries which use the function
+`keyspace1.user_function( int )`:
+
+[source,cql]
+----
+GRANT DESCRIBE ON ALL ROLES TO role_admin;
+----
+
+This grants any user with the `role_admin` role permission to view any
+and all roles in the system with a `LIST ROLES` statement
+
+==== GRANT ALL
+
+When the `GRANT ALL` form is used, the appropriate set of permissions is
+determined automatically based on the target resource.
+
+==== Automatic Granting
+
+When a resource is created, via a `CREATE KEYSPACE`, `CREATE TABLE`,
+`CREATE FUNCTION`, `CREATE AGGREGATE` or `CREATE ROLE` statement, the
+creator (the role the database user who issues the statement is
+identified as), is automatically granted all applicable permissions on
+the new resource.
+
+[[revoke-permission-statement]]
+=== REVOKE PERMISSION
+
+Revoking a permission from a role uses the `REVOKE PERMISSION`
+statement:
+
+[source, bnf]
+----
+revoke_permission_statement ::= REVOKE permissions ON resource FROM role_name
+----
+
+For instance:
+
+[source,cql]
+----
+REVOKE SELECT ON ALL KEYSPACES FROM data_reader;
+REVOKE MODIFY ON KEYSPACE keyspace1 FROM data_writer;
+REVOKE DROP ON keyspace1.table1 FROM schema_owner;
+REVOKE EXECUTE ON FUNCTION keyspace1.user_function( int ) FROM report_writer;
+REVOKE DESCRIBE ON ALL ROLES FROM role_admin;
+----
+
+Because of their function in normal driver operations, certain tables
+cannot have their `SELECT` permissions revoked. The
+following tables will be available to all authorized users regardless of
+their assigned role:
+
+[source,cql]
+----
+* `system_schema.keyspaces`
+* `system_schema.columns`
+* `system_schema.tables`
+* `system.local`
+* `system.peers`
+----
+
+[[list-permissions-statement]]
+=== LIST PERMISSIONS
+
+Listing granted permissions uses the `LIST PERMISSIONS` statement:
+
+[source, bnf]
+----
+list_permissions_statement ::= LIST permissions [ ON resource] [ OF role_name[ NORECURSIVE ] ]
+----
+
+For instance:
+
+[source,cql]
+----
+LIST ALL PERMISSIONS OF alice;
+----
+
+Show all permissions granted to `alice`, including those acquired
+transitively from any other roles:
+
+[source,cql]
+----
+LIST ALL PERMISSIONS ON keyspace1.table1 OF bob;
+----
+
+Show all permissions on `keyspace1.table1` granted to `bob`, including
+those acquired transitively from any other roles. This also includes any
+permissions higher up the resource hierarchy which can be applied to
+`keyspace1.table1`. For example, should `bob` have `ALTER` permission on
+`keyspace1`, that would be included in the results of this query. Adding
+the `NORECURSIVE` switch restricts the results to only those permissions
+which were directly granted to `bob` or one of `bob`'s roles:
+
+[source,cql]
+----
+LIST SELECT PERMISSIONS OF carlos;
+----
+
+Show any permissions granted to `carlos` or any of `carlos`'s roles,
+limited to `SELECT` permissions on any resource.

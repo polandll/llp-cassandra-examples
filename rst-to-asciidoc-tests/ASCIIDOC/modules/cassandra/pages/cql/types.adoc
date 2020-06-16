@@ -5,39 +5,18 @@ CQL is a typed language and supports a rich set of data types, including
 `user-defined types <udts>`, `tuple types <tuples>` and `custom
 types <custom-types>`:
 
-[source, bnf]
-----
-cql_type ::= native_type | collection_type | user_defined_type | tuple_type | custom_type
-----
+cql_type: [.title-ref]#native_type# | [.title-ref]#collection_type# |
+[.title-ref]#user_defined_type# | [.title-ref]#tuple_type# |
+[.title-ref]#custom_type#
 
 == Native Types
 
 The native types supported by CQL are:
 
-[source, bnf]
-----
-native_type: 	ASCII 
-		| BIGINT 
-		| BLOB 
-		| BOOLEAN 
-		| COUNTER 
-		| DATE
-		| DECIMAL 
-		| DOUBLE 
-		| DURATION 
-		| FLOAT  
-		| INET 
-		| INT 
-		| SMALLINT
-		| TEXT
-		| TIME 
-		| TIMESTAMP 
-		| TIMEUUID
-		| TINYINT 
-		| UUID
-		| VARCHAR
-		| VARINT
-----
+native_type: ASCII : | BIGINT : | BLOB : | BOOLEAN : | COUNTER : | DATE
+: | DECIMAL : | DOUBLE : | DURATION : | FLOAT : | INET : | INT : |
+SMALLINT : | TEXT : | TIME : | TIMESTAMP : | TIMEUUID : | TINYINT : |
+UUID : | VARCHAR : | VARINT
 
 The following table gives additional informations on the native data
 types, and on which kind of `constants
@@ -46,53 +25,328 @@ types, and on which kind of `constants
 [cols=",,",options="header",]
 |===
 |type |constants supported |description
+a|
+____
+`ascii`
+____
 
-| `ascii` | `string` | ASCII character string
+a|
+____
+`string`
+____
 
-| `bigint` | `integer` | 64-bit signed long
+a|
+____
+ASCII character string
+____
 
-| `blob` | `blob` | Arbitrary bytes (no validation)
+a|
+____
+`bigint`
+____
 
-| `boolean` | `boolean` | Either `true` or `false`
+a|
+____
+`integer`
+____
 
-| `counter` | `integer` | Counter column (64-bit signed value). See `counters` for details.
+a|
+____
+64-bit signed long
+____
 
-| `date` | `integer`, `string` | A date (with no corresponding time value). See `dates` below for details.
+a|
+____
+`blob`
+____
 
-| `decimal` | `integer`, `float` | Variable-precision decimal 
+a|
+____
+`blob`
+____
 
-| `double` | `integer` `float` | 64-bit IEEE-754 floating point
+a|
+____
+Arbitrary bytes (no validation)
+____
 
-| `duration` | `duration`, | A duration with nanosecond precision. See `durations` below for details.
+a|
+____
+`boolean`
+____
 
-| `float` | `integer`, `float` | 32-bit IEEE-754 floating point
+a|
+____
+`boolean`
+____
 
-| `inet` | `string` | An IP address, either IPv4 (4 bytes long) or IPv6 (16 bytes long). Note
+a|
+____
+Either `true` or `false`
+____
+
+a|
+____
+`counter`
+____
+
+a|
+____
+`integer`
+____
+
+a|
+____
+Counter column (64-bit signed value). See `counters` for details
+____
+
+a|
+____
+`date`
+____
+
+a|
+____
+`integer`, `string`
+____
+
+a|
+____
+A date (with no corresponding time value). See `dates` below for details
+____
+
+a|
+____
+`decimal`
+____
+
+a|
+____
+`integer`, `float`
+____
+
+a|
+____
+Variable-precision decimal
+____
+
+a|
+____
+`double`
+____
+
+a|
+____
+`integer` `float`
+____
+
+a|
+____
+64-bit IEEE-754 floating point
+____
+
+a|
+____
+`duration`
+____
+
+a|
+____
+`duration`,
+____
+
+a|
+____
+A duration with nanosecond precision. See `durations` below for details
+____
+
+a|
+____
+`float`
+____
+
+a|
+____
+`integer`, `float`
+____
+
+a|
+____
+32-bit IEEE-754 floating point
+____
+
+a|
+____
+`inet`
+____
+
+a|
+____
+`string`
+____
+
+a|
+____
+An IP address, either IPv4 (4 bytes long) or IPv6 (16 bytes long). Note
 that there is no `inet` constant, IP address should be input as strings
+____
 
-| `int` | `integer` | 32-bit signed int
+a|
+____
+`int`
+____
 
-| `smallint` | `integer` | 16-bit signed int
+a|
+____
+`integer`
+____
 
-| `text` | `string` | UTF8 encoded string
+a|
+____
+32-bit signed int
+____
 
-| `time` | `integer`, `string` | A time (with no corresponding date value) with nanosecond precision. See
-`times` below for details.
+a|
+____
+`smallint`
+____
 
-| `timestamp` | `integer`, `string` | A timestamp (date and time) with millisecond precision. See `timestamps`
-below for details.
+a|
+____
+`integer`
+____
 
-| `timeuuid` | `uuid` | Version 1 https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID],
-generally used as a “conflict-free” timestamp. Also see `timeuuid-functions`.
+a|
+____
+16-bit signed int
+____
 
-| `tinyint` | `integer` | 8-bit signed int
+a|
+____
+`text`
+____
 
-| `uuid` | `uuid` | A https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID] (of
+a|
+____
+`string`
+____
+
+a|
+____
+UTF8 encoded string
+____
+
+a|
+____
+`time`
+____
+
+a|
+____
+`integer`, `string`
+____
+
+a|
+____
+A time (with no corresponding date value) with nanosecond precision. See
+`times` below for details
+____
+
+a|
+____
+`timestamp`
+____
+
+a|
+____
+`integer`, `string`
+____
+
+a|
+____
+A timestamp (date and time) with millisecond precision. See `timestamps`
+below for details
+____
+
+a|
+____
+`timeuuid`
+____
+
+a|
+____
+`uuid`
+____
+
+a|
+____
+Version 1
+https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID],
+generally used as a “conflict-free” timestamp. Also see
+`timeuuid-functions`
+____
+
+a|
+____
+`tinyint`
+____
+
+a|
+____
+`integer`
+____
+
+a|
+____
+8-bit signed int
+____
+
+a|
+____
+`uuid`
+____
+
+a|
+____
+`uuid`
+____
+
+a|
+____
+A https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID] (of
 any version)
+____
 
-| `varchar` | `string` | UTF8 encoded string
+a|
+____
+`varchar`
+____
 
-| `varint` | `integer` | Arbitrary-precision integer
+a|
+____
+`string`
+____
+
+a|
+____
+UTF8 encoded string
+____
+
+a|
+____
+`varint`
+____
+
+a|
+____
+`integer`
+____
+
+a|
+____
+Arbitrary-precision integer
+____
+
 |===
 
 === Counters
@@ -225,12 +479,9 @@ For example:
 
 [source,cql]
 ----
-INSERT INTO RiderResults (rider, race, result) 
-   VALUES ('Christopher Froome', 'Tour de France', 89h4m48s);
-INSERT INTO RiderResults (rider, race, result) 
-   VALUES ('BARDET Romain', 'Tour de France', PT89H8M53S);
-INSERT INTO RiderResults (rider, race, result) 
-   VALUES ('QUINTANA Nairo', 'Tour de France', P0000-00-00T89:09:09);
+INSERT INTO RiderResults (rider, race, result) VALUES ('Christopher Froome', 'Tour de France', 89h4m48s);
+INSERT INTO RiderResults (rider, race, result) VALUES ('BARDET Romain', 'Tour de France', PT89H8M53S);
+INSERT INTO RiderResults (rider, race, result) VALUES ('QUINTANA Nairo', 'Tour de France', P0000-00-00T89:09:09);
 ----
 
 [[duration-limitation]]
@@ -247,24 +498,18 @@ been created to be able to support daylight saving.
 CQL supports 3 kind of collections: `maps`, `sets` and `lists`. The
 types of those collections is defined by:
 
-[source, bnf]
-----
-collection_type ::= MAP '<' cql_type ',' cql_type '>' 
-		    | SET '<' cql_type '>' 
-		    | LIST '<' cql_type '>'
-----
+collection_type: MAP '<' [.title-ref]#cql_type# ','
+[.title-ref]#cql_type# '>' : | SET '<' [.title-ref]#cql_type# '>' : |
+LIST '<' [.title-ref]#cql_type# '>'
 
-and their values can be input using collection literals:
+and their values can be inputd using collection literals:
 
-[source, bnf]
-----
-collection_literal ::=  map_literal 
-			| set_literal 
-			| list_literal 
-map_literal ::= '\{' [ term ':' term (',' term : term)* ] '}' 
-set_literal ::= '\{' [ term (',' term)* ] '}' 
-list_literal ::= '[' [ term (',' term)* ] ']'
-----
+collection_literal: [.title-ref]#map_literal# |
+[.title-ref]#set_literal# | [.title-ref]#list_literal# map_literal: '\{'
+[ [.title-ref]#term# ':' [.title-ref]#term# (',' [.title-ref]#term# :
+[.title-ref]#term#)* ] '}' set_literal: '\{' [ [.title-ref]#term# (','
+[.title-ref]#term#)* ] '}' list_literal: '[' [ [.title-ref]#term# (','
+[.title-ref]#term#)* ] ']'
 
 Note however that neither `bind_marker` nor `NULL` are supported inside
 collection literals.
@@ -302,13 +547,13 @@ the map is sorted by its keys. You can define and insert a map with:
 [source,cql]
 ----
 CREATE TABLE users (
-   id text PRIMARY KEY,
-   name text,
-   favs map<text, text> // A map of text keys, and text values
+    id text PRIMARY KEY,
+    name text,
+    favs map<text, text> // A map of text keys, and text values
 );
 
 INSERT INTO users (id, name, favs)
-   VALUES ('jsmith', 'John Smith', { 'fruit' : 'Apple', 'band' : 'Beatles' });
+           VALUES ('jsmith', 'John Smith', { 'fruit' : 'Apple', 'band' : 'Beatles' });
 
 // Replace the existing map entirely.
 UPDATE users SET favs = { 'fruit' : 'Banana' } WHERE id = 'jsmith';
@@ -355,13 +600,13 @@ insert a map with:
 [source,cql]
 ----
 CREATE TABLE images (
-   name text PRIMARY KEY,
-   owner text,
-   tags set<text> // A set of text values
+    name text PRIMARY KEY,
+    owner text,
+    tags set<text> // A set of text values
 );
 
 INSERT INTO images (name, owner, tags)
-   VALUES ('cat.jpg', 'jsmith', { 'pet', 'cute' });
+            VALUES ('cat.jpg', 'jsmith', { 'pet', 'cute' });
 
 // Replace the existing set entirely
 UPDATE images SET tags = { 'kitten', 'cat', 'lol' } WHERE name = 'cat.jpg';
@@ -403,14 +648,14 @@ insert a list with:
 [source,cql]
 ----
 CREATE TABLE plays (
-   id text PRIMARY KEY,
-   game text,
-   players int,
-   scores list<int> // A list of integers
+    id text PRIMARY KEY,
+    game text,
+    players int,
+    scores list<int> // A list of integers
 )
 
 INSERT INTO plays (id, game, players, scores)
-   VALUES ('123-afde', 'quake', 3, [17, 4, 2]);
+           VALUES ('123-afde', 'quake', 3, [17, 4, 2]);
 
 // Replace the existing list entirely
 UPDATE plays SET scores = [ 3, 9, 4] WHERE id = '123-afde';
@@ -478,23 +723,18 @@ type can be created, modified and removed using the
 `drop_type_statement` described below. But once created, a UDT is simply
 referred to by its name:
 
-[source, bnf]
-----
-user_defined_type ::= udt_name 
-udt_name ::=  [ keyspace_name '.' ] identifier
-----
+user_defined_type: [.title-ref]#udt_name# udt_name: [
+[.title-ref]#keyspace_name# '.' ] [.title-ref]#identifier#
 
 === Creating a UDT
 
 Creating a new user-defined type is done using a `CREATE TYPE` statement
 defined by:
 
-[source, bnf]
-----
-create_type_statement ::= CREATE TYPE [ IF NOT EXISTS ] udt_name 
-			  '(' field_definition ( ',' field_definition )* ')' 
-field_definition ::= identifier cql_type
-----
+create_type_statement: CREATE TYPE [ IF NOT EXISTS ]
+[.title-ref]#udt_name# : '(' [.title-ref]#field_definition# ( ','
+[.title-ref]#field_definition# )* ')' field_definition:
+[.title-ref]#identifier# [.title-ref]#cql_type#
 
 A UDT has a name (used to declared columns of that type) and is a set of
 named and typed fields. Fields name can be any type, including
@@ -503,20 +743,20 @@ collections or other UDT. For instance:
 [source,cql]
 ----
 CREATE TYPE phone (
-   country_code int,
-   number text,
+    country_code int,
+    number text,
 )
 
 CREATE TYPE address (
-   street text,
-   city text,
-   zip text,
-   phones map<text, phone>
+    street text,
+    city text,
+    zip text,
+    phones map<text, phone>
 )
 
 CREATE TABLE user (
-   name text PRIMARY KEY,
-   addresses map<text, frozen<address>>
+    name text PRIMARY KEY,
+    addresses map<text, frozen<address>>
 )
 ----
 
@@ -538,10 +778,8 @@ on `frozen <frozen>` for more details.
 Once a used-defined type has been created, value can be input using a
 UDT literal:
 
-[source, bnf]
-----
-udt_literal ::= '\{' identifier ':' term ( ',' identifier ':' term )* '}'
-----
+udt_literal: '\{' [.title-ref]#identifier# ':' [.title-ref]#term# ( ','
+[.title-ref]#identifier# ':' [.title-ref]#term# )* '}'
 
 In other words, a UDT literal is like a `map <maps>` literal but its
 keys are the names of the fields of the type. For instance, one could
@@ -550,21 +788,21 @@ insert into the table define in the previous section using:
 [source,cql]
 ----
 INSERT INTO user (name, addresses)
-   VALUES ('z3 Pr3z1den7', {
-      'home' : {
-        street: '1600 Pennsylvania Ave NW',
-        city: 'Washington',
-        zip: '20500',
-        phones: { 'cell' : { country_code: 1, number: '202 456-1111' },
-                'landline' : { country_code: 1, number: '...' } }
-      },
-      'work' : {
-        street: '1600 Pennsylvania Ave NW',
-        city: 'Washington',
-        zip: '20500',
-        phones: { 'fax' : { country_code: 1, number: '...' } }
-      }
-   })
+          VALUES ('z3 Pr3z1den7', {
+              'home' : {
+                  street: '1600 Pennsylvania Ave NW',
+                  city: 'Washington',
+                  zip: '20500',
+                  phones: { 'cell' : { country_code: 1, number: '202 456-1111' },
+                            'landline' : { country_code: 1, number: '...' } }
+              },
+              'work' : {
+                  street: '1600 Pennsylvania Ave NW',
+                  city: 'Washington',
+                  zip: '20500',
+                  phones: { 'fax' : { country_code: 1, number: '...' } }
+              }
+          })
 ----
 
 To be valid, a UDT literal should only include fields defined by the
@@ -576,12 +814,11 @@ will be `null`).
 An existing user-defined type can be modified using an `ALTER TYPE`
 statement:
 
-[source, bnf]
-----
-alter_type_statement ::= ALTER TYPE udt_name alter_type_modification 
-alter_type_modification ::= ADD field_definition 
-			    | RENAME identifier# TO identifier ( identifier TO identifier )*
-----
+alter_type_statement: ALTER TYPE [.title-ref]#udt_name#
+[.title-ref]#alter_type_modification# alter_type_modification: ADD
+[.title-ref]#field_definition# : | RENAME [.title-ref]#identifier# TO
+[.title-ref]#identifier# ( [.title-ref]#identifier# TO
+[.title-ref]#identifier# )*
 
 You can:
 
@@ -596,10 +833,7 @@ the addition.
 You can drop an existing user-defined type using a `DROP TYPE`
 statement:
 
-[source, bnf]
-----
-drop_type_statement: DROP TYPE [ IF EXISTS ] udt_name
-----
+drop_type_statement: DROP TYPE [ IF EXISTS ] [.title-ref]#udt_name#
 
 Dropping a type results in the immediate, irreversible removal of that
 type. However, attempting to drop a type that is still in use by another
@@ -614,26 +848,24 @@ CQL also support tuples and tuple types (where the elements can be of
 different types). Functionally, tuples can be though as anonymous UDT
 with anonymous fields. Tuple types and tuple literals are defined by:
 
-[source, bnf]
-----
-tuple_type ::= TUPLE '<' cql_type ( ',' cql_type )* '>' 
-tuple_literal ::= '(' term ( ',' term )* ')'
-----
+tuple_type: TUPLE '<' [.title-ref]#cql_type# ( ','
+[.title-ref]#cql_type# )* '>' tuple_literal: '(' [.title-ref]#term# (
+',' [.title-ref]#term# )* ')'
 
 and can be used thusly:
 
 [source,cql]
 ----
 CREATE TABLE durations (
-   event text,
-   duration tuple<int, text>,
+    event text,
+    duration tuple<int, text>,
 )
 
 INSERT INTO durations (event, duration) VALUES ('ev1', (3, 'hours'));
 ----
 
 Unlike other "composed" types (collections and UDT), a tuple is always
-`frozen <frozen>` (without the need of the frozen# keyword)
+`frozen <frozen>` (without the need of the [.title-ref]#frozen# keyword)
 and it is not possible to update only some elements of a tuple (without
 updating the whole tuple). Also, a tuple literal should always have the
 same number of value than declared in the type it is a tuple of (some of
@@ -650,7 +882,7 @@ other provided types, particularly `user-defined types <udts>`, should
 almost always be enough.
 ====A custom type is defined by:
 
-custom_type: string#
+custom_type: [.title-ref]#string#
 
 A custom type is a `string` that contains the name of Java class that
 extends the server side `AbstractType` class and that can be loaded by
