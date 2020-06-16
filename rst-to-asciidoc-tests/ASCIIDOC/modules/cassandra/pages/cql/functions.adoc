@@ -22,7 +22,10 @@ opt-in). See the `enable_user_defined_functions` in `cassandra.yaml` to
 enable them.
 ====A function is identifier by its name:
 
-function_name: [ [.title-ref]#keyspace_name# '.' ] [.title-ref]#name#
+[source, bnf]
+----
+function_name ::= [ keyspace_name'.' ] name
+----
 
 === Scalar functions
 
@@ -41,185 +44,49 @@ into its own datatype.
 [cols=",",options="header",]
 |===
 |From |To
-a|
-____
-`ascii`
-____
 
-a|
-____
+| `ascii` | `text`, `varchar`
+
+| `bigint` | `tinyint`, `smallint`, `int`, `float`, `double`, `decimal`, `varint`,
 `text`, `varchar`
-____
 
-a|
-____
-`bigint`
-____
+| `boolean` | `text`, `varchar`
 
-a|
-____
-`tinyint`, `smallint`, `int`, `float`, `double`, `decimal`, `varint`,
-`text`, `varchar`
-____
-
-a|
-____
-`boolean`
-____
-
-a|
-____
-`text`, `varchar`
-____
-
-a|
-____
-`counter`
-____
-
-a|
-____
-`tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `decimal`,
+| `counter` | `tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `decimal`,
 `varint`, `text`, `varchar`
-____
 
-a|
-____
-`date`
-____
+| `date` | `timestamp`
 
-a|
-____
-`timestamp`
-____
-
-a|
-____
-`decimal`
-____
-
-a|
-____
-`tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `varint`,
+| `decimal` | `tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `varint`,
 `text`, `varchar`
-____
 
-a|
-____
-`double`
-____
-
-a|
-____
-`tinyint`, `smallint`, `int`, `bigint`, `float`, `decimal`, `varint`,
+| `double` | `tinyint`, `smallint`, `int`, `bigint`, `float`, `decimal`, `varint`,
 `text`, `varchar`
-____
 
-a|
-____
-`float`
-____
-
-a|
-____
-`tinyint`, `smallint`, `int`, `bigint`, `double`, `decimal`, `varint`,
+| `float` | `tinyint`, `smallint`, `int`, `bigint`, `double`, `decimal`, `varint`,
 `text`, `varchar`
-____
 
-a|
-____
-`inet`
-____
+| `inet` | `text`, `varchar`
 
-a|
-____
+| `int` | `tinyint`, `smallint`, `bigint`, `float`, `double`, `decimal`, `varint`,
 `text`, `varchar`
-____
 
-a|
-____
-`int`
-____
-
-a|
-____
-`tinyint`, `smallint`, `bigint`, `float`, `double`, `decimal`, `varint`,
+| `smallint` | `tinyint`, `int`, `bigint`, `float`, `double`, `decimal`, `varint`,
 `text`, `varchar`
-____
 
-a|
-____
-`smallint`
-____
+| `time` | `text`, `varchar`
 
-a|
-____
-`tinyint`, `int`, `bigint`, `float`, `double`, `decimal`, `varint`,
-`text`, `varchar`
-____
+| `timestamp` | `date`, `text`, `varchar`
 
-a|
-____
-`time`
-____
+| `timeuuid` | `timestamp`, `date`, `text`, `varchar`
 
-a|
-____
-`text`, `varchar`
-____
-
-a|
-____
-`timestamp`
-____
-
-a|
-____
-`date`, `text`, `varchar`
-____
-
-a|
-____
-`timeuuid`
-____
-
-a|
-____
-`timestamp`, `date`, `text`, `varchar`
-____
-
-a|
-____
-`tinyint`
-____
-
-a|
-____
-`tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `decimal`,
+| `tinyint` | `tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `decimal`,
 `varint`, `text`, `varchar`
-____
 
-a|
-____
-`uuid`
-____
+| `uuid` | `text`, `varchar`
 
-a|
-____
+| `varint` | `tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `decimal`,
 `text`, `varchar`
-____
-
-a|
-____
-`varint`
-____
-
-a|
-____
-`tinyint`, `smallint`, `int`, `bigint`, `float`, `double`, `decimal`,
-`text`, `varchar`
-____
-
 |===
 
 The conversions rely strictly on Java's semantics. For example, the

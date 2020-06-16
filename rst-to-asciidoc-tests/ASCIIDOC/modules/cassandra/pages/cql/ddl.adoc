@@ -860,55 +860,16 @@ sub-options are available:
 [cols=",,",options="header",]
 |===
 |Option |Default |Description
-a|
-____
-`class`
-____
 
-a|
-____
-LZ4Compressor
-____
-
-a|
-____
-The compression algorithm to use. Default compressor are: LZ4Compressor,
+| `class` | LZ4Compressor | The compression algorithm to use. Default compressor are: LZ4Compressor,
 SnappyCompressor, DeflateCompressor and ZstdCompressor. Use
 `'enabled' : false` to disable compression. Custom compressor can be
-provided by specifying the full class name as a “string
-constant”:#constants.
-____
+provided by specifying the full class name as a “string constant”:#constants.
 
-a|
-____
-`enabled`
-____
-
-a|
-____
-true
-____
-
-a|
-____
-Enable/disable sstable compression. If the `enabled` option is set to
+| `enabled` | true | Enable/disable sstable compression. If the `enabled` option is set to
 `false` no other options must be specified.
-____
 
-a|
-____
-`chunk_length_in_kb`
-____
-
-a|
-____
-64
-____
-
-a|
-____
---
-On disk SSTables are compressed by block (to allow random reads). This
+| `chunk_length_in_kb` | 64 | On disk SSTables are compressed by block (to allow random reads). This
 defines the size (in KB) of said block. Bigger values may improve the
 compression rate, but increases the minimum size of data to be read from
 disk for a read. The default value is an optimal value for compressing
@@ -916,46 +877,14 @@ tables. Chunk length must be a power of 2 because so is assumed so when
 computing the chunk number from an uncompressed file offset. Block size
 may be adjusted based on read/write access patterns such as:
 
-____
 * How much data is typically requested at once
 * Average size of rows in the table
-____
 
---
-____
-
-a|
-____
-`crc_check_chance`
-____
-
-a|
-____
-1.0
-____
-
-a|
-____
-Determines how likely Cassandra is to verify the checksum on each
+| `crc_check_chance` | 1.0 | Determines how likely Cassandra is to verify the checksum on each
 compression chunk during reads.
-____
 
-a|
-____
-`compression_level`
-____
-
-a|
-____
-3
-____
-
-a|
-____
-Compression level. It is only applicable for `ZstdCompressor` and
+| `compression_level` | 3 | Compression level. It is only applicable for `ZstdCompressor` and
 accepts values between `-131072` and `22`.
-____
-
 |===
 
 For instance, to create a table with LZ4Compressor and a
@@ -1128,7 +1057,9 @@ microseconds is the default is and is *strongly* recommended but as
 Cassandra allows the client to provide any timestamp on any table it is
 theoretically possible to use another convention. Please be aware that
 if you do so, dropping a column will not work correctly.
-====[WARNING]
+====
+
+[WARNING]
 .Warning
 ====
 Once a column is dropped, it is allowed to re-add a column with the same

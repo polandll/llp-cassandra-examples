@@ -114,7 +114,9 @@ SELECT intAsBlob(4) AS four FROM t;
 Currently, aliases aren't recognized anywhere else in the statement
 where they are used (not in the `WHERE` clause, not in the `ORDER BY`
 clause, ...). You must use the orignal column name instead.
-======== `WRITETIME` and `TTL` function
+====
+
+==== `WRITETIME` and `TTL` function
 
 Selection supports two special functions (that aren't allowed anywhere
 else): `WRITETIME` and `TTL`. Both function take only one argument and
@@ -407,20 +409,22 @@ Also note that `INSERT` does not support counters, while `UPDATE` does.
 
 Updating a row is done using an `UPDATE` statement:
 
-update_statement: UPDATE [.title-ref]#table_name# : [ USING
-[.title-ref]#update_parameter# ( AND [.title-ref]#update_parameter# )* ]
-: SET [.title-ref]#assignment# ( ',' [.title-ref]#assignment# )* : WHERE
-[.title-ref]#where_clause# : [ IF ( EXISTS | [.title-ref]#condition# (
-AND [.title-ref]#condition# )*) ] update_parameter: ( TIMESTAMP | TTL )
-( [.title-ref]#integer# | [.title-ref]#bind_marker# ) assignment:
-[.title-ref]#simple_selection# '=' [.title-ref]#term# :|
-[.title-ref]#column_name# '=' [.title-ref]#column_name# ( '+' | '-' )
-[.title-ref]#term# :| [.title-ref]#column_name# '='
-[.title-ref]#list_literal# '+' [.title-ref]#column_name#
-simple_selection: [.title-ref]#column_name# :| [.title-ref]#column_name#
-'[' [.title-ref]#term# ']' :| [.title-ref]#column_name# '.'
-[.title-ref]#field_name condition: `simple_selection#
-[.title-ref]#operator# [.title-ref]#term#
+[source, bnf]
+----
+update_statement ::= 	UPDATE table_name 
+			[ USING update_parameter ( AND update_parameter )* ]
+			SET assignment( ',' assignment )* 
+			WHERE where_clause
+			[ IF ( EXISTS | condition ( AND condition)*) ] 
+update_parameter ::= ( TIMESTAMP | TTL ) ( integer | bind_marker ) 
+assignment: simple_selection'=' term 
+		`| column_name'=' column_name ( '+' | '-' ) term
+		| column_name'=' list_literal'+' column_name 
+simple_selection ::= column_name
+			| column_name '[' term']' 
+			| column_name'.' field_name 
+condition ::= `simple_selection operator term
+----
 
 For instance:
 
@@ -540,12 +544,14 @@ sparingly.
 Multiple `INSERT`, `UPDATE` and `DELETE` can be executed in a single
 statement by grouping them through a `BATCH` statement:
 
-batch_statement: BEGIN [ UNLOGGED | COUNTER ] BATCH : [ USING
-[.title-ref]#update_parameter# ( AND [.title-ref]#update_parameter# )* ]
-: [.title-ref]#modification_statement# ( ';'
-[.title-ref]#modification_statement# )* : APPLY BATCH
-modification_statement: [.title-ref]#insert_statement# |
-[.title-ref]#update_statement# | [.title-ref]#delete_statement#
+[source, bnf]
+----
+batch_statement ::=  	BEGIN [ UNLOGGED | COUNTER ] BATCH 
+			[ USING update_parameter( AND update_parameter)* ]
+			modification_statement ( ';' modification_statement )* 
+			APPLY BATCH
+modification_statement ::= insert_statement | update_statement | delete_statement
+----
 
 For instance:
 
