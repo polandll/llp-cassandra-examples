@@ -4,19 +4,24 @@ CQL supports creating secondary indexes on tables, allowing queries on
 the table to use those indexes. A secondary index is identified by a
 name defined by:
 
-index_name: re('[a-zA-Z_0-9]+')
+[source, bnf]
+----
+index_name ::= re('[a-zA-Z_0-9]+')
+----
 
 [[create-index-statement]]
 == CREATE INDEX
 
 Creating a secondary index on a table uses the `CREATE INDEX` statement:
 
-create_index_statement: CREATE [ CUSTOM ] INDEX [ IF NOT EXISTS ] [
-[.title-ref]#index_name# ] : ON [.title-ref]#table_name# '('
-[.title-ref]#index_identifier# ')' : [ USING [.title-ref]#string# [ WITH
-OPTIONS = [.title-ref]#map_literal# ] ] index_identifier:
-[.title-ref]#column_name# :| ( KEYS | VALUES | ENTRIES | FULL ) '('
-[.title-ref]#column_name# ')'
+[source, bnf]
+----
+create_index_statement ::= CREATE [ CUSTOM ] INDEX [ IF NOT EXISTS ] [ index_name ] 
+			   ON table_name '(' index_identifier ')'  
+			   [ USING string [ WITH OPTIONS = map_literal ] ] 
+index_identifier ::= column_name 
+		     | ( KEYS | VALUES | ENTRIES | FULL ) '(' column_name ')'
+----
 
 For instance:
 
@@ -53,7 +58,10 @@ map values.
 
 Dropping a secondary index uses the `DROP INDEX` statement:
 
-drop_index_statement: DROP INDEX [ IF EXISTS ] [.title-ref]#index_name#
+[source, bnf]
+----
+drop_index_statement ::= DROP INDEX [ IF EXISTS ] index_name
+----
 
 The `DROP INDEX` statement is used to drop an existing secondary index.
 The argument of the statement is the index name, which may optionally
