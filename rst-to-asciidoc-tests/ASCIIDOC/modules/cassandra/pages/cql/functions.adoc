@@ -1,5 +1,7 @@
-[[cql-functions]][[native-functions]]
-== Functions[#udfs]####
+// Need some intro for UDF and native functions in general and point those to it.
+// [[cql-functions]][[native-functions]]
+
+== Functions
 
 CQL supports 2 main categories of functions:
 
@@ -20,7 +22,9 @@ functions is sandboxed and a "rogue" function should not be allowed to
 do evil, but no sandbox is perfect so using user-defined functions is
 opt-in). See the `enable_user_defined_functions` in `cassandra.yaml` to
 enable them.
-====A function is identifier by its name:
+====
+
+A function is identifier by its name:
 
 [source, bnf]
 ----
@@ -182,7 +186,9 @@ particular, the value returned by these 2 methods will not be unique.
 This means you should only use those methods for querying (as in the
 example above). Inserting the result of those methods is almost
 certainly _a bad idea_.
-========= Datetime functions
+====
+
+===== Datetime functions
 
 ====== Retrieving the current date/time
 
@@ -596,11 +602,15 @@ SELECT average(val) FROM atable;
 Creating (or replacing) a user-defined aggregate function uses the
 `CREATE AGGREGATE` statement:
 
-create_aggregate_statement: CREATE [ OR REPLACE ] AGGREGATE [ IF NOT
-EXISTS ] : [.title-ref]#function_name# '('
-[.title-ref]#arguments_signature# ')' : SFUNC
-[.title-ref]#function_name# : STYPE [.title-ref]#cql_type# : [ FINALFUNC
-[.title-ref]#function_name# ] : [ INITCOND [.title-ref]#term# ]
+[source, bnf]
+----
+create_aggregate_statement ::= CREATE [ OR REPLACE ] AGGREGATE [ IF NOT EXISTS ] 
+				function_name '(' arguments_signature')' 
+				SFUNC function_name
+				STYPE cql_type: 
+				[ FINALFUNC function_name] 
+				[ INITCOND term ]
+----
 
 See above for a complete example.
 

@@ -2,16 +2,22 @@
 
 Triggers are identified by a name defined by:
 
-trigger_name: [.title-ref]#identifier#
+[source,bnf]
+----
+trigger_name ::= identifier
+----
 
 [[create-trigger-statement]]
 == CREATE TRIGGER
 
 Creating a new trigger uses the `CREATE TRIGGER` statement:
 
-create_trigger_statement: CREATE TRIGGER [ IF NOT EXISTS ]
-[.title-ref]#trigger_name# : ON [.title-ref]#table_name# : USING
-[.title-ref]#string#
+[source,bnf]
+----
+create_trigger_statement ::= CREATE TRIGGER [ IF NOT EXISTS ] trigger_name 
+				ON table_name  
+				USING string
+----
 
 For instance:
 
@@ -33,8 +39,10 @@ the transaction.
 
 Dropping a trigger uses the `DROP TRIGGER` statement:
 
-drop_trigger_statement: DROP TRIGGER [ IF EXISTS ]
-[.title-ref]#trigger_name# ON [.title-ref]#table_name#
+[source,bnf]
+----
+drop_trigger_statement ::= DROP TRIGGER [ IF EXISTS ] trigger_nameON table_name
+----
 
 For instance:
 
