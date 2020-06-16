@@ -16,11 +16,14 @@ those keyspace and tables.
 The names of the keyspaces and tables are defined by the following
 grammar:
 
-keyspace_name: [.title-ref]#name# table_name: [
-[.title-ref]#keyspace_name# '.' ] [.title-ref]#name# name:
-[.title-ref]#unquoted_name# | [.title-ref]#quoted_name# unquoted_name:
-re('[a-zA-Z_0-9]\{1, 48}') quoted_name: '"' [.title-ref]#unquoted_name#
-'"'
+[source, bnf]
+----
+keyspace_name ::= name 
+table_name ::= [ keyspace_name '.' ] name 
+name ::= unquoted_name | quoted_name 
+unquoted_name ::= re('[a-zA-Z_0-9]\{1, 48}') 
+quoted_name ::= '"' unquoted_name '"'
+----
 
 Both keyspace and table name should be comprised of only alphanumeric
 characters, cannot be empty and are limited in size to 48 characters
@@ -38,22 +41,27 @@ fully-qualified, the table is assumed to be in the _current_ keyspace
 
 Further, the valid names for columns is simply defined as:
 
-column_name: [.title-ref]#identifier#
+[source, bnf]
+----
+column_name ::= identifier
+----
 
 We also define the notion of statement options for use in the following
 section:
 
-options: [.title-ref]#option# ( AND [.title-ref]#option# )* option:
-[.title-ref]#identifier# '=' ( [.title-ref]#identifier# |
-[.title-ref]#constant# | [.title-ref]#map_literal# )
+[source, bnf]
+----
+options ::= option ( AND option )* 
+option ::= identifier '=' ( identifier | constant | map_literal )
+----
 
 [[create-keyspace-statement]]
 == CREATE KEYSPACE
 
 A keyspace is created using a `CREATE KEYSPACE` statement:
 
-create_keyspace_statement: CREATE KEYSPACE [ IF NOT EXISTS ]
-[.title-ref]#keyspace_name# WITH [.title-ref]#options#
+[source, bnf]
+create_keyspace_statement ::= CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options
 
 For instance:
 
@@ -75,44 +83,13 @@ The supported `options` are:
 
 [cols=",,,,",options="header",]
 |===
-|name |kind |mandatory |default |description
-|`replication` a|
-____
-_map_
-____
+|name |kind |mandatory |default |description 
 
-a|
-____
-yes
-____
-
-| a|
-____
-The replication strategy and options to use for the keyspace (see
+|`replication` a| _map_ | yes | The replication strategy and options to use for the keyspace (see
 details below).
-____
 
-|`durable_writes` a|
-____
-_simple_
-____
-
-a|
-____
-no
-____
-
-a|
-____
-true
-____
-
-a|
-____
-Whether to use the commit log for updates on this keyspace (disable this
+|`durable_writes` | _simple_ | no | true | Whether to use the commit log for updates on this keyspace (disable this
 option at your own risk!).
-____
-
 |===
 
 The `replication` property is mandatory and must at least contains the
@@ -134,21 +111,8 @@ mandatory argument:
 [cols=",,,",options="header",]
 |===
 |sub-option |type |since |description
-|`'replication_factor'` a|
-____
-int
-____
 
-a|
-____
-all
-____
-
-a|
-____
-The number of replicas to store per range
-____
-
+|`'replication_factor'` | int | all | The number of replicas to store per range
 |===
 
 === `NetworkTopologyStrategy`
@@ -161,39 +125,13 @@ its value is the associated replication factor. Options:
 [cols=",,,",options="header",]
 |===
 |sub-option |type |since |description
-|`'<datacenter>'` a|
-____
-int
-____
 
-a|
-____
-all
-____
+|`'<datacenter>'` | int | all | The number of replicas to store per range in the provided datacenter.
 
-a|
-____
-The number of replicas to store per range in the provided datacenter.
-____
-
-|`'replication_factor'` a|
-____
-int
-____
-
-a|
-____
-4.0
-____
-
-a|
-____
-The number of replicas to use as a default per datacenter if not
+|`'replication_factor'` | int | 4.0 | The number of replicas to use as a default per datacenter if not
 specifically provided. Note that this always defers to existing
 definitions or explicit datacenter settings. For example, to have three
 replicas per datacenter, supply this with a value of 3.
-____
-
 |===
 
 Note that when `ALTER` ing keyspaces and supplying `replication_factor`,
@@ -262,7 +200,10 @@ referred without a fully-qualified name (that is, without being prefixed
 a keyspace name). A `USE` statement simply takes the keyspace to use as
 current as argument:
 
-use_statement: USE [.title-ref]#keyspace_name#
+[source, bnf]
+----
+use_statement ::= USE keyspace_name
+----
 
 [[alter-keyspace-statement]]
 == ALTER KEYSPACE
@@ -270,8 +211,11 @@ use_statement: USE [.title-ref]#keyspace_name#
 An `ALTER KEYSPACE` statement allows to modify the options of a
 keyspace:
 
-alter_keyspace_statement: ALTER KEYSPACE [.title-ref]#keyspace_name#
-WITH [.title-ref]#options#
+[source, bnf]
+----
+alter_keyspace_statement ::= ALTER KEYSPACE keyspace_name
+   WITH options
+----
 
 For instance:
 
@@ -289,8 +233,10 @@ The supported options are the same than for
 
 Dropping a keyspace can be done using the `DROP KEYSPACE` statement:
 
-drop_keyspace_statement: DROP KEYSPACE [ IF EXISTS ]
-[.title-ref]#keyspace_name#
+[source, bnf]
+----
+drop_keyspace_statement ::= DROP KEYSPACE [ IF EXISTS ] keyspace_name
+----
 
 For instance:
 
@@ -311,21 +257,24 @@ unless `IF EXISTS` is used in which case the operation is a no-op.
 
 Creating a new table uses the `CREATE TABLE` statement:
 
-create_table_statement: CREATE TABLE [ IF NOT EXISTS ]
-[.title-ref]#table_name# : '(' : [.title-ref]#column_definition# : ( ','
-[.title-ref]#column_definition# )* : [ ',' PRIMARY KEY '('
-[.title-ref]#primary_key# ')' ] : ')' [ WITH [.title-ref]#table_options#
-] column_definition: [.title-ref]#column_name# [.title-ref]#cql_type# [
-STATIC ] [ PRIMARY KEY] primary_key: [.title-ref]#partition_key# [ ','
-[.title-ref]#clustering_columns# ] partition_key:
-[.title-ref]#column_name# : | '(' [.title-ref]#column_name# ( ','
-[.title-ref]#column_name# )* ')' clustering_columns:
-[.title-ref]#column_name# ( ',' [.title-ref]#column_name# )*
-table_options: COMPACT STORAGE [ AND [.title-ref]#table_options# ] : |
-CLUSTERING ORDER BY '(' [.title-ref]#clustering_order# ')' [ AND
-[.title-ref]#table_options# ] : | [.title-ref]#options#
-clustering_order: [.title-ref]#column_name# (ASC | DESC) ( ','
-[.title-ref]#column_name# (ASC | DESC) )*
+[source, bnf]
+----
+create_table_statement ::= CREATE TABLE [ IF NOT EXISTS ] table_name 
+			   '(' 
+			       column_definition
+			       ( ',' column_definition )*
+			       [ ',' PRIMARY KEY '(' primary_key ')' ] 
+			   ')' [ WITH table_options ]
+column_definition ::= column_name cql_type [ STATIC ] [ PRIMARY KEY ] 
+primary_key ::= partition_key [ ',' clustering_columns ] 
+partition_key ::= column_name 
+                  | '(' column_name ( ',' column_name )* ')' 
+clustering_columns ::= column_name ( ',' column_name )*
+table_options ::= COMPACT STORAGE [ AND table_options ] 
+                  | CLUSTERING ORDER BY '(' clustering_order ')' [ AND table_options ] 
+		  | options
+clustering_order ::= column_name (ASC | DESC) ( ',' column_name (ASC | DESC) )*
+----
 
 For instance:
 
@@ -736,37 +685,18 @@ are supported:
 [cols=",,",options="header",]
 |===
 |Format |Example |Description
-a|
-____
-`XPERCENTILE`
-____
 
-|90.5PERCENTILE |Coordinators record average per-table response times
+| `XPERCENTILE` | 90.5PERCENTILE | Coordinators record average per-table response times
 for all replicas. If a replica takes longer than `X` percent of this
 table's average response time, the coordinator queries an additional
 replica. `X` must be between 0 and 100.
 
-a|
-____
-`XP`
-____
+| `XP` | 90.5P | Synonym for `XPERCENTILE`
 
-|90.5P |Synonym for `XPERCENTILE`
-
-a|
-____
-`Yms`
-____
-
-|25ms |If a replica takes more than `Y` milliseconds to respond, the
+| `Yms` | 25ms | If a replica takes more than `Y` milliseconds to respond, the
 coordinator queries an additional replica.
 
-a|
-____
-`MIN(XPERCENTILE,YMS)`
-____
-
-|MIN(99PERCENTILE,35MS) |A hybrid policy that will use either the
+| `MIN(XPERCENTILE,YMS)` | MIN(99PERCENTILE,35MS) | A hybrid policy that will use either the
 specified percentile or fixed milliseconds depending on which value is
 lower at the time of calculation. Parameters are `XPERCENTILE`, `XP`, or
 `Yms`. This is helpful to help protect against a single slow instance;
@@ -779,14 +709,7 @@ want to speculate at, but avoid skewing the tail latencies by
 speculating at the lower value when the percentile is less than the
 specified fixed upper bound.
 
-a|
-____
-`MAX(XPERCENTILE,YMS)`
-
-`ALWAYS` `NEVER`
-____
-
-|MAX(90.5P,25ms) |A hybrid policy that will use either the specified
+| `MAX(XPERCENTILE,YMS)` `ALWAYS` `NEVER` | MAX(90.5P,25ms) | A hybrid policy that will use either the specified
 percentile or fixed milliseconds depending on which value is higher at
 the time of calculation. Coordinators always query all replicas.
 Coordinators never query additional replicas.
@@ -800,8 +723,8 @@ alternatives.
 
 [source,cql]
 ----
-alter table users WITH speculative_retry = 'none';
-alter table users WITH speculative_retry = 'None';
+ALTER TABLE users WITH speculative_retry = 'none';
+ALTER TABLE users WITH speculative_retry = 'None';
 ----
 
 The text component is case insensitive and for `nPERCENTILE` version 4.0
@@ -863,54 +786,17 @@ sub-options are available:
 [cols=",,",options="header",]
 |===
 |Option |Default |Description
-a|
-____
-`class`
-____
 
-a|
-____
-LZ4Compressor
-____
-
-a|
-____
-The compression algorithm to use. Default compressor are: LZ4Compressor,
+| `class` | LZ4Compressor | The compression algorithm to use. Default compressor are: LZ4Compressor,
 SnappyCompressor, DeflateCompressor and ZstdCompressor. Use
 `'enabled' : false` to disable compression. Custom compressor can be
 provided by specifying the full class name as a “string
 constant”:#constants.
-____
 
-a|
-____
-`enabled`
-____
-
-a|
-____
-true
-____
-
-a|
-____
-Enable/disable sstable compression. If the `enabled` option is set to
+| `enabled` | true | Enable/disable sstable compression. If the `enabled` option is set to
 `false` no other options must be specified.
-____
 
-a|
-____
-`chunk_length_in_kb`
-____
-
-a|
-____
-64
-____
-
-a|
-____
-On disk SSTables are compressed by block (to allow random reads). This
+| `chunk_length_in_kb` | 64 | On disk SSTables are compressed by block (to allow random reads). This
 defines the size (in KB) of said block. Bigger values may improve the
 compression rate, but increases the minimum size of data to be read from
 disk for a read. The default value is an optimal value for compressing
@@ -920,39 +806,12 @@ may be adjusted based on read/write access patterns such as:
 
 * How much data is typically requested at once
 * Average size of rows in the table
-____
 
-a|
-____
-`crc_check_chance`
-____
-
-a|
-____
-1.0
-____
-
-a|
-____
-Determines how likely Cassandra is to verify the checksum on each
+| `crc_check_chance` | 1.0 | Determines how likely Cassandra is to verify the checksum on each
 compression chunk during reads.
-____
 
-a|
-____
-`compression_level`
-____
-
-a|
-____
-3
-____
-
-a|
-____
-Compression level. It is only applicable for `ZstdCompressor` and
+| `compression_level` | 3 | Compression level. It is only applicable for `ZstdCompressor` and
 accepts values between `-131072` and `22`.
-____
 
 |===
 
@@ -980,39 +839,14 @@ following sub-options are available:
 [cols=",,",options="header",]
 |===
 |Option |Default |Description
-a|
-____
-`keys`
-____
 
-a|
-____
-ALL
-____
-
-a|
-____
-Whether to cache keys (“key cache”) for this table. Valid values are:
+| `keys` | ALL | Whether to cache keys (“key cache”) for this table. Valid values are:
 `ALL` and `NONE`.
-____
 
-a|
-____
-`rows_per_partition`
-____
-
-a|
-____
-NONE
-____
-
-a|
-____
-The amount of rows to cache per partition (“row cache”). If an integer
+| `rows_per_partition` | NONE | The amount of rows to cache per partition (“row cache”). If an integer
 `n` is specified, the first `n` queried rows of a partition will be
 cached. Other possible options are `ALL`, to cache all rows of a queried
 partition, or `NONE` to disable row caching.
-____
 
 |===
 
@@ -1076,12 +910,12 @@ creating a table.
 
 Altering an existing table uses the `ALTER TABLE` statement:
 
-alter_table_statement: ALTER TABLE [.title-ref]#table_name#
-[.title-ref]#alter_table_instruction# alter_table_instruction: ADD
-[.title-ref]#column_name# [.title-ref]#cql_type# ( ','
-[.title-ref]#column_name# [.title-ref]#cql_type# )* : | DROP
-[.title-ref]#column_name# ( [.title-ref]#column_name# )* : | WITH
-[.title-ref]#options#
+[source, bnf]
+----
+alter_table_statement ::= ALTER TABLE table_name alter_table_instruction 
+alter_table_instruction ::= ADD column_name cql_type ( ',' column_name cql_type )* 
+                            | DROP column_name ( column_name )* | WITH options
+----
 
 For instance:
 
@@ -1141,7 +975,7 @@ name than the dropped one *unless* the type of the dropped column was a
 
 Dropping a table uses the `DROP TABLE` statement:
 
-drop_table_statement: DROP TABLE [ IF EXISTS ] [.title-ref]#table_name#
+drop_table_statement: DROP TABLE [ IF EXISTS ] table_name#
 
 Dropping a table results in the immediate, irreversible removal of the
 table, including all data it contains.
@@ -1154,7 +988,7 @@ If the table does not exist, the statement will return an error, unless
 
 A table can be truncated using the `TRUNCATE` statement:
 
-truncate_statement: TRUNCATE [ TABLE ] [.title-ref]#table_name#
+truncate_statement: TRUNCATE [ TABLE ] table_name#
 
 Note that ``TRUNCATE TABLE foo`` is allowed for consistency with other DDL
 statements but tables are the only object that can be truncated

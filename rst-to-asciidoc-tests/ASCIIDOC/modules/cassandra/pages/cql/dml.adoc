@@ -8,24 +8,30 @@ update, delete and query data.
 
 Querying data from data is done using a `SELECT` statement:
 
-select_statement: SELECT [ JSON | DISTINCT ] (
-[.title-ref]#select_clause# | '_' ) : FROM `table_name` : [ WHERE
-`where_clause` ] : [ GROUP BY `group_by_clause` ] : [ ORDER BY
-`ordering_clause` ] : [ PER PARTITION LIMIT (`integer` | `bind_marker`)
-] : [ LIMIT (`integer` | `bind_marker`) ] : [ ALLOW FILTERING ]
-select_clause: `selector` [ AS `identifier` ] ( ',' `selector` [ AS
-`identifier` ] ) selector: `column_name` : | `term` : | CAST '('
-`selector` AS `cql_type` ')' : | `function_name` '(' [ `selector` ( ','
-`selector` )_ ] ')' : | COUNT '(' '_' ')' where_clause: `relation` ( AND
-`relation` )_ relation: [.title-ref]#column_name# [.title-ref]#operator#
-[.title-ref]#term# : '(' [.title-ref]#column_name# ( ','
-[.title-ref]#column_name# )* ')' [.title-ref]#operator#
-[.title-ref]#tuple_literal# : TOKEN '(' [.title-ref]#column_name# ( ','
-[.title-ref]#column_name# )* ')' [.title-ref]#operator#
-[.title-ref]#term# operator: '=' | '<' | '>' | '<=' | '>=' | '!=' | IN |
-CONTAINS | CONTAINS KEY group_by_clause: [.title-ref]#column_name# ( ','
-[.title-ref]#column_name# )* ordering_clause: [.title-ref]#column_name#
-[ ASC | DESC ] ( ',' [.title-ref]#column_name# [ ASC | DESC ] )*
+[source, bnf]
+----
+select_statement ::= SELECT [ JSON | DISTINCT ] ( select_clause | '*' ) 
+		     FROM `table_name` 
+			[ WHERE `where_clause` ] 
+			[ GROUP BY `group_by_clause` ]  
+			[ ORDER BY `ordering_clause` ] 
+			[ PER PARTITION LIMIT (`integer` | `bind_marker`) ] 
+			[ LIMIT (`integer` | `bind_marker`) ] 
+			[ ALLOW FILTERING ]
+select_clause ::= `selector` [ AS `identifier` ] ( ',' `selector` [ AS `identifier` ] ) 
+selector ::= `column_name` 
+	     | `term` 
+	     | CAST '(' `selector` AS `cql_type` ')' 
+	     | `function_name` '(' [ `selector` ( ',' `selector` )* ] ')' 
+	     | COUNT '(' '_' ')' 
+where_clause ::= `relation` ( AND `relation` )* 
+relation ::= column_name operator term 
+	     '(' column_name ( ',' column_name )* ')' operator tuple_literal 
+ 	     TOKEN '(' column_name ( ',' column_name )* ')' operator term 
+operator ::= '=' | '<' | '>' | '<=' | '>=' | '!=' | IN | CONTAINS | CONTAINS KEY 
+group_by_clause ::= column_name ( ',' column_name )* 
+ordering_clause ::= column_name [ ASC | DESC ] ( ',' column_name [ ASC | DESC ] )*
+----
 
 For instance:
 
@@ -36,10 +42,10 @@ SELECT JSON name, occupation FROM users WHERE userid = 199;
 SELECT name AS user_name, occupation AS user_occupation FROM users;
 
 SELECT time, value
-FROM events
-WHERE event_type = 'myEvent'
-  AND time > '2011-02-03'
-  AND time <= '2012-01-01'
+   FROM events
+   WHERE event_type = 'myEvent'
+      AND time > '2011-02-03'
+      AND time <= '2012-01-01';
 
 SELECT COUNT (*) AS user_count FROM users;
 ----
@@ -87,8 +93,8 @@ which counts all non-null results.
 
 ==== Aliases
 
-Every _top-level_ selector can also be aliased (using [.title-ref]#AS#).
-If so, the name of the corresponding column in the result set will be
+Every _top-level_ selector can also be aliased (using AS#).
+If so    , the name of the corresponding column in the result set will be
 that of the alias. For instance:
 
 [source,cql]
@@ -148,14 +154,14 @@ them is restricted to the relations that allow to select a *contiguous*
 [source,cql]
 ----
 CREATE TABLE posts (
-    userid text,
-    blog_title text,
-    posted_at timestamp,
-    entry_title text,
-    content text,
-    category int,
-    PRIMARY KEY (userid, blog_title, posted_at)
-)
+   userid text,
+   blog_title text,
+   posted_at timestamp,
+   entry_title text,
+   content text,
+   category int,
+   PRIMARY KEY (userid, blog_title, posted_at)
+);
 ----
 
 The following query is allowed:
@@ -163,9 +169,10 @@ The following query is allowed:
 [source,cql]
 ----
 SELECT entry_title, content FROM posts
- WHERE userid = 'john doe'
-   AND blog_title='John''s Blog'
-   AND posted_at >= '2012-01-01' AND posted_at < '2012-01-31'
+   WHERE userid = 'john doe'
+      AND blog_title='John''s Blog'
+      AND posted_at >= '2012-01-01' 
+      AND posted_at < '2012-01-31';
 ----
 
 But the following one is not, as it does not select a contiguous set of
@@ -175,8 +182,9 @@ rows (and we suppose no secondary indexes are set):
 ----
 // Needs a blog_title to be set to select ranges of posted_at
 SELECT entry_title, content FROM posts
- WHERE userid = 'john doe'
-   AND posted_at >= '2012-01-01' AND posted_at < '2012-01-31'
+   WHERE userid = 'john doe'
+      AND posted_at >= '2012-01-01' 
+      AND posted_at < '2012-01-31';
 ----
 
 When specifying relations, the `TOKEN` function can be used on the
@@ -191,7 +199,8 @@ particular). Example:
 [source,cql]
 ----
 SELECT * FROM posts
- WHERE token(userid) > token('tom') AND token(userid) < token('bob')
+   WHERE token(userid) > token('tom') 
+      AND token(userid) < token('bob');
 ----
 
 Moreover, the `IN` relation is only allowed on the last column of the
@@ -203,8 +212,8 @@ relation using the tuple notation. For instance:
 [source,cql]
 ----
 SELECT * FROM posts
- WHERE userid = 'john doe'
-   AND (blog_title, posted_at) > ('John''s Blog', '2012-01-01')
+   WHERE userid = 'john doe'
+      AND (blog_title, posted_at) > ('John''s Blog', '2012-01-01');
 ----
 
 will request all rows that sorts after the one having “John's Blog” as
@@ -216,9 +225,9 @@ for:
 [source,cql]
 ----
 SELECT * FROM posts
- WHERE userid = 'john doe'
-   AND blog_title > 'John''s Blog'
-   AND posted_at > '2012-01-01'
+   WHERE userid = 'john doe'
+      AND blog_title > 'John''s Blog'
+      AND posted_at > '2012-01-01';
 ----
 
 The tuple notation may also be used for `IN` clauses on clustering
@@ -227,8 +236,8 @@ columns:
 [source,cql]
 ----
 SELECT * FROM posts
- WHERE userid = 'john doe'
-   AND (blog_title, posted_at) IN (('John''s Blog', '2012-01-01'), ('Extreme Chess', '2014-06-01'))
+   WHERE userid = 'john doe'
+      AND (blog_title, posted_at) IN (('John''s Blog', '2012-01-01'), ('Extreme Chess', '2014-06-01'));
 ----
 
 The `CONTAINS` operator may only be used on collection columns (lists,
@@ -305,12 +314,12 @@ residence:
 [source,cql]
 ----
 CREATE TABLE users (
-    username text PRIMARY KEY,
-    firstname text,
-    lastname text,
-    birth_year int,
-    country text
-)
+   username text PRIMARY KEY,
+   firstname text,
+   lastname text,
+   birth_year int,
+   country text
+);
 
 CREATE INDEX ON users(birth_year);
 ----
@@ -351,7 +360,10 @@ doing”, you can force the execution of this query by using
 
 [source,cql]
 ----
-SELECT * FROM users WHERE birth_year = 1981 AND country = 'FR' ALLOW FILTERING;
+SELECT * FROM users 
+   WHERE birth_year = 1981 
+   AND country = 'FR' 
+   ALLOW FILTERING;
 ----
 
 [[insert-statement]]
@@ -359,20 +371,23 @@ SELECT * FROM users WHERE birth_year = 1981 AND country = 'FR' ALLOW FILTERING;
 
 Inserting data for a row is done using an `INSERT` statement:
 
-INSERT INTO `table_name` ( `names_values` | `json_clause` )
-                   : [ IF NOT EXISTS ]
-                   : [ USING `update_parameter` ( AND `update_parameter` )* ]
-   names_values: `names` VALUES `tuple_literal`
-   json_clause: JSON `string` [ DEFAULT ( NULL | UNSET ) ]
-   names: '(' `column_name` ( ',' `column_name` )* ')
+[source, bnf]
+----
+insert_statement ::= INSERT INTO `table_name` ( `names_values` | `json_clause` )
+                     [ IF NOT EXISTS ]
+                     [ USING `update_parameter` ( AND `update_parameter` )* ]
+names_values ::= `names` VALUES `tuple_literal`
+json_clause ::= JSON `string` [ DEFAULT ( NULL | UNSET ) ]
+names ::= '(' `column_name` ( ',' `column_name` )* ')
+----
 
 For instance:
 
 [source,cql]
 ----
 INSERT INTO NerdMovies (movie, director, main_actor, year)
-                VALUES ('Serenity', 'Joss Whedon', 'Nathan Fillion', 2005)
-      USING TTL 86400;
+   VALUES ('Serenity', 'Joss Whedon', 'Nathan Fillion', 2005)
+   USING TTL 86400;
 
 INSERT INTO NerdMovies JSON '{"movie": "Serenity",
                               "director": "Joss Whedon",
@@ -408,34 +423,37 @@ Also note that `INSERT` does not support counters, while `UPDATE` does.
 
 Updating a row is done using an `UPDATE` statement:
 
-	UPDATE `table_name`
-                      : [ USING `update_parameter` ( AND `update_parameter` )* ]
-                   : SET `assignment` ( ',' `assignment` )*
-                   : WHERE `where_clause`
-                   : [ IF ( EXISTS | `condition` ( AND `condition` )*) ]
-   update_parameter: ( TIMESTAMP | TTL ) ( `integer` | `bind_marker` )
-   assignment: `simple_selection` '=' `term`
-             :| `column_name` '=' `column_name` ( '+' | '-' ) `term`
-             :| `column_name` '=' `list_literal` '+' `column_name`
-   simple_selection: `column_name`
-                   :| `column_name` '[' `term` ']'
-                   :| `column_name` '.' `field_name
-   condition: `simple_selection` `operator` `term`
+[source, bnf]
+----
+update_statement ::= UPDATE `table_name`
+                     [ USING `update_parameter` ( AND `update_parameter` )* ]
+                     SET `assignment` ( ',' `assignment` )*
+                     WHERE `where_clause`
+                     [ IF ( EXISTS | `condition` ( AND `condition` )*) ]
+update_parameter ::= ( TIMESTAMP | TTL ) ( `integer` | `bind_marker` )
+assignment ::= `simple_selection` '=' `term`
+               | `column_name` '=' `column_name` ( '+' | '-' ) `term`
+               | `column_name` '=' `list_literal` '+' `column_name`
+simple_selection ::= `column_name`
+                     | `column_name` '[' `term` ']'
+                     | `column_name` '.' `field_name
+condition ::= `simple_selection` `operator` `term`
+----
 
 For instance:
 
 [source,cql]
 ----
 UPDATE NerdMovies USING TTL 400
-   SET director   = 'Joss Whedon',
+  SET director   = 'Joss Whedon',
        main_actor = 'Nathan Fillion',
        year       = 2005
- WHERE movie = 'Serenity';
+  WHERE movie = 'Serenity';
 
 UPDATE UserActions
-   SET total = total + 2
-   WHERE user = B70DE1D0-9908-4AE3-BE34-5573E5B09F14
-     AND action = 'click';
+  SET total = total + 2
+  WHERE user = B70DE1D0-9908-4AE3-BE34-5573E5B09F14
+    AND action = 'click';
 ----
 
 The `UPDATE` statement writes one or more columns for a given row in a
@@ -495,22 +513,24 @@ of `null` is equivalent to inserting with a TTL of 0.
 
 Deleting rows or parts of rows uses the `DELETE` statement:
 
-delete_statement: DELETE [ [.title-ref]#simple_selection# ( ','
-[.title-ref]#simple_selection# ) ] : FROM [.title-ref]#table_name# : [
-USING [.title-ref]#update_parameter# ( AND
-[.title-ref]#update_parameter# )* ] : WHERE [.title-ref]#where_clause# :
-[ IF ( EXISTS | [.title-ref]#condition# ( AND [.title-ref]#condition#
-)*) ]
+[source, bnf]
+----
+delete_statement: DELETE [ simple_selection ( ',' simple_selection ) ] 
+		  FROM table_name
+		  [ USING update_parameter ( AND update_parameter )* ] 
+		  WHERE where_clause
+		  [ IF ( EXISTS | condition ( AND condition)*) ]
+----
 
 For instance:
 
 [source,cql]
 ----
 DELETE FROM NerdMovies USING TIMESTAMP 1240003134
- WHERE movie = 'Serenity';
+   WHERE movie = 'Serenity';
 
 DELETE phone FROM Users
- WHERE userid IN (C73DE1D3-AF08-40F3-B124-3FF3E5109F22, B70DE1D0-9908-4AE3-BE34-5573E5B09F14);
+   WHERE userid IN (C73DE1D3-AF08-40F3-B124-3FF3E5109F22, B70DE1D0-9908-4AE3-BE34-5573E5B09F14);
 ----
 
 The `DELETE` statement deletes columns and rows. If column names are
@@ -540,21 +560,24 @@ sparingly.
 Multiple `INSERT`, `UPDATE` and `DELETE` can be executed in a single
 statement by grouping them through a `BATCH` statement:
 
-   batch_statement: BEGIN [ UNLOGGED | COUNTER ] BATCH
-                   : [ USING `update_parameter` ( AND `update_parameter` )* ]
-                   : `modification_statement` ( ';' `modification_statement` )*
-                   : APPLY BATCH
-   modification_statement: `insert_statement` | `update_statement` | `delete_statement`
+[source, bnf]
+----
+batch_statement ::= BEGIN [ UNLOGGED | COUNTER ] BATCH
+                   [ USING `update_parameter` ( AND `update_parameter` )* ]
+                   `modification_statement` ( ';' `modification_statement` )*
+                   APPLY BATCH
+modification_statement ::= `insert_statement` | `update_statement` | `delete_statement`
+----
 
 For instance:
 
 [source,cql]
 ----
 BEGIN BATCH
-   INSERT INTO users (userid, password, name) VALUES ('user2', 'ch@ngem3b', 'second user');
-   UPDATE users SET password = 'ps22dhds' WHERE userid = 'user3';
-   INSERT INTO users (userid, password) VALUES ('user4', 'ch@ngem3c');
-   DELETE name FROM users WHERE userid = 'user1';
+  INSERT INTO users (userid, password, name) VALUES ('user2', 'ch@ngem3b', 'second user');
+  UPDATE users SET password = 'ps22dhds' WHERE userid = 'user3';
+  INSERT INTO users (userid, password) VALUES ('user4', 'ch@ngem3c');
+  DELETE name FROM users WHERE userid = 'user1';
 APPLY BATCH;
 ----
 
