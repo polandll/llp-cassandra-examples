@@ -192,46 +192,14 @@ time where the function is invoked:
 [cols=",",options="header",]
 |===
 |Function name |Output type
-a|
-____
-`currentTimestamp`
-____
 
-a|
-____
-`timestamp`
-____
+| `currentTimestamp` | `timestamp`
 
-a|
-____
-`currentDate`
-____
+| `currentDate` | `date`
 
-a|
-____
-`date`
-____
+| `currentTime` | `time`
 
-a|
-____
-`currentTime`
-____
-
-a|
-____
-`time`
-____
-
-a|
-____
-`currentTimeUUID`
-____
-
-a|
-____
-`timeUUID`
-____
-
+| `currentTimeUUID` | `timeUUID`
 |===
 
 For example the last 2 days of data can be retrieved using:
@@ -249,141 +217,24 @@ A number of functions are provided to “convert” a `timeuuid`, a
 [cols=",,",options="header",]
 |===
 |Function name |Input type |Description
-a|
-____
-`toDate`
-____
 
-a|
-____
-`timeuuid`
-____
+| `toDate` | `timeuuid` | Converts the `timeuuid` argument into a `date` type
 
-a|
-____
-Converts the `timeuuid` argument into a `date` type
-____
+| `toDate` | `timestamp` | Converts the `timestamp` argument into a `date` type
 
-a|
-____
-`toDate`
-____
+| `toTimestamp` | `timeuuid` | Converts the `timeuuid` argument into a `timestamp` type
 
-a|
-____
-`timestamp`
-____
+| `toTimestamp` | `date` | Converts the `date` argument into a `timestamp` type
 
-a|
-____
-Converts the `timestamp` argument into a `date` type
-____
+| `toUnixTimestamp` | `timeuuid` | Converts the `timeuuid` argument into a `bigInt` raw value
 
-a|
-____
-`toTimestamp`
-____
+| `toUnixTimestamp` | `timestamp` | Converts the `timestamp` argument into a `bigInt` raw value
 
-a|
-____
-`timeuuid`
-____
+| `toUnixTimestamp` | `date` | Converts the `date` argument into a `bigInt` raw value
 
-a|
-____
-Converts the `timeuuid` argument into a `timestamp` type
-____
+| `dateOf` | `timeuuid` | Similar to `toTimestamp(timeuuid)` (DEPRECATED)
 
-a|
-____
-`toTimestamp`
-____
-
-a|
-____
-`date`
-____
-
-a|
-____
-Converts the `date` argument into a `timestamp` type
-____
-
-a|
-____
-`toUnixTimestamp`
-____
-
-a|
-____
-`timeuuid`
-____
-
-a|
-____
-Converts the `timeuuid` argument into a `bigInt` raw value
-____
-
-a|
-____
-`toUnixTimestamp`
-____
-
-a|
-____
-`timestamp`
-____
-
-a|
-____
-Converts the `timestamp` argument into a `bigInt` raw value
-____
-
-a|
-____
-`toUnixTimestamp`
-____
-
-a|
-____
-`date`
-____
-
-a|
-____
-Converts the `date` argument into a `bigInt` raw value
-____
-
-a|
-____
-`dateOf`
-____
-
-a|
-____
-`timeuuid`
-____
-
-a|
-____
-Similar to `toTimestamp(timeuuid)` (DEPRECATED)
-____
-
-a|
-____
-`unixTimestampOf`
-____
-
-a|
-____
-`timeuuid`
-____
-
-a|
-____
-Similar to `toUnixTimestamp(timeuuid)` (DEPRECATED)
-____
-
+| `unixTimestampOf` | `timeuuid` | Similar to `toUnixTimestamp(timeuuid)` (DEPRECATED)
 |===
 
 ===== Blob conversion functions
