@@ -63,490 +63,56 @@ statements (and `fromJson()`):
 [cols=",,,",options="header",]
 |===
 |Type |Formats accepted |Return format |Notes
-a|
-____
-`ascii`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-Uses JSON's `\u` character escape
-____
-
-a|
-____
-`bigint`
-____
-
-a|
-____
-integer, string
-____
-
-a|
-____
-integer
-____
-
-a|
-____
-String must be valid 64 bit integer
-____
-
-a|
-____
-`blob`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-String should be 0x followed by an even number of hex digits
-____
-
-a|
-____
-`boolean`
-____
-
-a|
-____
-boolean, string
-____
-
-a|
-____
-boolean
-____
-
-a|
-____
-String must be "true" or "false"
-____
-
-a|
-____
-`date`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-Date in format `YYYY-MM-DD`, timezone UTC
-____
-
-a|
-____
-`decimal`
-____
-
-a|
-____
-integer, float, string
-____
-
-a|
-____
-float
-____
-
-a|
-____
-May exceed 32 or 64-bit IEEE-754 floating point precision in client-side
-decoder
-____
-
-a|
-____
-`double`
-____
-
-a|
-____
-integer, float, string
-____
-
-a|
-____
-float
-____
-
-a|
-____
-String must be valid integer or float
-____
-
-a|
-____
-`float`
-____
-
-a|
-____
-integer, float, string
-____
-
-a|
-____
-float
-____
-
-a|
-____
-String must be valid integer or float
-____
-
-a|
-____
-`inet`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-IPv4 or IPv6 address
-____
-
-a|
-____
-`int`
-____
-
-a|
-____
-integer, string
-____
-
-a|
-____
-integer
-____
-
-a|
-____
-String must be valid 32 bit integer
-____
-
-a|
-____
-`list`
-____
-
-a|
-____
-list, string
-____
-
-a|
-____
-list
-____
-
-a|
-____
-Uses JSON's native list representation
-____
-
-a|
-____
-`map`
-____
-
-a|
-____
-map, string
-____
-
-a|
-____
-map
-____
-
-a|
-____
-Uses JSON's native map representation
-____
-
-a|
-____
-`smallint`
-____
-
-a|
-____
-integer, string
-____
-
-a|
-____
-integer
-____
-
-a|
-____
-String must be valid 16 bit integer
-____
-
-a|
-____
-`set`
-____
-
-a|
-____
-list, string
-____
-
-a|
-____
-list
-____
-
-a|
-____
-Uses JSON's native list representation
-____
-
-a|
-____
-`text`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-Uses JSON's `\u` character escape
-____
-
-a|
-____
-`time`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-Time of day in format `HH-MM-SS[.fffffffff]`
-____
-
-a|
-____
-`timestamp`
-____
-
-a|
-____
-integer, string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-A timestamp. Strings constant allows to input `timestamps
+
+| `ascii` | string | string | Uses JSON's `\u` character escape
+
+| `bigint` | integer, string | integer | String must be valid 64 bit integer
+
+| `blob` | string | string | String should be 0x followed by an even number of hex digits
+
+| `boolean` | boolean, string | boolean | String must be "true" or "false"
+
+| `date` | string | string | Date in format `YYYY-MM-DD`, timezone UTC
+
+| `decimal` | integer, float, string | float | May exceed 32 or 64-bit IEEE-754 floating point precision in client-side decoder
+
+| `double` | integer, float, string | float | String must be valid integer or float
+
+| `float` | integer, float, string | float | String must be valid integer or float
+
+| `inet` | string | string | IPv4 or IPv6 address
+
+| `int` | integer, string | integer | String must be valid 32 bit integer
+
+| `list` | list, string | list | Uses JSON's native list representation
+
+| `map` | map, string | map | Uses JSON's native map representation
+
+| `smallint` | integer, string | integer | String must be valid 16 bit integer
+
+| `set` | list, string | list | Uses JSON's native list representation
+
+| `text` | string | string | Uses JSON's `\u` character escape
+
+| `time` | string | string | Time of day in format `HH-MM-SS[.fffffffff]`
+
+| `timestamp` | integer, string | string | A timestamp. Strings constant allows to input `timestamps
 as dates <timestamps>`. Datestamps with format `YYYY-MM-DD HH:MM:SS.SSS`
 are returned.
-____
 
-a|
-____
-`timeuuid`
-____
+| `timeuuid` | string | string | Type 1 UUID. See `constant` for the UUID format
 
-a|
-____
-string
-____
+| `tinyint` | integer, string | integer | String must be valid 8 bit integer
 
-a|
-____
-string
-____
+| `tuple` | list, string | list | Uses JSON's native list representation
 
-a|
-____
-Type 1 UUID. See `constant` for the UUID format
-____
+| `UDT` | map, string | map | Uses JSON's native map representation with field names as keys
 
-a|
-____
-`tinyint`
-____
+| `uuid` | string | string | See `constant` for the UUID format
 
-a|
-____
-integer, string
-____
+| `varchar` | string | string | Uses JSON's `\u` character escape
 
-a|
-____
-integer
-____
-
-a|
-____
-String must be valid 8 bit integer
-____
-
-a|
-____
-`tuple`
-____
-
-a|
-____
-list, string
-____
-
-a|
-____
-list
-____
-
-a|
-____
-Uses JSON's native list representation
-____
-
-a|
-____
-`UDT`
-____
-
-a|
-____
-map, string
-____
-
-a|
-____
-map
-____
-
-a|
-____
-Uses JSON's native map representation with field names as keys
-____
-
-a|
-____
-`uuid`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-See `constant` for the UUID format
-____
-
-a|
-____
-`varchar`
-____
-
-a|
-____
-string
-____
-
-a|
-____
-string
-____
-
-a|
-____
-Uses JSON's `\u` character escape
-____
-
-a|
-____
-`varint`
-____
-
-a|
-____
-integer, string
-____
-
-a|
-____
-integer
-____
-
-a|
-____
-Variable length; may overflow 32 or 64 bit integers in client-side
-decoder
-____
-
+| `varint` | integer, string | integer | Variable length; may overflow 32 or 64 bit integers in client-side decoder
 |===
 
 == The fromJson() Function
