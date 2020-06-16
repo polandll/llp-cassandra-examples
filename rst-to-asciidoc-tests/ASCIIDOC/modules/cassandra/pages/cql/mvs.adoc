@@ -52,7 +52,9 @@ by the property `concurrent_materialized_view_builders` in
 `cassandra.yaml`. This property can also be manipulated at runtime
 through both JMX and the `setconcurrentviewbuilders` and
 `getconcurrentviewbuilders` nodetool commands.
-====[[mv-select]]
+====
+
+[[mv-select]]
 === MV select statement
 
 The select statement of a materialized view creation defines which of
@@ -156,8 +158,10 @@ thus the `same than for tables
 Dropping a materialized view users the `DROP MATERIALIZED VIEW`
 statement:
 
-drop_materialized_view_statement: DROP MATERIALIZED VIEW [ IF EXISTS ]
-[.title-ref]#view_name#;
+[source, bnf]
+----
+drop_materialized_view_statement: DROP MATERIALIZED VIEW [ IF EXISTS ] view_name;
+----
 
 If the materialized view does not exists, the statement will return an
 error, unless `IF EXISTS` is used in which case the operation is a

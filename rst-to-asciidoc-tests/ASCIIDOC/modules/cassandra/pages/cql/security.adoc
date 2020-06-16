@@ -161,7 +161,9 @@ subject to the `caching options<auth-caching>` configured in
 recreated and have new `permissions<grant-permission-statement>` or
 `roles<grant-role-statement>` granted to it, any client sessions still
 connected will acquire the newly granted permissions and roles.
-====[[grant-role-statement]]
+====
+
+[[grant-role-statement]]
 === GRANT ROLE
 
 Granting a role to another uses the `GRANT ROLE` statement:
