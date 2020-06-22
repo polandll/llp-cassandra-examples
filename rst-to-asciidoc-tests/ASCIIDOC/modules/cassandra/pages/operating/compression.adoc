@@ -42,90 +42,16 @@ these areas (A is relatively good, F is relatively bad):
 |===
 |Compression Algorithm |Cassandra Class |Compression |Decompression
 |Ratio |C* Version
-|https://lz4.github.io/lz4/[LZ4] |`LZ4Compressor` a|
-____
-A+
-____
 
-a|
-____
-A+
-____
+|https://lz4.github.io/lz4/[LZ4] |`LZ4Compressor` | A+ | A+ | C+ | `>=1.2.2`
 
-a|
-____
-C+
-____
+|https://lz4.github.io/lz4/[LZ4HC] |`LZ4Compressor` | C+ | A+ | B+ | `>= 3.6`
 
-|`>=1.2.2`
+|https://facebook.github.io/zstd/[Zstd] |`ZstdCompressor` | A- | A- | A+ | `>= 4.0`
 
-|https://lz4.github.io/lz4/[LZ4HC] |`LZ4Compressor` a|
-____
-C+
-____
+|http://google.github.io/snappy/[Snappy] |`SnappyCompressor` | A- | A | C | `>= 1.0`
 
-a|
-____
-A+
-____
-
-a|
-____
-B+
-____
-
-|`>= 3.6`
-
-|https://facebook.github.io/zstd/[Zstd] |`ZstdCompressor` a|
-____
-A-
-____
-
-a|
-____
-A-
-____
-
-a|
-____
-A+
-____
-
-|`>= 4.0`
-
-|http://google.github.io/snappy/[Snappy] |`SnappyCompressor` a|
-____
-A-
-____
-
-a|
-____
-A
-____
-
-a|
-____
-C
-____
-
-|`>= 1.0`
-
-|https://zlib.net[Deflate (zlib)] |`DeflateCompressor` a|
-____
-C
-____
-
-a|
-____
-C
-____
-
-a|
-____
-A
-____
-
-|`>= 1.0`
+|https://zlib.net[Deflate (zlib)] |`DeflateCompressor` | C | C | A | `>= 1.0`
 |===
 
 Generally speaking for a performance critical (latency or throughput)
@@ -186,24 +112,27 @@ good choice for competing with `LZ4`.
 
 Users can set compression using the following syntax:
 
-[source,none]
+[source,cql]
 ----
-CREATE TABLE keyspace.table (id int PRIMARY KEY) WITH compression = {'class': 'LZ4Compressor'};
+CREATE TABLE keyspace.table (id int PRIMARY KEY) 
+   WITH compression = {'class': 'LZ4Compressor'};
 ----
 
 Or
 
-[source,none]
+[source,cql]
 ----
-ALTER TABLE keyspace.table WITH compression = {'class': 'LZ4Compressor', 'chunk_length_in_kb': 64, 'crc_check_chance': 0.5};
+ALTER TABLE keyspace.table 
+   WITH compression = {'class': 'LZ4Compressor', 'chunk_length_in_kb': 64, 'crc_check_chance': 0.5};
 ----
 
 Once enabled, compression can be disabled with `ALTER TABLE` setting
 `enabled` to `false`:
 
-[source,none]
+[source,cql]
 ----
-ALTER TABLE keyspace.table WITH compression = {'enabled':'false'};
+ALTER TABLE keyspace.table 
+   WITH compression = {'enabled':'false'};
 ----
 
 Operators should be aware, however, that changing compression is not

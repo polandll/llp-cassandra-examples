@@ -34,7 +34,7 @@ directory.
 CDC is enable or disable through the [.title-ref]#cdc# table property,
 for instance:
 
-[source,none]
+[source,cql]
 ----
 CREATE TABLE foo (a int, b text, PRIMARY KEY(a)) WITH cdc=true;
 
@@ -45,7 +45,7 @@ ALTER TABLE foo WITH cdc=false;
 
 === cassandra.yaml parameters
 
-The following [.title-ref]#cassandra.yaml# are available for CDC:
+The following cassandra.yaml options are available for CDC:
 
 `cdc_enabled` (default: false)::
   Enable or disable CDC operations node-wide.
