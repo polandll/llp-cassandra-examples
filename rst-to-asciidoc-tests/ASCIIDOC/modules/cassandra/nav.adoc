@@ -79,11 +79,26 @@
 *** xref:tools/sstable/index.adoc[SSTable tools]
 *** xref:tools/cassandra_stress.adoc[cassandra-stress]
 
-** xref:development/index.adoc[Development]
-
-** xref:plugins/index.adoc[Plug-ins]
-
 ** xref:troubleshooting/index.adoc[Troubleshooting]
+** xref:troubleshooting/finding_nodes.adoc[Finding misbehaving nodes]
+** xref:troubleshooting/reading_logs.adoc[Reading Cassandra logs]
+** xref:troubleshooting/use_nodetool.adoc[Using nodetool]
+** xref:troubleshooting/use_tools.adoc[Using external tools to deep-dive]
+
+** xref:development/index.adoc[Development]
+*** xref:development/gettingstarted.adoc[Getting started]
+*** xref:development/ide.adoc[Building and IDE integration]
+*** xref:development/testing.adoc[Testing]
+*** xref:development/patches.adoc[Contributing code changes]
+*** xref:development/code_style.adoc[Code style]
+*** xref:development/how_to_review.adoc[Review checklist]
+*** xref:development/how_to_commit.adoc[How to commit]
+*** xref:development/documentation.adoc[Working on documentation]
+*** xref:development/ci.adoc[Jenkins CI environment]
+*** xref:development/dependencies.adoc[Dependency management]
+*** xref:development/release_process.adoc[Release process]
 
 ** xref:faq/index.adoc[FAQ]
+
+** xref:plugins/index.adoc[Plug-ins]
 
