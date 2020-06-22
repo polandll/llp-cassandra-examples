@@ -75,7 +75,7 @@
 
 ** xref:tools/index.adoc[Tools]
 *** xref:tools/cqlsh.adoc[cqlsh: the CQL shell]
-*** xref:tools/nodetool[nodetool]
+*** xref:tools/nodetool/nodetool.adoc[nodetool]
 *** xref:tools/sstable/index.adoc[SSTable tools]
 *** xref:tools/cassandra_stress.adoc[cassandra-stress]
 
