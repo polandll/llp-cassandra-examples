@@ -80,10 +80,10 @@
 *** xref:tools/cassandra_stress.adoc[cassandra-stress]
 
 ** xref:troubleshooting/index.adoc[Troubleshooting]
-** xref:troubleshooting/finding_nodes.adoc[Finding misbehaving nodes]
-** xref:troubleshooting/reading_logs.adoc[Reading Cassandra logs]
-** xref:troubleshooting/use_nodetool.adoc[Using nodetool]
-** xref:troubleshooting/use_tools.adoc[Using external tools to deep-dive]
+*** xref:troubleshooting/finding_nodes.adoc[Finding misbehaving nodes]
+*** xref:troubleshooting/reading_logs.adoc[Reading Cassandra logs]
+*** xref:troubleshooting/use_nodetool.adoc[Using nodetool]
+*** xref:troubleshooting/use_tools.adoc[Using external tools to deep-dive]
 
 ** xref:development/index.adoc[Development]
 *** xref:development/gettingstarted.adoc[Getting started]
