@@ -238,6 +238,7 @@ and its usage is as follows:
 [source,bash]
 ----
 $ nodetool help snapshot
+----
 results in
 [source,none]
 ----

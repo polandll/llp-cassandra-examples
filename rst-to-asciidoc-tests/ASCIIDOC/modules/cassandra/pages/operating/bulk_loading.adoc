@@ -46,7 +46,7 @@ information.
 
 Its usage is as follows.
 
-[source,none]
+[source,bash]
 ----
 sstableloader [options] <dir_path>
 ----
@@ -147,11 +147,13 @@ snapshot of the same table to bulk upload in a different run of
 `sstableloader`. The backups and snapshots for the
 `catalogkeyspace.magazine` table are listed as follows.
 
+[source,bash]
+----
+$ cd ./cassandra/data/data/catalogkeyspace/magazine-446eae30c22a11e9b1350d927649052c && ls -l
+----
+results in
 [source,none]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ cd ./cassandra/data/data/catalogkeyspace/magazine-
-446eae30c22a11e9b1350d927649052c
-[ec2-user@ip-10-0-2-238 magazine-446eae30c22a11e9b1350d927649052c]$ ls -l
 total 0
 drwxrwxr-x. 2 ec2-user ec2-user 226 Aug 19 02:38 backups
 drwxrwxr-x. 4 ec2-user ec2-user  40 Aug 19 02:45 snapshots
@@ -173,10 +175,10 @@ new directory structure to upload SSTables with `sstableloader` which is
 typical when using `sstableloader`. Create a directory structure
 `/catalogkeyspace/magazine` and set its permissions.
 
-[source,none]
+[source,bash]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ sudo mkdir -p /catalogkeyspace/magazine
-[ec2-user@ip-10-0-2-238 ~]$ sudo chmod -R 777 /catalogkeyspace/magazine
+$ sudo mkdir -p /catalogkeyspace/magazine
+$ sudo chmod -R 777 /catalogkeyspace/magazine
 ----
 
 ==== Bulk Loading from an Incremental Backup
@@ -189,10 +191,13 @@ table must exist prior to running `sstableloader`. The table does not
 need to be empty but we have used an empty table as indicated by a CQL
 query:
 
-[source,none]
+[source,cql]
 ----
-cqlsh:catalogkeyspace> SELECT * FROM magazine;
-
+SELECT * FROM magazine;
+----
+results in
+[source,cql]
+----
 id | name | publisher
 ----+------+-----------
 
@@ -203,26 +208,30 @@ After the table to upload has been created copy the SSTable files from
 the `backups` directory to the `/catalogkeyspace/magazine/` directory
 that we created.
 
-[source,none]
+[source,bash]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ sudo cp ./cassandra/data/data/catalogkeyspace/magazine-
-446eae30c22a11e9b1350d927649052c/backups/* /catalogkeyspace/magazine/
+$ sudo cp ./cassandra/data/data/catalogkeyspace/magazine-446eae30c22a11e9b1350d927649052c/backups/* \
+/catalogkeyspace/magazine/
 ----
 
 Run the `sstableloader` to upload SSTables from the
 `/catalogkeyspace/magazine/` directory.
 
-[source,none]
+[source,bash]
 ----
-sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
+$ sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
 ----
 
 The output from the `sstableloader` command should be similar to the
 listed:
 
+[source,bash]
+----
+$ sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
+----
+results in
 [source,none]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
 Opening SSTables and calculating sections to stream
 Streaming relevant part of /catalogkeyspace/magazine/na-1-big-Data.db
 /catalogkeyspace/magazine/na-2-big-Data.db  to [35.173.233.153:7000, 10.0.2.238:7000,
@@ -247,17 +256,19 @@ progress: [35.173.233.153:7000]0:2/2 176% [10.0.2.238:7000]0:2/2 78 %
 After the `sstableloader` has run query the `magazine` table and the
 loaded table should get listed when a query is run.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:catalogkeyspace> SELECT * FROM magazine;
-
+SELECT * FROM magazine;
+----
+results in
+[source,cql]
+----
 id | name                      | publisher
 ----+---------------------------+------------------
  1 |        Couchbase Magazine |        Couchbase
  0 | Apache Cassandra Magazine | Apache Cassandra
 
 (2 rows)
-cqlsh:catalogkeyspace>
 ----
 
 ==== Bulk Loading from a Snapshot
@@ -269,38 +280,45 @@ restore data from a backup the directory structure required by
 to load SSTables to `catalogkeyspace.magazine` does not exist create the
 directories and set their permissions.
 
-[source,none]
+[source,bash]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ sudo mkdir -p /catalogkeyspace/magazine
-[ec2-user@ip-10-0-2-238 ~]$ sudo chmod -R 777 /catalogkeyspace/magazine
+$ sudo mkdir -p /catalogkeyspace/magazine
+$ sudo chmod -R 777 /catalogkeyspace/magazine
 ----
 
 As we shall be copying the snapshot files to the directory remove any
 files that may be in the directory.
 
+[source,bash]
+----
+$ sudo rm /catalogkeyspace/magazine/*
+$ cd /catalogkeyspace/magazine/
+$ ls -l
+----
+results in
 [source,none]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ sudo rm /catalogkeyspace/magazine/*
-[ec2-user@ip-10-0-2-238 ~]$ cd /catalogkeyspace/magazine/
-[ec2-user@ip-10-0-2-238 magazine]$ ls -l
 total 0
 ----
 
 Copy the snapshot files to the `/catalogkeyspace/magazine` directory.
 
-[source,none]
+[source,bash]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ sudo cp ./cassandra/data/data/catalogkeyspace/magazine-
-446eae30c22a11e9b1350d927649052c/snapshots/magazine/* /catalogkeyspace/magazine
+$ sudo cp ./cassandra/data/data/catalogkeyspace/magazine-446eae30c22a11e9b1350d927649052c/snapshots/magazine/* \
+/catalogkeyspace/magazine
 ----
 
 List the files in the `/catalogkeyspace/magazine` directory and a
 `schema.cql` should also get listed.
 
+[source,bash]
+----
+$ cd /catalogkeyspace/magazine && ls -l
+----
+results in
 [source,none]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ cd /catalogkeyspace/magazine
-[ec2-user@ip-10-0-2-238 magazine]$ ls -l
 total 44
 -rw-r--r--. 1 root root   31 Aug 19 04:13 manifest.json
 -rw-r--r--. 1 root root   47 Aug 19 04:13 na-1-big-CompressionInfo.db
@@ -317,27 +335,30 @@ total 44
 Alternatively create symlinks to the snapshot folder instead of copying
 the data, something like:
 
-[source,none]
+[source,bash]
 ----
-mkdir keyspace_name
-ln -s _path_to_snapshot_folder keyspace_name/table_name
+$ mkdir keyspace_name
+$ ln -s _path_to_snapshot_folder keyspace_name/table_name
 ----
 
 If the `magazine` table was dropped run the DDL in the `schema.cql` to
 create the table. Run the `sstableloader` with the following command.
 
-[source,none]
+[source,bash]
 ----
-sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
+$ sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
 ----
 
 As the output from the command indicates SSTables get streamed to the
 cluster.
 
+[source,bash]
+----
+$ sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
+----
+results in 
 [source,none]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ sstableloader --nodes 10.0.2.238  /catalogkeyspace/magazine/
-
 Established connection to initial hosts
 Opening SSTables and calculating sections to stream
 Streaming relevant part of /catalogkeyspace/magazine/na-1-big-Data.db  to
@@ -455,9 +476,9 @@ SSTables from an incremental backup. We shall use the example table
 `cqlkeyspace.t`. Drop table `t` as we are demonstrating to restore the
 table.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:cqlkeyspace> DROP table t;
+DROP table t;
 ----
 
 An incremental backup for a table does not include the schema definition
@@ -465,38 +486,41 @@ for the table. If the schema definition is not kept as a separate
 backup, the `schema.cql` from a backup of the table may be used to
 create the table as follows.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:cqlkeyspace> CREATE TABLE IF NOT EXISTS cqlkeyspace.t (
-              ...         id int PRIMARY KEY,
-              ...         k int,
-              ...         v text)
-              ...         WITH ID = d132e240-c217-11e9-bbee-19821dcea330
-              ...         AND bloom_filter_fp_chance = 0.01
-              ...         AND crc_check_chance = 1.0
-              ...         AND default_time_to_live = 0
-              ...         AND gc_grace_seconds = 864000
-              ...         AND min_index_interval = 128
-              ...         AND max_index_interval = 2048
-              ...         AND memtable_flush_period_in_ms = 0
-              ...         AND speculative_retry = '99p'
-              ...         AND additional_write_policy = '99p'
-              ...         AND comment = ''
-              ...         AND caching = { 'keys': 'ALL', 'rows_per_partition': 'NONE' }
-              ...         AND compaction = { 'max_threshold': '32', 'min_threshold': '4',
-'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy' }
-              ...         AND compression = { 'chunk_length_in_kb': '16', 'class':
-'org.apache.cassandra.io.compress.LZ4Compressor' }
-              ...         AND cdc = false
-              ...         AND extensions = {  };
+CREATE TABLE IF NOT EXISTS cqlkeyspace.t (
+   id int PRIMARY KEY,
+   k int,
+   v text)
+   WITH ID = d132e240-c217-11e9-bbee-19821dcea330
+   AND bloom_filter_fp_chance = 0.01
+   AND crc_check_chance = 1.0
+   AND default_time_to_live = 0
+   AND gc_grace_seconds = 864000
+   AND min_index_interval = 128
+   AND max_index_interval = 2048
+   AND memtable_flush_period_in_ms = 0
+   AND speculative_retry = '99p'
+   AND additional_write_policy = '99p'
+   AND comment = ''
+   AND caching = { 'keys': 'ALL', 'rows_per_partition': 'NONE' }
+   AND compaction = { 'max_threshold': '32', 'min_threshold': '4',
+   'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy' }
+   AND compression = { 'chunk_length_in_kb': '16', 'class':
+   'org.apache.cassandra.io.compress.LZ4Compressor' }
+   AND cdc = false
+   AND extensions = {  }
+;
 ----
 
 Initially the table could be empty, but does not have to be.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:cqlkeyspace> SELECT * FROM t;
-
+SELECT * FROM t;
+----
+[source,cql]
+----
 id | k | v
 ----+---+---
 
@@ -508,24 +532,27 @@ the backups directory. We don’t need to copy the table backups to
 another directory to run `nodetool import` as we had to when using
 `sstableloader`.
 
-[source,none]
+[source,bash]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ nodetool import -- cqlkeyspace t
+$ nodetool import -- cqlkeyspace t \
 ./cassandra/data/data/cqlkeyspace/t-d132e240c21711e9bbee19821dcea330/backups
-[ec2-user@ip-10-0-2-238 ~]$
 ----
 
 The SSTables get imported into the table. Run a query in cqlsh to list
 the data imported.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:cqlkeyspace> SELECT * FROM t;
-
+SELECT * FROM t;
+----
+[source,cql]
+----
 id | k | v
 ----+---+------
  1 | 1 | val1
  0 | 0 | val0
+
+(2 rows)
 ----
 
 === Importing Data from a Snapshot
@@ -535,19 +562,22 @@ similar to importing SSTables from an incremental backup. To demonstrate
 we shall import a snapshot for table `catalogkeyspace.journal`. Drop the
 table as we are demonstrating to restore the table from a snapshot.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:cqlkeyspace> use CATALOGKEYSPACE;
-cqlsh:catalogkeyspace> DROP TABLE journal;
+USE CATALOGKEYSPACE;
+DROP TABLE journal;
 ----
 
 We shall use the `catalog-ks` snapshot for the `journal` table. List the
 files in the snapshot. The snapshot includes a `schema.cql`, which is
 the schema definition for the `journal` table.
 
+[source,bash]
+----
+$ ls -l
+----
 [source,none]
 ----
-[ec2-user@ip-10-0-2-238 catalog-ks]$ ls -l
 total 44
 -rw-rw-r--. 1 ec2-user ec2-user   31 Aug 19 02:44 manifest.json
 -rw-rw-r--. 3 ec2-user ec2-user   47 Aug 19 02:38 na-1-big-CompressionInfo.db
@@ -564,58 +594,58 @@ total 44
 Copy the DDL from the `schema.cql` and run in cqlsh to create the
 `catalogkeyspace.journal` table.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:catalogkeyspace> CREATE TABLE IF NOT EXISTS catalogkeyspace.journal (
-                  ...         id int PRIMARY KEY,
-                  ...         name text,
-                  ...         publisher text)
-                  ...         WITH ID = 296a2d30-c22a-11e9-b135-0d927649052c
-                  ...         AND bloom_filter_fp_chance = 0.01
-                  ...         AND crc_check_chance = 1.0
-                  ...         AND default_time_to_live = 0
-                  ...         AND gc_grace_seconds = 864000
-                  ...         AND min_index_interval = 128
-                  ...         AND max_index_interval = 2048
-                  ...         AND memtable_flush_period_in_ms = 0
-                  ...         AND speculative_retry = '99p'
-                  ...         AND additional_write_policy = '99p'
-                  ...         AND comment = ''
-                  ...         AND caching = { 'keys': 'ALL', 'rows_per_partition': 'NONE' }
-                  ...         AND compaction = { 'min_threshold': '4', 'max_threshold':
-'32', 'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy' }
-                  ...         AND compression = { 'chunk_length_in_kb': '16', 'class':
-'org.apache.cassandra.io.compress.LZ4Compressor' }
-                  ...         AND cdc = false
-                  ...         AND extensions = {  };
+CREATE TABLE IF NOT EXISTS catalogkeyspace.journal (
+   id int PRIMARY KEY,
+   name text,
+   publisher text)
+   WITH ID = 296a2d30-c22a-11e9-b135-0d927649052c
+   AND bloom_filter_fp_chance = 0.01
+   AND crc_check_chance = 1.0
+   AND default_time_to_live = 0
+   AND gc_grace_seconds = 864000
+   AND min_index_interval = 128
+   AND max_index_interval = 2048
+   AND memtable_flush_period_in_ms = 0
+   AND speculative_retry = '99p'
+   AND additional_write_policy = '99p'
+   AND comment = ''
+   AND caching = { 'keys': 'ALL', 'rows_per_partition': 'NONE' }
+   AND compaction = { 'min_threshold': '4', 'max_threshold':
+   '32', 'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy' }
+   AND compression = { 'chunk_length_in_kb': '16', 'class':
+   'org.apache.cassandra.io.compress.LZ4Compressor' }
+   AND cdc = false
+   AND extensions = {  }
+;
 ----
 
 Run the `nodetool import` command to import the SSTables for the
 snapshot.
 
-[source,none]
+[source,bash]
 ----
-[ec2-user@ip-10-0-2-238 ~]$ nodetool import -- catalogkeyspace journal
+$ nodetool import -- catalogkeyspace journal \
 ./cassandra/data/data/catalogkeyspace/journal-
 296a2d30c22a11e9b1350d927649052c/snapshots/catalog-ks/
-[ec2-user@ip-10-0-2-238 ~]$
 ----
 
 Subsequently run a CQL query on the `journal` table and the data
 imported gets listed.
 
-[source,none]
+[source,cql]
 ----
-cqlsh:catalogkeyspace>
-cqlsh:catalogkeyspace> SELECT * FROM journal;
-
+SELECT * FROM journal;
+----
+[source,cql]
+----
 id | name                      | publisher
 ----+---------------------------+------------------
  1 |        Couchbase Magazine |        Couchbase
  0 | Apache Cassandra Magazine | Apache Cassandra
 
 (2 rows)
-cqlsh:catalogkeyspace>
 ----
 
 == Bulk Loading External Data
@@ -642,16 +672,16 @@ need to be supplied at the least.
 The output directory must already have been created. Create a directory
 (`/sstables` as an example) and set its permissions.
 
-[source,none]
+[source,bash]
 ----
-sudo mkdir /sstables
-sudo chmod  777 -R /sstables
+$ sudo mkdir /sstables
+$ sudo chmod  777 -R /sstables
 ----
 
 Next, we shall discuss To use `CQLSSTableWriter` could be used in a Java
 application. Create a Java constant for the output directory.
 
-[source,none]
+[source,java]
 ----
 public static final String OUTPUT_DIR = "./sstables";
 ----
@@ -659,7 +689,7 @@ public static final String OUTPUT_DIR = "./sstables";
 `CQLSSTableWriter` Java API has the provision to create a user defined
 type. Create a new type to store `int` data:
 
-[source,none]
+[source,java]
 ----
 String type = "CREATE TYPE CQLKeyspace.intType (a int, b int)";
 // Define a String variable for the SSTable schema.
@@ -673,7 +703,7 @@ String schema = "CREATE TABLE CQLKeyspace.t ("
 
 Define a `String` variable for the prepared insert statement to use:
 
-[source,none]
+[source,java]
 ----
 String insertStmt = "INSERT INTO CQLKeyspace.t (id, k, v1, v2) VALUES (?, ?, ?, ?)";
 ----
@@ -686,7 +716,7 @@ All these variables or settings are used by the builder class
 
 Create a File object for the output directory.
 
-[source,none]
+[source,java]
 ----
 File outputDir = new File(OUTPUT_DIR + File.separator + "CQLKeyspace" + File.separator + "t");
 ----
@@ -697,7 +727,7 @@ user defined type, SSTable schema, buffer size, prepared insert
 statement, and optionally any of the other builder options, and invoke
 the `build()` method to create a `CQLSSTableWriter` object:
 
-[source,none]
+[source,java]
 ----
 CQLSSTableWriter writer = CQLSSTableWriter.builder()
                                              .inDirectory(outputDir)
@@ -710,14 +740,14 @@ CQLSSTableWriter writer = CQLSSTableWriter.builder()
 Next, set the SSTable data. If any user define types are used obtain a
 `UserType` object for these:
 
-[source,none]
+[source,java]
 ----
 UserType userType = writer.getUDType("intType");
 ----
 
 Add data rows for the resulting SSTable.
 
-[source,none]
+[source,java]
 ----
 writer.addRow(0, 0, "val0", userType.newValue().setInt("a", 0).setInt("b", 0));
    writer.addRow(1, 1, "val1", userType.newValue().setInt("a", 1).setInt("b", 1));
@@ -726,7 +756,7 @@ writer.addRow(0, 0, "val0", userType.newValue().setInt("a", 0).setInt("b", 0));
 
 Close the writer, finalizing the SSTable.
 
-[source,none]
+[source,java]
 ----
 writer.close();
 ----

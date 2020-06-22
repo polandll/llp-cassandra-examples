@@ -147,7 +147,7 @@ recommended to change this for any non-trivial deployment to ensure that
 should nodes become unavailable, login is still possible. Best practice
 is to configure a replication factor of 3 to 5 per-DC.
 
-[source,none]
+[source,cql]
 ----
 ALTER KEYSPACE system_auth WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': 3, 'DC2': 3};
 ----
@@ -155,7 +155,7 @@ ALTER KEYSPACE system_auth WITH replication = {'class': 'NetworkTopologyStrategy
 [arabic, start=2]
 . Edit `cassandra.yaml` to change the `authenticator` option like so:
 
-[source,none]
+[source,yaml]
 ----
 authenticator: PasswordAuthenticator
 ----
@@ -165,9 +165,9 @@ authenticator: PasswordAuthenticator
 . Open a new `cqlsh` session using the credentials of the default
 superuser:
 
-[source,none]
+[source,bash]
 ----
-cqlsh -u cassandra -p cassandra
+$ cqlsh -u cassandra -p cassandra
 ----
 
 [arabic, start=5]
@@ -180,7 +180,7 @@ optional, but highly recommended. While logged in as the default
 superuser, create another superuser role which can be used to bootstrap
 further configuration.
 
-[source,none]
+[source,cql]
 ----
 # create a new superuser
 CREATE ROLE dba WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = 'super';
@@ -190,7 +190,7 @@ CREATE ROLE dba WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = 'super';
 . Start a new cqlsh session, this time logging in as the new_superuser
 and disable the default superuser.
 
-[source,none]
+[source,cql]
 ----
 ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false;
 ----
@@ -245,7 +245,7 @@ to enable internal authorization across the cluster:
 . On the selected node, edit `cassandra.yaml` to change the `authorizer`
 option like so:
 
-[source,none]
+[source,yaml]
 ----
 authorizer: CassandraAuthorizer
 ----
@@ -255,9 +255,9 @@ authorizer: CassandraAuthorizer
 . Open a new `cqlsh` session using the credentials of a role with
 superuser credentials:
 
-[source,none]
+[source,bash]
 ----
-cqlsh -u dba -p super
+$ cqlsh -u dba -p super
 ----
 
 [arabic, start=4]
@@ -266,7 +266,7 @@ link:cql.html#grant-permission[GRANT PERMISSION] statements. On the
 other nodes, until configuration is updated and the node restarted, this
 will have no effect so disruption to clients is avoided.
 
-[source,none]
+[source,cql]
 ----
 GRANT SELECT ON ks.t1 TO db_user;
 ----
@@ -349,7 +349,7 @@ Users permitted to connect to the JMX server are specified in a simple
 text file. The location of this file is set in `cassandra-env.sh` by the
 line:
 
-[source,none]
+[source,bash]
 ----
 JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.password.file=/etc/cassandra/jmxremote.password"
 ----
@@ -364,7 +364,7 @@ jmx_user jmx_password
 Secure the credentials file so that only the user running the Cassandra
 process can read it :
 
-[source,none]
+[source,bash]
 ----
 $ chown cassandra:cassandra /etc/cassandra/jmxremote.password
 $ chmod 400 /etc/cassandra/jmxremote.password
@@ -376,7 +376,7 @@ this context as most operational tools in Cassandra require full
 read/write access. To configure a simple access file, uncomment this
 line in `cassandra-env.sh`:
 
-[source,none]
+[source,bash]
 ----
 #JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.access.file=/etc/cassandra/jmxremote.access"
 ----
@@ -416,7 +416,7 @@ acheived via `GRANT PERMISSION <grant-permission-statement>`.
 To enable integrated authentication, edit `cassandra-env.sh` to
 uncomment these lines:
 
-[source,none]
+[source,bash]
 ----
 #JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.remote.login.config=CassandraLogin"
 #JVM_OPTS="$JVM_OPTS -Djava.security.auth.login.config=$CASSANDRA_HOME/conf/cassandra-jaas.config"
@@ -424,14 +424,14 @@ uncomment these lines:
 
 And disable the JMX standard auth by commenting this line:
 
-[source,none]
+[source,bash]
 ----
 JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.password.file=/etc/cassandra/jmxremote.password"
 ----
 
 To enable integrated authorization, uncomment this line:
 
-[source,none]
+[source,bash]
 ----
 #JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.authorizer=org.apache.cassandra.auth.jmx.AuthorizationProxy"
 ----
@@ -439,7 +439,7 @@ To enable integrated authorization, uncomment this line:
 Check standard access control is off by ensuring this line is commented
 out:
 
-[source,none]
+[source,bash]
 ----
 #JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.access.file=/etc/cassandra/jmxremote.access"
 ----
@@ -450,7 +450,7 @@ resources that they need. For example, a role with the necessary
 permissions to use tools such as jconsole or jmc in read-only mode would
 be defined as:
 
-[source,none]
+[source,cql]
 ----
 CREATE ROLE jmx WITH LOGIN = false;
 GRANT SELECT ON ALL MBEANS TO jmx;
@@ -469,7 +469,7 @@ GRANT jmx TO ks_user;
 
 Fine grained access control to individual MBeans is also supported:
 
-[source,none]
+[source,cql]
 ----
 GRANT EXECUTE ON MBEAN 'org.apache.cassandra.db:type=Tables,keyspace=test_keyspace,table=t1' TO ks_user;
 GRANT EXECUTE ON MBEAN 'org.apache.cassandra.db:type=Tables,keyspace=test_keyspace,table=*' TO ks_owner;
