@@ -736,44 +736,35 @@ comparing document formats:
 To mark the start of a new result set:
 
 ....
--------------------
 version: int16
 type: column_definitions
 column_count: int32;
 column_definition: text, text
 column_definition: text, text
 ....
--------------------
-....
 
 To mark a failed query set:
 
 ....
----------------------
 version: int16
 type: query_failed
 message: text
----------------------
 ....
 
 To mark a row set:
 
 ....
---------------------
 version: int16
 type: row
 row_column_count: int32
 column: bytes
---------------------
 ....
 
 To mark the end of a result set:
 
 ....
--------------------
 version: int16
 type: end_resultset
--------------------
 ....
 
 == Performance Overhead of FQL

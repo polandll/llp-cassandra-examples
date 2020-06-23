@@ -255,47 +255,66 @@ Estimated droppable tombstones: 0.0
 
 == Explanation of each value printed above
 
-===================================
-================================================================================::
-  Value Explanation
+|===
+|Value |Explanation
 
-===================================
-================================================================================
-SSTable prefix of the sstable filenames related to this sstable
-Partitioner partitioner type used to distribute data across nodes;
-defined in cassandra.yaml Bloom Filter FP precision of Bloom filter used
-in reads; defined in the table definition Minimum timestamp minimum
-timestamp of any entry in this sstable, in epoch microseconds Maximum
-timestamp maximum timestamp of any entry in this sstable, in epoch
-microseconds SSTable min local deletion time minimum timestamp of
-deletion date, based on TTL, in epoch seconds SSTable max local deletion
-time maximum timestamp of deletion date, based on TTL, in epoch seconds
-Compressor blank (-) by default; if not blank, indicates type of
-compression enabled on the table TTL min time-to-live in seconds;
-default 0 unless defined in the table definition TTL max time-to-live in
-seconds; default 0 unless defined in the table definition First token
-lowest token and related key found in the sstable summary Last token
-highest token and related key found in the sstable summary Estimated
-droppable tombstones ratio of tombstones to columns, using configured gc
-grace seconds if relevant SSTable level compaction level of this
-sstable, if leveled compaction (LCS) is used Repaired at the timestamp
+
+|SSTable |prefix of the sstable filenames related to this sstable
+|Partitioner |partitioner type used to distribute data across nodes;
+defined in cassandra.yaml 
+|Bloom Filter FP |precision of Bloom filter used
+in reads; defined in the table definition 
+|Minimum timestamp |minimum
+timestamp of any entry in this sstable, in epoch microseconds 
+|Maximum
+timestamp |maximum timestamp of any entry in this sstable, in epoch
+microseconds 
+|SSTable min local deletion time |minimum timestamp of
+deletion date, based on TTL, in epoch seconds 
+|SSTable max local deletion
+time |maximum timestamp of deletion date, based on TTL, in epoch seconds
+|Compressor |blank (-) by default; if not blank, indicates type of
+compression enabled on the table 
+|TTL min |time-to-live in seconds;
+default 0 unless defined in the table definition 
+|TTL max |time-to-live in
+seconds; default 0 unless defined in the table definition 
+|First token |lowest token and related key found in the sstable summary 
+|Last token |highest token and related key found in the sstable summary 
+|Estimated
+droppable tombstones |ratio of tombstones to columns, using configured gc
+grace seconds if relevant 
+|SSTable level |compaction level of this
+sstable, if leveled compaction (LCS) is used 
+|Repaired at |the timestamp
 this sstable was marked as repaired via sstablerepairedset, in epoch
-milliseconds Replay positions covered the interval of time and commitlog
-positions related to this sstable totalColumnsSet number of cells in the
-table totalRows number of rows in the table Estimated tombstone drop
-times approximate number of rows that will expire, ordered by epoch
-seconds Count Row Size Cell Count two histograms in two columns; one
+milliseconds 
+|Replay positions covered |the interval of time and commitlog
+positions related to this sstable 
+|totalColumnsSet |number of cells in the
+table 
+|totalRows |number of rows in the table 
+|Estimated tombstone drop
+times |approximate number of rows that will expire, ordered by epoch
+seconds 
+|Count Row Size Cell Count |two histograms in two columns; one
 represents distribution of Row Size and the other represents
-distribution of Cell Count Estimated cardinality an estimate of unique
-values, used for compaction EncodingStats* minTTL in epoch milliseconds
-EncodingStats* minLocalDeletionTime in epoch seconds EncodingStats*
-minTimestamp in epoch microseconds KeyType the type of partition key,
+distribution of Cell Count 
+|Estimated cardinality an estimate of unique
+values, used for compaction 
+|EncodingStats* minTTL |in epoch milliseconds
+|EncodingStats* minLocalDeletionTime |in epoch seconds 
+|EncodingStats*
+minTimestamp |in epoch microseconds 
+|KeyType |the type of partition key,
 useful in reading and writing data from/to storage; defined in the table
-definition ClusteringTypes the type of clustering key, useful in reading
+definition 
+|ClusteringTypes |the type of clustering key, useful in reading
 and writing data from/to storage; defined in the table definition
-StaticColumns a list of the shared columns in the table RegularColumns a
+|StaticColumns |a list of the shared columns in the table 
+|RegularColumns |a
 list of non-static, non-key columns in the table
-===================================
-================================================================================
-* For the encoding stats values, the delta of this and the current epoch
+|===
+
+`*` For the encoding stats values, the delta of this and the current epoch
 time is used when encoding and storing data in the most optimal way.
