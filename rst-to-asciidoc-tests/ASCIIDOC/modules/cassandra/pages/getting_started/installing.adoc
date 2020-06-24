@@ -56,7 +56,7 @@ binaries and configuration files as the `cassandra` OS user.
 [arabic]
 . Verify the version of Java installed. For example:
 
-[source,bash]
+[source,shell]
 ----
 include::example$java_verify.sh[]
 ----
@@ -72,7 +72,7 @@ include::example$java_verify.result[]
 http://cassandra.apache.org/download/[Apache Cassandra Download] site.
 For example, to download Cassandra 4.0:
 
-[source,bash]
+[source,shell]
 ----
 include::example$curl_install.sh[]
 ----
@@ -86,7 +86,7 @@ http://archive.apache.org/dist/cassandra/[Apache Archives].
 the methods https://www.apache.org/dyn/closer.cgi#verify[here]. For
 example, to verify the hash of the downloaded file using GPG:
 
-[source,bash]
+[source,shell]
 ----
 include::example$verify_gpg.sh[]
 ----
@@ -100,7 +100,7 @@ include::example$verify_gpg.result[]
 
 Compare the signature with the SHA256 file from the Downloads site:
 
-[source,bash]
+[source,shell]
 ----
 include::example$curl_verify_sha.sh[]
 ----
@@ -115,7 +115,7 @@ which returns:
 [arabic, start=4]
 . Unpack the tarball:
 
-[source,bash]
+[source,shell]
 ----
 include::example$tarball.sh[]
 ----
@@ -129,18 +129,13 @@ the scripts, binaries, utilities, configuration, data and log files:
 
 [source,plaintext]
 ----
-<tarball_installation>/
-    bin/
-    conf/
-    data/
-    doc/
-    interface/
-    javadoc/
-    lib/
-    logs/
-    pylib/
-    tools/
+include::example$tarball_install_dirs.txt[]
 ----
+<1> location of the commands to run cassandra, cqlsh, nodetool, and SSTable tools
+<2> location of cassandra.yaml and other configuration files
+<3> location of the commit logs, hints, and SSTables
+<4> location of system and debug logs
+<5>location of cassandra-stress tool
 
 For information on how to configure your installation, see
 http://cassandra.apache.org/doc/latest/getting_started/configuring.html[Configuring
@@ -149,33 +144,33 @@ Cassandra].
 [arabic, start=6]
 . Start Cassandra:
 
-[source,bash]
+[source,shell]
 ----
-$ cd apache-cassandra-4.0.0/ && bin/cassandra
+include::example$start_tarball.sh
 ----
 
 NOTE: This will run Cassandra as the authenticated Linux user.
 
 You can monitor the progress of the startup with:
 
-[source,bash]
+[source,shell]
 ----
-$ tail -f logs/system.log
+include::example$tail_syslog.sh
 ----
 
 Cassandra is ready when you see an entry like this in the `system.log`:
 
 [source,plaintext]
 ----
-INFO  [main] 2019-12-17 03:03:37,526 Server.java:156 - Starting listening for CQL clients on localhost/127.0.0.1:9042 (unencrypted)...
+include::example$tail_syslog.result
 ----
 
 [arabic, start=7]
 . Check the status of Cassandra:
 
-[source,bash]
+[source,shell]
 ----
-$ bin/nodetool status
+include::example$nodetool_status.sh
 ----
 
 The status column in the output should report UN which stands for
@@ -183,7 +178,7 @@ The status column in the output should report UN which stands for
 
 Alternatively, connect to the database with:
 
-[source,bash]
+[source,shell]
 ----
 $ bin/cqlsh
 ----
@@ -194,7 +189,7 @@ $ bin/cqlsh
 . Verify the version of Java installed. For example:
 
 // LLP: NEED TO ADD TO PARTIALS TO REUSE
-[source,bash]
+[source,shell]
 ----
 $ java -version
 ----
@@ -216,7 +211,7 @@ For older releases use `311x` for C* 3.11 series, `30x` for 3.0, `22x`
 for 2.2 and `21x` for 2.1. For example, to add the repository for
 version 4.0 (`40x`):
 
-[source,bash]
+[source,shell]
 ----
 $ echo "deb http://www.apache.org/dist/cassandra/debian 40x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
 deb http://www.apache.org/dist/cassandra/debian 40x main
@@ -226,7 +221,7 @@ deb http://www.apache.org/dist/cassandra/debian 40x main
 . Add the Apache Cassandra repository keys to the list of trusted keys
 on the server:
 
-[source,bash]
+[source,shell]
 ----
 $ curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
 ----
@@ -241,7 +236,7 @@ OK
 [arabic, start=4]
 . Update the package index from sources:
 
-[source,bash]
+[source,shell]
 ----
 $ sudo apt-get update
 ----
@@ -249,7 +244,7 @@ $ sudo apt-get update
 [arabic, start=5]
 . Install Cassandra with APT:
 
-[source,bash]
+[source,shell]
 ----
 $ sudo apt-get install cassandra
 ----
@@ -261,7 +256,7 @@ installation. The Cassandra service will also be run as this user.
 . The Cassandra service gets started automatically after installation.
 Monitor the progress of the startup with:
 
-[source,bash]
+[source,shell]
 ----
 $ tail -f /var/log/cassandra/system.log
 ----
@@ -280,7 +275,7 @@ Cassandra].
 [arabic, start=7]
 . Check the status of Cassandra:
 
-[source,bash]
+[source,shell]
 ----
 $ nodetool status
 ----
@@ -290,7 +285,7 @@ The status column in the output should report `UN` which stands for
 
 Alternatively, connect to the database with:
 
-[source,bash]
+[source,shell]
 ----
 $ cqlsh
 ----
@@ -300,7 +295,7 @@ $ cqlsh
 [arabic]
 . Verify the version of Java installed. For example:
 
-[source,bash]
+[source,shell]
 ----
 $ java -version
 ----
@@ -332,7 +327,7 @@ gpgkey=https://downloads.apache.org/cassandra/KEYS
 [arabic, start=3]
 . Update the package index from sources:
 
-[source,bash]
+[source,shell]
 ----
 $ sudo yum update
 ----
@@ -340,7 +335,7 @@ $ sudo yum update
 [arabic, start=4]
 . Install Cassandra with YUM:
 
-[source,bash]
+[source,shell]
 ----
 $ sudo yum install cassandra
 ----
@@ -351,7 +346,7 @@ installation. The Cassandra service will also be run as this user.
 [arabic, start=5]
 . Start the Cassandra service:
 
-[source,bash]
+[source,shell]
 ----
 $ sudo service cassandra start
 ----
@@ -359,7 +354,7 @@ $ sudo service cassandra start
 [arabic, start=6]
 . Monitor the progress of the startup with:
 
-[source,bash]
+[source,shell]
 ----
 $ tail -f /var/log/cassandra/system.log
 ----
@@ -378,7 +373,7 @@ Cassandra].
 [arabic, start=7]
 . Check the status of Cassandra:
 
-[source,bash]
+[source,shell]
 ----
 $ nodetool status
 ----
@@ -388,7 +383,7 @@ The status column in the output should report `UN` which stands for
 
 Alternatively, connect to the database with:
 
-[source,bash]
+[source,shell]
 ----
 $ cqlsh
 ----
