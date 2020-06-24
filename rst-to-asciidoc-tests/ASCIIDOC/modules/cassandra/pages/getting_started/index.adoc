@@ -3,8 +3,8 @@
 This section covers how to get started using Apache Cassandra and should
 be the first thing to read if you are new to Cassandra.
 
-* xref:getting_started/installing.adoc[Installing]
-* xref:getting_started/configuring.adoc[Configuring]
-* xref:getting_started/querying.adoc[Querying]
-* xref:getting_started/drivers.adoc[Drivers]
-* xref:getting_started/production.adoc[Production]
+* xref:getting_started/installing.adoc[Installing Cassandra]
+* xref:getting_started/configuring.adoc[Configuring Cassandra]
+* xref:getting_started/querying.adoc[Inserting and querying data]
+* xref:getting_started/drivers.adoc[Client drivers]
+* xref:getting_started/production.adoc[Production recommendations]
