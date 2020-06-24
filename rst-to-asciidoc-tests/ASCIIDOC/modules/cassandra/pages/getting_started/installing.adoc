@@ -117,7 +117,7 @@ which returns:
 
 [source,bash]
 ----
-$ tar xzvf apache-cassandra-4.0.0-bin.tar.gz
+include::example$tarball.sh[]
 ----
 
 The files will be extracted to the `apache-cassandra-4.0.0/` directory.
