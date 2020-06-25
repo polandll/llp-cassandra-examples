@@ -1,4 +1,6 @@
 = Overview
+:version: 4.0
+:experimental: (experimental)
 
 Apache Cassandra is an open source, distributed, NoSQL database. It
 presents a partitioned wide column storage model with eventually
@@ -10,14 +12,14 @@ using a staged event-driven architecture
 (http://www.sosp.org/2001/papers/welsh.pdf[SEDA]) to implement a
 combination of Amazon’s
 http://courses.cse.tamu.edu/caverlee/csce438/readings/dynamo-paper.pdf[Dynamo]
-distributed storage and replication techniques combined with Google's
+distributed storage and replication techniques and Google's
 https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf[Bigtable]
 data and storage engine model. Dynamo and Bigtable were both developed
 to meet emerging requirements for scalable, reliable and highly
 available storage systems, but each had areas that could be improved.
 
-Cassandra was designed as a best in class combination of both systems to
-meet emerging large scale, both in data footprint and query volume,
+Cassandra was designed as a best-in-class combination of both systems to
+meet emerging largescale, both in data footprint and query volume,
 storage requirements. As applications began to require full global
 replication and always available low-latency reads and writes, it became
 imperative to design a new kind of database model as the relational
@@ -37,7 +39,7 @@ following design objectives:
 
 == Features
 
-Cassandra provides the Cassandra Query Language (CQL), an SQL-like
+Cassandra provides the Cassandra Query Language (xref:cql/ddl.adoc[CQL]), an SQL-like
 language, to create and update database schema and access data. CQL
 allows users to organize data within a cluster of Cassandra nodes using:
 
@@ -87,7 +89,7 @@ interacts with Cassandra's live control interface, allowing runtime
 manipulation of many settings from `cassandra.yaml`. The
 `auditlogviewer` is used to view the audit logs. The `fqltool` is used
 to view, replay and compare full query logs. The `auditlogviewer` and
-`fqltool` are new tools in Apache Cassandra 4.0.
+`fqltool` are new tools in Apache Cassandra {version}.
 
 In addition, Cassandra supports out of the box atomic snapshot
 functionality, which presents a point in time snapshot of Cassandra's
@@ -95,7 +97,7 @@ data for easy integration with many backup tools. Cassandra also
 supports incremental backups where data can be backed up as it is
 written.
 
-Apache Cassandra 4.0 has added several new features including virtual
-tables. transient replication, audit logging, full query logging, and
-support for Java 11. Two of these features are experimental: transient
+Apache Cassandra {version} has added several new features including virtual
+tables, transient replication {experimental}, audit logging, full query logging, and
+support for Java 11 {experimental}. Two of these features are experimental: transient
 replication and Java 11 support.
