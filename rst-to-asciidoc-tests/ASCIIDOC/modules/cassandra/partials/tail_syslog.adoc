@@ -1,0 +1,14 @@
+[arabic, start=6]
+. Monitor the progress of the startup with:
+
+[source,shell]
+----
+include::example$tail_syslog_package.sh[]
+----
+
+Cassandra is ready when you see an entry like this in the `system.log`:
+
+[source,plaintext]
+----
+include::example$tail_syslog.result[]
+----
