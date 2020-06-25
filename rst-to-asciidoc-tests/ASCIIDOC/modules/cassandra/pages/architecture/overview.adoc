@@ -1,6 +1,6 @@
 = Overview
 :version: 4.0
-:experimental: (experimental)
+:exper: experimental
 
 Apache Cassandra is an open source, distributed, NoSQL database. It
 presents a partitioned wide column storage model with eventually
@@ -98,6 +98,5 @@ supports incremental backups where data can be backed up as it is
 written.
 
 Apache Cassandra {version} has added several new features including virtual
-tables, transient replication {experimental}, audit logging, full query logging, and
-support for Java 11 {experimental}. Two of these features are experimental: transient
-replication and Java 11 support.
+tables, transient replication ({exper}), audit logging, full query logging, and
+support for Java 11 ({exper}). 
