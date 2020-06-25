@@ -133,5 +133,5 @@ CREATE KEYSPACE mykeyspace WITH replication =     {
 
 **Correctly configuring or changing racks after a cluster has been provisioned is an unsupported process**.  
 Migrating from a single rack to multiple racks is also unsupported and can result in data loss.  
-Using`GossipingPropertyFileSnitch`is the most flexible solution for on premise or mixed cloud environments.`Ec2Snitch``
+Using `GossipingPropertyFileSnitch` is the most flexible solution for on premise or mixed cloud environments.`Ec2Snitch`
 is reliable for AWS EC2 only environments.
