@@ -234,7 +234,7 @@ NOTE: For information on how to configure your installation, see
 http://cassandra.apache.org/doc/latest/getting_started/configuring.html[Configuring
 Cassandra].
 
-include::partial$tail_syslog_nobin.adoc[]
+include::partial$tail_syslog.adoc[]
 
 include::partial$nodetool_and_cqlsh_nobin.adoc[]
 
@@ -289,7 +289,7 @@ installation. The Cassandra service will also be run as this user.
 include::example$yum_start.sh[]
 ----
 
-include::partial$tail_syslog_nobin.adoc[]
+include::partial$tail_syslog.adoc[]
 
 include::partial$nodetool_and_cqlsh_nobin.adoc[]
 
