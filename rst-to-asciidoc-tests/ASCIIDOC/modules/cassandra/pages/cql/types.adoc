@@ -251,17 +251,7 @@ the map is sorted by its keys. You can define and insert a map with:
 
 [source,cql]
 ----
-CREATE TABLE users (
-    id text PRIMARY KEY,
-    name text,
-    favs map<text, text> // A map of text keys, and text values
-);
-
-INSERT INTO users (id, name, favs)
-           VALUES ('jsmith', 'John Smith', { 'fruit' : 'Apple', 'band' : 'Beatles' });
-
-// Replace the existing map entirely.
-UPDATE users SET favs = { 'fruit' : 'Banana' } WHERE id = 'jsmith';
+include::example$CQL/map.cql[]
 ----
 
 Further, maps support:
@@ -270,8 +260,7 @@ Further, maps support:
 +
 [source,cql]
 ----
-UPDATE users SET favs['author'] = 'Ed Poe' WHERE id = 'jsmith';
-UPDATE users SET favs = favs + { 'movie' : 'Cassablanca', 'band' : 'ZZ Top' } WHERE id = 'jsmith';
+include::example$CQL/update_map.cql[]
 ----
 * Removing one or more element (if an element doesn't exist, removing it
 is a no-op but no error is thrown):
