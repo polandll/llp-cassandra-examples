@@ -178,12 +178,7 @@ For example:
 
 [source,cql]
 ----
-INSERT INTO RiderResults (rider, race, result) 
-   VALUES ('Christopher Froome', 'Tour de France', 89h4m48s);
-INSERT INTO RiderResults (rider, race, result) 
-   VALUES ('BARDET Romain', 'Tour de France', PT89H8M53S);
-INSERT INTO RiderResults (rider, race, result) 
-   VALUES ('QUINTANA Nairo', 'Tour de France', P0000-00-00T89:09:09);
+include::example$CQL/insert_duration.cql[]
 ----
 
 [[duration-limitation]]
@@ -200,18 +195,17 @@ been created to be able to support daylight saving.
 CQL supports 3 kind of collections: `maps`, `sets` and `lists`. The
 types of those collections is defined by:
 
-collection_type: MAP '<' [.title-ref]#cql_type# ','
-[.title-ref]#cql_type# '>' : | SET '<' [.title-ref]#cql_type# '>' : |
-LIST '<' [.title-ref]#cql_type# '>'
+[source,bnf]
+----
+include::example$BNF/collection_type.bnf[]
+----
 
 and their values can be inputd using collection literals:
 
-collection_literal: [.title-ref]#map_literal# |
-[.title-ref]#set_literal# | [.title-ref]#list_literal# map_literal: '\{'
-[ [.title-ref]#term# ':' [.title-ref]#term# (',' [.title-ref]#term# :
-[.title-ref]#term#)* ] '}' set_literal: '\{' [ [.title-ref]#term# (','
-[.title-ref]#term#)* ] '}' list_literal: '[' [ [.title-ref]#term# (','
-[.title-ref]#term#)* ] ']'
+[source,bnf]
+----
+include::example$BNF/collection_literal.bnf[]
+----
 
 Note however that neither `bind_marker` nor `NULL` are supported inside
 collection literals.
