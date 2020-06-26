@@ -41,9 +41,9 @@ clocks were used to reconcile concurrent updates to a key, Cassandra
 uses a simpler last write wins model where every mutation is timestamped
 (including deletes) and then the latest version of data is the "winning"
 value. Formally speaking, Cassandra uses a Last-Write-Wins Element-Set
-conflict-free replicated data type for each CQL row (a.k.a
-https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#LWW-Element-Set_(Last-Write-Wins-Element-Set)[LWW-Element-Set
-CRDT]) to resolve conflicting mutations on replica sets.
+conflict-free replicated data type for each CQL row, or 
+https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type LWW-Element-Set_(Last-Write-Wins-Element-Set)[LWW-Element-Set
+CRDT], to resolve conflicting mutations on replica sets.
 
 === Consistent Hashing using a Token Ring
 
@@ -72,16 +72,16 @@ key we first hash that key to generate a token (which is just the hash
 of the key), and then we "walk" the ring in a clockwise fashion until we
 encounter three distinct nodes, at which point we have found all the
 replicas of that key. This example of an eight node cluster with
-[.title-ref]#RF=3# can be visualized as follows:
+gRF=3 can be visualized as follows:
 
 image::ring.svg[image]
 
 You can see that in a Dynamo like system, ranges of keys, also known as
 *token ranges*, map to the same physical set of nodes. In this example,
 all keys that fall in the token range excluding token 1 and including
-token 2 ([.title-ref]#range(t1, t2]#) are stored on nodes 2, 3 and 4.
+token 2 (grange(t1, t2]) are stored on nodes 2, 3 and 4.
 
-=== Multiple Tokens per Physical Node (a.k.a. [.title-ref]#vnodes#)
+=== Multiple Tokens per Physical Node (vnodes)
 
 Simple single token consistent hashing works well if you have many
 physical nodes to spread data over, but with evenly spaced tokens and a
@@ -104,15 +104,15 @@ even a single node.
 
 Cassandra introduces some nomenclature to handle these concepts:
 
-* *Token*: A single position on the [.title-ref]#dynamo# style hash
+* *Token*: A single position on the dynamo style hash
 ring.
 * *Endpoint*: A single physical IP and port on the network.
 * *Host ID*: A unique identifier for a single "physical" node, usually
-present at one [.title-ref]#Endpoint# and containing one or more
-[.title-ref]#Tokens#.
-* *Virtual Node* (or *vnode*): A [.title-ref]#Token# on the hash ring
-owned by the same physical node, one with the same [.title-ref]#Host
-ID#.
+present at one gEndpoint and containing one or more
+gTokens.
+* *Virtual Node* (or *vnode*): A gToken on the hash ring
+owned by the same physical node, one with the same gHost
+ID.
 
 The mapping of *Tokens* to *Endpoints* gives rise to the *Token Map*
 where Cassandra keeps track of what ring positions map to which physical
@@ -164,7 +164,7 @@ cluster to maintain high availability and durability. When a mutation
 occurs, the coordinator hashes the partition key to determine the token
 range the data belongs to and then replicates the mutation to the
 replicas of that data according to the
-`Replication Strategy <replication-strategy>`.
+`Replication Strategy`.
 
 All replication strategies have the notion of a *replication factor*
 (`RF`), which indicates to Cassandra how many copies of the partition
@@ -181,23 +181,23 @@ datacenters of nodes.
 Cassandra supports pluggable *replication strategies*, which determine
 which physical nodes act as replicas for a given token range. Every
 keyspace of data has its own replication strategy. All production
-deployments should use the `network-topology-strategy` while the
-`simple-strategy` replication strategy is useful only for testing
+deployments should use the `NetworkTopologyStrategy` while the
+`SimpleStrategy` replication strategy is useful only for testing
 clusters where you do not yet know the datacenter layout of the cluster.
 
 [[network-topology-strategy]]
 ==== `NetworkTopologyStrategy`
 
-`NetworkTopologyStrategy` allows a replication factor to be specified
+`NetworkTopologyStrategy` requires a specified replication factor 
 for each datacenter in the cluster. Even if your cluster only uses a
-single datacenter, `NetworkTopologyStrategy` should be preferred over
+single datacenter, `NetworkTopologyStrategy` is recommended over
 `SimpleStrategy` to make it easier to add new physical or virtual
-datacenters to the cluster later.
+datacenters to the cluster later, if required.
 
 In addition to allowing the replication factor to be specified
 individually by datacenter, `NetworkTopologyStrategy` also attempts to
 choose replicas within a datacenter from different racks as specified by
-the `Snitch <snitch>`. If the number of racks is greater than or equal
+the `Snitch`. If the number of racks is greater than or equal
 to the replication factor for the datacenter, each replica is guaranteed
 to be chosen from a different rack. Otherwise, each rack will hold at
 least one replica, but some racks may hold more than one. Note that this
@@ -228,32 +228,32 @@ distinct nodes have been added to the set of replicas.
 
 ==== Transient Replication
 
-Transient replication is an experimental feature in Cassandra 4.0 not
-present in the original Dynamo paper. It allows you to configure a
-subset of replicas to only replicate data that hasn't been incrementally
-repaired. This allows you to decouple data redundancy from availability.
-For instance, if you have a keyspace replicated at rf 3, and alter it to
-rf 5 with 2 transient replicas, you go from being able to tolerate one
-failed replica to being able to tolerate two, without corresponding
-increase in storage usage. This is because 3 nodes will replicate all
-the data for a given token range, and the other 2 will only replicate
+Transient replication is an experimental feature in Cassandra {40_version} not
+present in the original Dynamo paper. This feature allows configuration of a
+subset of replicas to replicate only data that hasn't been incrementally
+repaired. This configuration decouples data redundancy from availability.
+For instance, if you have a keyspace replicated at RF=3, and alter it to
+RF=5 with two transient replicas, you go from tolerating one
+failed replica to tolerating two, without corresponding
+increase in storage usage. Now, three nodes will replicate all
+the data for a given token range, and the other two will only replicate
 data that hasn't been incrementally repaired.
 
-To use transient replication, you first need to enable it in
+To use transient replication, first enable the option in
 `cassandra.yaml`. Once enabled, both `SimpleStrategy` and
 `NetworkTopologyStrategy` can be configured to transiently replicate
-data. You configure it by specifying replication factor as
+data. Configure it by specifying replication factor as
 `<total_replicas>/<transient_replicas` Both `SimpleStrategy` and
 `NetworkTopologyStrategy` support configuring transient replication.
 
 Transiently replicated keyspaces only support tables created with
-read_repair set to `NONE` and monotonic reads are not currently
-supported. You also can't use `LWT`, logged batches, or counters in 4.0.
+`read_repair` set to `NONE`; monotonic reads are not currently
+supported. You also can't use `LWT`, logged batches, or counters in {40_version}.
 You will possibly never be able to use materialized views with
 transiently replicated keyspaces and probably never be able to use
 secondary indices with them.
 
-Transient replication is an experimental feature that may not be ready
+Transient replication is an experimental feature that is not ready
 for production use. The expected audience is experienced users of
 Cassandra capable of fully validating a deployment of their particular
 application. That means being able check that operations like reads,
@@ -261,8 +261,8 @@ writes, decommission, remove, rebuild, repair, and replace all work with
 your queries, data, configuration, operational practices, and
 availability requirements.
 
-It is anticipated that `4.next` will support monotonic reads with
-transient replication as well as LWT, logged batches, and counters.
+Anticipated additional features in `4.next` are support for monotonic reads with
+transient replication, as well as LWT, logged batches, and counters.
 
 === Data Versioning
 
@@ -288,15 +288,15 @@ maps and sets are guaranteed to resolve as well.
 As replicas in Cassandra can accept mutations independently, it is
 possible for some replicas to have newer data than others. Cassandra has
 many best-effort techniques to drive convergence of replicas including
-[.title-ref]#Replica read repair <read-repair># in the read path and
-[.title-ref]#Hinted handoff <hints># in the write path.
+`Replica read repair <read-repair>` in the read path and
+`Hinted handoff <hints>` in the write path.
 
 These techniques are only best-effort, however, and to guarantee
-eventual consistency Cassandra implements [.title-ref]#anti-entropy
-repair <repair># where replicas calculate hierarchical hash-trees over
+eventual consistency Cassandra implements `anti-entropy
+repair <repair>` where replicas calculate hierarchical hash-trees over
 their datasets called https://en.wikipedia.org/wiki/Merkle_tree[Merkle
-Trees] that can then be compared across replicas to identify mismatched
-data. Like the original Dynamo paper Cassandra supports "full" repairs
+trees] that can then be compared across replicas to identify mismatched
+data. Like the original Dynamo paper Cassandra supports full repairs
 where replicas hash their entire dataset, create Merkle trees, send them
 to each other and sync any ranges that don't match.
 
@@ -418,11 +418,11 @@ one exists)
 . Gossips with a seed node if that didn't happen in step 2.
 
 When an operator first bootstraps a Cassandra cluster they designate
-certain nodes as "seed" nodes. Any node can be a seed node and the only
+certain nodes as seed nodes. Any node can be a seed node and the only
 difference between seed and non-seed nodes is seed nodes are allowed to
 bootstrap into the ring without seeing any other seed nodes.
 Furthermore, once a cluster is bootstrapped, seed nodes become
-"hotspots" for gossip due to step 4 above.
+hotspots for gossip due to step 4 above.
 
 As non-seed nodes must be able to contact at least one seed node in
 order to bootstrap into the cluster, it is common to include multiple
@@ -434,9 +434,11 @@ chosen using existing off-the-shelf service discovery mechanisms.
 ====
 Nodes do not have to agree on the seed nodes, and indeed once a cluster
 is bootstrapped, newly launched nodes can be configured to use any
-existing nodes as "seeds". The only advantage to picking the same nodes
+existing nodes as seeds. The only advantage to picking the same nodes
 as seeds is it increases their usefullness as gossip hotspots.
-====Currently, gossip also propagates token metadata and schema
+====
+
+Currently, gossip also propagates token metadata and schema
 _version_ information. This information forms the control plane for
 scheduling data movements and schema pulls. For example, if a node sees
 a mismatch in schema version in gossip state, it will schedule a schema
@@ -463,11 +465,13 @@ channels it will mark that node as available.
 [NOTE]
 .Note
 ====
-UP and DOWN state are local node decisions and are not propagated with
+`UP` and `DOWN` state are local node decisions and are not propagated with
 gossip. Heartbeat state is propagated with gossip, but nodes will not
-consider each other as "UP" until they can successfully message each
+consider each other as `UP` until they can successfully message each
 other over an actual network channel.
-====Cassandra will never remove a node from gossip state without
+====
+
+Cassandra will never remove a node from gossip state without
 explicit instruction from an operator via a decommission operation or a
 new node bootstrapping with a `replace_address_first_boot` option. This
 choice is intentional to allow Cassandra nodes to temporarily fail

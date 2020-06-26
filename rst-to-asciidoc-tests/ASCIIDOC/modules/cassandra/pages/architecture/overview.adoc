@@ -1,5 +1,4 @@
 = Overview
-:version: 4.0
 :exper: experimental
 
 Apache Cassandra is an open source, distributed, NoSQL database. It
@@ -89,7 +88,7 @@ interacts with Cassandra's live control interface, allowing runtime
 manipulation of many settings from `cassandra.yaml`. The
 `auditlogviewer` is used to view the audit logs. The `fqltool` is used
 to view, replay and compare full query logs. The `auditlogviewer` and
-`fqltool` are new tools in Apache Cassandra {version}.
+`fqltool` are new tools in Apache Cassandra {40_version}.
 
 In addition, Cassandra supports out of the box atomic snapshot
 functionality, which presents a point in time snapshot of Cassandra's
@@ -97,6 +96,6 @@ data for easy integration with many backup tools. Cassandra also
 supports incremental backups where data can be backed up as it is
 written.
 
-Apache Cassandra {version} has added several new features including virtual
+Apache Cassandra {40_version} has added several new features including virtual
 tables, transient replication ({exper}), audit logging, full query logging, and
 support for Java 11 ({exper}). 

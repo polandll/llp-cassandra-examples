@@ -93,7 +93,7 @@ reading through the xref:troubleshooting/use_tools.adoc[Diving Deep, using exter
 
 Compressed data is stored by compressing fixed size byte buffers and writing the data to disk.  The buffer size 
 is determined by the`chunk_length_in_kb` element in the compression map of the schema settings.  The default setting 
-is 16KB starting with Cassandra 4.0.  
+is 16KB starting with Cassandra {40_version}.  
 
 Since the entire compressed buffer must be read off disk, using a compression chunk length  that is too large can lead to 
 significant overhead when reading small records.  Combined with the default read ahead setting, the result can be massive 

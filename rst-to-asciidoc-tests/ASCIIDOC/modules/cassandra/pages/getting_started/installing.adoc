@@ -1,11 +1,5 @@
 = Installing Cassandra
 
-:40_version: 4.0
-:3x_version: 3.11
-:30_version: 3.0
-:22_version: 2.2 
-:21_version: 2.1 
-
 These are the instructions for deploying the supported releases of
 Apache Cassandra on Linux servers.
 
@@ -31,7 +25,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle
 Java Standard Edition 8] or http://openjdk.java.net/[OpenJDK 8]. To
 verify that you have the correct version of java installed, type
 `java -version`.
-* *NOTE*: _Experimental_ support for Java 11 was added in Cassandra 4.0
+* *NOTE*: _Experimental_ support for Java 11 was added in Cassandra {40_version}
 (https://issues.apache.org/jira/browse/CASSANDRA-9608[CASSANDRA-9608]).
 Running Cassandra on Java 11 is _experimental_. Do so at your own risk.
 For more information, see
@@ -76,7 +70,7 @@ include::example$java_verify.result[]
 [arabic, start=2]
 . Download the binary tarball from one of the mirrors on the
 http://cassandra.apache.org/download/[Apache Cassandra Download] site.
-For example, to download Cassandra 4.0:
+For example, to download Cassandra {40_version}:
 
 [source,shell]
 ----
