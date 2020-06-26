@@ -7,7 +7,7 @@ types <custom-types>`:
 
 [source, bnf]
 ----
-cql_type::= native_type| collection_type| user_defined_type | tuple_type | custom_type
+include::example$BNF/cql_type.bnf[]
 ----
 
 == Native Types
@@ -16,10 +16,7 @@ The native types supported by CQL are:
 
 [source, bnf]
 ----
-native_type::= ASCII | BIGINT | BLOB | BOOLEAN | COUNTER | DATE
-| DECIMAL | DOUBLE | DURATION | FLOAT | INET | INT |
-SMALLINT | TEXT | TIME | TIMESTAMP | TIMEUUID | TINYINT |
-UUID | VARCHAR | VARINT
+include::example$BNF/native_type.bnf[]
 ----
 
 The following table gives additional informations on the native data
@@ -267,8 +264,7 @@ is a no-op but no error is thrown):
 +
 [source,cql]
 ----
-DELETE favs['author'] FROM users WHERE id = 'jsmith';
-UPDATE users SET favs = favs - { 'movie', 'band'} WHERE id = 'jsmith';
+include::example$CQL/delete_map.cql[]
 ----
 +
 Note that for removing multiple elements in a `map`, you remove from it
@@ -280,7 +276,7 @@ other words:
 
 [source,cql]
 ----
-UPDATE users USING TTL 10 SET favs['color'] = 'green' WHERE id = 'jsmith';
+include::example$CQL/update_ttl_map.cql[]
 ----
 
 will only apply the TTL to the `{ 'color' : 'green' }` record, the rest
@@ -293,17 +289,7 @@ insert a map with:
 
 [source,cql]
 ----
-CREATE TABLE images (
-    name text PRIMARY KEY,
-    owner text,
-    tags set<text> // A set of text values
-);
-
-INSERT INTO images (name, owner, tags)
-            VALUES ('cat.jpg', 'jsmith', { 'pet', 'cute' });
-
-// Replace the existing set entirely
-UPDATE images SET tags = { 'kitten', 'cat', 'lol' } WHERE name = 'cat.jpg';
+include::example$CQL/set.cql[]
 ----
 
 Further, sets support:
@@ -313,18 +299,17 @@ already existing element is a no-op):
 +
 [source,cql]
 ----
-UPDATE images SET tags = tags + { 'gray', 'cuddly' } WHERE name = 'cat.jpg';
+include::example$CQL/update_set.cql[]
 ----
 * Removing one or multiple elements (if an element doesn't exist,
 removing it is a no-op but no error is thrown):
 +
 [source,cql]
 ----
-UPDATE images SET tags = tags - { 'cat' } WHERE name = 'cat.jpg';
+include::example$CQL/delete_set.cql[]
 ----
 
-Lastly, as for `maps <maps>`, TTLs if used only apply to the newly
-inserted values.
+Lastly, as for `maps <maps>`, TTLs are only applied to newly inserted values.
 
 === Lists
 
@@ -335,24 +320,15 @@ As mentioned above and further discussed at the end of this section,
 lists have limitations and specific performance considerations that you
 should take into account before using them. In general, if you can use a
 `set <sets>` instead of list, always prefer a set.
-====A `list` is a (sorted) collection of non-unique values where
+====
+
+A `list` is a (sorted) collection of non-unique values where
 elements are ordered by there position in the list. You can define and
 insert a list with:
 
 [source,cql]
 ----
-CREATE TABLE plays (
-    id text PRIMARY KEY,
-    game text,
-    players int,
-    scores list<int> // A list of integers
-)
-
-INSERT INTO plays (id, game, players, scores)
-           VALUES ('123-afde', 'quake', 3, [17, 4, 2]);
-
-// Replace the existing list entirely
-UPDATE plays SET scores = [ 3, 9, 4] WHERE id = '123-afde';
+include::example$CQL/list.cql[]
 ----
 
 Further, lists support:
@@ -361,34 +337,7 @@ Further, lists support:
 +
 [source,cql]
 ----
-UPDATE plays SET players = 5, scores = scores + [ 14, 21 ] WHERE id = '123-afde';
-UPDATE plays SET players = 6, scores = [ 3 ] + scores WHERE id = '123-afde';
-----
-* Setting the value at a particular position in the list. This imply
-that the list has a pre-existing element for that position or an error
-will be thrown that the list is too small:
-+
-[source,cql]
-----
-UPDATE plays SET scores[1] = 7 WHERE id = '123-afde';
-----
-* Removing an element by its position in the list. This imply that the
-list has a pre-existing element for that position or an error will be
-thrown that the list is too small. Further, as the operation removes an
-element from the list, the list size will be diminished by 1, shifting
-the position of all the elements following the one deleted:
-+
-[source,cql]
-----
-DELETE scores[1] FROM plays WHERE id = '123-afde';
-----
-* Deleting _all_ the occurrences of particular values in the list (if a
-particular element doesn't occur at all in the list, it is simply
-ignored and no error is thrown):
-+
-[source,cql]
-----
-UPDATE plays SET scores = scores - [ 12, 21 ] WHERE id = '123-afde';
+include::example$CQL/update_list.cql[]
 ----
 
 [WARNING]
@@ -398,37 +347,68 @@ The append and prepend operations are not idempotent by nature. So in
 particular, if one of these operation timeout, then retrying the
 operation is not safe and it may (or may not) lead to
 appending/prepending the value twice.
-====[WARNING]
+====
+
+* Setting the value at a particular position in a list that has a pre-existing element for that position. An error
+will be thrown if the list does not have the position.:
++
+[source,cql]
+----
+include::example$CQL/update_particular_list_element.cql[]
+----
+* Removing an element by its position in the list that has a pre-existing element for that position. An error
+will be thrown if the list does not have the position. Further, as the operation removes an
+element from the list, the list size will decrease by one element, shifting
+the position of all the following elements one forward:
++
+[source,cql]
+----
+include::example$CQL/delete_element_list.cql[]
+----
+
+* Deleting _all_ the occurrences of particular values in the list (if a
+particular element doesn't occur at all in the list, it is simply
+ignored and no error is thrown):
++
+[source,cql]
+----
+include::example$CQL/delete_all_elements_list.cql[]
+----
+
+[WARNING]
 .Warning
 ====
 Setting and removing an element by position and removing occurences of
-particular values incur an internal _read-before-write_. They will thus
-run more slowly and take more ressources than usual updates (with the
+particular values incur an internal _read-before-write_. These operations will
+run slowly and use more resources than usual updates (with the
 exclusion of conditional write that have their own cost).
-====Lastly, as for `maps <maps>`, TTLs when used only apply to the newly
-inserted values.
+====
+
+Lastly, as for `maps <maps>`, TTLs only apply to newly inserted values.
 
 [[udts]]
-== User-Defined Types
+== User-Defined Types (UDTs)
 
-CQL support the definition of user-defined types (UDT for short). Such a
+CQL support the definition of user-defined types (UDTs). Such a
 type can be created, modified and removed using the
 `create_type_statement`, `alter_type_statement` and
 `drop_type_statement` described below. But once created, a UDT is simply
 referred to by its name:
 
-user_defined_type: [.title-ref]#udt_name# udt_name: [
-[.title-ref]#keyspace_name# '.' ] [.title-ref]#identifier#
+[source, bnf]
+----
+include::example$BNF/udt.bnf[]
+----
 
 === Creating a UDT
 
 Creating a new user-defined type is done using a `CREATE TYPE` statement
 defined by:
 
-create_type_statement: CREATE TYPE [ IF NOT EXISTS ]
-[.title-ref]#udt_name# : '(' [.title-ref]#field_definition# ( ','
-[.title-ref]#field_definition# )* ')' field_definition:
-[.title-ref]#identifier# [.title-ref]#cql_type#
+[source, bnf]
+----
+include::example$BNF/create_type.bnf[]
+----
 
 A UDT has a name (used to declared columns of that type) and is a set of
 named and typed fields. Fields name can be any type, including
@@ -436,25 +416,10 @@ collections or other UDT. For instance:
 
 [source,cql]
 ----
-CREATE TYPE phone (
-    country_code int,
-    number text,
-)
-
-CREATE TYPE address (
-    street text,
-    city text,
-    zip text,
-    phones map<text, phone>
-)
-
-CREATE TABLE user (
-    name text PRIMARY KEY,
-    addresses map<text, frozen<address>>
-)
+include::example$CQL/udt.cql[]
 ----
 
-Note that:
+Things to keep in mind about UDTs:
 
 * Attempting to create an already existing type will result in an error
 unless the `IF NOT EXISTS` option is used. If it is used, the statement
@@ -472,8 +437,10 @@ on `frozen <frozen>` for more details.
 Once a used-defined type has been created, value can be input using a
 UDT literal:
 
-udt_literal: '\{' [.title-ref]#identifier# ':' [.title-ref]#term# ( ','
-[.title-ref]#identifier# ':' [.title-ref]#term# )* '}'
+[source,bnf]
+----
+include::example$BNF/udt_literal.bnf[]
+----
 
 In other words, a UDT literal is like a `map <maps>` literal but its
 keys are the names of the fields of the type. For instance, one could
@@ -481,53 +448,43 @@ insert into the table define in the previous section using:
 
 [source,cql]
 ----
-INSERT INTO user (name, addresses)
-          VALUES ('z3 Pr3z1den7', {
-              'home' : {
-                  street: '1600 Pennsylvania Ave NW',
-                  city: 'Washington',
-                  zip: '20500',
-                  phones: { 'cell' : { country_code: 1, number: '202 456-1111' },
-                            'landline' : { country_code: 1, number: '...' } }
-              },
-              'work' : {
-                  street: '1600 Pennsylvania Ave NW',
-                  city: 'Washington',
-                  zip: '20500',
-                  phones: { 'fax' : { country_code: 1, number: '...' } }
-              }
-          })
+include::example$CQL/insert_udt.cql[]
 ----
 
-To be valid, a UDT literal should only include fields defined by the
-type it is a literal of, but it can omit some field (in which case those
-will be `null`).
+To be valid, a UDT literal can only include fields defined by the
+type it is a literal of, but it can omit some fields (these will be set to `NULL`).
 
 === Altering a UDT
 
 An existing user-defined type can be modified using an `ALTER TYPE`
 statement:
 
-alter_type_statement: ALTER TYPE [.title-ref]#udt_name#
-[.title-ref]#alter_type_modification# alter_type_modification: ADD
-[.title-ref]#field_definition# : | RENAME [.title-ref]#identifier# TO
-[.title-ref]#identifier# ( [.title-ref]#identifier# TO
-[.title-ref]#identifier# )*
+[source,bnf]
+----
+include::example$BNF/alter_udt_statement.bnf[]
+----
 
 You can:
 
-* add a new field to the type (`ALTER TYPE address ADD country text`).
-That new field will be `null` for any values of the type created before
+* Add a new field to the type (`ALTER TYPE address ADD country text`).
+That new field will be `NULL` for any values of the type created before
 the addition.
-* rename the fields of the type
-(`ALTER TYPE address RENAME zip TO zipcode`).
+* Rename the fields of the type.
+
+[source,cql]
+----
+include::example$CQL/rename_udt_field.cql[]
+----
 
 === Dropping a UDT
 
 You can drop an existing user-defined type using a `DROP TYPE`
 statement:
 
-drop_type_statement: DROP TYPE [ IF EXISTS ] [.title-ref]#udt_name#
+[source,bnf]
+----
+include::example$BNF/drop_udt_statement.bnf[]
+----
 
 Dropping a type results in the immediate, irreversible removal of that
 type. However, attempting to drop a type that is still in use by another
@@ -542,24 +499,20 @@ CQL also support tuples and tuple types (where the elements can be of
 different types). Functionally, tuples can be though as anonymous UDT
 with anonymous fields. Tuple types and tuple literals are defined by:
 
-tuple_type: TUPLE '<' [.title-ref]#cql_type# ( ','
-[.title-ref]#cql_type# )* '>' tuple_literal: '(' [.title-ref]#term# (
-',' [.title-ref]#term# )* ')'
+[source,bnf]
+----
+include::example$BNF/tuple.bnf[]
+----
 
-and can be used thusly:
+and can be created:
 
 [source,cql]
 ----
-CREATE TABLE durations (
-    event text,
-    duration tuple<int, text>,
-)
-
-INSERT INTO durations (event, duration) VALUES ('ev1', (3, 'hours'));
+include::example$CQL/tuple.cql[]
 ----
 
-Unlike other "composed" types (collections and UDT), a tuple is always
-`frozen <frozen>` (without the need of the [.title-ref]#frozen# keyword)
+Unlike other composed types, like collections and UDTs, a tuple is always
+`frozen <frozen>` (without the need of the `frozen` keyword)
 and it is not possible to update only some elements of a tuple (without
 updating the whole tuple). Also, a tuple literal should always have the
 same number of value than declared in the type it is a tuple of (some of
@@ -574,9 +527,14 @@ Custom types exists mostly for backward compatiliby purposes and their
 usage is discouraged. Their usage is complex, not user friendly and the
 other provided types, particularly `user-defined types <udts>`, should
 almost always be enough.
-====A custom type is defined by:
+====
 
-custom_type: [.title-ref]#string#
+A custom type is defined by:
+
+[source,bnf]
+----
+include::example$BNF/custom_type.bnf[]
+----
 
 A custom type is a `string` that contains the name of Java class that
 extends the server side `AbstractType` class and that can be loaded by

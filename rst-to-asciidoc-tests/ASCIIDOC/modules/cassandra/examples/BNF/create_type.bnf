@@ -1,0 +1,4 @@
+include::example$BNF/create_type.bnf[]
+create_type_statement::= CREATE TYPE [ IF NOT EXISTS ] udt_name
+        '(' field_definition ( ',' field_definition)* ')'
+field_definition::= identifier cql_type

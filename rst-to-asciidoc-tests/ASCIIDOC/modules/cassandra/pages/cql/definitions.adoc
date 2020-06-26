@@ -73,9 +73,7 @@ More formally, we have:
 
 [source, bnf]
 ----
-identifier::= unquoted_identifier | quoted_identifier 
-unquoted_identifier::= re('[a-zA-Z][link:[a-zA-Z0-9]]*') 
-quoted_identifier::= '"' (any character where " can appear if doubled)+ '"'
+include::example$BNF/identifier.bnf[]
 ----
 
 == Constants
@@ -84,14 +82,7 @@ CQL defines the following _constants_:
 
 [source, bnf]
 ----
-constant::= string | integer | float | boolean | uuid | blob | NULL 
-string::= ''' (any character where ' can appear if doubled)+ ''' : '$$' (any character other than '$$') '$$' 
-integer::= re('-?[0-9]+') 
-float::= re('-?[0-9]+(.[0-9]*)?([eE][+-]?[0-9+])?') | NAN | INFINITY 
-boolean::= TRUE | FALSE 
-uuid::= hex\{8}-hex\{4}-hex\{4}-hex\{4}-hex\{12}
-hex::= re("[0-9a-fA-F]") 
-blob::= '0' ('x' | 'X') hex+
+include::example$BNF/constant.bnf[]
 ----
 
 In other words:
@@ -123,12 +114,7 @@ CQL support. Terms are defined by:
 
 [source, bnf]
 ----
-term::= constant | literal | function_call | arithmetic_operation | type_hint | bind_marker 
-literal::= collection_literal | udt_literal | tuple_literal 
-function_call::= identifier '(' [ term (',' term)* ] ')'
-arithmetic_operation::= '-' term | term ('+' | '-' | '*' | '/' | '%') term 
-type_hint::= '(' cql_type ) term 
-bind_marker::= '?' | ':' identifier
+include::example$BNF/term.bnf[]
 ----
 
 A term is thus one of:
@@ -188,54 +174,7 @@ this documentation (see links above):
 
 [source, bnf]
 ----
-cql_statement::= statement [ ';' ] 
-statement:=: ddl_statement : 
-	| dml_statement
-	| secondary_index_statement
-	| materialized_view_statement 
-	| role_or_permission_statement 
-	| udf_statement 
-	| udt_statement 
-	| trigger_statement 
-ddl_statement::= use_statement
-	| create_keyspace_statement
-	| alter_keyspace_statement
-	| drop_keyspace_statement
-	| create_table_statement
-	| alter_table_statement
-	| drop_table_statement
-	| truncate_statement
-dml_statement::= select_statement
-	| insert_statement
-	| update_statement
-	| delete_statement
-	| batch_statement
-secondary_index_statement::= create_index_statement 
-	| drop_index_statement 
-materialized_view_statement::= create_materialized_view_statement 
-	| drop_materialized_view_statement
-role_or_permission_statement::= create_role_statement 
-	| alter_role_statement
-	| drop_role_statement
-	| grant_role_statement
-	| revoke_role_statement
-	| list_roles_statement
-	| grant_permission_statement
-	| revoke_permission_statement
-	| list_permissions_statement
-	| create_user_statement
-	| alter_user_statement
-	| drop_user_statement
-	| list_users_statement 
-udf_statement::= create_function_statement
-	| drop_function_statement
-	| create_aggregate_statement
-	| drop_aggregate_statement 
-udt_statement::= create_type_statement
-	| alter_type_statement
-	| drop_type_statement
-trigger_statement::= create_trigger_statement
-	| drop_trigger_statement
+include::example$BNF/cql_statement.bnf[]
 ----
 
 == Prepared Statements

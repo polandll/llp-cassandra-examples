@@ -155,7 +155,7 @@ thus the `same than for tables
 [[drop-materialized-view-statement]]
 == DROP MATERIALIZED VIEW
 
-Dropping a materialized view users the `DROP MATERIALIZED VIEW`
+Dropping a materialized view using the `DROP MATERIALIZED VIEW`
 statement:
 
 [source, bnf]
