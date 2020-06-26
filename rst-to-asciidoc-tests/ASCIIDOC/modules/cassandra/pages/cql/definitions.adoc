@@ -210,8 +210,10 @@ dml_statement::= select_statement
 	| update_statement
 	| delete_statement
 	| batch_statement
-secondary_index_statement::= create_index_statement | drop_index_statement 
-materialized_view_statement::= create_materialized_view_statement | drop_materialized_view_statement
+secondary_index_statement::= create_index_statement 
+	| drop_index_statement 
+materialized_view_statement::= create_materialized_view_statement 
+	| drop_materialized_view_statement
 role_or_permission_statement::= create_role_statement 
 	| alter_role_statement
 	| drop_role_statement
