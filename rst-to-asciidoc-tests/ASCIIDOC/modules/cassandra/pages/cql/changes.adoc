@@ -207,36 +207,9 @@ and the CQL language version.
 [cols=",",options="header",]
 |===
 |version |description
-a|
-____
-Major
-____
-
-a|
-____
-The major version _must_ be bumped when backward incompatible changes
+| Major | The major version _must_ be bumped when backward incompatible changes
 are introduced. This should rarely occur.
-____
-
-a|
-____
-Minor
-____
-
-a|
-____
-Minor version increments occur when new, but backward compatible,
+| Minor | Minor version increments occur when new, but backward compatible,
 functionality is introduced.
-____
-
-a|
-____
-Patch
-____
-
-a|
-____
-The patch version is incremented when bugs are fixed.
-____
-
+| Patch | The patch version is incremented when bugs are fixed.
 |===

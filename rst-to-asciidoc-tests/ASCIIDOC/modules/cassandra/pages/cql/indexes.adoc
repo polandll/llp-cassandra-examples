@@ -4,29 +4,26 @@ CQL supports creating secondary indexes on tables, allowing queries on
 the table to use those indexes. A secondary index is identified by a
 name defined by:
 
-index_name: re('[a-zA-Z_0-9]+')
+[source,bnf]
+----
+include::example$BNF/index_name.bnf[]
+----
 
 [[create-index-statement]]
 == CREATE INDEX
 
 Creating a secondary index on a table uses the `CREATE INDEX` statement:
 
-create_index_statement: CREATE [ CUSTOM ] INDEX [ IF NOT EXISTS ] [
-[.title-ref]#index_name# ] : ON [.title-ref]#table_name# '('
-[.title-ref]#index_identifier# ')' : [ USING [.title-ref]#string# [ WITH
-OPTIONS = [.title-ref]#map_literal# ] ] index_identifier:
-[.title-ref]#column_name# :| ( KEYS | VALUES | ENTRIES | FULL ) '('
-[.title-ref]#column_name# ')'
+[source,bnf]
+----
+include::example$BNF/create_index_statement.bnf[]
+----
 
 For instance:
 
 [source,cql]
 ----
-CREATE INDEX userIndex ON NerdMovies (user);
-CREATE INDEX ON Mutants (abilityId);
-CREATE INDEX ON users (keys(favs));
-CREATE CUSTOM INDEX ON users (email) USING 'path.to.the.IndexClass';
-CREATE CUSTOM INDEX ON users (email) USING 'path.to.the.IndexClass' WITH OPTIONS = {'storage': '/mnt/ssd/indexes/'};
+include::example$CQL/create_index.cql[]
 ----
 
 The `CREATE INDEX` statement is used to create a new (automatic)
@@ -53,7 +50,10 @@ map values.
 
 Dropping a secondary index uses the `DROP INDEX` statement:
 
-drop_index_statement: DROP INDEX [ IF EXISTS ] [.title-ref]#index_name#
+[source,bnf]
+----
+include::example$BNF/drop_index_statement.bnf[]
+----
 
 The `DROP INDEX` statement is used to drop an existing secondary index.
 The argument of the statement is the index name, which may optionally

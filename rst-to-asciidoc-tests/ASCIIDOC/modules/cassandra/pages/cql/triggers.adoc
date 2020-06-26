@@ -1,10 +1,10 @@
 = Triggers
 
-Triggers are identified by a name defined by:
+Triggers are identified with a name defined by:
 
 [source,bnf]
 ----
-trigger_name ::= identifier
+include::example$BNF/trigger_name.bnf[]
 ----
 
 [[create-trigger-statement]]
@@ -14,16 +14,14 @@ Creating a new trigger uses the `CREATE TRIGGER` statement:
 
 [source,bnf]
 ----
-create_trigger_statement ::= CREATE TRIGGER [ IF NOT EXISTS ] trigger_name 
-				ON table_name  
-				USING string
+include::example$BNF/create_trigger_statement.bnf[]
 ----
 
 For instance:
 
 [source,cql]
 ----
-CREATE TRIGGER myTrigger ON myTable USING 'org.apache.cassandra.triggers.InvertedIndex';
+include::example$CQL/create_trigger.cql[]
 ----
 
 The actual logic that makes up the trigger can be written in any Java
@@ -41,12 +39,12 @@ Dropping a trigger uses the `DROP TRIGGER` statement:
 
 [source,bnf]
 ----
-drop_trigger_statement ::= DROP TRIGGER [ IF EXISTS ] trigger_nameON table_name
+include::example$BNF/drop_trigger_statement.bnf[]
 ----
 
 For instance:
 
 [source,cql]
 ----
-DROP TRIGGER myTrigger ON myTable;
+include::example$CQL/drop_trigger.cql[]
 ----

@@ -162,7 +162,7 @@ names as their name.
 
 Starting version 4.0, Thrift and COMPACT STORAGE is no longer supported.
 
-'ALTER ... DROP COMPACT STORAGE' statement makes Compact Tables
+`ALTER ... DROP COMPACT STORAGE` statement makes Compact Tables
 CQL-compatible, exposing internal structure of Thrift/Compact Tables:
 
 * CQL-created Compact Tables that have no clustering columns, will

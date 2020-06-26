@@ -61,7 +61,7 @@ A `duration` can be added (+) or substracted (-) from a `timestamp` or a
 
 [source,cql]
 ----
-SELECT * FROM myTable WHERE t = '2017-01-01' - 2d
+include::example$CQL/datetime_arithmetic.cql[]
 ----
 
 will select all the records with a value of `t` which is in the last 2

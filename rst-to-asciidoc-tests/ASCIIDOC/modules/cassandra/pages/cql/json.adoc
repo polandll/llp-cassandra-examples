@@ -34,7 +34,7 @@ two columns named "myKey" and "value", you would do the following:
 
 [source,cql]
 ----
-INSERT INTO mytable JSON '{ "\"myKey\"": 0, "value": 0}'
+include::example$CQL/insert_json.cql[]
 ----
 
 By default (or if `DEFAULT NULL` is explicitly used), a column omitted
