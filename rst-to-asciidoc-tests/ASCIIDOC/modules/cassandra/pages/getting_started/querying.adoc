@@ -15,11 +15,11 @@ single node specified on the command line. For example:
 
 [source, shell]
 ----
-include::example$cqlsh_localhost.sh[]
+include::example$BASH/cqlsh_localhost.sh[]
 ----
 [source, cql]
 ----
-include::example$cqlsh_localhost.result[]
+include::example$RESULTS/cqlsh_localhost.result[]
 ----
 If the command is used without specifying a node, `localhost` is the default. See the xref:tools/cqlsh.adoc[`cqlsh` section] for full documentation.
 

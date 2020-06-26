@@ -3,12 +3,12 @@
 
 [source,shell]
 ----
-include::example$tail_syslog_package.sh[]
+include::example$BASH/tail_syslog_package.sh[]
 ----
 
 Cassandra is ready when you see an entry like this in the `system.log`:
 
 [source,plaintext]
 ----
-include::example$tail_syslog.result[]
+include::example$RESULTS/tail_syslog.result[]
 ----

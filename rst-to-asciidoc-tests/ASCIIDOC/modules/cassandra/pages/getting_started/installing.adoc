@@ -58,13 +58,13 @@ binaries and configuration files as the `cassandra` OS user.
 
 [source,shell]
 ----
-include::example$java_verify.sh[]
+include::example$BASH/java_verify.sh[]
 ----
 should return:
 
 [source,plaintext]
 ----
-include::example$java_verify.result[]
+include::example$RESULTS/java_verify.result[]
 ----
 
 [arabic, start=2]
@@ -74,7 +74,7 @@ For example, to download Cassandra {40_version}:
 
 [source,shell]
 ----
-include::example$curl_install.sh[]
+include::example$BASH/curl_install.sh[]
 ----
 
 NOTE: The mirrors only host the latest versions of each major supported
@@ -88,21 +88,21 @@ example, to verify the hash of the downloaded file using GPG:
 
 [source,shell]
 ----
-include::example$verify_gpg.sh[]
+include::example$BASH/verify_gpg.sh[]
 ----
 
 should return:
 
 [source,plaintext]
 ----
-include::example$verify_gpg.result[]
+include::example$RESULTS/verify_gpg.result[]
 ----
 
 Compare the signature with the SHA256 file from the Downloads site:
 
 [source,shell]
 ----
-include::example$curl_verify_sha.sh[]
+include::example$BASH/curl_verify_sha.sh[]
 ----
 
 which returns: 
@@ -117,7 +117,7 @@ which returns:
 
 [source,shell]
 ----
-include::example$tarball.sh[]
+include::example$BASH/tarball.sh[]
 ----
 
 The files will be extracted to the `apache-cassandra-4.0.0/` directory.
@@ -129,7 +129,7 @@ the scripts, binaries, utilities, configuration, data and log files:
 
 [source,plaintext]
 ----
-include::example$tarball_install_dirs.txt[]
+include::example$TEXT/tarball_install_dirs.txt[]
 ----
 <1> location of the commands to run cassandra, cqlsh, nodetool, and SSTable tools
 <2> location of cassandra.yaml and other configuration files
@@ -146,7 +146,7 @@ Cassandra].
 
 [source,shell]
 ----
-include::example$start_tarball.sh[]
+include::example$BASH/start_tarball.sh[]
 ----
 
 NOTE: This will run Cassandra as the authenticated Linux user.
@@ -155,14 +155,14 @@ You can monitor the progress of the startup with:
 
 [source,shell]
 ----
-include::example$tail_syslog.sh[]
+include::example$BASH/tail_syslog.sh[]
 ----
 
 Cassandra is ready when you see an entry like this in the `system.log`:
 
 [source,plaintext]
 ----
-include::example$tail_syslog.result[]
+include::example$RESULTS/tail_syslog.result[]
 ----
 
 include::partial$nodetool_and_cqlsh.adoc[]
@@ -175,14 +175,14 @@ include::partial$nodetool_and_cqlsh.adoc[]
 // LLP: NEED TO ADD TO PARTIALS TO REUSE
 [source,shell]
 ----
-include::example$java_verify.sh[]
+include::example$BASH/java_verify.sh[]
 ----
 
 should return:
 
 [source,plaintext]
 ----
-include::example$java_verify.result[]
+include::example$RESULTS/java_verify.result[]
 ----
 
 [arabic, start=2]
@@ -192,7 +192,7 @@ include::partial$package_versions.adoc[]
 
 [source,shell]
 ----
-include::example$get_deb_package.sh[]
+include::example$BASH/get_deb_package.sh[]
 ----
 
 [arabic, start=3]
@@ -201,11 +201,11 @@ on the server:
 
 [source,shell]
 ----
-include::example$add_repo_keys.sh[]
+include::example$BASH/add_repo_keys.sh[]
 ----
 [source,plaintext]
 ----
-include::example$add_repo_keys.result[]
+include::example$RESULTS/add_repo_keys.result[]
 ----
 
 [arabic, start=4]
@@ -213,7 +213,7 @@ include::example$add_repo_keys.result[]
 
 [source,shell]
 ----
-include::example$apt-get_update.sh[]
+include::example$BASH/apt-get_update.sh[]
 ----
 
 [arabic, start=5]
@@ -221,7 +221,7 @@ include::example$apt-get_update.sh[]
 
 [source,shell]
 ----
-include::example$apt-get_cass.sh[]
+include::example$BASH/apt-get_cass.sh[]
 ----
 
 NOTE: For information on how to configure your installation, see
@@ -239,11 +239,11 @@ include::partial$nodetool_and_cqlsh_nobin.adoc[]
 
 [source,shell]
 ----
-include::example$java_verify.sh[]
+include::example$BASH/java_verify.sh[]
 ----
 [source,plaintext]
 ----
-include::example$java_verify.result[]
+include::example$RESULTS/java_verify.result[]
 ----
 
 [arabic, start=2]
@@ -253,7 +253,7 @@ include::partial$package_versions.adoc[]
  
 [source,plaintext]
 ----
-include::example$add_yum_repo.result[]
+include::example$RESULTS/add_yum_repo.result[]
 ----
 
 [arabic, start=3]
@@ -261,7 +261,7 @@ include::example$add_yum_repo.result[]
 
 [source,shell]
 ----
-include::example$yum_update.sh[]
+include::example$BASH/yum_update.sh[]
 ----
 
 [arabic, start=4]
@@ -269,7 +269,7 @@ include::example$yum_update.sh[]
 
 [source,shell]
 ----
-include::example$yum_cass.sh[]
+include::example$BASH/yum_cass.sh[]
 ----
 
 NOTE: A new Linux user `cassandra` will get created as part of the
@@ -280,7 +280,7 @@ installation. The Cassandra service will also be run as this user.
 
 [source,shell]
 ----
-include::example$yum_start.sh[]
+include::example$BASH/yum_start.sh[]
 ----
 
 include::partial$tail_syslog.adoc[]

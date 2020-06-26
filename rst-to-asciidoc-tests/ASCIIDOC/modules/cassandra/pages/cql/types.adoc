@@ -5,348 +5,55 @@ CQL is a typed language and supports a rich set of data types, including
 `user-defined types <udts>`, `tuple types <tuples>` and `custom
 types <custom-types>`:
 
-cql_type: [.title-ref]#native_type# | [.title-ref]#collection_type# |
-[.title-ref]#user_defined_type# | [.title-ref]#tuple_type# |
-[.title-ref]#custom_type#
+[source, bnf]
+----
+cql_type::= native_type| collection_type| user_defined_type | tuple_type | custom_type
+----
 
 == Native Types
 
 The native types supported by CQL are:
 
-native_type: ASCII : | BIGINT : | BLOB : | BOOLEAN : | COUNTER : | DATE
-: | DECIMAL : | DOUBLE : | DURATION : | FLOAT : | INET : | INT : |
-SMALLINT : | TEXT : | TIME : | TIMESTAMP : | TIMEUUID : | TINYINT : |
-UUID : | VARCHAR : | VARINT
+[source, bnf]
+----
+native_type::= ASCII | BIGINT | BLOB | BOOLEAN | COUNTER | DATE
+| DECIMAL | DOUBLE | DURATION | FLOAT | INET | INT |
+SMALLINT | TEXT | TIME | TIMESTAMP | TIMEUUID | TINYINT |
+UUID | VARCHAR | VARINT
+----
 
 The following table gives additional informations on the native data
-types, and on which kind of `constants
-<constants>` each type supports:
+types, and on which kind of `constants <constants>` each type supports:
 
 [cols=",,",options="header",]
 |===
-|type |constants supported |description
-a|
-____
-`ascii`
-____
+| Type | Constants supported | Description
 
-a|
-____
-`string`
-____
-
-a|
-____
-ASCII character string
-____
-
-a|
-____
-`bigint`
-____
-
-a|
-____
-`integer`
-____
-
-a|
-____
-64-bit signed long
-____
-
-a|
-____
-`blob`
-____
-
-a|
-____
-`blob`
-____
-
-a|
-____
-Arbitrary bytes (no validation)
-____
-
-a|
-____
-`boolean`
-____
-
-a|
-____
-`boolean`
-____
-
-a|
-____
-Either `true` or `false`
-____
-
-a|
-____
-`counter`
-____
-
-a|
-____
-`integer`
-____
-
-a|
-____
-Counter column (64-bit signed value). See `counters` for details
-____
-
-a|
-____
-`date`
-____
-
-a|
-____
-`integer`, `string`
-____
-
-a|
-____
-A date (with no corresponding time value). See `dates` below for details
-____
-
-a|
-____
-`decimal`
-____
-
-a|
-____
-`integer`, `float`
-____
-
-a|
-____
-Variable-precision decimal
-____
-
-a|
-____
-`double`
-____
-
-a|
-____
-`integer` `float`
-____
-
-a|
-____
-64-bit IEEE-754 floating point
-____
-
-a|
-____
-`duration`
-____
-
-a|
-____
-`duration`,
-____
-
-a|
-____
-A duration with nanosecond precision. See `durations` below for details
-____
-
-a|
-____
-`float`
-____
-
-a|
-____
-`integer`, `float`
-____
-
-a|
-____
-32-bit IEEE-754 floating point
-____
-
-a|
-____
-`inet`
-____
-
-a|
-____
-`string`
-____
-
-a|
-____
-An IP address, either IPv4 (4 bytes long) or IPv6 (16 bytes long). Note
-that there is no `inet` constant, IP address should be input as strings
-____
-
-a|
-____
-`int`
-____
-
-a|
-____
-`integer`
-____
-
-a|
-____
-32-bit signed int
-____
-
-a|
-____
-`smallint`
-____
-
-a|
-____
-`integer`
-____
-
-a|
-____
-16-bit signed int
-____
-
-a|
-____
-`text`
-____
-
-a|
-____
-`string`
-____
-
-a|
-____
-UTF8 encoded string
-____
-
-a|
-____
-`time`
-____
-
-a|
-____
-`integer`, `string`
-____
-
-a|
-____
-A time (with no corresponding date value) with nanosecond precision. See
-`times` below for details
-____
-
-a|
-____
-`timestamp`
-____
-
-a|
-____
-`integer`, `string`
-____
-
-a|
-____
-A timestamp (date and time) with millisecond precision. See `timestamps`
-below for details
-____
-
-a|
-____
-`timeuuid`
-____
-
-a|
-____
-`uuid`
-____
-
-a|
-____
-Version 1
-https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID],
-generally used as a “conflict-free” timestamp. Also see
-`timeuuid-functions`
-____
-
-a|
-____
-`tinyint`
-____
-
-a|
-____
-`integer`
-____
-
-a|
-____
-8-bit signed int
-____
-
-a|
-____
-`uuid`
-____
-
-a|
-____
-`uuid`
-____
-
-a|
-____
-A https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID] (of
-any version)
-____
-
-a|
-____
-`varchar`
-____
-
-a|
-____
-`string`
-____
-
-a|
-____
-UTF8 encoded string
-____
-
-a|
-____
-`varint`
-____
-
-a|
-____
-`integer`
-____
-
-a|
-____
-Arbitrary-precision integer
-____
-
+| `ascii` | `string` | ASCII character string
+| `bigint` | `integer` | 64-bit signed long
+| `blob` | `blob` | Arbitrary bytes (no validation)
+| `boolean` | `boolean` | Either `true` or `false` 
+| `counter` | `integer` | Counter column (64-bit signed value). See `counters` for details.
+| `date` | `integer`, `string` | A date (with no corresponding time value). See `dates` below for details.
+| `decimal` | `integer`, `float` | Variable-precision decimal
+| `double` | `integer` `float` | 64-bit IEEE-754 floating point
+| `duration` | `duration`, | A duration with nanosecond precision. See `durations` below for details.
+| `float` | `integer`, `float` | 32-bit IEEE-754 floating point
+| `inet` | `string` | An IP address, either IPv4 (4 bytes long) or IPv6 (16 bytes long). Note
+that there is no `inet` constant, IP address should be input as strings.
+| `int` | `integer` | 32-bit signed int
+| `smallint` | `integer` | 16-bit signed int
+| `text` | `string` | UTF8 encoded string
+| `time` | `integer`, `string` | A time (with no corresponding date value) with nanosecond precision. See
+`times` below for details.
+| `timestamp` | `integer`, `string` | A timestamp (date and time) with millisecond precision. See `timestamps`
+below for details.
+| `timeuuid` | `uuid` | Version 1 https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID],
+generally used as a “conflict-free” timestamp. Also see `timeuuid-functions`.
+| `tinyint` | `integer` | 8-bit signed int
+| `uuid` | `uuid` | A https://en.wikipedia.org/wiki/Universally_unique_identifier[UUID] (of any version)
+| `varchar` | `string` | UTF8 encoded string
+| `varint` | `integer` | Arbitrary-precision integer
 |===
 
 === Counters
@@ -456,32 +163,30 @@ integer.
 
 A duration can be input as:
 
-____
-. `(quantity unit)+` like `12h30m` where the unit can be:
-+
-____
-* `y`: years (12 months)
-* `mo`: months (1 month)
-* `w`: weeks (7 days)
-* `d`: days (1 day)
-* `h`: hours (3,600,000,000,000 nanoseconds)
-* `m`: minutes (60,000,000,000 nanoseconds)
-* `s`: seconds (1,000,000,000 nanoseconds)
-* `ms`: milliseconds (1,000,000 nanoseconds)
-* `us` or `µs` : microseconds (1000 nanoseconds)
-* `ns`: nanoseconds (1 nanosecond)
-____
-. ISO 8601 format: `P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W`
-. ISO 8601 alternative format: `P[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]`
-____
+* `(quantity unit)+` like `12h30m` where the unit can be:
+** `y`: years (12 months)
+** `mo`: months (1 month)
+** `w`: weeks (7 days)
+** `d`: days (1 day)
+** `h`: hours (3,600,000,000,000 nanoseconds)
+** `m`: minutes (60,000,000,000 nanoseconds)
+** `s`: seconds (1,000,000,000 nanoseconds)
+** `ms`: milliseconds (1,000,000 nanoseconds)
+** `us` or `µs` : microseconds (1000 nanoseconds)
+** `ns`: nanoseconds (1 nanosecond)
+* ISO 8601 format: `P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W`
+* ISO 8601 alternative format: `P[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]`
 
 For example:
 
 [source,cql]
 ----
-INSERT INTO RiderResults (rider, race, result) VALUES ('Christopher Froome', 'Tour de France', 89h4m48s);
-INSERT INTO RiderResults (rider, race, result) VALUES ('BARDET Romain', 'Tour de France', PT89H8M53S);
-INSERT INTO RiderResults (rider, race, result) VALUES ('QUINTANA Nairo', 'Tour de France', P0000-00-00T89:09:09);
+INSERT INTO RiderResults (rider, race, result) 
+   VALUES ('Christopher Froome', 'Tour de France', 89h4m48s);
+INSERT INTO RiderResults (rider, race, result) 
+   VALUES ('BARDET Romain', 'Tour de France', PT89H8M53S);
+INSERT INTO RiderResults (rider, race, result) 
+   VALUES ('QUINTANA Nairo', 'Tour de France', P0000-00-00T89:09:09);
 ----
 
 [[duration-limitation]]

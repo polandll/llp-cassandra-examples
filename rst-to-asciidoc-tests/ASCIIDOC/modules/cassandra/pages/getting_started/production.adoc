@@ -78,7 +78,7 @@ For example, we can set the read ahead of `/dev/sda1\` to 4KB by doing the follo
 
 [source, shell]
 ----
-blockdev --setra 8 /dev/sda1
+$ blockdev --setra 8 /dev/sda1
 ----
 [NOTE]
 ====
