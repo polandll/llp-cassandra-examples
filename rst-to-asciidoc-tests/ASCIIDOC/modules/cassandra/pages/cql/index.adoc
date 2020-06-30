@@ -1,10 +1,24 @@
-= Getting Started
+= The Cassandra Query Language (CQL)
 
-This section covers how to get started using Apache Cassandra and should
-be the first thing to read if you are new to Cassandra.
+This document describes the Cassandra Query Language
+(CQL) version 3.
+Note that this document describes the last version of the language.
+However, the xref:cql/changes.adoc[changes] section provides the differences between the versions of CQL since version 3.0.
 
-* xfer:cql/installing.adoc[Installing]
-configuring 
-querying 
-drivers 
-production
+CQL offers a model similar to SQL.
+The data is stored in *tables* containing *rows* of *columns*.
+For that reason, when used in this document, these terms (tables, rows and columns) have the same definition that they have in SQL.
+
+* xref:cql/definitions.adoc[Definitions]
+* xref:cql/types.adoc[Data types]
+* xref:cql/ddl.adoc[Data definition language]
+* xref:cql/dml.adoc[Data manipulation language]
+* xref:cql/indexes.adoc[Secondary indexes]
+* xref:cql/mvs.adoc[Materialized views]
+* xref:cql/security.adoc[CQL security]
+* xref:cql/functions.adoc[Functions]
+* xref:cql/operators.adoc[Operators]
+* xref:cql/json.adoc[JSON]
+* xref:cql/triggers.adoc[Triggers]
+* xref:cql/appendices.adoc[Appendices]
+* xref:cql/changes.adoc[Changes]

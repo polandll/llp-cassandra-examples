@@ -16,55 +16,54 @@ those keyspace and tables.
 The names of the keyspaces and tables are defined by the following
 grammar:
 
-keyspace_name: [.title-ref]#name# table_name: [
-[.title-ref]#keyspace_name# '.' ] [.title-ref]#name# name:
-[.title-ref]#unquoted_name# | [.title-ref]#quoted_name# unquoted_name:
-re('[a-zA-Z_0-9]\{1, 48}') quoted_name: '"' [.title-ref]#unquoted_name#
-'"'
+[source,bnf]
+----
+include::example$BNF/ks_table.bnf[]
+----
 
 Both keyspace and table name should be comprised of only alphanumeric
 characters, cannot be empty and are limited in size to 48 characters
 (that limit exists mostly to avoid filenames (which may include the
 keyspace and table name) to go over the limits of certain file systems).
-By default, keyspace and table names are case insensitive (`myTable` is
+By default, keyspace and table names are case-insensitive (`myTable` is
 equivalent to `mytable`) but case sensitivity can be forced by using
 double-quotes (`"myTable"` is different from `mytable`).
 
 Further, a table is always part of a keyspace and a table name can be
 provided fully-qualified by the keyspace it is part of. If is is not
 fully-qualified, the table is assumed to be in the _current_ keyspace
-(see `USE statement
-<use-statement>`).
+(see `USE statement <use-statement>`).
 
 Further, the valid names for columns is simply defined as:
 
-column_name: [.title-ref]#identifier#
+[source,bnf]
+----
+include::example$BNF/column.bnf[]
+----
 
 We also define the notion of statement options for use in the following
 section:
 
-options: [.title-ref]#option# ( AND [.title-ref]#option# )* option:
-[.title-ref]#identifier# '=' ( [.title-ref]#identifier# |
-[.title-ref]#constant# | [.title-ref]#map_literal# )
+[source,bnf]
+----
+include::example$BNF/options.bnf[]
+----
 
 [[create-keyspace-statement]]
 == CREATE KEYSPACE
 
 A keyspace is created using a `CREATE KEYSPACE` statement:
 
-create_keyspace_statement: CREATE KEYSPACE [ IF NOT EXISTS ]
-[.title-ref]#keyspace_name# WITH [.title-ref]#options#
+[source,bnf]
+----
+include::example$BNF/create_ks.bnf[]
+----
 
 For instance:
 
 [source,cql]
 ----
-CREATE KEYSPACE excelsior
-    WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};
-
-CREATE KEYSPACE excalibur
-    WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1' : 1, 'DC2' : 3}
-    AND durable_writes = false;
+include::example$CQL/create_ks.cql[]
 ----
 
 Attempting to create a keyspace that already exists will return an error
@@ -76,43 +75,10 @@ The supported `options` are:
 [cols=",,,,",options="header",]
 |===
 |name |kind |mandatory |default |description
-|`replication` a|
-____
-_map_
-____
-
-a|
-____
-yes
-____
-
-| a|
-____
-The replication strategy and options to use for the keyspace (see
+|`replication` | _map_ | yes | The replication strategy and options to use for the keyspace (see
 details below).
-____
-
-|`durable_writes` a|
-____
-_simple_
-____
-
-a|
-____
-no
-____
-
-a|
-____
-true
-____
-
-a|
-____
-Whether to use the commit log for updates on this keyspace (disable this
+|`durable_writes` | _simple_ | no | true | Whether to use the commit log for updates on this keyspace (disable this
 option at your own risk!).
-____
-
 |===
 
 The `replication` property is mandatory and must at least contains the
@@ -134,21 +100,7 @@ mandatory argument:
 [cols=",,,",options="header",]
 |===
 |sub-option |type |since |description
-|`'replication_factor'` a|
-____
-int
-____
-
-a|
-____
-all
-____
-
-a|
-____
-The number of replicas to store per range
-____
-
+|`'replication_factor'` | int | all | The number of replicas to store per range
 |===
 
 === `NetworkTopologyStrategy`
@@ -161,42 +113,14 @@ its value is the associated replication factor. Options:
 [cols=",,,",options="header",]
 |===
 |sub-option |type |since |description
-|`'<datacenter>'` a|
-____
-int
-____
-
-a|
-____
-all
-____
-
-a|
-____
-The number of replicas to store per range in the provided datacenter.
-____
-
-|`'replication_factor'` a|
-____
-int
-____
-
-a|
-____
-4.0
-____
-
-a|
-____
-The number of replicas to use as a default per datacenter if not
+|`'<datacenter>'` | int | all | The number of replicas to store per range in the provided datacenter.
+|`'replication_factor'` | int | 4.0 | The number of replicas to use as a default per datacenter if not
 specifically provided. Note that this always defers to existing
 definitions or explicit datacenter settings. For example, to have three
 replicas per datacenter, supply this with a value of 3.
-____
-
 |===
 
-Note that when `ALTER` ing keyspaces and supplying `replication_factor`,
+Note that when altering keyspaces and supplying `replication_factor`,
 auto-expansion will only _add_ new datacenters for safety, it will not
 alter existing datacenters or remove any even if they are no longer in
 the cluster. If you want to remove datacenters while still supplying
@@ -208,33 +132,36 @@ An example of auto-expanding datacenters with two datacenters: `DC1` and
 
 [source,cql]
 ----
-CREATE KEYSPACE excalibur
-    WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor' : 3}
-
-DESCRIBE KEYSPACE excalibur
-    CREATE KEYSPACE excalibur WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': '3', 'DC2': '3'} AND durable_writes = true;
+include::example$CQL/autoexpand_ks.cql[]
+----
+will result in:
+[source,plaintext]
+----
+include::example$RESULTS/autoexpand_ks.result[]
 ----
 
 An example of auto-expanding and overriding a datacenter:
 
 [source,cql]
 ----
-CREATE KEYSPACE excalibur
-    WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor' : 3, 'DC2': 2}
-
-DESCRIBE KEYSPACE excalibur
-    CREATE KEYSPACE excalibur WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': '3', 'DC2': '2'} AND durable_writes = true;
+include::example$CQL/autoexpand_ks_override.cql[]
+----
+will result in:
+[source,plaintext]
+----
+include::example$RESULTS/autoexpand_ks_override.result[]
 ----
 
 An example that excludes a datacenter while using `replication_factor`:
 
 [source,cql]
 ----
-CREATE KEYSPACE excalibur
-    WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor' : 3, 'DC2': 0} ;
-
-DESCRIBE KEYSPACE excalibur
-    CREATE KEYSPACE excalibur WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': '3'} AND durable_writes = true;
+include::example$CQL/autoexpand_exclude_dc.cql[]
+----
+will result in:
+[source,plaintext]
+----
+include::example$RESULTS/autoexpand_exclude_dc.result[]
 ----
 
 If transient replication has been enabled, transient replicas can be
@@ -247,8 +174,7 @@ transient, and 5 replicas in DC2, 2 of which are transient:
 
 [source,cql]
 ----
-CREATE KEYSPACE some_keysopace
-           WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1' : '3/1'', 'DC2' : '5/2'};
+include::example$CQL/create_ks_trans_repl.cql[]
 ----
 
 [[use-statement]]
@@ -262,7 +188,15 @@ referred without a fully-qualified name (that is, without being prefixed
 a keyspace name). A `USE` statement simply takes the keyspace to use as
 current as argument:
 
-use_statement: USE [.title-ref]#keyspace_name#
+[source,bnf]
+----
+include::example$BNF/use_ks.bnf[]
+----
+Using CQL:
+[source,cql]
+----
+include::example$CQL/use_ks.cql[]
+----
 
 [[alter-keyspace-statement]]
 == ALTER KEYSPACE
@@ -270,15 +204,16 @@ use_statement: USE [.title-ref]#keyspace_name#
 An `ALTER KEYSPACE` statement allows to modify the options of a
 keyspace:
 
-alter_keyspace_statement: ALTER KEYSPACE [.title-ref]#keyspace_name#
-WITH [.title-ref]#options#
+[source,bnf]
+----
+include::example$BNF/alter_ks.bnf[]
+----
 
 For instance:
 
 [source,cql]
 ----
-ALTER KEYSPACE Excelsior
-    WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 4};
+include::example$CQL/alter_ks.cql[]
 ----
 
 The supported options are the same than for
@@ -289,14 +224,16 @@ The supported options are the same than for
 
 Dropping a keyspace can be done using the `DROP KEYSPACE` statement:
 
-drop_keyspace_statement: DROP KEYSPACE [ IF EXISTS ]
-[.title-ref]#keyspace_name#
+[source,bnf]
+----
+include::example$BNF/drop_ks.bnf[]
+----
 
 For instance:
 
 [source,cql]
 ----
-DROP KEYSPACE Excelsior;
+include::example$CQL/drop_ks.cql[]
 ----
 
 Dropping a keyspace results in the immediate, irreversible removal of
@@ -311,49 +248,16 @@ unless `IF EXISTS` is used in which case the operation is a no-op.
 
 Creating a new table uses the `CREATE TABLE` statement:
 
-create_table_statement: CREATE TABLE [ IF NOT EXISTS ]
-[.title-ref]#table_name# : '(' : [.title-ref]#column_definition# : ( ','
-[.title-ref]#column_definition# )* : [ ',' PRIMARY KEY '('
-[.title-ref]#primary_key# ')' ] : ')' [ WITH [.title-ref]#table_options#
-] column_definition: [.title-ref]#column_name# [.title-ref]#cql_type# [
-STATIC ] [ PRIMARY KEY] primary_key: [.title-ref]#partition_key# [ ','
-[.title-ref]#clustering_columns# ] partition_key:
-[.title-ref]#column_name# : | '(' [.title-ref]#column_name# ( ','
-[.title-ref]#column_name# )* ')' clustering_columns:
-[.title-ref]#column_name# ( ',' [.title-ref]#column_name# )*
-table_options: COMPACT STORAGE [ AND [.title-ref]#table_options# ] : |
-CLUSTERING ORDER BY '(' [.title-ref]#clustering_order# ')' [ AND
-[.title-ref]#table_options# ] : | [.title-ref]#options#
-clustering_order: [.title-ref]#column_name# (ASC | DESC) ( ','
-[.title-ref]#column_name# (ASC | DESC) )*
+[source,bnf]
+----
+include::example$BNF/create_table.bnf[]
+----
 
-For instance:
+For example, here are some CQL statements to create tables:
 
 [source,cql]
 ----
-CREATE TABLE monkeySpecies (
-    species text PRIMARY KEY,
-    common_name text,
-    population varint,
-    average_size int
-) WITH comment='Important biological records';
-
-CREATE TABLE timeline (
-    userid uuid,
-    posted_month int,
-    posted_time uuid,
-    body text,
-    posted_by text,
-    PRIMARY KEY (userid, posted_month, posted_time)
-) WITH compaction = { 'class' : 'LeveledCompactionStrategy' };
-
-CREATE TABLE loads (
-    machine inet,
-    cpu int,
-    mtime timeuuid,
-    load float,
-    PRIMARY KEY ((machine, cpu), mtime)
-) WITH CLUSTERING ORDER BY (mtime DESC);
+include::example$CQL/create_table.cql[]
 ----
 
 A CQL table has a name and is composed of a set of _rows_. Creating a
@@ -393,22 +297,14 @@ instance:
 
 [source,cql]
 ----
-CREATE TABLE t (
-    pk int,
-    t int,
-    v text,
-    s text static,
-    PRIMARY KEY (pk, t)
-);
-
-INSERT INTO t (pk, t, v, s) VALUES (0, 0, 'val0', 'static0');
-INSERT INTO t (pk, t, v, s) VALUES (0, 1, 'val1', 'static1');
-
-SELECT * FROM t;
-   pk | t | v      | s
-  ----+---+--------+-----------
-   0  | 0 | 'val0' | 'static1'
-   0  | 1 | 'val1' | 'static1'
+include::example$CQL/create_static_column.cql[]
+include::example$CQL/insert_static_data.cql[]
+include::example$CQL/select_static_data.cql[]
+----
+results in:
+[source,cql]
+----
+include::example$RESULTS/select_static_data.result[]
 ----
 
 As can be seen, the `s` value is the same (`static1`) for both of the
@@ -428,137 +324,130 @@ so every column is inherently static).
 === The Primary key
 
 Within a table, a row is uniquely identified by its `PRIMARY KEY`, and
-hence all table *must* define a PRIMARY KEY (and only one). A
-`PRIMARY KEY` definition is composed of one or more of the columns
-defined in the table. Syntactically, the primary key is defined the
-keywords `PRIMARY KEY` followed by comma-separated list of the column
-names composing it within parenthesis, but if the primary key has only
-one column, one can alternatively follow that column definition by the
-`PRIMARY KEY` keywords. The order of the columns in the primary key
-definition matter.
+hence all tables *must* define one PRIMARY KEY. 
+A `PRIMARY KEY` is composed of one or more of the defined columns in the table. 
+Syntactically, the primary key is defined the keywords `PRIMARY KEY` 
+followed by a comma-separated list of the column names within parenthesis.
+If the primary key has only one column, you can alternatively add the `PRIMARY KEY` phrase to
+that column in the table definition. 
+The order of the columns in the primary key definition define the partition key and 
+clustering columns.
 
-A CQL primary key is composed of 2 parts:
+A CQL primary key is composed of two parts:
 
-* the `partition key <partition-key>` part. It is the first component of
-the primary key definition. It can be a single column or, using
-additional parenthesis, can be multiple columns. A table always have at
-least a partition key, the smallest possible table definition is:
+`partition key <partition-key>`::
+* It is the first component of the primary key definition. 
+It can be a single column or, using an additional set of parenthesis, can be multiple columns. 
+A table must have at least one partition key, the smallest possible table definition is:
 +
 [source,cql]
 ----
-CREATE TABLE t (k text PRIMARY KEY);
+include::example$CQL/create_table_single_pk.cql[]
 ----
-* the `clustering columns <clustering-columns>`. Those are the columns
-after the first component of the primary key definition, and the order
-of those columns define the _clustering order_.
+`clustering columns <clustering-columns>`::
+* The columns are the columns that follow the partition key in the primary key definition.
+The order of those columns define the _clustering order_.
 
-Some example of primary key definition are:
+Some examples of primary key definition are:
 
-* `PRIMARY KEY (a)`: `a` is the partition key and there is no clustering
-columns.
-* `PRIMARY KEY (a, b, c)` : `a` is the partition key and `b` and `c` are
-the clustering columns.
-* `PRIMARY KEY ((a, b), c)` : `a` and `b` compose the partition key
-(this is often called a _composite_ partition key) and `c` is the
-clustering column.
+* `PRIMARY KEY (a)`: `a` is the single partition key and there are no clustering columns
+* `PRIMARY KEY (a, b, c)` : `a` is the single partition key and `b` and `c` are the clustering columns
+* `PRIMARY KEY ((a, b), c)` : `a` and `b` compose the _composite_ partition key and `c` is the clustering column
+
+[IMPORTANT]
+====
+The primary key uniquely identifies a row in the table, as described above. 
+A consequence of this uniqueness is that if another row is inserted using the same primary key, 
+then an `UPSERT` occurs and an existing row with the same primary key is replaced. 
+Columns that are not part of the primary key cannot define uniqueness.
+====
 
 [[partition-key]]
-==== The partition key
+==== Partition key
 
-Within a table, CQL defines the notion of a _partition_. A partition is
-simply the set of rows that share the same value for their partition
-key. Note that if the partition key is composed of multiple columns,
-then rows belong to the same partition only they have the same values
-for all those partition key column. So for instance, given the following
-table definition and content:
+Within a table, CQL defines the notion of a _partition_ that defines the location of data within a Cassandra cluster.
+A partition is the set of rows that share the same value for their partition key. 
+
+Note that if the partition key is composed of multiple columns, then rows belong to the same partition 
+when they have the same values for all those partition key columns. 
+A hash is computed from the partition key columns and that hash value defines the partition location.
+So, for instance, given the following table definition and content:
 
 [source,cql]
 ----
-CREATE TABLE t (
-    a int,
-    b int,
-    c int,
-    d int,
-    PRIMARY KEY ((a, b), c, d)
-);
-
-SELECT * FROM t;
-   a | b | c | d
-  ---+---+---+---
-   0 | 0 | 0 | 0    // row 1
-   0 | 0 | 1 | 1    // row 2
-   0 | 1 | 2 | 2    // row 3
-   0 | 1 | 3 | 3    // row 4
-   1 | 1 | 4 | 4    // row 5
+include::example$CQL/create_table_compound_pk.cql[]
+include::example$CQL/insert_table_compound_pk.cql[]
+include::example$CQL/select_table_compound_pk.cql[]
 ----
 
-`row 1` and `row 2` are in the same partition, `row 3` and `row 4` are
-also in the same partition (but a different one) and `row 5` is in yet
-another partition.
+will result in
+[source,cql]
+----
+include::example$RESULTS/select_table_compound_pk.result[]
+----
+<1> Rows 1 and 2 are in the same partition, because both columns `a` and `b` are zero.
+<2> Rows 3 and 4 are in the same partition, but a different one, because column `a` is zero and column `b` is 1 in both rows.
+<3> Row 5 is in a third partition by itself, because both columns `a` and `b` are 1.
 
 Note that a table always has a partition key, and that if the table has
-no `clustering columns
-<clustering-columns>`, then every partition of that table is only
-comprised of a single row (since the primary key uniquely identifies
-rows and the primary key is equal to the partition key if there is no
-clustering columns).
+no `clustering columns`, then every partition of that table has a single row.
+because the partition key, compound or otherwise, identifies a single location.
 
 The most important property of partition is that all the rows belonging
-to the same partition are guarantee to be stored on the same set of
-replica nodes. In other words, the partition key of a table defines
-which of the rows will be localized together in the Cluster, and it is
-thus important to choose your partition key wisely so that rows that
-needs to be fetch together are in the same partition (so that querying
-those rows together require contacting a minimum of nodes).
+to the same partition are guaranteed to be stored on the same set of
+replica nodes. 
+In other words, the partition key of a table defines which rows will be localized on the same 
+node in the cluster. 
+The localization of data is important to the efficient retrieval of data, requiring the Cassandra coordinator
+to contact as few nodes as possible.
+However, there is a flip-side to this guarantee, and all rows sharing a partition key will be stored on the same 
+node, creating a hotspot for both reading and writing.
+While selecting a primary key that groups table rows assists batch updates and can ensure that the updates are 
+_atomic_ and done in _isolation_, the partitions must be sized "just right, not too big nor too small".
 
-Please note however that there is a flip-side to this guarantee: as all
-rows sharing a partition key are guaranteed to be stored on the same set
-of replica node, a partition key that groups too much data can create a
-hotspot.
-
-Another useful property of a partition is that when writing data, all
-the updates belonging to a single partition are done _atomically_ and in
-_isolation_, which is not the case across partitions.
-
-The proper choice of the partition key and clustering columns for a
-table is probably one of the most important aspect of data modeling in
-Cassandra, and it largely impact which queries can be performed, and how
-efficiently they are.
+Data modeling that considers the querying patterns and assigns primary keys based on the queries will have the lowest 
+latency in fetching data.
 
 [[clustering-columns]]
-==== The clustering columns
+==== Clustering columns
 
-The clustering columns of a table defines the clustering order for the
-partition of that table. For a given `partition <partition-key>`, all
-the rows are physically ordered inside Cassandra by that clustering
-order. For instance, given:
+The clustering columns of a table define the clustering order for the partition of that table. 
+For a given `partition`, all rows are ordered by that clustering order. Clustering columns also add uniqueness to
+a row in a table.
+
+For instance, given:
 
 [source,cql]
 ----
-CREATE TABLE t (
-    a int,
-    b int,
-    c int,
-    PRIMARY KEY (a, b, c)
-);
-
-SELECT * FROM t;
-   a | b | c
-  ---+---+---
-   0 | 0 | 4     // row 1
-   0 | 1 | 9     // row 2
-   0 | 2 | 2     // row 3
-   0 | 3 | 3     // row 4
+include::example$CQL/create_table_clustercolumn.cql[]
+include::example$CQL/insert_table_clustercolumn.cql[]
+include::example$CQL/select_table_clustercolumn.cql[]
 ----
 
-then the rows (which all belong to the same partition) are all stored
-internally in the order of the values of their `b` column (the order
-they are displayed above). So where the partition key of the table
-allows to group rows on the same replica set, the clustering columns
-controls how those rows are stored on the replica. That sorting allows
-the retrieval of a range of rows within a partition (for instance, in
-the example above, `SELECT * FROM t WHERE a = 0 AND b > 1 and b <= 3`)
-to be very efficient.
+will result in
+[source,cql]
+----
+include::example$RESULTS/select_table_clustercolumn.result[]
+----
+<1> Row 1 is in one partition, and Rows 2-5 are in a different one. The display order is also different.
+
+Looking more closely at the four rows in the same partition, the `b` clustering column defines the order in which those rows 
+are displayed. 
+Whereas the partition key of the table groups rows on the same node, the clustering columns control 
+how those rows are stored on the node. 
+
+That sorting allows the very efficient retrieval of a range of rows within a partition:
+
+[source,cql]
+----
+include::example$CQL/select_range.cql[]
+----
+
+will result in
+[source,cql]
+----
+include::example$RESULTS/select_range.result[]
+----
 
 [[create-table-options]]
 === Table options
@@ -620,7 +509,7 @@ Note that this option is basically a hint for the storage engine to
 change the order in which it stores the row but it has 3 visible
 consequences:
 
-# it limits which `ORDER BY` clause are allowed for
+ it limits which `ORDER BY` clause are allowed for
 `selects <select-statement>` on that table. You can only::
   order results by the clustering order or the reverse clustering order.
   Meaning that if a table has 2 clustering column `a` and `b` and you
@@ -628,10 +517,10 @@ consequences:
   will be allowed to use `ORDER BY (a DESC, b ASC)` and (reverse
   clustering order) `ORDER BY (a ASC, b DESC)` but *not*
   `ORDER BY (a ASC, b ASC)` (nor `ORDER BY (a DESC, b DESC)`).
-# it also change the default order of results when queried (if no
+ it also change the default order of results when queried (if no
 `ORDER BY` is provided). Results are always returned::
   in clustering order (within a partition).
-# it has a small performance impact on some queries as queries in
+ it has a small performance impact on some queries as queries in
 reverse clustering order are slower than the one in::
   forward clustering order. In practice, this means that if you plan on
   querying mostly in the reverse natural order of your columns (which is
@@ -864,7 +753,7 @@ sub-options are available:
 | `class` | LZ4Compressor | The compression algorithm to use. Default compressor are: LZ4Compressor,
 SnappyCompressor, DeflateCompressor and ZstdCompressor. Use
 `'enabled' : false` to disable compression. Custom compressor can be
-provided by specifying the full class name as a “string constant”:#constants.
+provided by specifying the full class name as a “string constant”:constants.
 
 | `enabled` | true | Enable/disable sstable compression. If the `enabled` option is set to
 `false` no other options must be specified.
@@ -1007,12 +896,12 @@ creating a table.
 
 Altering an existing table uses the `ALTER TABLE` statement:
 
-alter_table_statement: ALTER TABLE [.title-ref]#table_name#
-[.title-ref]#alter_table_instruction# alter_table_instruction: ADD
-[.title-ref]#column_name# [.title-ref]#cql_type# ( ','
-[.title-ref]#column_name# [.title-ref]#cql_type# )* : | DROP
-[.title-ref]#column_name# ( [.title-ref]#column_name# )* : | WITH
-[.title-ref]#options#
+alter_table_statement: ALTER TABLE table_name
+alter_table_instruction alter_table_instruction: ADD
+column_name cql_type ( ','
+column_name cql_type )* : | DROP
+column_name ( column_name )* : | WITH
+options
 
 For instance:
 
@@ -1070,7 +959,7 @@ name than the dropped one *unless* the type of the dropped column was a
 
 Dropping a table uses the `DROP TABLE` statement:
 
-drop_table_statement: DROP TABLE [ IF EXISTS ] [.title-ref]#table_name#
+drop_table_statement: DROP TABLE [ IF EXISTS ] table_name
 
 Dropping a table results in the immediate, irreversible removal of the
 table, including all data it contains.
@@ -1083,7 +972,7 @@ If the table does not exist, the statement will return an error, unless
 
 A table can be truncated using the `TRUNCATE` statement:
 
-truncate_statement: TRUNCATE [ TABLE ] [.title-ref]#table_name#
+truncate_statement: TRUNCATE [ TABLE ] table_name
 
 Note that `TRUNCATE TABLE foo` is allowed for consistency with other DDL
 statements but tables are the only object that can be truncated
