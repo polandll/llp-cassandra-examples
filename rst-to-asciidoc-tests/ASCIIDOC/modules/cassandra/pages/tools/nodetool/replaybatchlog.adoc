@@ -1,4 +1,0 @@
-[[nodetool_replaybatchlog]]
-== replaybatchlog
-
-== Usage

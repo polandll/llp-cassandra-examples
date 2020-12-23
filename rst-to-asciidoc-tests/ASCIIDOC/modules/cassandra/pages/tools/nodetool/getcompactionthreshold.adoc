@@ -1,4 +1,0 @@
-[[nodetool_getcompactionthreshold]]
-== getcompactionthreshold
-
-== Usage

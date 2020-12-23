@@ -1,4 +1,0 @@
-[[nodetool_drain]]
-== drain
-
-== Usage

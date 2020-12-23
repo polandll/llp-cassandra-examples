@@ -1,4 +1,0 @@
-[[nodetool_resetlocalschema]]
-== resetlocalschema
-
-== Usage

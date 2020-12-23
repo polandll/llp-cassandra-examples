@@ -1,4 +1,0 @@
-[[nodetool_disablebackup]]
-== disablebackup
-
-== Usage

@@ -1,1 +1,0 @@
-cqlIntro.adoc was made using pandoc online, MD -> asciidoc, after oxygen DITA -> MD conversion

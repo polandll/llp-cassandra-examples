@@ -1,4 +1,0 @@
-[[nodetool_refresh]]
-== refresh
-
-== Usage

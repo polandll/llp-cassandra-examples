@@ -1,4 +1,0 @@
-[[nodetool_setcachekeystosave]]
-== setcachekeystosave
-
-== Usage

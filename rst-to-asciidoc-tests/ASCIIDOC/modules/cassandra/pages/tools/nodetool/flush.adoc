@@ -1,4 +1,0 @@
-[[nodetool_flush]]
-== flush
-
-== Usage

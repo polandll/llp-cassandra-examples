@@ -1,4 +1,0 @@
-[[nodetool_invalidatecountercache]]
-== invalidatecountercache
-
-== Usage

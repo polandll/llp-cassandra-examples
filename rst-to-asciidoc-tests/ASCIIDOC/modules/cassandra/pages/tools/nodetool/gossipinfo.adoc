@@ -1,4 +1,0 @@
-[[nodetool_gossipinfo]]
-== gossipinfo
-
-== Usage

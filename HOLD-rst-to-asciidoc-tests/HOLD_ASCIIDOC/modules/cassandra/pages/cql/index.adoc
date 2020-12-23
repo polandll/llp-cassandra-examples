@@ -1,6 +1,0 @@
-= Getting Started
-
-This section covers how to get started using Apache Cassandra and should
-be the first thing to read if you are new to Cassandra.
-
-installing configuring querying drivers production

@@ -1,4 +1,0 @@
-[[nodetool_statusautocompaction]]
-== statusautocompaction
-
-== Usage

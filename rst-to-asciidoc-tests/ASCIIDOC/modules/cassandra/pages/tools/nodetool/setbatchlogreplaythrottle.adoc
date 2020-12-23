@@ -1,4 +1,0 @@
-[[nodetool_setbatchlogreplaythrottle]]
-== setbatchlogreplaythrottle
-
-== Usage

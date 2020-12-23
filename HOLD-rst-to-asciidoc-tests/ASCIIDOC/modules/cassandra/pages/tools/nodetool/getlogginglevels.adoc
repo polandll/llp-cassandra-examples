@@ -1,4 +1,0 @@
-[[nodetool_getlogginglevels]]
-== getlogginglevels
-
-== Usage

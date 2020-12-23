@@ -1,4 +1,0 @@
-[[nodetool_invalidaterowcache]]
-== invalidaterowcache
-
-== Usage

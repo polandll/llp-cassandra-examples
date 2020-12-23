@@ -1,4 +1,0 @@
-[[nodetool_tablestats]]
-== tablestats
-
-== Usage

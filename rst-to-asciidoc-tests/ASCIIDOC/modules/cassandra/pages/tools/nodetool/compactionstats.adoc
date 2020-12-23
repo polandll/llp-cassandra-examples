@@ -1,4 +1,0 @@
-[[nodetool_compactionstats]]
-== compactionstats
-
-== Usage

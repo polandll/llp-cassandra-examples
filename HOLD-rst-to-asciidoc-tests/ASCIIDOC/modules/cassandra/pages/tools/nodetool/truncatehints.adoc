@@ -1,4 +1,0 @@
-[[nodetool_truncatehints]]
-== truncatehints
-
-== Usage

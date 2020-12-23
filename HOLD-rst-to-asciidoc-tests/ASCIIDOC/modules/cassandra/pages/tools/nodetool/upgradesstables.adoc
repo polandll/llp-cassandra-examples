@@ -1,4 +1,0 @@
-[[nodetool_upgradesstables]]
-== upgradesstables
-
-== Usage

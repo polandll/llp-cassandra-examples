@@ -1,4 +1,0 @@
-[[nodetool_repair_admin]]
-== repair_admin
-
-== Usage

@@ -1,4 +1,0 @@
-[[nodetool_enableauditlog]]
-== enableauditlog
-
-== Usage

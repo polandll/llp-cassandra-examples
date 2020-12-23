@@ -1,4 +1,0 @@
-[[nodetool_verify]]
-== verify
-
-== Usage

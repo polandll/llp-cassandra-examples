@@ -1,4 +1,0 @@
-[[nodetool_clientstats]]
-== clientstats
-
-== Usage
