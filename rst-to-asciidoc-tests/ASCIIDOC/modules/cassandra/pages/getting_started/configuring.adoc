@@ -42,7 +42,7 @@ following properties:
 blocked by a firewall.
 * `listen_address`: The `listen address` is the IP address of a node
 that allows it to communicate with other nodes in the cluster. Set to
-[.title-ref]#localhost# by default. Alternatively, you can set
+localhost by default. Alternatively, you can set
 `listen_interface` to tell Cassandra which interface to use, and
 consecutively which address to use. Set one property, not both.
 * `native_transport_port`: Check that you don't have the default port of
@@ -73,11 +73,11 @@ passed to the JVM.
 
 == Logging
 
-The default logger is [.title-ref]#logback#. By default it will log:
+The default logger is logbackBy default it will log:
 
 * *INFO* level in `system.log`
 * *DEBUG* level in `debug.log`
 
 When running in the foreground, it will also log at INFO level to the
 console. You can change logging properties by editing `logback.xml` or
-by running the [.title-ref]#nodetool setlogginglevel# command.
+by running the nodetool setlogginglevel command.
